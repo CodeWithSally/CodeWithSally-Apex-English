@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude with Sally — Part 5: Skills and Subagents</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Permanent+Marker&display=swap');
+
+:root {
+  --cws-bg-deepest:#141424;--cws-bg-base:#1A1A2E;--cws-bg-raised:#1E1E32;--cws-bg-elevated:#24243E;--cws-bg-row-alt:#2A2A4A;
+  --cws-green:#50FA7B;--cws-green-dim:#2A3A2A;--cws-green-glow:rgba(80,250,123,0.35);
+  --cws-cyan:#8BE9FD;--cws-cyan-dim:#24353E;--cws-cyan-glow:rgba(139,233,253,0.35);
+  --cws-chalk-orange:#FFB547;--cws-chalk-pink:#FF79C6;--cws-chalk-purple:#BD93F9;
+  --cws-fg:#FFFFFF;--cws-fg-strong:#FFFFFF;--cws-fg-muted:#E0E0E0;--cws-fg-dim:#888899;--cws-fg-faint:#555566;
+  --cws-border:#2A2A4A;--cws-border-soft:#1E1E32;
+  --cws-font-sans:'Inter','Calibri',system-ui,sans-serif;
+  --cws-font-mono:'JetBrains Mono','Courier New',Consolas,monospace;
+  --cws-font-display:'Permanent Marker','Inter',system-ui,sans-serif;
+  --cws-glow-green:0 0 24px var(--cws-green-glow);
+  --cws-glow-cyan:0 0 24px var(--cws-cyan-glow);
+  --cws-shadow-md:0 4px 12px rgba(0,0,0,0.45);
+  --cws-ease:cubic-bezier(0.22,1,0.36,1);
+}
+
+html,body{margin:0;padding:0;background:#0A0A16;font-family:var(--cws-font-sans);overflow:hidden;color:var(--cws-fg);}
+
+/* Stage + slide shell */
+.stage{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+.slide{width:1920px;height:1080px;background:var(--cws-bg-base);position:relative;flex-shrink:0;overflow:hidden;transform-origin:center center;display:none;}
+.slide.active{display:block;}
+.slide::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:0.04;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px);}
+
+/* Layout */
+.safe{position:absolute;inset:96px;}
+.safe-center{position:absolute;inset:96px;display:flex;flex-direction:column;justify-content:center;}
+
+/* Footer */
+.foot{position:absolute;left:96px;right:96px;bottom:48px;display:flex;justify-content:space-between;align-items:center;font-family:var(--cws-font-mono);font-size:16px;color:var(--cws-fg-dim);}
+.foot .brand{color:var(--cws-cyan);}
+
+/* Typography */
+.h-title{font-size:72px;font-weight:700;color:var(--cws-fg-strong);letter-spacing:-0.01em;line-height:1.05;margin:0;}
+.h-subtitle{font-family:var(--cws-font-mono);font-size:36px;color:var(--cws-green);font-weight:400;line-height:1.2;margin:0;}
+.session-tag{font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-green);letter-spacing:0.08em;text-transform:uppercase;}
+.section-numeral{font-family:var(--cws-font-mono);font-size:200px;color:var(--cws-cyan);line-height:1;letter-spacing:0.08em;margin:0;}
+
+/* Prompt list */
+.prompt-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:20px;}
+.prompt-list li{position:relative;padding-left:48px;font-size:28px;color:var(--cws-fg-muted);line-height:1.4;}
+.prompt-list li::before{content:'>';position:absolute;left:0;top:0;color:var(--cws-green);font-family:var(--cws-font-mono);font-weight:600;}
+
+/* Pull quote */
+.pull-quote{font-family:var(--cws-font-sans);font-size:30px;line-height:1.35;color:var(--cws-cyan);font-style:italic;margin:0;border-left:3px solid var(--cws-cyan);padding-left:28px;}
+
+/* Callout boxes */
+.callout-box{padding:28px 36px;background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:8px;}
+.callout-box.green{border-left:3px solid var(--cws-green);}
+.callout-box.cyan{border-left:3px solid var(--cws-cyan);}
+.callout-box.orange{border-left:3px solid var(--cws-chalk-orange);}
+.callout-label{font-family:var(--cws-font-mono);font-size:16px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+
+/* Code */
+code,.inline-code{font-family:var(--cws-font-mono);font-size:0.92em;color:var(--cws-green);background:var(--cws-green-dim);padding:2px 8px;border-radius:4px;}
+pre.code-block{font-family:var(--cws-font-mono);font-size:22px;line-height:1.7;background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-left:3px solid var(--cws-green);border-radius:8px;padding:32px 40px;color:var(--cws-green);margin:0;white-space:pre;}
+pre.code-block .c{color:var(--cws-fg-dim);}
+pre.code-block .k{color:var(--cws-cyan);}
+pre.code-block .s{color:var(--cws-chalk-orange);}
+
+/* Tables */
+table.sl{width:100%;border-collapse:collapse;font-size:22px;}
+table.sl th{text-align:left;padding:16px 20px;font-family:var(--cws-font-mono);font-weight:400;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);border-bottom:1px solid var(--cws-border);}
+table.sl td{padding:18px 20px;border-bottom:1px solid var(--cws-border);color:var(--cws-fg-muted);vertical-align:top;}
+table.sl td:first-child{color:var(--cws-fg-strong);font-weight:500;}
+
+/* Cursor */
+.cursor::after{content:'▊';color:var(--cws-green);animation:blk 1s steps(2) infinite;margin-left:6px;}
+@keyframes blk{to{visibility:hidden;}}
+
+/* Navigation bar */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;z-index:100;}
+.nav button{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-dim);background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:6px;padding:8px 20px;cursor:pointer;transition:all 120ms;}
+.nav button:hover{color:var(--cws-cyan);border-color:var(--cws-cyan);}
+.nav .counter{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-faint);}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active">
+    <div class="safe-center" style="align-items:flex-start;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Claude with Sally</div>
+      <div style="font-size:96px;font-weight:800;color:var(--cws-fg-strong);line-height:1;margin-bottom:24px;" class="cursor">Part 5</div>
+      <div style="font-family:var(--cws-font-mono);font-size:40px;color:var(--cws-green);font-weight:500;line-height:1.25;margin-bottom:48px;">Skills and Subagents: Putting Them Together</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);">Bill Kuehler &nbsp;|&nbsp; Resource Hero &nbsp;|&nbsp; 2026</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Recap -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Part 4 Recap</div>
+      <h1 class="h-title" style="margin-bottom:48px;">What We Covered Last Time</h1>
+      <ul class="prompt-list">
+        <li>Controlled what Claude can do with hooks: a <code>settings.json</code> deny list to block git commits and stray <code>sf deploy</code>s (deny always beats allow)</li>
+        <li>Hookify for the nuanced rules -- "block <code>sf deploy</code> unless everything's committed" -- the kind of guardrail a single command can't express</li>
+        <li>UI testing with the Playwright CLI: drove a real browser, navigated the org, and tested the live component end to end</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Interlude -- Workout Gate hook (callback to Part 4 hooks) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Before We Start &middot; Saw This Today</div>
+      <h1 class="h-title" style="margin-bottom:36px;">Hooks, Taken Too Far</h1>
+      <div style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:start;">
+        <div style="background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-radius:10px;padding:26px 30px;font-family:var(--cws-font-mono);">
+          <div style="font-size:17px;color:var(--cws-fg-dim);margin-bottom:22px;">trakora.ai &mdash; claude</div>
+          <div style="font-size:21px;color:var(--cws-fg-muted);margin-bottom:24px;"><span style="color:var(--cws-green);">&gt;</span> Hey Claude! Make me rich while I do absolutely nothing</div>
+          <div style="border:1px solid var(--cws-chalk-orange);border-left:3px solid var(--cws-chalk-orange);border-radius:6px;padding:18px 22px;background:rgba(255,181,71,0.07);">
+            <div style="font-size:19px;color:var(--cws-chalk-orange);font-weight:600;margin-bottom:8px;">&#9888; WORKOUT GATE &mdash; 6 squats required</div>
+            <div style="font-size:18px;color:var(--cws-fg-dim);line-height:1.45;">Opening the webcam. Do them, then your prompt sends itself.</div>
+          </div>
+          <div style="font-size:18px;color:var(--cws-chalk-pink);margin-top:22px;">&#128274; PROMPT LOCKED &mdash; squats 2 / 6 &middot; DOWN</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:22px;">
+          <ul class="prompt-list">
+            <li>Someone wired a Claude Code hook to a webcam squat counter</li>
+            <li>Your prompt will not send until you do 6 squats on camera</li>
+            <li>The hook holds your input hostage until the reps hit 6</li>
+          </ul>
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">Callback to Part 4</div>
+            <div style="font-size:23px;color:var(--cws-fg-muted);line-height:1.45;">Same mechanism we used last time -- a hook intercepts an action, runs a check, decides whether to let it through. Then it blocked a stray <code>sf deploy</code>. Here it blocks <em>you</em>.</div>
+          </div>
+          <div style="font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-cyan);">github.com/BotchetDig/workout-gate</div>
+        </div>
+      </div>
+      <div class="pull-quote" style="margin-top:32px;">Claude, mid-squat: "Slower than my inference, somehow."</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Agenda -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Part 5</div>
+      <h1 class="h-title" style="margin-bottom:48px;">What We'll Cover</h1>
+      <ul class="prompt-list">
+        <li>Skill mechanism refresher -- anatomy of a skill file and how Claude reads it</li>
+        <li>Build grill-me -- an interactive skill that thinks with you, not just for you</li>
+        <li>Finding and adapting skills others have already built</li>
+        <li>Use grill-me to design a new skill</li>
+        <li>Managing context with subagents</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Section Divider -- Skills Refresher -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">01</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">Skill Mechanism Refresher</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">What a skill file actually is -- and how Claude reads it</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Skill Anatomy -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">01 · Skill Refresher</div>
+      <h1 class="h-title" style="margin-bottom:40px;">Anatomy of a Skill File</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <pre class="code-block"><span class="c">---</span>
+<span class="k">name</span>: <span class="s">grill-me</span>
+<span class="k">description</span>: <span class="s">Interview me about</span>
+  <span class="s">any problem -- one</span>
+  <span class="s">question at a time...</span>
+<span class="c">---</span>
+
+<span class="c">## Steps</span>
+
+<span class="k">1.</span> Ask one question
+<span class="k">2.</span> Recommend an answer
+<span class="k">3.</span> Document the decision</pre>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;padding-top:8px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">Frontmatter</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Name, description, and trigger hints. Claude reads the description to decide when to use the skill.</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">Body</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Plain markdown -- steps, checklists, tool use, output format. Claude follows it like a runbook.</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-chalk-orange);">
+            <div class="callout-label" style="color:var(--cws-chalk-orange);">Invocation</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);"><code>/skill-name</code> -- Claude reads the file and follows it. That is the whole mechanism.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: The Rest of the Frontmatter -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">01 · Skill Refresher</div>
+      <h1 class="h-title" style="margin-bottom:12px;font-size:64px;">Beyond name &amp; description</h1>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);margin-bottom:32px;">All optional -- reach for them when a skill needs to do more than just exist</div>
+      <div style="display:grid;grid-template-columns:0.85fr 1.15fr;gap:44px;">
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <pre class="code-block" style="font-size:19px;line-height:1.55;padding:24px 28px;"><span class="c">---</span>
+<span class="k">name</span>: <span class="s">deploy</span>
+<span class="k">description</span>: <span class="s">Ship to prod</span>
+<span class="k">when_to_use</span>: <span class="s">after tests pass</span>
+<span class="k">disable-model-invocation</span>: <span class="s">true</span>
+<span class="k">allowed-tools</span>: <span class="s">Bash(git *) Read</span>
+<span class="k">context</span>: <span class="s">fork</span>
+<span class="k">agent</span>: <span class="s">Explore</span>
+<span class="k">model</span>: <span class="s">opus</span>
+<span class="c">---</span></pre>
+          <div class="callout-box" style="border-left:3px solid var(--cws-chalk-orange);">
+            <div class="callout-label" style="color:var(--cws-chalk-orange);">Full reference</div>
+            <div style="font-family:var(--cws-font-mono);font-size:17px;color:var(--cws-cyan);line-height:1.4;word-break:break-all;">code.claude.com/docs/en/skills<br>#control-who-invokes-a-skill</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;padding-top:4px;">
+          <div class="callout-box green" style="padding:20px 28px;">
+            <div class="callout-label" style="color:var(--cws-green);">Discovery &amp; triggering</div>
+            <div style="font-size:21px;color:var(--cws-fg-muted);line-height:1.5;">
+              <div><code>when_to_use</code> &nbsp;extra trigger phrases for auto-load</div>
+              <div><code>paths</code> &nbsp;globs -- only load for matching files</div>
+              <div><code>argument-hint</code> &nbsp;autocomplete hint, e.g. <code>[issue]</code></div>
+              <div><code>arguments</code> &nbsp;name positional args for <code>$name</code></div>
+            </div>
+          </div>
+          <div class="callout-box cyan" style="padding:20px 28px;">
+            <div class="callout-label" style="color:var(--cws-cyan);">Who can run it &amp; with what</div>
+            <div style="font-size:21px;color:var(--cws-fg-muted);line-height:1.5;">
+              <div><code>disable-model-invocation</code> &nbsp;only you -- <code>/deploy</code></div>
+              <div><code>user-invocable: false</code> &nbsp;only Claude -- bg knowledge</div>
+              <div><code>allowed-tools</code> &nbsp;pre-approve tools, no prompt</div>
+              <div><code>disallowed-tools</code> &nbsp;remove tools while active</div>
+            </div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-chalk-purple);padding:20px 28px;">
+            <div class="callout-label" style="color:var(--cws-chalk-purple);">Where &amp; how it runs</div>
+            <div style="font-size:21px;color:var(--cws-fg-muted);line-height:1.5;">
+              <div><code>context: fork</code> &nbsp;run in an isolated subagent</div>
+              <div><code>agent</code> &nbsp;which subagent -- Explore, Plan, custom</div>
+              <div><code>model</code> / <code>effort</code> &nbsp;override model &amp; reasoning depth</div>
+              <div><code>hooks</code> / <code>shell</code> &nbsp;lifecycle hooks; bash or powershell</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Where Skills Live -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">01 · Skill Refresher</div>
+      <h1 class="h-title" style="margin-bottom:40px;">Where Skills Live</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <pre class="code-block"><span class="c"># Project-level (this project only)</span>
+.claude/
+  skills/
+    grill-me/
+      SKILL.md
+    theme-researcher/
+      SKILL.md
+
+<span class="c"># User-level (every project)</span>
+~/.claude/
+  skills/
+    session-wrapup/
+      SKILL.md</pre>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;padding-top:8px;">
+          <ul class="prompt-list">
+            <li>Project-level skills live in <code>.claude/skills/</code> -- scoped to that repo only</li>
+            <li>User-level skills live in <code>~/.claude/skills/</code> -- available in every project</li>
+            <li>Each skill is a folder with a <code>SKILL.md</code> inside</li>
+            <li>Claude Code discovers them automatically -- no registration needed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Enable / Disable Skills with /skills -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">01 · Skill Refresher</div>
+      <h1 class="h-title" style="margin-bottom:40px;">Turn Skills On and Off</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <pre class="code-block"><span class="c"># Manage every skill from one menu</span>
+<span class="k">/skills</span>
+
+  grill-me            <span class="s">[on]</span>
+  theme-researcher    <span class="s">[on]</span>
+  session-wrapup      <span class="c">[off]</span>
+  data-sync-sf        <span class="s">[on]</span>
+
+<span class="c"># space toggles · enter saves</span></pre>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;padding-top:8px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">How</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Run <code>/skills</code>, arrow to any skill, toggle it. Project-level and user-level skills both show up in the list.</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">Why disable one</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Every enabled skill's description rides along in context. Switch off the ones you are not using to keep context lean -- and to stop Claude auto-invoking a skill you do not want right now.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Section Divider -- Grill-Me -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">02</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">Build the Grill-Me Skill</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">The most important skill you can write -- and it is not about code</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: What Grill-Me Is -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">02 · Grill-Me</div>
+      <h1 class="h-title" style="margin-bottom:28px;">What Grill-Me Actually Does</h1>
+      <div class="callout-box" style="border-left:3px solid var(--cws-green);background:var(--cws-bg-deepest);margin-bottom:36px;">
+        <div class="callout-label" style="color:var(--cws-green);">The prompt that built it</div>
+        <div style="font-family:var(--cws-font-mono);font-size:24px;color:var(--cws-fg-muted);line-height:1.55;"><span style="color:var(--cws-green);">&gt;</span> Use <span style="color:var(--cws-cyan);">skill-creator</span> to build a skill called <span style="color:var(--cws-green);">grill-me</span> -- interview me about any decision one question at a time, recommend an answer each time, wait for my reply, and log every decision to a note as we go.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>Asks you one question at a time about any problem or decision</li>
+            <li>Recommends an answer with each question -- you react, you do not originate</li>
+            <li>Documents every decision as it is made -- produces a cooked-idea artifact</li>
+            <li>Works for features, APIs, business decisions, process design -- anything</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="pull-quote">"Most skills tell Claude to do something for you. Grill-me tells Claude to think with you."</div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">Callback to Session 3</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">You used the Superpowers brainstorming plugin in Session 3 -- grill-me takes that idea much further, building documentation as you go.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: DEMO -- Build Grill-Me -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:32px;">02 · Grill-Me</div>
+      <div style="font-size:108px;font-weight:800;color:var(--cws-green);text-shadow:0 0 24px rgba(80,250,123,0.35);line-height:1;">DEMO</div>
+      <div style="font-family:var(--cws-font-mono);font-size:32px;color:var(--cws-fg-muted);margin-top:32px;">Write the grill-me skill from scratch with Claude</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);margin-top:16px;">Start with blank frontmatter -- build the behavior live -- run it on a real decision to see it work</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Section Divider -- Finding Skills Online -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">03</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">Finding Skills Online</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">You do not have to build from scratch every time</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: Finding Skills -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">03 · Finding Skills</div>
+      <h1 class="h-title" style="margin-bottom:40px;">Where to Look</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>Matt Pocock's GitHub -- <code>github.com/mattpocock/skills</code> -- real skills from a working developer, ready to read and adapt</li>
+            <li>Nate Herk on YouTube -- <code>@nateherk</code> -- video walkthroughs of skill patterns in action</li>
+            <li>Superpowers skill library -- curated, well-documented, ready to adapt</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">The Adaptation Pattern</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Read it. Strip what does not fit. Add what does. Keep the shape, swap the content.</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">The Point</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Find one close to what you need -- adapting is faster than authoring from zero</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout-box orange" style="margin-top:40px;">
+        <div class="callout-label" style="color:var(--cws-chalk-orange);">Read before you run</div>
+        <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;">A skill is instructions Claude will follow -- a found one can hide prompt injection: buried directions to leak data, run destructive commands, or call tools you never intended. Review every skill you download before enabling it, the same way you would read code before running it.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Adapt a Found Skill -- connects Finding Skills back to Grill-Me -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">03 · Finding Skills</div>
+      <h1 class="h-title" style="margin-bottom:28px;">Drop It In -- or Make It Yours</h1>
+      <div class="callout-box" style="border-left:3px solid var(--cws-green);background:var(--cws-bg-deepest);margin-bottom:36px;">
+        <div class="callout-label" style="color:var(--cws-green);">The prompt that adapts it</div>
+        <div style="font-family:var(--cws-font-mono);font-size:23px;color:var(--cws-fg-muted);line-height:1.55;"><span style="color:var(--cws-green);">&gt;</span> I want to leverage the skill <span style="color:var(--cws-cyan);">Nate Herk</span> built, here: <span style="color:var(--cws-chalk-orange);">github.com/nateherk/skills</span>. Run <span style="color:var(--cws-green);">/grill-me</span> on how we could tweak it for my use case and style, then use <span style="color:var(--cws-green);">/skill-creator:skill-creator</span> to build my version.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>Dropping a found skill in as-is works -- it will run</li>
+            <li>But it encodes someone else's workflow and voice, not yours</li>
+            <li><code>/grill-me</code> interviews you on what to change for your use</li>
+            <li><code>/skill-creator:skill-creator</code> turns those decisions into your own version</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">Why bother tweaking</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">A skill is only as good as how well it fits your habits. The adaptation is where a generic skill becomes yours.</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">Full circle</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">The grill-me skill we just built is now the tool we use to adapt every other skill we find.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: Section Divider -- Design the Research Skill -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">04</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">The Research Skill</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">Design it with grill-me, build v1, then watch the context window</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Design the Research Skill with Grill-Me (merged design + surfaced) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">04 · The Research Skill</div>
+      <h1 class="h-title" style="margin-bottom:28px;">Design It with Grill-Me</h1>
+      <div class="callout-box" style="border-left:3px solid var(--cws-green);background:var(--cws-bg-deepest);margin-bottom:36px;">
+        <div class="callout-label" style="color:var(--cws-green);">Eating our own cooking</div>
+        <div style="font-family:var(--cws-font-mono);font-size:23px;color:var(--cws-fg-muted);line-height:1.55;"><span style="color:var(--cws-green);">&gt;</span> <span style="color:var(--cws-green);">/grill-me</span> -- I want a skill that traces one <span style="color:var(--cws-cyan);">theme</span> across several books and writes a single synthesis. Help me spec it.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <div class="callout-label" style="color:var(--cws-fg-dim);margin-bottom:16px;">What it surfaced</div>
+          <ul class="prompt-list">
+            <li>Inputs -- file paths to read + the theme to trace</li>
+            <li>Output -- one synthesis paragraph, no headers or bullets</li>
+            <li>Depth -- skim for keywords, or read for how the theme functions?</li>
+            <li>One book or many -- does more than one change the approach?</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">The Moment</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">We used the skill we just built to design the next one -- every decision documented as we went</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">The Seed of v2</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">That last question -- "what if there are many books?" -- is exactly what pushes us to subagents next</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Research Skill v1 -- What It Pulls -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">04 · The Research Skill</div>
+      <h1 class="h-title" style="margin-bottom:40px;">What v1 Does</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>Three books on disk: <em>A Christmas Carol</em>, <em>Jekyll &amp; Hyde</em>, <em>The Metamorphosis</em></li>
+            <li>One theme to trace across all of them: <span style="color:var(--cws-green);">transformation</span></li>
+            <li>v1 reads each book in full, end to end, then writes a single synthesis paragraph</li>
+            <li>No subagents, no MCP -- just the skill reading files in your main conversation</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">How v1 Works</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Every book gets read inline in the main conversation -- the full text lands directly in context</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-chalk-orange);">
+            <div class="callout-label" style="color:var(--cws-chalk-orange);">Why It Matters</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Whole books are big -- this is the most visceral way to watch context fill up in real time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 19: DEMO -- Build and Run v1 -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:32px;">04 · The Research Skill</div>
+      <div style="font-size:108px;font-weight:800;color:var(--cws-green);text-shadow:0 0 24px rgba(80,250,123,0.35);line-height:1;">DEMO</div>
+      <div style="font-family:var(--cws-font-mono);font-size:32px;color:var(--cws-fg-muted);margin-top:32px;">Build and run the research skill -- inline in the main conversation</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);margin-top:16px;">Watch the context window -- scroll through what it consumed</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 20: The v1 Problem -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">04 · The Research Skill</div>
+      <h1 class="h-title" style="margin-bottom:40px;">The Problem with v1</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>The research ran -- all three books, every chapter, every line -- landed in context</li>
+            <li>Every token of every book lives in the conversation now</li>
+            <li>That context rides along for every message that follows</li>
+            <li>The skill worked. The context cost is the problem.</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-chalk-orange);">
+            <div class="callout-label" style="color:var(--cws-chalk-orange);">The Lesson</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Inline research pollutes context for everything that follows. There is a better way.</div>
+          </div>
+          <div class="pull-quote">Every book you read inline stays in context forever -- until you start a new conversation.</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 21: Section Divider -- V2 Subagents -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">05</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">V2: Add Subagents</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">Same research -- much lighter context footprint</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 22: What a Subagent Is -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">05 · Subagents</div>
+      <h1 class="h-title" style="margin-bottom:40px;">What a Subagent Is</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>A separate Claude instance spun up to do one job and return a summary</li>
+            <li>It has its own context -- all the heavy research happens there, not in yours</li>
+            <li>When it finishes, it hands back a summary -- just the findings, not the full working detail</li>
+            <li>Your main context only sees the summary -- not the work that produced it</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">The Key Principle</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Subagents do the work in their own context and hand back a summary -- the full detail never enters your main conversation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 23: Diagram -- v1 vs v2 -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">05 · Subagents</div>
+      <h1 class="h-title" style="margin-bottom:36px;">v1 vs v2 -- What Lives in Context</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:16px;">
+        <div>
+          <div style="font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-chalk-orange);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">v1 -- Inline Research</div>
+          <svg width="100%" viewBox="0 0 560 380" style="overflow:visible;">
+            <defs>
+              <marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#FFB547"/>
+              </marker>
+            </defs>
+            <rect x="10" y="10" width="540" height="360" rx="8" fill="#24243E" stroke="#2A2A4A"/>
+            <text x="280" y="36" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="14" letter-spacing="2">MAIN CONTEXT</text>
+            <rect x="40" y="56" width="140" height="52" rx="6" fill="#2A2A4A" stroke="#FFB547"/>
+            <text x="110" y="82" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="13">X</text>
+            <text x="110" y="99" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">A Christmas Carol</text>
+            <rect x="210" y="56" width="140" height="52" rx="6" fill="#2A2A4A" stroke="#FFB547"/>
+            <text x="280" y="82" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="13">Y</text>
+            <text x="280" y="99" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">Jekyll &amp; Hyde</text>
+            <rect x="380" y="56" width="140" height="52" rx="6" fill="#2A2A4A" stroke="#FFB547"/>
+            <text x="450" y="82" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="13">Z</text>
+            <text x="450" y="99" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">The Metamorphosis</text>
+            <line x1="110" y1="108" x2="110" y2="144" stroke="#FFB547" stroke-width="2" marker-end="url(#arrow-orange)"/>
+            <line x1="280" y1="108" x2="280" y2="144" stroke="#FFB547" stroke-width="2" marker-end="url(#arrow-orange)"/>
+            <line x1="450" y1="108" x2="450" y2="144" stroke="#FFB547" stroke-width="2" marker-end="url(#arrow-orange)"/>
+            <rect x="40" y="152" width="480" height="196" rx="6" fill="#1A1A2E" stroke="#555566"/>
+            <text x="280" y="186" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="13">All three books land here in full</text>
+            <text x="280" y="212" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="13">conversation + every book read inline</text>
+            <text x="280" y="238" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="13">+ your messages + Claude responses</text>
+            <text x="280" y="278" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="20" font-weight="bold">A + X + Y + Z</text>
+            <text x="280" y="314" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="13">paid on every subsequent message</text>
+          </svg>
+        </div>
+        <div>
+          <div style="font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-green);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">v2 -- Subagents</div>
+          <svg width="100%" viewBox="0 0 560 380" style="overflow:visible;">
+            <defs>
+              <marker id="arrow-green2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#50FA7B"/>
+              </marker>
+              <marker id="arrow-dim2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#888899"/>
+              </marker>
+            </defs>
+            <rect x="10" y="10" width="150" height="96" rx="8" fill="#1E1E32" stroke="#888899" stroke-dasharray="4"/>
+            <text x="85" y="32" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="12">subagent</text>
+            <text x="85" y="52" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="14" font-weight="bold">X</text>
+            <text x="85" y="70" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">A Christmas Carol</text>
+            <text x="85" y="87" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">(full text)</text>
+            <rect x="205" y="10" width="150" height="96" rx="8" fill="#1E1E32" stroke="#888899" stroke-dasharray="4"/>
+            <text x="280" y="32" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="12">subagent</text>
+            <text x="280" y="52" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="14" font-weight="bold">Y</text>
+            <text x="280" y="70" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">Jekyll &amp; Hyde</text>
+            <text x="280" y="87" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">(full text)</text>
+            <rect x="400" y="10" width="150" height="96" rx="8" fill="#1E1E32" stroke="#888899" stroke-dasharray="4"/>
+            <text x="475" y="32" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="12">subagent</text>
+            <text x="475" y="52" text-anchor="middle" fill="#FFB547" font-family="JetBrains Mono" font-size="14" font-weight="bold">Z</text>
+            <text x="475" y="70" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">The Metamorphosis</text>
+            <text x="475" y="87" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="11">(full text)</text>
+            <line x1="85" y1="106" x2="85" y2="142" stroke="#888899" stroke-width="2" marker-end="url(#arrow-dim2)"/>
+            <line x1="280" y1="106" x2="280" y2="142" stroke="#888899" stroke-width="2" marker-end="url(#arrow-dim2)"/>
+            <line x1="475" y1="106" x2="475" y2="142" stroke="#888899" stroke-width="2" marker-end="url(#arrow-dim2)"/>
+            <rect x="10" y="150" width="150" height="48" rx="6" fill="#2A3A2A" stroke="#50FA7B"/>
+            <text x="85" y="170" text-anchor="middle" fill="#50FA7B" font-family="JetBrains Mono" font-size="12">Xsummary</text>
+            <text x="85" y="188" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="10">returned only</text>
+            <rect x="205" y="150" width="150" height="48" rx="6" fill="#2A3A2A" stroke="#50FA7B"/>
+            <text x="280" y="170" text-anchor="middle" fill="#50FA7B" font-family="JetBrains Mono" font-size="12">Ysummary</text>
+            <text x="280" y="188" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="10">returned only</text>
+            <rect x="400" y="150" width="150" height="48" rx="6" fill="#2A3A2A" stroke="#50FA7B"/>
+            <text x="475" y="170" text-anchor="middle" fill="#50FA7B" font-family="JetBrains Mono" font-size="12">Zsummary</text>
+            <text x="475" y="188" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="10">returned only</text>
+            <line x1="85" y1="198" x2="196" y2="248" stroke="#50FA7B" stroke-width="2" marker-end="url(#arrow-green2)"/>
+            <line x1="280" y1="198" x2="280" y2="248" stroke="#50FA7B" stroke-width="2" marker-end="url(#arrow-green2)"/>
+            <line x1="475" y1="198" x2="364" y2="248" stroke="#50FA7B" stroke-width="2" marker-end="url(#arrow-green2)"/>
+            <rect x="110" y="256" width="340" height="104" rx="8" fill="#24243E" stroke="#50FA7B"/>
+            <text x="280" y="284" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="13">MAIN CONTEXT</text>
+            <text x="280" y="312" text-anchor="middle" fill="#50FA7B" font-family="JetBrains Mono" font-size="17" font-weight="bold">A + Xsummary + Ysummary + Zsummary</text>
+            <text x="280" y="344" text-anchor="middle" fill="#888899" font-family="JetBrains Mono" font-size="12">summaries only — detail stayed in subagents</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 24: DEMO -- Build and Run v2 -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:32px;">05 · Subagents</div>
+      <div style="font-size:108px;font-weight:800;color:var(--cws-green);text-shadow:0 0 24px rgba(80,250,123,0.35);line-height:1;">DEMO</div>
+      <div style="font-family:var(--cws-font-mono);font-size:32px;color:var(--cws-fg-muted);margin-top:32px;">Rebuild the skill with one subagent per book</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);margin-top:16px;">Run v2 -- then compare context size side by side with v1</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 25: v2 Takeaways -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">05 · Subagents</div>
+      <h1 class="h-title" style="margin-bottom:40px;">What v2 Showed Us</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+        <div>
+          <ul class="prompt-list">
+            <li>Same research -- all three books -- each read in full and summarized</li>
+            <li>Each book ran in its own subagent context -- heavy lifting happened there</li>
+            <li>Main conversation received summaries only -- a fraction of the token cost</li>
+            <li>Everything that follows is lighter -- research is done, not dragging along</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+            <div class="callout-label" style="color:var(--cws-green);">The Lesson</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Subagents let you go wide without paying the context cost -- they compress the work before it reaches you</div>
+          </div>
+          <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+            <div class="callout-label" style="color:var(--cws-cyan);">When to Use Subagents</div>
+            <div style="font-size:24px;color:var(--cws-fg-muted);">Any time a task pulls from multiple sources -- research, multi-file analysis, cross-system lookups</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 26: What We Built Today -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Part 5 Wrap-Up</div>
+      <h1 class="h-title" style="margin-bottom:40px;">What We Built</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;margin-top:8px;">
+        <div class="callout-box" style="border-left:3px solid var(--cws-green);">
+          <div class="callout-label" style="color:var(--cws-green);">Grill-Me Skill</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);margin-top:12px;">A skill that interviews you -- one question at a time, recommends answers, documents decisions as you go</div>
+        </div>
+        <div class="callout-box" style="border-left:3px solid var(--cws-cyan);">
+          <div class="callout-label" style="color:var(--cws-cyan);">theme-researcher v1</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);margin-top:12px;">Reads all three books inline, traces one theme, writes a synthesis -- designed by running grill-me first</div>
+        </div>
+        <div class="callout-box" style="border-left:3px solid var(--cws-chalk-purple);">
+          <div class="callout-label" style="color:var(--cws-chalk-purple);">theme-researcher v2</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);margin-top:12px;">Same research, one subagent per book -- summaries only reach main context, tokens stay manageable</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 27: Homework -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Homework</div>
+      <h1 class="h-title" style="margin-bottom:48px;">Your Turn</h1>
+      <ul class="prompt-list">
+        <li>Adapt grill-me to a decision you are actually facing right now -- not a tech decision, anything: a process change at work, a big purchase, what to build next on a side project</li>
+        <li>Run it. See what it surfaces that you had not thought of.</li>
+        <li>Find one skill online -- on GitHub or Superpowers -- and adapt it to your own workflow. Strip what does not fit. Add what does.</li>
+        <li>Bonus: take a skill you already use that pulls from multiple sources and split it across subagents</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 28: What's Next -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Coming Up</div>
+      <h1 class="h-title" style="margin-bottom:48px;">Part 6 Preview</h1>
+      <ul class="prompt-list">
+        <li>Details to follow -- keep an eye out before next session</li>
+        <li>Keep exploring skills -- the more you use them, the clearer the patterns get</li>
+        <li>Questions, observations, and skill ideas welcome in the meantime</li>
+      </ul>
+      <div style="margin-top:56px;">
+        <div class="pull-quote">Skills are how you make Claude Code yours. The tool ships generic. You make it specific.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 29: Questions -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-size:120px;font-weight:800;color:var(--cws-fg-strong);line-height:1;" class="cursor">Questions</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:48px;">code.claude.com/docs</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+</div><!-- .stage -->
+
+<div class="nav">
+  <button onclick="prev()">&#8592; Prev</button>
+  <span class="counter" id="counter">1 / 31</span>
+  <button onclick="next()">Next &#8594;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+function show(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = (cur+1) + ' / ' + slides.length;
+  fit();
+}
+function next() { show(cur + 1); }
+function prev() { show(cur - 1); }
+function fit() {
+  const s = document.querySelector('.slide.active');
+  if (!s) return;
+  const sc = Math.min(innerWidth / 1920, innerHeight / 1080);
+  s.style.transform = 'scale(' + sc + ')';
+}
+addEventListener('resize', fit);
+addEventListener('load', fit);
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+});
+</script>
+</body>
+</html>
