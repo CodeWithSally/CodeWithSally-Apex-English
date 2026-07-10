@@ -1,0 +1,164 @@
+mutation CreateAccountThroughQuote(
+  $accountName: String!
+  $accountIndustry: Picklist
+  $contactFirstName: String
+  $contactLastName: String!
+  $contactEmail: Email
+  $opportunityName: String!
+  $opportunityStage: Picklist!
+  $closeDate: Date!
+  $quoteName: String!
+  $discountGenWatt2000: Percent
+  $discountGenWatt300: Percent
+  $pricebookId: IdOrRef!
+  $pbeGenWatt2000: IdOrRef!
+  $pbeGenWatt300: IdOrRef!
+  $pbeInstallHigh: IdOrRef!
+  $pbeInstallLow: IdOrRef!
+  $pbeSlaPlatinum: IdOrRef!
+  $pbeSlaBronze: IdOrRef!
+  $priceGenWatt2000: Currency!
+  $priceGenWatt300: Currency!
+  $priceInstallHigh: Currency!
+  $priceInstallLow: Currency!
+  $priceSlaPlatinum: Currency!
+  $priceSlaBronze: Currency!
+) {
+  uiapi(input: { allOrNone: true }) {
+    activatePricebook: Pricebook2Update(input: {
+      Pricebook2: {
+        IsActive: true
+      }
+      Id: $pricebookId
+    }) {
+      Record {
+        Id                        # referenced by OpportunityCreate, QuoteCreate
+        IsActive { value }
+      }
+    }
+    AccountCreate(input: {
+      Account: {
+        Name: $accountName
+        Industry: $accountIndustry
+      }
+    }) {
+      Record {
+        Id                        # referenced by ContactCreate, OpportunityCreate
+        Name { value }
+      }
+    }
+    ContactCreate(input: {
+      Contact: {
+        FirstName: $contactFirstName
+        LastName: $contactLastName
+        Email: $contactEmail
+        AccountId: "@{AccountCreate}"
+      }
+    }) {
+      Record {
+        Id                        # referenced by QuoteCreate
+        Name { value }
+      }
+    }
+    OpportunityCreate(input: {
+      Opportunity: {
+        Name: $opportunityName
+        AccountId: "@{AccountCreate.Record.Id}"
+        StageName: $opportunityStage
+        CloseDate: $closeDate
+        Pricebook2Id: "@{activatePricebook.Record.Id}"
+      }
+    }) {
+      Record {
+        Id                        # referenced by QuoteCreate
+        Name { value }
+      }
+    }
+    QuoteCreate(input: {
+      Quote: {
+        Name: $quoteName
+        OpportunityId: "@{OpportunityCreate}"
+        ContactId: "@{ContactCreate}"
+        Pricebook2Id: "@{activatePricebook.Record.Id}"
+      }
+    }) {
+      Record {
+        Id                        # referenced by every QuoteLineItemCreate
+        Name { value }
+      }
+    }
+    genWatt2000: QuoteLineItemCreate(input: {
+      QuoteLineItem: {
+        QuoteId: "@{QuoteCreate}"
+        PricebookEntryId: $pbeGenWatt2000
+        Quantity: 2
+        UnitPrice: $priceGenWatt2000
+        Discount: $discountGenWatt2000
+      }
+    }) {
+      Record { Id Quantity { value } UnitPrice { value } Discount { value } }
+    }
+    genWatt300: QuoteLineItemCreate(input: {
+      QuoteLineItem: {
+        QuoteId: "@{QuoteCreate}"
+        PricebookEntryId: $pbeGenWatt300
+        Quantity: 10
+        UnitPrice: $priceGenWatt300
+        Discount: $discountGenWatt300
+      }
+    }) {
+      Record { Id Quantity { value } UnitPrice { value } Discount { value } }
+    }
+    installHigh: QuoteLineItemCreate(input: {
+      QuoteLineItem: {
+        QuoteId: "@{QuoteCreate}"
+        PricebookEntryId: $pbeInstallHigh
+        Quantity: 2
+        UnitPrice: $priceInstallHigh
+      }
+    }) {
+      Record { Id Quantity { value } UnitPrice { value } }
+    }
+    installLow: QuoteLineItemCreate(input: {
+      QuoteLineItem: {
+        QuoteId: "@{QuoteCreate}"
+        PricebookEntryId: $pbeInstallLow
+        Quantity: 10
+        UnitPrice: $priceInstallLow
+      }
+    }) {
+      Record { Id Quantity { value } UnitPrice { value } }
+    }
+    slaPlatinum: QuoteLineItemCreate(input: {
+      QuoteLineItem: {
+        QuoteId: "@{QuoteCreate}"
+        PricebookEntryId: $pbeSlaPlatinum
+        Quantity: 2
+        UnitPrice: $priceSlaPlatinum
+      }
+    }) {
+      Record { Id Quantity { value } UnitPrice { value } }
+    }
+    slaBronze: QuoteLineItemCreate(input: {
+      QuoteLineItem: {
+        QuoteId: "@{QuoteCreate}"
+        PricebookEntryId: $pbeSlaBronze
+        Quantity: 10
+        UnitPrice: $priceSlaBronze
+      }
+    }) {
+      Record { Id Quantity { value } UnitPrice { value } }
+    }
+    startSync: OpportunityUpdate(input: {
+      Opportunity: {
+        SyncedQuoteId: "@{QuoteCreate}"
+      }
+      Id: "@{OpportunityCreate}"
+    }) {
+      Record {
+        Id
+        SyncedQuoteId { value }
+      }
+    }
+  }
+}

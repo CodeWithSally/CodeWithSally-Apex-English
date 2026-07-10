@@ -1,0 +1,25 @@
+mutation TearDownQuoteChain(
+  $qliGenWatt2000: IdOrRef!
+  $qliGenWatt300: IdOrRef!
+  $qliInstallHigh: IdOrRef!
+  $qliInstallLow: IdOrRef!
+  $qliSlaPlatinum: IdOrRef!
+  $qliSlaBronze: IdOrRef!
+  $quoteId: IdOrRef!
+  $opportunityId: IdOrRef!
+  $contactId: IdOrRef!
+  $accountId: IdOrRef!
+) {
+  uiapi(input: { allOrNone: false }) {
+    genWatt2000: QuoteLineItemDelete(input: { Id: $qliGenWatt2000 }) { Id }
+    genWatt300: QuoteLineItemDelete(input: { Id: $qliGenWatt300 }) { Id }
+    installHigh: QuoteLineItemDelete(input: { Id: $qliInstallHigh }) { Id }
+    installLow: QuoteLineItemDelete(input: { Id: $qliInstallLow }) { Id }
+    slaPlatinum: QuoteLineItemDelete(input: { Id: $qliSlaPlatinum }) { Id }
+    slaBronze: QuoteLineItemDelete(input: { Id: $qliSlaBronze }) { Id }
+    QuoteDelete(input: { Id: $quoteId }) { Id }
+    OpportunityDelete(input: { Id: $opportunityId }) { Id }
+    ContactDelete(input: { Id: $contactId }) { Id }
+    AccountDelete(input: { Id: $accountId }) { Id }
+  }
+}

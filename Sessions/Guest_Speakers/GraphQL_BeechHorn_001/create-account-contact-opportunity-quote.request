@@ -1,0 +1,128 @@
+{
+    "data": {
+        "uiapi": {
+            "activatePricebook": {
+                "Record": {
+                    "Id": "01sgL0000021Nj0QAE",
+                    "IsActive": {
+                        "value": true
+                    }
+                }
+            },
+            "AccountCreate": {
+                "Record": {
+                    "Id": "001gL00001WH7a1QAD",
+                    "Name": {
+                        "value": "Code with Sally"
+                    }
+                }
+            },
+            "ContactCreate": {
+                "Record": {
+                    "Id": "003gL00000upHwDQAU",
+                    "Name": {
+                        "value": "Sally ElGhoul"
+                    }
+                }
+            },
+            "OpportunityCreate": {
+                "Record": {
+                    "Id": "006gL00000TD1C5QAL",
+                    "Name": {
+                        "value": "Code with Sally Goes Electric"
+                    }
+                }
+            },
+            "QuoteCreate": {
+                "Record": {
+                    "Id": "0Q0gL000002FAtxSAG",
+                    "Name": {
+                        "value": "Fully Charged Generator Quote"
+                    }
+                }
+            },
+            "genWatt2000": {
+                "Record": {
+                    "Id": "0QLgL000002QxOHWA0",
+                    "Quantity": {
+                        "value": 2
+                    },
+                    "UnitPrice": {
+                        "value": 150000
+                    },
+                    "Discount": {
+                        "value": 10
+                    }
+                }
+            },
+            "genWatt300": {
+                "Record": {
+                    "Id": "0QLgL000002QxOIWA0",
+                    "Quantity": {
+                        "value": 10
+                    },
+                    "UnitPrice": {
+                        "value": 35000
+                    },
+                    "Discount": {
+                        "value": 25
+                    }
+                }
+            },
+            "installHigh": {
+                "Record": {
+                    "Id": "0QLgL000002QxOJWA0",
+                    "Quantity": {
+                        "value": 2
+                    },
+                    "UnitPrice": {
+                        "value": 85000
+                    }
+                }
+            },
+            "installLow": {
+                "Record": {
+                    "Id": "0QLgL000002QxOKWA0",
+                    "Quantity": {
+                        "value": 10
+                    },
+                    "UnitPrice": {
+                        "value": 20000
+                    }
+                }
+            },
+            "slaPlatinum": {
+                "Record": {
+                    "Id": "0QLgL000002QxOLWA0",
+                    "Quantity": {
+                        "value": 2
+                    },
+                    "UnitPrice": {
+                        "value": 40000
+                    }
+                }
+            },
+            "slaBronze": {
+                "Record": {
+                    "Id": "0QLgL000002QxOMWA0",
+                    "Quantity": {
+                        "value": 10
+                    },
+                    "UnitPrice": {
+                        "value": 10000
+                    }
+                }
+            },
+            "startSync": {
+                "Record": {
+                    "Id": "006gL00000TD1C5QAL",
+                    "SyncedQuoteId": {
+                        "value": "0Q0gL000002FAtxSAG"
+                    }
+                }
+            }
+        }
+    },
+    "errors": [],
+    "extensions": {}
+}

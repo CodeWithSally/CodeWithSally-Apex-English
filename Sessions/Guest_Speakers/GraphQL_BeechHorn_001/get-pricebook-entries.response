@@ -1,0 +1,252 @@
+{
+    "data": {
+        "uiapi": {
+            "query": {
+                "PricebookEntry": {
+                    "edges": [
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ98QAE",
+                                "Name": {
+                                    "value": "GenWatt Diesel 200kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 25000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ99QAE",
+                                "Name": {
+                                    "value": "GenWatt Diesel 10kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 5000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9AQAU",
+                                "Name": {
+                                    "value": "Installation: Industrial - High"
+                                },
+                                "UnitPrice": {
+                                    "value": 85000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9BQAU",
+                                "Name": {
+                                    "value": "SLA: Silver"
+                                },
+                                "UnitPrice": {
+                                    "value": 20000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9CQAU",
+                                "Name": {
+                                    "value": "GenWatt Propane 500kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 50000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9DQAU",
+                                "Name": {
+                                    "value": "SLA: Platinum"
+                                },
+                                "UnitPrice": {
+                                    "value": 40000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9EQAU",
+                                "Name": {
+                                    "value": "GenWatt Propane 100kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 15000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9FQAU",
+                                "Name": {
+                                    "value": "GenWatt Propane 1500kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 120000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9GQAU",
+                                "Name": {
+                                    "value": "GenWatt Diesel 1000kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 100000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9HQAU",
+                                "Name": {
+                                    "value": "SLA: Bronze"
+                                },
+                                "UnitPrice": {
+                                    "value": 10000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9IQAU",
+                                "Name": {
+                                    "value": "GenWatt Gasoline 750kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 75000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9JQAU",
+                                "Name": {
+                                    "value": "Installation: Portable"
+                                },
+                                "UnitPrice": {
+                                    "value": 5000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9KQAU",
+                                "Name": {
+                                    "value": "SLA: Gold"
+                                },
+                                "UnitPrice": {
+                                    "value": 30000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9LQAU",
+                                "Name": {
+                                    "value": "GenWatt Gasoline 300kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 35000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9MQAU",
+                                "Name": {
+                                    "value": "Installation: Industrial - Low"
+                                },
+                                "UnitPrice": {
+                                    "value": 20000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9NQAU",
+                                "Name": {
+                                    "value": "GenWatt Gasoline 2000kW"
+                                },
+                                "UnitPrice": {
+                                    "value": 150000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "Id": "01ugL000000lJ9OQAU",
+                                "Name": {
+                                    "value": "Installation: Industrial - Medium"
+                                },
+                                "UnitPrice": {
+                                    "value": 50000
+                                },
+                                "Pricebook2Id": {
+                                    "value": "01sgL0000021Nj0QAE"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "errors": [],
+    "extensions": {}
+}

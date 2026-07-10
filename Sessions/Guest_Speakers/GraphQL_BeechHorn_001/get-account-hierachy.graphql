@@ -1,0 +1,19 @@
+query AccountAncestory {
+  uiapi {
+    query {
+      Account {
+        edges {
+          node {
+            Id
+            Name { value }
+            ParentId { value }
+            Parent {
+                Id
+                Name { value }
+            }
+          }
+        }
+      }
+    }
+  }
+}
