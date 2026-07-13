@@ -1,0 +1,7 @@
+mutation TearDownByCascade($accountId: IdOrRef!) {
+  uiapi {
+    AccountDelete(input: { Id: $accountId }) {
+      Id
+    }
+  }
+}

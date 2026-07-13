@@ -1,0 +1,22 @@
+query ProductPricing($productNames: [String]) {
+  uiapi {
+    query {
+      PricebookEntry(
+        where: {
+          Name: { in: $productNames }
+          IsActive: { eq: true }
+          Pricebook2: { IsStandard: { eq: true } }
+        }
+      ) {
+        edges {
+          node {
+            Id
+            Name { value }
+            UnitPrice { value }
+            Pricebook2Id { value }
+          }
+        }
+      }
+    }
+  }
+}

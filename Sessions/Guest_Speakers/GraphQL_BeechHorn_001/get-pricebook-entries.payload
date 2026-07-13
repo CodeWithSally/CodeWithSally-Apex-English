@@ -1,0 +1,12 @@
+{
+  "variables": {
+    "productNames": [
+      "GenWatt Gasoline 2000kW",
+      "GenWatt Gasoline 300kW",
+      "Installation: Industrial - High",
+      "Installation: Industrial - Low",
+      "SLA: Platinum",
+      "SLA: Bronze"
+    ]
+  }
+}

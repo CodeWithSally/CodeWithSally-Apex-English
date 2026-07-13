@@ -1,0 +1,165 @@
+{
+    "data": {
+        "uiapi": {
+            "genWatt2000": null,
+            "genWatt300": null,
+            "installHigh": null,
+            "installLow": null,
+            "slaPlatinum": null,
+            "slaBronze": null,
+            "QuoteDelete": null,
+            "OpportunityDelete": null,
+            "ContactDelete": null,
+            "AccountDelete": {
+                "Id": "001gL00001WGSGjQAP"
+            }
+        }
+    },
+    "errors": [
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 14
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "genWatt2000"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 15
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "genWatt300"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 16
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "installHigh"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 17
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "installLow"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 18
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "slaPlatinum"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 19
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "slaBronze"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 20
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "QuoteDelete"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 21
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "OpportunityDelete"
+            ]
+        },
+        {
+            "extensions": {
+                "ErrorType": "DataFetchingException"
+            },
+            "locations": [
+                {
+                    "column": 5,
+                    "line": 22
+                }
+            ],
+            "message": "entity is deleted",
+            "paths": [
+                "uiapi",
+                "ContactDelete"
+            ]
+        }
+    ],
+    "extensions": {}
+}
