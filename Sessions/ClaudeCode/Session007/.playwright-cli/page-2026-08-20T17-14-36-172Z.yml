@@ -1,0 +1,88 @@
+- generic [active]:
+  - generic [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "Skip to Navigation" [ref=f3e4] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - link "Skip to Main Content" [ref=f3e5] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=f3e6]:
+        - button "Search" [ref=f3e12]: Search...
+        - navigation "Global Header" [ref=f3e17]:
+          - list [ref=f3e19]:
+            - listitem [ref=f3e20]:
+              - group [ref=f3e21]:
+                - button "This item doesn't support favorites" [ref=f3e23] [cursor=pointer]:
+                  - generic [ref=f3e24]:
+                    - tooltip "This item doesn't support favorites"
+                - button [ref=f3e32] [cursor=pointer]:
+                  - generic [ref=f3e33]:
+                    - tooltip "Favorites list"
+            - listitem [ref=f3e40]:
+              - button "Global Actions" [ref=f3e42]
+            - listitem [ref=f3e49]:
+              - button [ref=f3e52] [cursor=pointer]:
+                - generic [ref=f3e53]:
+                  - tooltip "Salesforce Help"
+            - listitem [ref=f3e60]:
+              - button [ref=f3e66] [cursor=pointer]:
+                - generic [ref=f3e67]:
+                  - tooltip "Setup"
+            - listitem [ref=f3e74]:
+              - button [ref=f3e77] [cursor=pointer]:
+                - generic [ref=f3e78]:
+                  - tooltip "Notifications"
+            - listitem [ref=f3e87]:
+              - button [ref=f3e90] [cursor=pointer]:
+                - generic [ref=f3e91]:
+                  - tooltip "View profile"
+    - generic [ref=f3e93]:
+      - generic [ref=f3e96]:
+        - generic [ref=f3e98]:
+          - navigation "App" [ref=f3e99]:
+            - button "App Launcher" [ref=f3e101] [cursor=pointer]
+          - heading "Sales" [level=1] [ref=f3e113]
+        - navigation "Global" [ref=f3e117]:
+          - list [ref=f3e118]:
+            - listitem [ref=f3e119]:
+              - link "Home" [ref=f3e120] [cursor=pointer]:
+                - /url: /lightning/page/home
+            - listitem [ref=f3e122]:
+              - link "Opportunities" [ref=f3e123] [cursor=pointer]:
+                - /url: /lightning/o/Opportunity/home
+              - button "Opportunities List" [ref=f3e128] [cursor=pointer]
+            - listitem [ref=f3e136]:
+              - link "Leads" [ref=f3e137] [cursor=pointer]:
+                - /url: /lightning/o/Lead/home
+              - button "Leads List" [ref=f3e142] [cursor=pointer]
+            - listitem [ref=f3e150]:
+              - link "Tasks" [ref=f3e151] [cursor=pointer]:
+                - /url: /lightning/o/Task/home
+              - button "Tasks List" [ref=f3e156] [cursor=pointer]
+            - listitem [ref=f3e164]:
+              - link "Files" [ref=f3e165] [cursor=pointer]:
+                - /url: /lightning/o/ContentDocument/home
+              - button "Files List" [ref=f3e170] [cursor=pointer]
+            - listitem [ref=f3e178]:
+              - link "Accounts" [ref=f3e179] [cursor=pointer]:
+                - /url: /lightning/o/Account/home
+              - button "Accounts List" [ref=f3e184] [cursor=pointer]
+            - listitem [ref=f3e192]:
+              - link "Contacts" [ref=f3e193] [cursor=pointer]:
+                - /url: /lightning/o/Contact/home
+              - button "Contacts List" [ref=f3e198] [cursor=pointer]
+            - listitem [ref=f3e206]:
+              - link "Campaigns" [ref=f3e207] [cursor=pointer]:
+                - /url: /lightning/o/Campaign/home
+              - button "Campaigns List" [ref=f3e212] [cursor=pointer]
+            - listitem [ref=f3e220]:
+              - link "Dashboards" [ref=f3e221] [cursor=pointer]:
+                - /url: /lightning/o/Dashboard/home
+              - button "Dashboards List" [ref=f3e226] [cursor=pointer]
+            - listitem [ref=f3e234]:
+              - button "Show more navigation items" [ref=f3e236] [cursor=pointer]:
+                - generic [ref=f3e237]: More
+            - listitem [ref=f3e245]:
+              - button "Edit nav items" [ref=f3e247] [cursor=pointer]
+      - main [ref=f3e254]
+  - generic:
+    - status

@@ -1,0 +1,345 @@
+- generic:
+  - generic [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "Skip to Navigation" [ref=f3e2894] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - link "Skip to Main Content" [ref=f3e2895] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=f3e265]:
+        - generic [ref=f3e269]:
+          - button "Toggle Panel" [ref=f3e2896] [cursor=pointer]:
+            - generic [ref=f3e280]: Menu
+          - generic [ref=f3e281]: Developer Edition
+        - button "Show menu" [ref=f3e2897] [cursor=pointer]
+      - generic [ref=f3e6]:
+        - button "Search" [ref=f3e2898]: Search...
+        - navigation "Global Header" [ref=f3e2899]:
+          - list [ref=f3e19]:
+            - listitem [ref=f3e20]:
+              - group [ref=f3e21]:
+                - button "Add favorite" [ref=f3e2900] [cursor=pointer]:
+                  - generic [ref=f3e24]:
+                    - tooltip "Add favorite"
+                - button [ref=f3e2901] [cursor=pointer]:
+                  - generic [ref=f3e33]:
+                    - tooltip "Favorites list"
+            - listitem [ref=f3e40]:
+              - button [ref=f3e2902] [cursor=pointer]:
+                - generic [ref=f3e312]:
+                  - tooltip "Global Actions"
+            - listitem [ref=f3e319]:
+              - button [ref=f3e2903] [cursor=pointer]:
+                - generic [ref=f3e322]:
+                  - tooltip "Guidance Center"
+            - listitem [ref=f3e49]:
+              - button [ref=f3e2904] [cursor=pointer]:
+                - generic [ref=f3e53]:
+                  - tooltip "Salesforce Help"
+            - listitem [ref=f3e60]:
+              - button [ref=f3e2905] [cursor=pointer]:
+                - generic [ref=f3e67]:
+                  - tooltip "Setup"
+            - listitem [ref=f3e74]:
+              - button [ref=f3e2906] [cursor=pointer]:
+                - generic [ref=f3e78]:
+                  - tooltip "Notifications"
+            - listitem [ref=f3e87]:
+              - button "View profile" [ref=f3e2907] [cursor=pointer]:
+                - generic [ref=f3e91]:
+                  - tooltip "View profile"
+    - generic [ref=f3e93]:
+      - generic [ref=f3e96]:
+        - generic [ref=f3e98]:
+          - navigation "App" [ref=f3e2908]:
+            - button "App Launcher" [ref=f3e2909] [cursor=pointer]
+          - heading "Sales" [level=1] [ref=f3e2910]
+        - navigation "Global" [ref=f3e2912]:
+          - list [ref=f3e118]:
+            - listitem [ref=f3e119]:
+              - link "Home" [ref=f3e2913] [cursor=pointer]:
+                - /url: /lightning/page/home
+            - listitem [ref=f3e122]:
+              - link "Opportunities" [ref=f3e2914] [cursor=pointer]:
+                - /url: /lightning/o/Opportunity/home
+              - button "Opportunities List" [ref=f3e2915] [cursor=pointer]
+            - listitem [ref=f3e136]:
+              - link "Leads" [ref=f3e2916] [cursor=pointer]:
+                - /url: /lightning/o/Lead/home
+              - button "Leads List" [ref=f3e2917] [cursor=pointer]
+            - listitem [ref=f3e150]:
+              - link "Tasks" [ref=f3e2918] [cursor=pointer]:
+                - /url: /lightning/o/Task/home
+              - button "Tasks List" [ref=f3e2919] [cursor=pointer]
+            - listitem [ref=f3e164]:
+              - link "Files" [ref=f3e2920] [cursor=pointer]:
+                - /url: /lightning/o/ContentDocument/home
+              - button "Files List" [ref=f3e2921] [cursor=pointer]
+            - listitem [ref=f3e178] [cursor=pointer]:
+              - link "Accounts" [ref=f3e2922]:
+                - /url: /lightning/o/Account/home
+              - button "Accounts List" [ref=f3e2923]
+            - listitem [ref=f3e192]:
+              - link "Contacts" [ref=f3e2924] [cursor=pointer]:
+                - /url: /lightning/o/Contact/home
+              - button "Contacts List" [ref=f3e2925] [cursor=pointer]
+            - listitem [ref=f3e206]:
+              - link "Campaigns" [ref=f3e2926] [cursor=pointer]:
+                - /url: /lightning/o/Campaign/home
+              - button "Campaigns List" [ref=f3e2927] [cursor=pointer]
+            - listitem [ref=f3e220]:
+              - link "Dashboards" [ref=f3e2928] [cursor=pointer]:
+                - /url: /lightning/o/Dashboard/home
+              - button "Dashboards List" [ref=f3e2929] [cursor=pointer]
+            - listitem [ref=f3e331]:
+              - link "Reports" [ref=f3e2930] [cursor=pointer]:
+                - /url: /lightning/o/Report/home
+              - button "Reports List" [ref=f3e2931] [cursor=pointer]
+            - listitem [ref=f3e345]:
+              - link "Chatter" [ref=f3e2932] [cursor=pointer]:
+                - /url: /lightning/page/chatter
+            - listitem [ref=f3e234]:
+              - button "Show more navigation items" [ref=f3e2933] [cursor=pointer]:
+                - generic [ref=f3e237]: More
+            - listitem [ref=f3e245]:
+              - button "Edit nav items" [ref=f3e2934] [cursor=pointer]
+      - main [ref=f3e254]:
+        - generic [ref=f3e1105]:
+          - generic [ref=f3e1112]:
+            - generic [ref=f3e1113]:
+              - generic [ref=f3e1114]:
+                - heading "Account Burlington Textiles Corp of America" [level=1] [ref=f3e2935]:
+                  - generic [ref=f3e1125]: Account
+                  - generic [ref=f3e1127]: Burlington Textiles Corp of America
+                - button "View Account Hierarchy" [ref=f3e2936] [cursor=pointer]
+              - button "Follow" [ref=f3e2937] [cursor=pointer]
+              - generic [ref=f3e1132]:
+                - generic "New Contact" [ref=f3e2938]:
+                  - button "New Contact" [ref=f3e2939] [cursor=pointer]
+                - generic "New Case" [ref=f3e2940]:
+                  - button "New Case" [ref=f3e2941] [cursor=pointer]
+                - generic "New Note" [ref=f3e2942]:
+                  - button "New Note" [ref=f3e2943] [cursor=pointer]
+                - button "Show more actions" [ref=f3e2944] [cursor=pointer]
+            - generic [ref=f3e1158]:
+              - generic [ref=f3e1160]:
+                - paragraph [ref=f3e1161]: Type
+                - paragraph [ref=f3e1162]:
+                  - generic [ref=f3e1163]: Customer - Direct
+              - generic [ref=f3e1165]:
+                - paragraph [ref=f3e1166]: Phone
+                - paragraph [ref=f3e1167]:
+                  - link "(336) 222-7000" [ref=f3e2945] [cursor=pointer]:
+                    - /url: tel:(336) 222-7000
+              - generic [ref=f3e1173]:
+                - paragraph [ref=f3e1174]: Website
+                - paragraph [ref=f3e1175]:
+                  - link "www.burlington.com" [ref=f3e2946] [cursor=pointer]:
+                    - /url: https://www.burlington.com
+              - generic [ref=f3e1180]:
+                - paragraph [ref=f3e1181]: Account Owner
+                - paragraph [ref=f3e1182]:
+                  - generic [ref=f3e1185]:
+                    - generic [ref=f3e1192]:
+                      - link "OrgFarm EPIC" [ref=f3e2947] [cursor=pointer]:
+                        - /url: /lightning/r/User/005NS00000xbizNYAQ/view
+                      - button "Preview" [ref=f3e2948] [cursor=pointer]
+                    - button "Change Owner" [ref=f3e2949] [cursor=pointer]
+              - generic [ref=f3e1213]:
+                - paragraph [ref=f3e1214]: Account Site
+                - paragraph
+              - generic [ref=f3e1216]:
+                - paragraph [ref=f3e1217]: Industry
+                - paragraph [ref=f3e1218]:
+                  - generic [ref=f3e1219]: Apparel
+          - generic [ref=f3e1223]:
+            - heading "Tabs" [level=2] [ref=f3e2950]
+            - generic "Tabs" [ref=f3e2951]:
+              - generic [ref=f3e1226]:
+                - heading "Tabs" [level=2] [ref=f3e2952]
+                - tablist "Tabs" [ref=f3e2953]:
+                  - tab "Details" [ref=f3e2954] [cursor=pointer]
+                  - tab "Related" [selected] [ref=f3e2955] [cursor=pointer]
+                - tabpanel "Related" [ref=f3e2956]:
+                  - generic [ref=f3e1730]:
+                    - article [ref=f3e1735]:
+                      - generic "We found no potential duplicates of this Account." [ref=f3e2957]
+                    - generic [ref=f3e1750]:
+                      - article "Contacts" [ref=f3e2958]:
+                        - generic [ref=f3e1757]:
+                          - generic [ref=f3e1758]:
+                            - generic [ref=f3e1761]:
+                              - heading [level=2] [ref=f3e2959]:
+                                - link "Contacts (4)" [ref=f3e2960] [cursor=pointer]:
+                                  - /url: /lightning/r/Account/001NS00002hB91RYAS/related/Contacts/view
+                                  - generic "Contacts" [ref=f3e2961]
+                                  - generic "(4)" [ref=f3e2962]
+                              - generic "New" [ref=f3e2963]:
+                                - button "New" [active] [ref=f3e2964] [cursor=pointer]
+                            - generic [ref=f3e1788]:
+                              - generic: Navigation Mode
+                              - grid [ref=f3e1793]:
+                                - rowgroup:
+                                  - row "Contact Name Title Email Phone Action":
+                                    - columnheader "Contact Name":
+                                      - generic "Contact Name" [ref=f3e2965]
+                                    - columnheader "Title":
+                                      - generic "Title" [ref=f3e2966]
+                                    - columnheader "Email":
+                                      - generic "Email" [ref=f3e2967]
+                                    - columnheader "Phone":
+                                      - generic "Phone" [ref=f3e2968]
+                                    - columnheader "Action":
+                                      - generic [ref=f3e1812]:
+                                        - generic "Action"
+                                - rowgroup [ref=f3e1813]:
+                                  - row [ref=f3e2969]:
+                                    - rowheader [ref=f3e2970]:
+                                      - generic [ref=f3e2979]:
+                                        - link "Jordan Ellis" [ref=f3e2980] [cursor=pointer]:
+                                          - /url: /lightning/r/003NS00002ZFxqbYAD/view
+                                        - button "Preview" [ref=f3e2986] [cursor=pointer]
+                                    - gridcell "VP of Operations" [ref=f3e2992]
+                                    - gridcell [ref=f3e2998]:
+                                      - link "jordan.ellis@burlingtontextiles.com" [ref=f3e3005] [cursor=pointer]:
+                                        - /url: mailto:jordan.ellis@burlingtontextiles.com
+                                    - gridcell [ref=f3e3006]:
+                                      - link "(336) 222-7000" [ref=f3e3012] [cursor=pointer]:
+                                        - /url: tel:(336) 222-7000
+                                    - gridcell [ref=f3e3013]:
+                                      - button "Show Actions" [ref=f3e3020] [cursor=pointer]
+                                  - row [ref=f3e3026]:
+                                    - rowheader [ref=f3e3027]:
+                                      - generic [ref=f3e1824]:
+                                        - link "Jack Rogers" [ref=f3e3028] [cursor=pointer]:
+                                          - /url: /lightning/r/003NS000025wq2NYAQ/view
+                                        - button "Preview" [ref=f3e3029] [cursor=pointer]
+                                    - gridcell "VP, Facilities" [ref=f3e3030]
+                                    - gridcell [ref=f3e3031]:
+                                      - link "jrogers@burlington.com" [ref=f3e3032] [cursor=pointer]:
+                                        - /url: mailto:jrogers@burlington.com
+                                    - gridcell [ref=f3e3033]:
+                                      - link "(336) 222-7000" [ref=f3e3034] [cursor=pointer]:
+                                        - /url: tel:(336) 222-7000
+                                    - gridcell [ref=f3e3035]:
+                                      - button "Show Actions" [ref=f3e3036] [cursor=pointer]
+                                  - row [ref=f3e3037]:
+                                    - rowheader [ref=f3e3038]:
+                                      - generic [ref=f3e1881]:
+                                        - link "Emma Whitfield" [ref=f3e3039] [cursor=pointer]:
+                                          - /url: /lightning/r/003NS00002YbhnmYAB/view
+                                        - button "Preview" [ref=f3e3040] [cursor=pointer]
+                                    - gridcell "Director of Procurement" [ref=f3e3041]
+                                    - gridcell [ref=f3e3042]:
+                                      - link "emma.whitfield@burlington.com" [ref=f3e3043] [cursor=pointer]:
+                                        - /url: mailto:emma.whitfield@burlington.com
+                                    - gridcell [ref=f3e3044]:
+                                      - link "(336) 222-7000" [ref=f3e3045] [cursor=pointer]:
+                                        - /url: tel:(336) 222-7000
+                                    - gridcell [ref=f3e3046]:
+                                      - button "Show Actions" [ref=f3e3047] [cursor=pointer]
+                                  - row [ref=f3e3048]:
+                                    - rowheader [ref=f3e3049]:
+                                      - generic [ref=f3e1938]:
+                                        - link "Emma Whitfield" [ref=f3e3050] [cursor=pointer]:
+                                          - /url: /lightning/r/003NS00002Ye9ZRYAZ/view
+                                        - button "Preview" [ref=f3e3051] [cursor=pointer]
+                                    - gridcell "Director of Procurement" [ref=f3e3052]
+                                    - gridcell [ref=f3e3053]:
+                                      - link "emma.whitfield@burlington.com" [ref=f3e3054] [cursor=pointer]:
+                                        - /url: mailto:emma.whitfield@burlington.com
+                                    - gridcell [ref=f3e3055]:
+                                      - link "(336) 222-7000" [ref=f3e3056] [cursor=pointer]:
+                                        - /url: tel:(336) 222-7000
+                                    - gridcell [ref=f3e3057]:
+                                      - button "Show Actions" [ref=f3e3058] [cursor=pointer]
+                          - link "View All Contacts" [ref=f3e3059] [cursor=pointer]:
+                            - /url: /lightning/r/Account/001NS00002hB91RYAS/related/Contacts/view
+                            - generic [ref=f3e1986]:
+                              - text: View All
+                              - generic [ref=f3e1987]: Contacts
+                      - article "Opportunities" [ref=f3e3060]:
+                        - generic [ref=f3e1994]:
+                          - generic [ref=f3e1995]:
+                            - generic [ref=f3e1998]:
+                              - heading [level=2] [ref=f3e3061]:
+                                - link "Opportunities (1)" [ref=f3e3062] [cursor=pointer]:
+                                  - /url: /lightning/r/Account/001NS00002hB91RYAS/related/Opportunities/view
+                                  - generic "Opportunities" [ref=f3e3063]
+                                  - generic "(1)" [ref=f3e3064]
+                              - generic "New" [ref=f3e3065]:
+                                - button "New" [ref=f3e3066] [cursor=pointer]
+                            - generic [ref=f3e2022]:
+                              - generic [ref=f3e2025]:
+                                - generic: Navigation Mode
+                                - grid [ref=f3e2030]:
+                                  - rowgroup:
+                                    - row "Opportunity Name Stage Amount Close Date Action":
+                                      - columnheader "Opportunity Name":
+                                        - generic "Opportunity Name" [ref=f3e3067]
+                                      - columnheader "Stage":
+                                        - generic "Stage" [ref=f3e3068]
+                                      - columnheader "Amount":
+                                        - generic "Amount" [ref=f3e3069]
+                                      - columnheader "Close Date":
+                                        - generic "Close Date" [ref=f3e3070]
+                                      - columnheader "Action":
+                                        - generic [ref=f3e2049]:
+                                          - generic "Action"
+                                  - rowgroup [ref=f3e2050]:
+                                    - row [ref=f3e3071]:
+                                      - rowheader [ref=f3e3072]:
+                                        - generic [ref=f3e2061]:
+                                          - link "Burlington Textiles Weaving Plant Generator" [ref=f3e3073] [cursor=pointer]:
+                                            - /url: /lightning/r/006NS00000k4W2OYAU/view
+                                          - button "Preview" [ref=f3e3074] [cursor=pointer]
+                                      - gridcell "Closed Won" [ref=f3e3075]
+                                      - gridcell "$235,000.00" [ref=f3e3076]
+                                      - gridcell "2/28/2026" [ref=f3e3077]
+                                      - gridcell [ref=f3e3078]:
+                                        - button "Show Actions" [ref=f3e3079] [cursor=pointer]
+                              - generic [ref=f3e3080]:
+                                - status
+                          - link "View All Opportunities" [ref=f3e3083] [cursor=pointer]:
+                            - /url: /lightning/r/Account/001NS00002hB91RYAS/related/Opportunities/view
+                            - generic [ref=f3e2105]:
+                              - text: View All
+                              - generic [ref=f3e2106]: Opportunities
+                      - article [ref=f3e2112]:
+                        - heading "Cases" [level=2] [ref=f3e3084]
+                      - article [ref=f3e2123]:
+                        - heading "Notes & Attachments" [level=2] [ref=f3e3085]
+                      - article [ref=f3e2134]:
+                        - heading "Partners" [level=2] [ref=f3e3086]
+                      - article [ref=f3e2145]:
+                        - heading "Account Reviews" [level=2] [ref=f3e3087]
+          - generic [ref=f3e1663]:
+            - heading "Tabs" [level=2] [ref=f3e3088]
+            - generic "Tabs" [ref=f3e3089]:
+              - generic [ref=f3e1666]:
+                - heading "Tabs" [level=2] [ref=f3e3090]
+                - tablist "Tabs" [ref=f3e3091]:
+                  - tab "Detailed Notes" [selected] [ref=f3e3092] [cursor=pointer]
+                  - tab "Activity" [ref=f3e3093] [cursor=pointer]
+                  - tab "Chatter" [ref=f3e3094] [cursor=pointer]
+                - tabpanel "Detailed Notes" [ref=f3e3095]:
+                  - article [ref=f3e1681]:
+                    - generic [ref=f3e1683]:
+                      - heading "Detailed Notes" [level=2] [ref=f3e3096]
+                      - button "New Note" [ref=f3e3097] [cursor=pointer]
+                    - generic [ref=f3e1694]:
+                      - generic [ref=f3e1696] [cursor=pointer]:
+                        - generic [ref=f3e1697]: Updated Note Title
+                        - generic [ref=f3e1698]: Bill Kuehler · 5/19/2026
+                      - paragraph [ref=f3e1700]: Select a note to view it.
+  - generic:
+    - generic [ref=f3e3099]:
+      - generic [ref=f3e3100]: Success notification.
+      - generic [ref=f3e3107]:
+        - generic [ref=f3e3110]:
+          - text: Contact "
+          - link "Jordan Ellis" [ref=f3e3111] [cursor=pointer]:
+            - /url: javascript:void(0)
+          - text: "\" was created."
+        - generic [ref=f3e3113]: Press Control + F6 to navigate to the next toast notification or focusable region.
+      - button "Close" [ref=f3e3115] [cursor=pointer]
+    - status

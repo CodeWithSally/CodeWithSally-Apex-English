@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a1830;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      code,
+      pre,
+      .monospace {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 34%, #123a63 0%, #0d2544 45%, #0a1830 78%);
+      }
+      #bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(1, 118, 211, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(1, 118, 211, 0.08) 1px, transparent 1px);
+        background-size: 96px 96px;
+        opacity: 0.5;
+      }
+      #bg-glow {
+        position: absolute;
+        left: 50%;
+        top: 44%;
+        width: 1500px;
+        height: 900px;
+        margin-left: -750px;
+        margin-top: -450px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(1, 118, 211, 0.22) 0%, rgba(1, 118, 211, 0) 68%);
+      }
+
+      .step-label {
+        position: absolute;
+        left: 80px;
+        top: 56px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .step-label .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #4fc3f7;
+        box-shadow: 0 0 16px rgba(79, 195, 247, 0.8);
+      }
+      .step-label span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: #9fc9ec;
+        text-transform: uppercase;
+      }
+
+      .stage {
+        position: absolute;
+        left: 160px;
+        right: 160px;
+        top: 150px;
+        bottom: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .stage .card {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 16px;
+        background: #ffffff;
+        padding: 10px;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(1, 118, 211, 0.35);
+      }
+      .stage .card img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        border-radius: 9px;
+      }
+
+      .shot {
+        position: relative;
+        display: inline-flex;
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .shot img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        border-radius: 9px;
+      }
+
+      .ui-highlight {
+        position: absolute;
+        border: 3px solid #4fc3f7;
+        border-radius: 10px;
+        box-shadow:
+          0 0 0 5px rgba(79, 195, 247, 0.22),
+          0 0 28px rgba(79, 195, 247, 0.6);
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      .ui-cursor {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 64px;
+        height: 64px;
+        z-index: 20;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+        pointer-events: none;
+        will-change: transform;
+      }
+      .ui-cursor svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .caption-bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 150px;
+        background: rgba(8, 18, 33, 0.86);
+        border-top: 2px solid rgba(79, 195, 247, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 140px;
+        text-align: center;
+      }
+      .caption-bar span {
+        color: #f4f6f9;
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-i657" id="root" data-composition-id="main" data-start="0" data-duration="45" data-width="1920" data-height="1080">
+      <div data-hf-id="hf-cmyc" id="bg" class="clip" data-start="0" data-duration="45" data-track-index="0"></div>
+      <div data-hf-id="hf-gh56" id="bg-grid" class="clip" data-start="0" data-duration="45" data-track-index="1"></div>
+      <div data-hf-id="hf-9aog" id="bg-glow" class="clip" data-start="0" data-duration="45" data-track-index="2"></div>
+
+      <!-- Scene 1: Home screen -->
+      <div data-hf-id="hf-mzkv" id="step-1" class="clip step-label" data-start="0" data-duration="3.2" data-track-index="3">
+        <div data-hf-id="hf-lu65" class="dot"></div>
+        <span data-hf-id="hf-syv0">Step 1 of 12</span>
+      </div>
+      <div data-hf-id="hf-7zql" id="photo-1" class="clip stage" data-start="0" data-duration="3.2" data-track-index="4">
+        <div data-hf-id="hf-r5i9" id="photo-1-inner" class="card"><img data-hf-id="hf-1eq9" src="assets/01-home-screen.png" alt="Salesforce Home screen"></div>
+      </div>
+      <div data-hf-id="hf-tkos" id="caption-1" class="clip caption-bar" data-start="0" data-duration="3.2" data-track-index="5">
+        <span data-hf-id="hf-jeur">Start on the Salesforce Home screen.</span>
+      </div>
+      <audio data-hf-id="hf-7368" id="vo-1" src="assets/voice/line1.wav" class="clip" data-start="0.3" data-duration="2.24" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 2: Accounts list -->
+      <div data-hf-id="hf-mlqm" id="step-2" class="clip step-label" data-start="3.2" data-duration="3.5" data-track-index="3">
+        <div data-hf-id="hf-ww7l" class="dot"></div>
+        <span data-hf-id="hf-my95">Step 2 of 12</span>
+      </div>
+      <div data-hf-id="hf-qcm0" id="photo-2" class="clip stage" data-start="3.2" data-duration="3.5" data-track-index="4">
+        <div data-hf-id="hf-law6" id="photo-2-inner" class="card"><img data-hf-id="hf-3jdc" src="assets/02-accounts-list.png" alt="Accounts list view"></div>
+      </div>
+      <div data-hf-id="hf-mlpx" id="caption-2" class="clip caption-bar" data-start="3.2" data-duration="3.5" data-track-index="5">
+        <span data-hf-id="hf-ikde">Open the Accounts tab to see your accounts.</span>
+      </div>
+      <audio data-hf-id="hf-l620" id="vo-2" src="assets/voice/line2.wav" class="clip" data-start="3.5" data-duration="2.54" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 3: Account detail -->
+      <div data-hf-id="hf-gqlh" id="step-3" class="clip step-label" data-start="6.7" data-duration="4.0" data-track-index="3">
+        <div data-hf-id="hf-y34o" class="dot"></div>
+        <span data-hf-id="hf-v9u6">Step 3 of 12</span>
+      </div>
+      <div data-hf-id="hf-jb7f" id="photo-3" class="clip stage" data-start="6.7" data-duration="4.0" data-track-index="4">
+        <div data-hf-id="hf-pi7f" id="photo-3-inner" class="card"><img data-hf-id="hf-e1qj" src="assets/03-account-detail.png" alt="Account detail page"></div>
+      </div>
+      <div data-hf-id="hf-8xnm" id="caption-3" class="clip caption-bar" data-start="6.7" data-duration="4.0" data-track-index="5">
+        <span data-hf-id="hf-8zie">Click into an account to open its detail page.</span>
+      </div>
+      <audio data-hf-id="hf-7tfs" id="vo-3" src="assets/voice/line3.wav" class="clip" data-start="7.0" data-duration="3.01" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 4: Related tab -->
+      <div data-hf-id="hf-a4d8" id="step-4" class="clip step-label" data-start="10.7" data-duration="4.1" data-track-index="3">
+        <div data-hf-id="hf-xotn" class="dot"></div>
+        <span data-hf-id="hf-lb43">Step 4 of 12</span>
+      </div>
+      <div data-hf-id="hf-k2g4" id="photo-4" class="clip stage" data-start="10.7" data-duration="4.1" data-track-index="4">
+        <div data-hf-id="hf-wtqw" id="photo-4-inner" class="card">
+          <div data-hf-id="hf-2ycw" class="shot">
+            <img data-hf-id="hf-6lok" src="assets/04-related-tab.png" alt="Related tab selected">
+            <div data-hf-id="hf-p56q" id="highlight-4" class="ui-highlight" style="left: 9.1%; top: 36.6%; width: 5.2%; height: 4.3%;"></div>
+            <div data-hf-id="hf-4mci" id="cursor-4" class="ui-cursor">
+              <svg data-hf-id="hf-y9f5" viewBox="0 0 24 24"><path data-hf-id="hf-ki4x" d="M4 2 L4 20 L9 15.5 L12.5 21.5 L15 20 L11.5 14 L18 14 Z" fill="#ffffff" stroke="#1c1c1c" stroke-width="1.4" stroke-linejoin="round" /></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-hf-id="hf-rgvp" id="caption-4" class="clip caption-bar" data-start="10.7" data-duration="4.1" data-track-index="5">
+        <span data-hf-id="hf-xj8x">Select the Related tab to see connected records.</span>
+      </div>
+      <audio data-hf-id="hf-jxdp" id="vo-4" src="assets/voice/line4.wav" class="clip" data-start="11.0" data-duration="3.14" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 5: Contacts related list, New button -->
+      <div data-hf-id="hf-zpd7" id="step-5" class="clip step-label" data-start="14.8" data-duration="4.0" data-track-index="3">
+        <div data-hf-id="hf-vpai" class="dot"></div>
+        <span data-hf-id="hf-qj2w">Step 5 of 12</span>
+      </div>
+      <div data-hf-id="hf-z1vj" id="photo-5" class="clip stage" data-start="14.8" data-duration="4.0" data-track-index="4">
+        <div data-hf-id="hf-nc3p" id="photo-5-inner" class="card">
+          <div data-hf-id="hf-psnc" class="shot">
+            <img data-hf-id="hf-qkff" src="assets/05-contacts-related-list-new-button.png" alt="Contacts related list with New button">
+            <div data-hf-id="hf-82tf" id="highlight-5" class="ui-highlight" style="left: 92.4%; top: 51.8%; width: 4.0%; height: 3.3%;"></div>
+            <div data-hf-id="hf-8kgj" id="cursor-5" class="ui-cursor">
+              <svg data-hf-id="hf-svtx" viewBox="0 0 24 24"><path data-hf-id="hf-z1hh" d="M4 2 L4 20 L9 15.5 L12.5 21.5 L15 20 L11.5 14 L18 14 Z" fill="#ffffff" stroke="#1c1c1c" stroke-width="1.4" stroke-linejoin="round" /></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-hf-id="hf-hmd6" id="caption-5" class="clip caption-bar" data-start="14.8" data-duration="4.0" data-track-index="5">
+        <span data-hf-id="hf-nepc">Find the Contacts related list, and click New.</span>
+      </div>
+      <audio data-hf-id="hf-dkni" id="vo-5" src="assets/voice/line5.wav" class="clip" data-start="15.1" data-duration="3.01" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 6: New contact modal, empty -->
+      <div data-hf-id="hf-2otf" id="step-6" class="clip step-label" data-start="18.8" data-duration="3.2" data-track-index="3">
+        <div data-hf-id="hf-vazh" class="dot"></div>
+        <span data-hf-id="hf-cp0l">Step 6 of 12</span>
+      </div>
+      <div data-hf-id="hf-uc9p" id="photo-6" class="clip stage" data-start="18.8" data-duration="3.2" data-track-index="4">
+        <div data-hf-id="hf-wr22" id="photo-6-inner" class="card"><img data-hf-id="hf-sptm" src="assets/06-new-contact-modal-empty.png" alt="Empty New Contact form"></div>
+      </div>
+      <div data-hf-id="hf-ns48" id="caption-6" class="clip caption-bar" data-start="18.8" data-duration="3.2" data-track-index="5">
+        <span data-hf-id="hf-ujxj">A blank New Contact form opens.</span>
+      </div>
+      <audio data-hf-id="hf-hwac" id="vo-6" src="assets/voice/line6.wav" class="clip" data-start="19.1" data-duration="2.24" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 7: Name filled -->
+      <div data-hf-id="hf-839d" id="step-7" class="clip step-label" data-start="22.0" data-duration="3.4" data-track-index="3">
+        <div data-hf-id="hf-whwk" class="dot"></div>
+        <span data-hf-id="hf-u7nu">Step 7 of 12</span>
+      </div>
+      <div data-hf-id="hf-6t6t" id="photo-7" class="clip stage" data-start="22.0" data-duration="3.4" data-track-index="4">
+        <div data-hf-id="hf-j71b" id="photo-7-inner" class="card"><img data-hf-id="hf-hyd8" src="assets/07-new-contact-name-filled.png" alt="First and last name filled in"></div>
+      </div>
+      <div data-hf-id="hf-msl4" id="caption-7" class="clip caption-bar" data-start="22.0" data-duration="3.4" data-track-index="5">
+        <span data-hf-id="hf-n5q2">Enter the contact's first and last name.</span>
+      </div>
+      <audio data-hf-id="hf-do67" id="vo-7" src="assets/voice/line7.wav" class="clip" data-start="22.3" data-duration="2.41" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 8: Details filled -->
+      <div data-hf-id="hf-np3y" id="step-8" class="clip step-label" data-start="25.4" data-duration="3.7" data-track-index="3">
+        <div data-hf-id="hf-w3lj" class="dot"></div>
+        <span data-hf-id="hf-ndz3">Step 8 of 12</span>
+      </div>
+      <div data-hf-id="hf-eg6q" id="photo-8" class="clip stage" data-start="25.4" data-duration="3.7" data-track-index="4">
+        <div data-hf-id="hf-omcs" id="photo-8-inner" class="card"><img data-hf-id="hf-dgzp" src="assets/08-new-contact-details-filled.png" alt="Title, mobile, and email filled in"></div>
+      </div>
+      <div data-hf-id="hf-mspz" id="caption-8" class="clip caption-bar" data-start="25.4" data-duration="3.7" data-track-index="5">
+        <span data-hf-id="hf-ctbc">Add their title, mobile number, and email.</span>
+      </div>
+      <audio data-hf-id="hf-4h5j" id="vo-8" src="assets/voice/line8.wav" class="clip" data-start="25.7" data-duration="2.71" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 9: Form complete -->
+      <div data-hf-id="hf-505t" id="step-9" class="clip step-label" data-start="29.1" data-duration="3.8" data-track-index="3">
+        <div data-hf-id="hf-0gyu" class="dot"></div>
+        <span data-hf-id="hf-l9ms">Step 9 of 12</span>
+      </div>
+      <div data-hf-id="hf-7koh" id="photo-9" class="clip stage" data-start="29.1" data-duration="3.8" data-track-index="4">
+        <div data-hf-id="hf-nap5" id="photo-9-inner" class="card"><img data-hf-id="hf-myd1" src="assets/09-new-contact-form-complete.png" alt="Completed form ready to save"></div>
+      </div>
+      <div data-hf-id="hf-53ds" id="caption-9" class="clip caption-bar" data-start="29.1" data-duration="3.8" data-track-index="5">
+        <span data-hf-id="hf-v5l2">Review the completed form before saving.</span>
+      </div>
+      <audio data-hf-id="hf-hgc4" id="vo-9" src="assets/voice/line9.wav" class="clip" data-start="29.4" data-duration="2.84" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 10: Saved confirmation -->
+      <div data-hf-id="hf-tlob" id="step-10" class="clip step-label" data-start="32.9" data-duration="3.4" data-track-index="3">
+        <div data-hf-id="hf-02nt" class="dot"></div>
+        <span data-hf-id="hf-uy8c">Step 10 of 12</span>
+      </div>
+      <div data-hf-id="hf-qz1j" id="photo-10" class="clip stage" data-start="32.9" data-duration="3.4" data-track-index="4">
+        <div data-hf-id="hf-6391" id="photo-10-inner" class="card"><img data-hf-id="hf-mhah" src="assets/10-contact-saved-confirmation.png" alt="Account page right after saving"></div>
+      </div>
+      <div data-hf-id="hf-4pyc" id="caption-10" class="clip caption-bar" data-start="32.9" data-duration="3.4" data-track-index="5">
+        <span data-hf-id="hf-fhns">Click Save to create the new contact.</span>
+      </div>
+      <audio data-hf-id="hf-8tbj" id="vo-10" src="assets/voice/line10.wav" class="clip" data-start="33.2" data-duration="2.35" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 11: Contact in related list -->
+      <div data-hf-id="hf-q6tk" id="step-11" class="clip step-label" data-start="36.3" data-duration="4.7" data-track-index="3">
+        <div data-hf-id="hf-pt6b" class="dot"></div>
+        <span data-hf-id="hf-01vr">Step 11 of 12</span>
+      </div>
+      <div data-hf-id="hf-qhy8" id="photo-11" class="clip stage" data-start="36.3" data-duration="4.7" data-track-index="4">
+        <div data-hf-id="hf-3lhk" id="photo-11-inner" class="card"><img data-hf-id="hf-dap8" src="assets/11-contact-in-related-list.png" alt="New contact visible in the related list"></div>
+      </div>
+      <div data-hf-id="hf-dluz" id="caption-11" class="clip caption-bar" data-start="36.3" data-duration="4.7" data-track-index="5">
+        <span data-hf-id="hf-874c">The new contact now appears in the Contacts related list.</span>
+      </div>
+      <audio data-hf-id="hf-1lvj" id="vo-11" src="assets/voice/line11.wav" class="clip" data-start="36.6" data-duration="3.73" data-track-index="10" data-volume="1"></audio>
+
+      <!-- Scene 12: New contact detail page -->
+      <div data-hf-id="hf-rdrl" id="step-12" class="clip step-label" data-start="41.0" data-duration="4.0" data-track-index="3">
+        <div data-hf-id="hf-q7hc" class="dot"></div>
+        <span data-hf-id="hf-fdi6">Step 12 of 12</span>
+      </div>
+      <div data-hf-id="hf-cmud" id="photo-12" class="clip stage" data-start="41.0" data-duration="4.0" data-track-index="4">
+        <div data-hf-id="hf-trv3" id="photo-12-inner" class="card"><img data-hf-id="hf-geqg" src="assets/12-new-contact-detail-page.png" alt="Final contact detail page"></div>
+      </div>
+      <div data-hf-id="hf-zgku" id="caption-12" class="clip caption-bar" data-start="41.0" data-duration="4.0" data-track-index="5">
+        <span data-hf-id="hf-u8bw">Open the contact to confirm everything was saved.</span>
+      </div>
+      <audio data-hf-id="hf-wkt9" id="vo-12" src="assets/voice/line12.wav" class="clip" data-start="41.3" data-duration="3.03" data-track-index="10" data-volume="1"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const scenes = [
+        { id: 1, start: 0 },
+        { id: 2, start: 3.2 },
+        { id: 3, start: 6.7 },
+        { id: 4, start: 10.7 },
+        { id: 5, start: 14.8 },
+        { id: 6, start: 18.8 },
+        { id: 7, start: 22.0 },
+        { id: 8, start: 25.4 },
+        { id: 9, start: 29.1 },
+        { id: 10, start: 32.9 },
+        { id: 11, start: 36.3 },
+        { id: 12, start: 41.0 },
+      ];
+
+      scenes.forEach((scene) => {
+        tl.fromTo(
+          `#photo-${scene.id}-inner`,
+          { opacity: 0, scale: 0.97 },
+          { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" },
+          scene.start,
+        );
+      });
+
+      // gentle ambient background motion across the whole runtime
+      tl.to("#bg-glow", { scale: 1.08, duration: 4, ease: "sine.inOut", repeat: 10, yoyo: true }, 0);
+
+      // Cursor-led highlight + click: directs focus to a UI target, then taps it.
+      // Positions are transforms (x/y in px), never left/top, so motion stays
+      // sub-pixel-smooth under the seek-by-frame capture engine. Coordinates are
+      // expressed as a fraction of the .shot box's known deterministic render
+      // size at this layout (1136x710 — the 1440x900 screenshot height-constrained
+      // inside the fixed 1600x730 stage), then converted to px once below.
+      // TIP is the arrow's own point (top-left of its 24x24 viewBox path), used both
+      // as the constant xPercent/yPercent offset and as the click's transformOrigin
+      // so the tip stays pinned to the target through the press/release scale.
+      const SHOT_W = 1136;
+      const SHOT_H = 710;
+      const TIP = "17% 8%";
+      const px = (fracX, fracY) => ({ x: fracX * SHOT_W, y: fracY * SHOT_H });
+
+      function cursorClickBeat(id, target, exit, t0) {
+        const cursor = `#cursor-${id}`;
+        const highlight = `#highlight-${id}`;
+        const rest = px(0.48, 1.15);
+        const to = px(target.x, target.y);
+        const out = px(exit.x, exit.y);
+
+        tl.set(cursor, { x: rest.x, y: rest.y, xPercent: -17, yPercent: -8, scale: 1 }, t0);
+        tl.set(highlight, { opacity: 0, scale: 1, transformOrigin: "50% 50%" }, t0);
+
+        // entry: physical glide up from off-screen to the target's tip
+        tl.fromTo(
+          cursor,
+          { x: rest.x, y: rest.y },
+          { x: to.x, y: to.y, duration: 0.7, ease: "power3.out", immediateRender: false },
+          t0 + 0.2,
+        );
+
+        // highlight builds in as the cursor approaches
+        tl.to(highlight, { opacity: 1, duration: 0.3, ease: "power2.out" }, t0 + 0.55);
+
+        // click tap: asymmetric compress/expand on the cursor, paired with a target press
+        tl.to(cursor, { scale: 0.84, duration: 0.1, ease: "power2.in", transformOrigin: TIP }, t0 + 1.0);
+        tl.to(highlight, { scale: 0.94, duration: 0.1, ease: "power2.in" }, t0 + 1.0);
+        tl.to(cursor, { scale: 1, duration: 0.22, ease: "power2.out", transformOrigin: TIP }, t0 + 1.1);
+        tl.to(highlight, { scale: 1, duration: 0.22, ease: "power2.out" }, t0 + 1.1);
+
+        // settle: highlight dims to a steady glow, acknowledging the click landed
+        tl.to(highlight, { opacity: 0.55, duration: 0.4, ease: "power1.out" }, t0 + 1.6);
+
+        // exit: physical glide back off-screen
+        tl.to(cursor, { x: out.x, y: out.y, duration: 0.6, ease: "power2.in" }, t0 + 2.7);
+        tl.to(highlight, { opacity: 0, duration: 0.3, ease: "power1.in" }, t0 + 2.7);
+      }
+
+      // Scene 4: click the Related tab
+      cursorClickBeat("4", { x: 0.117, y: 0.3875 }, { x: 0.4, y: 1.28 }, 10.7);
+      // Scene 5: click New in the Contacts related list
+      cursorClickBeat("5", { x: 0.944, y: 0.5345 }, { x: 0.48, y: 1.28 }, 14.8);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

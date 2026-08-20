@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "support docs / how-to video",
+      "confirmed_in": [
+        "create-account-contact"
+      ],
+      "updated_at": "2026-08-20T17:23:03.878Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "create-account-contact"
+      ],
+      "updated_at": "2026-08-20T17:23:04.071Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "create-account-contact"
+      ],
+      "updated_at": "2026-08-20T17:23:04.271Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "create-account-contact"
+      ],
+      "updated_at": "2026-08-20T17:23:04.472Z"
+    },
+    "storyboard": {
+      "value": "no",
+      "confirmed_in": [
+        "create-account-contact"
+      ],
+      "updated_at": "2026-08-20T17:23:04.673Z"
+    }
+  },
+  "sightings": {}
+}
