@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude with Sally — Part 6: Subagent Swarms</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Permanent+Marker&display=swap');
+
+:root {
+  --cws-bg-deepest:#141424;--cws-bg-base:#1A1A2E;--cws-bg-raised:#1E1E32;--cws-bg-elevated:#24243E;--cws-bg-row-alt:#2A2A4A;
+  --cws-green:#50FA7B;--cws-green-dim:#2A3A2A;--cws-green-glow:rgba(80,250,123,0.35);
+  --cws-cyan:#8BE9FD;--cws-cyan-dim:#24353E;--cws-cyan-glow:rgba(139,233,253,0.35);
+  --cws-chalk-orange:#FFB547;--cws-chalk-pink:#FF79C6;--cws-chalk-purple:#BD93F9;
+  --cws-fg:#FFFFFF;--cws-fg-strong:#FFFFFF;--cws-fg-muted:#E0E0E0;--cws-fg-dim:#888899;--cws-fg-faint:#555566;
+  --cws-border:#2A2A4A;--cws-border-soft:#1E1E32;
+  --cws-font-sans:'Inter','Calibri',system-ui,sans-serif;
+  --cws-font-mono:'JetBrains Mono','Courier New',Consolas,monospace;
+  --cws-font-display:'Permanent Marker','Inter',system-ui,sans-serif;
+  --cws-glow-green:0 0 24px var(--cws-green-glow);
+  --cws-glow-cyan:0 0 24px var(--cws-cyan-glow);
+  --cws-shadow-md:0 4px 12px rgba(0,0,0,0.45);
+  --cws-ease:cubic-bezier(0.22,1,0.36,1);
+}
+
+html,body{margin:0;padding:0;background:#0A0A16;font-family:var(--cws-font-sans);overflow:hidden;color:var(--cws-fg);}
+
+/* Stage + slide shell */
+.stage{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+.slide{width:1920px;height:1080px;background:var(--cws-bg-base);position:relative;flex-shrink:0;overflow:hidden;transform-origin:center center;display:none;}
+.slide.active{display:block;}
+.slide::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:0.04;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px);}
+
+/* Layout */
+.safe{position:absolute;inset:96px;}
+.safe-center{position:absolute;inset:96px;display:flex;flex-direction:column;justify-content:center;}
+
+/* Footer */
+.foot{position:absolute;left:96px;right:96px;bottom:48px;display:flex;justify-content:space-between;align-items:center;font-family:var(--cws-font-mono);font-size:16px;color:var(--cws-fg-dim);}
+.foot .brand{color:var(--cws-cyan);}
+
+/* Typography */
+.h-title{font-size:72px;font-weight:700;color:var(--cws-fg-strong);letter-spacing:-0.01em;line-height:1.05;margin:0;}
+.h-subtitle{font-family:var(--cws-font-mono);font-size:36px;color:var(--cws-green);font-weight:400;line-height:1.2;margin:0;}
+.session-tag{font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-green);letter-spacing:0.08em;text-transform:uppercase;}
+.section-numeral{font-family:var(--cws-font-mono);font-size:200px;color:var(--cws-cyan);line-height:1;letter-spacing:0.08em;margin:0;}
+
+/* Prompt list */
+.prompt-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:20px;}
+.prompt-list li{position:relative;padding-left:48px;font-size:28px;color:var(--cws-fg-muted);line-height:1.4;}
+.prompt-list li::before{content:'>';position:absolute;left:0;top:0;color:var(--cws-green);font-family:var(--cws-font-mono);font-weight:600;}
+
+/* Pull quote */
+.pull-quote{font-family:var(--cws-font-sans);font-size:30px;line-height:1.35;color:var(--cws-cyan);font-style:italic;margin:0;border-left:3px solid var(--cws-cyan);padding-left:28px;}
+
+/* Callout boxes */
+.callout-box{padding:28px 36px;background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:8px;}
+.callout-box.green{border-left:3px solid var(--cws-green);}
+.callout-box.cyan{border-left:3px solid var(--cws-cyan);}
+.callout-box.orange{border-left:3px solid var(--cws-chalk-orange);}
+.callout-label{font-family:var(--cws-font-mono);font-size:16px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+
+/* Code */
+code,.inline-code{font-family:var(--cws-font-mono);font-size:0.92em;color:var(--cws-green);background:var(--cws-green-dim);padding:2px 8px;border-radius:4px;}
+pre.code-block{font-family:var(--cws-font-mono);font-size:22px;line-height:1.7;background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-left:3px solid var(--cws-green);border-radius:8px;padding:32px 40px;color:var(--cws-green);margin:0;white-space:pre;}
+pre.code-block.small{font-size:19px;line-height:1.55;}
+pre.code-block .c{color:var(--cws-fg-dim);}
+pre.code-block .k{color:var(--cws-cyan);}
+pre.code-block .s{color:var(--cws-chalk-orange);}
+
+/* Tables */
+table.sl{width:100%;border-collapse:collapse;font-size:22px;}
+table.sl th{text-align:left;padding:16px 20px;font-family:var(--cws-font-mono);font-weight:400;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);border-bottom:1px solid var(--cws-border);}
+table.sl td{padding:18px 20px;border-bottom:1px solid var(--cws-border);color:var(--cws-fg-muted);vertical-align:top;}
+table.sl td:first-child{color:var(--cws-fg-strong);font-weight:500;}
+
+/* Cursor */
+.cursor::after{content:'▊';color:var(--cws-green);animation:blk 1s steps(2) infinite;margin-left:6px;}
+@keyframes blk{to{visibility:hidden;}}
+
+/* Navigation bar */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;z-index:100;}
+.nav button{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-dim);background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:6px;padding:8px 20px;cursor:pointer;transition:all 120ms;}
+.nav button:hover{color:var(--cws-cyan);border-color:var(--cws-cyan);}
+.nav .counter{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-faint);}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active">
+    <div class="safe-center" style="align-items:flex-start;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Claude with Sally</div>
+      <div style="font-size:96px;font-weight:800;color:var(--cws-fg-strong);line-height:1;margin-bottom:24px;" class="cursor">Part 6</div>
+      <div style="font-family:var(--cws-font-mono);font-size:40px;color:var(--cws-green);font-weight:500;line-height:1.25;margin-bottom:48px;">Subagent Swarms: Build a review swarm from scratch</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);">Bill Kuehler &nbsp;|&nbsp; Resource Hero &nbsp;|&nbsp; 2026</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Agenda -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Part 6</div>
+      <h1 class="h-title" style="margin-bottom:48px;">What We'll Cover</h1>
+      <ul class="prompt-list">
+        <li>One helper to many — why blind, independent experts beat one, in two shapes: <strong style="color:var(--cws-green);">panel</strong> and <strong style="color:var(--cws-cyan);">sweep</strong></li>
+        <li>Build a <code>review-swarm</code> skill live from a single prompt — then improve it one prompt at a time</li>
+        <li>When NOT to swarm — the honest cost, and the case this very demo makes against itself</li>
+        <li>How to trust the output — structure is not accuracy, so verify what the swarm returns</li>
+        <li>Where the pattern goes next — pipeline, debate, nesting, agent teams, workflows</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Recap -- what a subagent is -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Part 5 Recap</div>
+      <h1 class="h-title" style="margin-bottom:16px;">What a Subagent Is</h1>
+      <div style="font-size:23px;color:var(--cws-fg-dim);margin-bottom:40px;line-height:1.4;">Prompt in, summary out, own context — that isolation is what lets us run a whole panel without filling the main conversation.</div>
+      <ul class="prompt-list">
+        <li>A subagent is a <span style="color:var(--cws-green);">fresh, isolated Claude</span></li>
+        <li>The prompt you pass in is all it knows</li>
+        <li>Returns only a summary</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Section divider 01 -- Parallel Swarms -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">01</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">Parallel Swarms</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">Many independent experts at once — in two shapes</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Why many beats one (motivation) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">01 · Parallel Swarms</div>
+      <h1 class="h-title" style="margin-bottom:40px;">Why Many Beats One</h1>
+      <ul class="prompt-list" style="margin-bottom:36px;">
+        <li>Ask one generalist to "review this" and you get a decent, shallow-but-wide pass</li>
+        <li>Ask a security person, a testing person, and a design person and you get three genuinely different sets of findings</li>
+        <li>Run them <em>all at once, each blind to the others</em> — that's a <span style="color:var(--cws-green);">swarm</span>. Two shapes do it, and we build one live.</li>
+      </ul>
+      <div class="pull-quote" style="margin-bottom:32px;">It's a code-review board, or a panel of specialists reading the same contract. Not just for code.</div>
+      <div class="callout-box green">
+        <div class="callout-label" style="color:var(--cws-green);">The honest motivation</div>
+        <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;">AI is a yes-man. A fresh subagent with a pointed lens gives you the critique the sycophant won't.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Two shapes -- Panel & Sweep -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">01 · Parallel Swarms</div>
+      <h1 class="h-title" style="margin-bottom:28px;">Two Shapes: Panel &amp; Sweep</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-bottom:28px;">
+
+        <!-- PANEL -->
+        <div>
+          <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:14px;">
+            <span style="font-family:var(--cws-font-mono);font-size:24px;font-weight:600;color:var(--cws-green);letter-spacing:0.04em;">Panel</span>
+            <span style="font-size:20px;color:var(--cws-fg-muted);">same input, many lenses &rarr; <strong>resolves</strong></span>
+          </div>
+          <svg viewBox="0 0 820 398" style="width:100%;height:auto;">
+            <defs><marker id="ahp" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#888899"/></marker></defs>
+            <g stroke="#888899" stroke-width="2" fill="none" marker-end="url(#ahp)">
+              <path d="M410,74 L145,168"/><path d="M410,74 L410,168"/><path d="M410,74 L675,168"/>
+              <path d="M140,232 L400,326"/><path d="M410,232 L410,326"/><path d="M680,232 L420,326"/>
+            </g>
+            <rect x="310" y="18" width="200" height="54" rx="8" fill="#1E1E32" stroke="#8BE9FD" stroke-width="2"/>
+            <text x="410" y="51" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" fill="#8BE9FD">artifact</text>
+            <rect x="50" y="174" width="180" height="56" rx="8" fill="#1E1E32" stroke="#50FA7B" stroke-width="2"/>
+            <text x="140" y="208" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#50FA7B">security</text>
+            <rect x="320" y="174" width="180" height="56" rx="8" fill="#1E1E32" stroke="#FFB547" stroke-width="2"/>
+            <text x="410" y="208" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#FFB547">tests</text>
+            <rect x="590" y="174" width="180" height="56" rx="8" fill="#1E1E32" stroke="#BD93F9" stroke-width="2"/>
+            <text x="680" y="208" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#BD93F9">design</text>
+            <rect x="310" y="326" width="200" height="54" rx="8" fill="#24243E" stroke="#50FA7B" stroke-width="2.5"/>
+            <text x="410" y="359" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" font-weight="600" fill="#50FA7B">verdict</text>
+          </svg>
+          <div style="text-align:center;font-family:var(--cws-font-mono);font-size:17px;color:var(--cws-fg-dim);margin-top:10px;">varies: the <span style="color:var(--cws-chalk-purple);">lens</span> &nbsp;·&nbsp; <em>this is what we build</em></div>
+          <div style="text-align:center;font-family:var(--cws-font-mono);font-size:17px;color:var(--cws-fg-muted);margin-top:6px;">scale with more <span style="color:var(--cws-chalk-purple);">viewpoints</span> — copies just agree</div>
+        </div>
+
+        <!-- SWEEP -->
+        <div>
+          <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:14px;">
+            <span style="font-family:var(--cws-font-mono);font-size:24px;font-weight:600;color:var(--cws-cyan);letter-spacing:0.04em;">Sweep</span>
+            <span style="font-size:20px;color:var(--cws-fg-muted);">many inputs, same job &rarr; <strong>aggregates</strong></span>
+          </div>
+          <svg viewBox="0 0 820 398" style="width:100%;height:auto;">
+            <defs><marker id="ahs" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#888899"/></marker></defs>
+            <g stroke="#888899" stroke-width="2" fill="none" marker-end="url(#ahs)">
+              <path d="M140,74 L140,168"/><path d="M410,74 L410,168"/><path d="M680,74 L680,168"/>
+              <path d="M140,232 L400,326"/><path d="M410,232 L410,326"/><path d="M680,232 L420,326"/>
+            </g>
+            <rect x="50" y="18" width="180" height="54" rx="8" fill="#1E1E32" stroke="#8BE9FD" stroke-width="2"/>
+            <text x="140" y="51" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#8BE9FD">Slack</text>
+            <rect x="320" y="18" width="180" height="54" rx="8" fill="#1E1E32" stroke="#FFB547" stroke-width="2"/>
+            <text x="410" y="51" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#FFB547">email</text>
+            <rect x="590" y="18" width="180" height="54" rx="8" fill="#1E1E32" stroke="#FF79C6" stroke-width="2"/>
+            <text x="680" y="51" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#FF79C6">cases</text>
+            <rect x="50" y="174" width="180" height="56" rx="8" fill="#1E1E32" stroke="#E0E0E0" stroke-width="2"/>
+            <text x="140" y="208" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#E0E0E0">scan</text>
+            <rect x="320" y="174" width="180" height="56" rx="8" fill="#1E1E32" stroke="#E0E0E0" stroke-width="2"/>
+            <text x="410" y="208" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#E0E0E0">scan</text>
+            <rect x="590" y="174" width="180" height="56" rx="8" fill="#1E1E32" stroke="#E0E0E0" stroke-width="2"/>
+            <text x="680" y="208" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#E0E0E0">scan</text>
+            <rect x="310" y="326" width="200" height="54" rx="8" fill="#24243E" stroke="#50FA7B" stroke-width="2.5"/>
+            <text x="410" y="359" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" font-weight="600" fill="#50FA7B">brief</text>
+          </svg>
+          <div style="text-align:center;font-family:var(--cws-font-mono);font-size:17px;color:var(--cws-fg-dim);margin-top:10px;">varies: the <span style="color:var(--cws-chalk-orange);">input</span> &nbsp;·&nbsp; <em>my morning brief</em></div>
+          <div style="text-align:center;font-family:var(--cws-font-mono);font-size:17px;color:var(--cws-fg-muted);margin-top:6px;">scale with more <span style="color:var(--cws-chalk-orange);">searchers</span></div>
+        </div>
+
+      </div>
+      <div class="callout-box green" style="margin-top:4px;">
+        <div class="callout-label" style="color:var(--cws-green);">Both are blind — and that's the point</div>
+        <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.5;">Reviewers never see each other's work, so they can't <em>converge</em> — you keep the diversity you came for. It's structural, straight from the docs: <span style="color:var(--cws-fg-strong);">"Subagents only report results back to the main agent and never talk to each other."</span></div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Section divider 04 -- Build -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">02</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">Build the Swarm</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">From a blank file: fan out &middot; structure &middot; synthesize</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: The Prompt (start simple) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">02 · Build</div>
+      <h1 class="h-title" style="margin-bottom:16px;">Start With a Prompt</h1>
+      <div style="font-size:23px;color:var(--cws-fg-dim);margin-bottom:26px;line-height:1.4;">From a blank file, prompt Claude to scaffold the skill. Keep v1 simple — no JSON, no preamble, no verdict yet — then improve it one prompt at a time. <span style="color:var(--cws-fg-muted);">That's the rest of this section.</span></div>
+      <pre class="code-block">Create a skill called <span class="k">review-swarm</span> that reviews the specified
+file or files. Spin up three <span class="k">subagents</span> in parallel — each
+looks at a different thing, none see each other:
+
+  <span class="s">security</span>           — find the security holes
+  <span class="s">test-quality</span>       — do the tests actually assert anything?
+  <span class="s">design-correctness</span> — logic bugs the analyzer can't catch
+
+Run them at once and report what each found.</pre>
+      <div style="font-size:21px;color:var(--cws-fg-dim);margin-top:24px;line-height:1.45;">All three run at once, so total time is the <span style="color:var(--cws-fg-muted);">slowest</span> subagent, not the sum — a serial loop would burn ~3&times; the wall-clock for the same findings.</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Design the subagents (judgment) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">02 · Build</div>
+      <h1 class="h-title" style="margin-bottom:14px;">Design the Subagents</h1>
+      <div style="font-size:23px;color:var(--cws-fg-dim);margin-bottom:36px;line-height:1.4;">Each subagent is a file — Claude writes it for you. <span style="color:var(--cws-fg-muted);">Choosing the lens set is the real engineering judgment.</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;">
+        <ul class="prompt-list">
+          <li><strong style="color:var(--cws-green);">security</strong> — deterministic: drives <code>sf code-analyzer run</code>, triages the output</li>
+          <li><strong style="color:var(--cws-green);">test-quality</strong> — reasoner: do the tests <em>assert</em> anything meaningful?</li>
+          <li><strong style="color:var(--cws-green);">design-correctness</strong> — reasoner: business-logic bugs static rules can't see</li>
+          <li>Non-overlapping catch zones; genuine disagreement; mixed deterministic + probabilistic</li>
+        </ul>
+        <div class="callout-box cyan">
+          <div class="callout-label" style="color:var(--cws-cyan);">The test to hand yourself</div>
+          <div style="font-size:23px;color:var(--cws-fg-muted);line-height:1.45;">"If I removed this subagent, would I lose findings nobody else would catch?" If no, cut it.</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: v2 -- split into agent files -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">02 · Build · v2</div>
+      <h1 class="h-title" style="margin-bottom:20px;">Split Into Agent Files</h1>
+      <pre class="code-block" style="margin-bottom:28px;">Give each subagent its own file under <span class="k">.claude/agents/</span> so I can
+tune them separately — set each one's lens focus, model, and
+tools, and lock them all read-only.</pre>
+      <ul class="prompt-list" style="margin-bottom:30px;">
+        <li>Each subagent becomes its own file — frontmatter sets <code>model</code>, <code>effort</code>, <code>tools</code>, <code>disallowedTools</code></li>
+        <li>Match the model to the lens — a cheaper model on the shallow triage, a stronger one on the deep reasoner</li>
+        <li>Lock them <span style="color:var(--cws-green);">read-only</span> with <code>disallowedTools</code> — the analyzer gets <code>Bash</code>+<code>Read</code>; the reasoners get <code>Read</code> only</li>
+      </ul>
+      <div class="callout-box orange">
+        <div class="callout-label" style="color:var(--cws-chalk-orange);">Say the principle out loud</div>
+        <div style="font-size:23px;color:var(--cws-fg-muted);line-height:1.45;">Prompting "don't edit anything" is <em>not</em> a permission layer. If an agent <em>can</em> touch data, assume it will — read-only is a tool restriction, not an instruction.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: v3 -- common output -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">02 · Build · v3</div>
+      <h1 class="h-title" style="margin-bottom:20px;">Give Them a Common Output</h1>
+      <div style="font-size:22px;color:var(--cws-fg-dim);margin-bottom:22px;line-height:1.4;">"Report what each found" gives three paragraphs you can't compare — a shared envelope turns three opinions into something you can sort, gate, and de-dupe.</div>
+      <div style="font-family:var(--cws-font-mono);font-size:15px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-cyan);margin-bottom:8px;">▸ you type</div>
+      <pre class="code-block" style="margin-bottom:22px;">Make every subagent return the same JSON: a <span class="k">verdict</span> plus a
+list of <span class="k">findings</span>, each with severity, issue, and recommendation.</pre>
+      <div style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:44px;align-items:start;">
+        <div>
+          <div style="font-family:var(--cws-font-mono);font-size:15px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);margin-bottom:8px;">every subagent returns</div>
+          <pre class="code-block small">{ <span class="s">"agent"</span>: <span class="k">"string"</span>,
+  <span class="s">"verdict"</span>: <span class="k">"pass | warn | flag"</span>,
+  <span class="s">"findings"</span>: [
+    { <span class="s">"severity"</span>: <span class="k">"high | med | low"</span>,
+      <span class="s">"issue"</span>: <span class="k">"string"</span>,
+      <span class="s">"recommendation"</span>: <span class="k">"string"</span> }
+  ] }</pre>
+        </div>
+        <div class="callout-box orange">
+          <div class="callout-label" style="color:var(--cws-chalk-orange);">Not a built-in</div>
+          <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.4;">Subagents have no <code>schema</code> field. This is prompt instruction + your own validation in the parent — exactly right.</div>
+        </div>
+      </div>
+      <div style="font-size:20px;color:var(--cws-fg-dim);margin-top:24px;line-height:1.45;">Have each subagent write its envelope to its own file, and <span style="color:var(--cws-fg-muted);">tolerate nulls</span> — if one dies or returns junk, the roll-up skips it instead of crashing.</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: v4 -- shared preamble -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">02 · Build · v4</div>
+      <h1 class="h-title" style="margin-bottom:14px;">The Shared Preamble</h1>
+      <div style="font-size:22px;color:var(--cws-fg-dim);margin-bottom:24px;line-height:1.4;">Three bespoke prompts drift, and synthesis can't compare them — one preamble makes the N reviews commensurable.</div>
+      <div style="font-family:var(--cws-font-mono);font-size:15px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-cyan);margin-bottom:8px;">▸ you type</div>
+      <pre class="code-block" style="margin-bottom:20px;">They're all repeating the same setup — pull the common
+instructions into one shared preamble, keep only each agent's
+lens focus different, and tell each it's the only reviewer.</pre>
+      <div style="font-family:var(--cws-font-mono);font-size:15px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);margin-bottom:8px;">the preamble it writes</div>
+      <pre class="code-block small"><span class="c"># One preamble, N focuses — and never tell an agent it has colleagues</span>
+You are the ONLY reviewer of <span class="k">{artifact}</span>. Do not assume others exist.
+Read it yourself. Focus ONLY on: <span class="k">{lens_focus}</span>.
+Return the shared JSON envelope — nothing else.</pre>
+      <div class="callout-box orange" style="margin-top:24px;">
+        <div class="callout-label" style="color:var(--cws-chalk-orange);">Why "no colleagues"</div>
+        <div style="font-size:23px;color:var(--cws-fg-muted);line-height:1.45;">Tell an agent it's on a panel and it hedges — defers, softens. You lose the independence that was the point.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: v5 -- synthesize -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">02 · Build · v5</div>
+      <h1 class="h-title" style="margin-bottom:14px;">Synthesize One Verdict</h1>
+      <div style="font-size:22px;color:var(--cws-fg-dim);margin-bottom:24px;line-height:1.4;">Synthesis is adjudication, not formatting — a swarm isn't done when the agents return; this is where N opinions become a decision.</div>
+      <div style="font-family:var(--cws-font-mono);font-size:15px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-cyan);margin-bottom:8px;">▸ you type</div>
+      <pre class="code-block" style="margin-bottom:20px;">After the subagents return, reconcile them into one verdict —
+<span class="k">GO</span>, <span class="k">CAUTION</span>, or <span class="k">STOP</span> — sorted by severity, and re-read the
+source on any disagreement before ruling.</pre>
+      <div style="font-family:var(--cws-font-mono);font-size:15px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);margin-bottom:8px;">the logic it runs</div>
+      <pre class="code-block small"><span class="c"># The orchestrator's job after the subagents return</span>
+verdict = any(flag) ? <span class="s">"STOP"</span> : any(warn) ? <span class="s">"CAUTION"</span> : <span class="s">"GO"</span>
+sort findings by severity (high -&gt; low)
+<span class="k">for</span> any finding two agents dispute:
+    RE-READ the cited lines before ruling      <span class="c"># not just collate summaries</span>
+output: one verdict + the ranked, de-duplicated findings</pre>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 21: DEMO -- build and run the swarm -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:32px;">02 · Build</div>
+      <div style="font-size:108px;font-weight:800;color:var(--cws-green);text-shadow:0 0 24px rgba(80,250,123,0.35);line-height:1;">DEMO</div>
+      <div style="font-family:var(--cws-font-mono);font-size:32px;color:var(--cws-fg-muted);margin-top:32px;">Blank file &rarr; parallel expert panel &rarr; one GO / CAUTION / STOP verdict</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);margin-top:16px;">Three lenses arrive independently — the main context stays clean the whole time</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: The finished skill (reuse payoff) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">02 · Build</div>
+      <h1 class="h-title" style="margin-bottom:12px;">What We Kept: <span style="color:var(--cws-green);">review-swarm</span></h1>
+      <div style="font-size:22px;color:var(--cws-fg-dim);margin-bottom:24px;">Everything v2&ndash;v5 accreted, in one file. Next time it's one command.</div>
+      <pre class="code-block small"><span class="c">---</span>
+<span class="k">name</span>: <span class="s">review-swarm</span>
+<span class="k">description</span>: <span class="s">Review the specified file(s) with independent subagents,</span>
+  <span class="s">each a different lens, blind to the others, then synthesize one</span>
+  <span class="s">GO / CAUTION / STOP verdict. Use for Apex, a PR, a contract.</span>
+<span class="c">---</span>
+<span class="c"># Review Swarm</span>
+<span class="k">1.</span> Take the target file(s).
+<span class="k">2.</span> Spawn every agent in <span class="k">.claude/agents/review-*.md</span> in ONE message
+   (parallel, read-only) — each gets the shared preamble + its lens.
+<span class="k">3.</span> Collect one JSON envelope per subagent.
+<span class="k">4.</span> Synthesize: gate to GO/CAUTION/STOP, sort by severity, RE-READ on conflict.
+<span class="k">5.</span> Return the verdict + ranked findings.</pre>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 22: Section divider 05 -- When NOT to -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">03</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">When NOT to Swarm</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">The honest beat — and this very demo makes the case against itself</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 23: When NOT to + cost -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">03 · When NOT to Swarm</div>
+      <h1 class="h-title" style="margin-bottom:36px;">Skip It When</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;">
+        <ul class="prompt-list">
+          <li>The artifact is small — one strong checklist pass holds the whole thing</li>
+          <li>Cost or latency is the binding constraint — N agents is roughly N times the tokens</li>
+          <li>The concerns interact — one agent holding the whole picture reasons about tradeoffs better</li>
+          <li>Middle ground: one agent, sequential passes — ~1x cost, but loses independence</li>
+        </ul>
+        <div class="callout-box orange">
+          <div class="callout-label" style="color:var(--cws-chalk-orange);">Say the quiet part out loud</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.5;">This very demo is a "skip the swarm" case — a 40-line class you'd checklist in real life. I swarmed it so the machinery fits on screen. <strong>The pattern is the point, not this class.</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 24: Section divider 06 -- Trust -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">04</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">How to Trust It</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">Structure is not accuracy — the pillar the topic can't skip</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 25: Verification -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">04 · Trust It</div>
+      <h1 class="h-title" style="margin-bottom:20px;">Structure Is Not Accuracy</h1>
+      <ul class="prompt-list" style="margin-bottom:30px;">
+        <li>A schema makes results <em>collatable</em>, not <em>true</em> — three reviewers who each hallucinate confidently just give you three tidy hallucinations</li>
+        <li>So a <em>separate</em> agent grades the swarm's output — <strong style="color:var(--cws-green);">maker-checker</strong>, the plain name for adversarial verification</li>
+        <li>Make the check objective where you can ("fails WITH <code>USER_MODE</code>" is checkable, "risky" is not); where you can't, validate the verifier itself</li>
+      </ul>
+      <div class="callout-box cyan">
+        <div class="callout-label" style="color:var(--cws-cyan);">A true story — prepping this talk</div>
+        <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.5;">A subagent's fact-check came back confident and well-formatted — and partly <span style="color:var(--cws-chalk-orange);">fabricated</span>, sourced to content farms dressed as docs. A skeptical second pass caught it. The twist: its biggest claim was actually <em>true</em>, just sourced from garbage. <span style="color:var(--cws-fg-strong);font-weight:600;">Verification is what tells you which half was real.</span></div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Section divider 05 -- Where It Goes -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div class="section-numeral">05</div>
+      <div style="font-size:72px;font-weight:700;color:var(--cws-fg-strong);margin-top:16px;">Where It Goes</div>
+      <div style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-fg-dim);margin-top:24px;">The swarm is one rung — the same idea, turned up and turned sideways</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Where it goes -- the ladder -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">05 · Where It Goes</div>
+      <h1 class="h-title" style="margin-bottom:20px;">The Swarm Is One Rung</h1>
+      <div style="font-size:24px;color:var(--cws-fg-dim);line-height:1.4;margin-bottom:28px;">Everything so far was <em>parallel and blind</em>. Two shapes step outside that box — and the same idea also scales up.</div>
+      <ul class="prompt-list" style="margin-bottom:24px;">
+        <li><strong style="color:var(--cws-chalk-orange);">Pipeline</strong> — agents as stages, each feeding the next. Sequential, not blind-parallel. <em>Refines.</em></li>
+        <li><strong style="color:var(--cws-chalk-orange);">Debate</strong> — let reviewers see each other and argue. Trade independence for pressure-testing.</li>
+        <li><strong style="color:var(--cws-cyan);">Nesting</strong> — a reviewer can itself fan out; subagents spawn subagents, up to 4 levels deep</li>
+        <li><strong style="color:var(--cws-cyan);">Agent teams</strong> — teammates share a task list and talk to each other (experimental; "significantly more tokens")</li>
+        <li><strong style="color:var(--cws-cyan);">Dynamic workflows</strong> — a script orchestrating agents at scale, triggered by <code>ultracode</code> (16 concurrent / 1,000 per run)</li>
+        <li>Bundled: <code>/deep-research</code> (web-search fan-out &rarr; cited report), <code>/batch</code> (per-unit worktrees &rarr; PRs)</li>
+        <li>And the swarm itself is a <em>pattern, not a command</em> — you define agents as files (<code>/agents</code> just points you there), run the pattern, and watch with <code>/tasks</code></li>
+      </ul>
+      <div class="pull-quote">subagents &rarr; swarms &rarr; nesting &rarr; teams &rarr; workflows — the same idea turned up. Pipeline and debate are the same idea turned sideways.</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE: Decision recap -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Recap</div>
+      <h1 class="h-title" style="margin-bottom:40px;">The Whole Decision on One Slide</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;">
+        <div class="callout-box green">
+          <div class="callout-label" style="color:var(--cws-green);">Swarm when</div>
+          <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.45;">Large or complex artifact, distinct deep concerns, an expensive miss, each lens carries its own tools.</div>
+        </div>
+        <div class="callout-box orange">
+          <div class="callout-label" style="color:var(--cws-chalk-orange);">Don't when</div>
+          <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.45;">Small artifact, cost/latency-bound, or the concerns interact. Checklist it, or one agent with sequential passes.</div>
+        </div>
+        <div class="callout-box cyan">
+          <div class="callout-label" style="color:var(--cws-cyan);">Which shape</div>
+          <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.45;">Panel for many lenses on one thing, sweep for many things each covered once.</div>
+        </div>
+      </div>
+      <div class="pull-quote" style="margin-top:40px;">And whatever you build — verify it. Structure is not accuracy.</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 31: Homework -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:24px;">Homework</div>
+      <h1 class="h-title" style="margin-bottom:48px;">Your Turn</h1>
+      <ul class="prompt-list">
+        <li>Build a 3-reviewer swarm for something you actually review — a PR, a piece of Apex, or a non-technical document (a proposal, a job posting, an SOP)</li>
+        <li>Pick three lenses that genuinely disagree — run the "would I lose findings?" test on each</li>
+        <li>Run it. Note one thing a single reviewer would have missed — and be honest about whether the artifact was big enough to need the swarm</li>
+        <li>Bonus: add a fourth reviewer and see if the synthesis changes the verdict</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 32: Questions -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-size:120px;font-weight:800;color:var(--cws-fg-strong);line-height:1;" class="cursor">Questions</div>
+      <div style="font-family:var(--cws-font-mono);font-size:26px;color:var(--cws-fg-dim);margin-top:40px;">code.claude.com/docs/en/sub-agents</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-faint);margin-top:16px;">Part 7 — you tell us. What do you want to see?</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+</div><!-- .stage -->
+
+<div class="nav">
+  <button onclick="prev()">&#8592; Prev</button>
+  <span class="counter" id="counter">1 / 32</span>
+  <button onclick="next()">Next &#8594;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+function show(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = (cur+1) + ' / ' + slides.length;
+  fit();
+}
+function next() { show(cur + 1); }
+function prev() { show(cur - 1); }
+function fit() {
+  const s = document.querySelector('.slide.active');
+  if (!s) return;
+  const sc = Math.min(innerWidth / 1920, innerHeight / 1080);
+  s.style.transform = 'scale(' + sc + ')';
+}
+addEventListener('resize', fit);
+addEventListener('load', fit);
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+});
+</script>
+</body>
+</html>
