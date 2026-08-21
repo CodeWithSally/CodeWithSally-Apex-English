@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      body {
+        font-family: "Lato", "Inter", sans-serif;
+      }
+      code,
+      pre,
+      .monospace {
+        font-family: "JetBrains Mono", monospace;
+      }
+      #sky {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 38%, #145a6c 0%, #0e4858 55%, #093542 100%);
+      }
+      #circle {
+        position: absolute;
+        left: 120px;
+        top: 50%;
+        margin-top: -100px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: #fd8e25;
+        box-shadow: 0 0 60px rgba(253, 142, 37, 0.35);
+      }
+      .caption-bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 140px;
+        background: rgba(54, 54, 54, 0.72);
+        border-top: 2px solid rgba(22, 149, 174, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 80px;
+        text-align: center;
+      }
+      .caption-bar span {
+        color: #f2ebe6;
+        font-size: 44px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-z7xn" id="root" data-composition-id="main" data-start="0" data-duration="12.5" data-width="1920" data-height="1080">
+      <div data-hf-id="hf-12nj" id="sky" class="clip" data-start="0" data-duration="12.5" data-track-index="1"></div>
+      <div data-hf-id="hf-cmen" id="circle" class="clip" data-start="0" data-duration="12.5" data-track-index="2"></div>
+      <div data-hf-id="hf-xchg" id="caption-1" class="clip caption-bar" data-start="0" data-duration="5" data-track-index="3">
+        <span data-hf-id="hf-1w36">The circle moves from left to right over 5 seconds</span>
+      </div>
+      <div data-hf-id="hf-ihxr" id="caption-2" class="clip caption-bar" data-start="5" data-duration="2.5" data-track-index="3">
+        <span data-hf-id="hf-wmtb">The circle holds its position for 2 seconds</span>
+      </div>
+      <div data-hf-id="hf-fu59" id="caption-3" class="clip caption-bar" data-start="7.5" data-duration="5" data-track-index="3">
+        <span data-hf-id="hf-4fy6">The circle moves back to the left over 5 seconds</span>
+      </div>
+      <audio data-hf-id="hf-y7t2" id="vo-1" src="assets/audio/line1.wav" class="clip" data-start="0" data-duration="5" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-ydcn" id="vo-2" src="assets/audio/line2.wav" class="clip" data-start="5" data-duration="2.5" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-pzve" id="vo-3" src="assets/audio/line3.wav" class="clip" data-start="7.9" data-duration="4.6" data-track-index="10" data-volume="1"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const travelX = 1920 - 120 - 200 - 120;
+      tl.fromTo("#circle", { x: 0 }, { x: travelX, duration: 5, ease: "none" }, 0);
+      // holds at travelX from 5s to 7.5s (no tween needed)
+      tl.to("#circle", { x: 0, duration: 5, ease: "none" }, 7.5);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,237 @@
+- generic:
+  - generic [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "Skip to Navigation" [ref=f3e4] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - link "Skip to Main Content" [ref=f3e5] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=f3e265]:
+        - generic [ref=f3e269]:
+          - button "Toggle Panel" [ref=f3e273] [cursor=pointer]:
+            - generic [ref=f3e280]: Menu
+          - generic [ref=f3e281]: Developer Edition
+        - button "Show menu" [ref=f3e301] [cursor=pointer]
+      - generic [ref=f3e6]:
+        - button "Search" [ref=f3e12]: Search...
+        - navigation "Global Header" [ref=f3e17]:
+          - list [ref=f3e19]:
+            - listitem [ref=f3e20]:
+              - group [ref=f3e21]:
+                - button "Add favorite" [ref=f3e723] [cursor=pointer]:
+                  - generic [ref=f3e24]:
+                    - tooltip "Add favorite"
+                - button [ref=f3e32] [cursor=pointer]:
+                  - generic [ref=f3e33]:
+                    - tooltip "Favorites list"
+            - listitem [ref=f3e40]:
+              - button [ref=f3e311] [cursor=pointer]:
+                - generic [ref=f3e312]:
+                  - tooltip "Global Actions"
+            - listitem [ref=f3e319]:
+              - button [ref=f3e321] [cursor=pointer]:
+                - generic [ref=f3e322]:
+                  - tooltip "Guidance Center"
+            - listitem [ref=f3e49]:
+              - button [ref=f3e52] [cursor=pointer]:
+                - generic [ref=f3e53]:
+                  - tooltip "Salesforce Help"
+            - listitem [ref=f3e60]:
+              - button [ref=f3e66] [cursor=pointer]:
+                - generic [ref=f3e67]:
+                  - tooltip "Setup"
+            - listitem [ref=f3e74]:
+              - button [ref=f3e77] [cursor=pointer]:
+                - generic [ref=f3e78]:
+                  - tooltip "Notifications"
+            - listitem [ref=f3e87]:
+              - button "View profile" [ref=f3e90] [cursor=pointer]:
+                - generic [ref=f3e91]:
+                  - tooltip "View profile"
+    - generic [ref=f3e93]:
+      - generic [ref=f3e96]:
+        - generic [ref=f3e98]:
+          - navigation "App" [ref=f3e99]:
+            - button "App Launcher" [ref=f3e101] [cursor=pointer]
+          - heading "Sales" [level=1] [ref=f3e113]
+        - navigation "Global" [ref=f3e117]:
+          - list [ref=f3e118]:
+            - listitem [ref=f3e119]:
+              - link "Home" [ref=f3e120] [cursor=pointer]:
+                - /url: /lightning/page/home
+            - listitem [ref=f3e122]:
+              - link "Opportunities" [ref=f3e123] [cursor=pointer]:
+                - /url: /lightning/o/Opportunity/home
+              - button "Opportunities List" [ref=f3e128] [cursor=pointer]
+            - listitem [ref=f3e136]:
+              - link "Leads" [ref=f3e137] [cursor=pointer]:
+                - /url: /lightning/o/Lead/home
+              - button "Leads List" [ref=f3e142] [cursor=pointer]
+            - listitem [ref=f3e150]:
+              - link "Tasks" [ref=f3e151] [cursor=pointer]:
+                - /url: /lightning/o/Task/home
+              - button "Tasks List" [ref=f3e156] [cursor=pointer]
+            - listitem [ref=f3e164]:
+              - link "Files" [ref=f3e165] [cursor=pointer]:
+                - /url: /lightning/o/ContentDocument/home
+              - button "Files List" [ref=f3e170] [cursor=pointer]
+            - listitem [ref=f3e178] [cursor=pointer]:
+              - link "Accounts" [active] [ref=f3e179]:
+                - /url: /lightning/o/Account/home
+              - button "Accounts List" [ref=f3e184]
+            - listitem [ref=f3e192]:
+              - link "Contacts" [ref=f3e193] [cursor=pointer]:
+                - /url: /lightning/o/Contact/home
+              - button "Contacts List" [ref=f3e198] [cursor=pointer]
+            - listitem [ref=f3e206]:
+              - link "Campaigns" [ref=f3e207] [cursor=pointer]:
+                - /url: /lightning/o/Campaign/home
+              - button "Campaigns List" [ref=f3e212] [cursor=pointer]
+            - listitem [ref=f3e220]:
+              - link "Dashboards" [ref=f3e221] [cursor=pointer]:
+                - /url: /lightning/o/Dashboard/home
+              - button "Dashboards List" [ref=f3e226] [cursor=pointer]
+            - listitem [ref=f3e331]:
+              - link "Reports" [ref=f3e332] [cursor=pointer]:
+                - /url: /lightning/o/Report/home
+              - button "Reports List" [ref=f3e337] [cursor=pointer]
+            - listitem [ref=f3e345]:
+              - link "Chatter" [ref=f3e346] [cursor=pointer]:
+                - /url: /lightning/page/chatter
+            - listitem [ref=f3e234]:
+              - button "Show more navigation items" [ref=f3e236] [cursor=pointer]:
+                - generic [ref=f3e237]: More
+            - listitem [ref=f3e245]:
+              - button "Edit nav items" [ref=f3e247] [cursor=pointer]
+      - main [ref=f3e724]:
+        - generic [ref=f3e734]:
+          - generic [ref=f3e736]:
+            - generic [ref=f3e737]:
+              - generic [ref=f3e744]:
+                - heading "Accounts" [level=1] [ref=f3e748]
+                - generic [ref=f3e749]:
+                  - generic [ref=f3e751] [cursor=pointer]:
+                    - heading "Accounts Recently Viewed" [level=1] [ref=f3e752]:
+                      - generic [ref=f3e753]: Accounts
+                      - generic [ref=f3e754]: Recently Viewed
+                    - 'button "Select a List View: Accounts" [ref=f3e757]'
+                  - button "This list is pinned." [disabled] [ref=f3e766] [cursor=pointer]
+              - list [ref=f3e774]:
+                - listitem [ref=f3e775]:
+                  - button "New" [ref=f3e776] [cursor=pointer]
+                - listitem [ref=f3e778]:
+                  - button "Import" [ref=f3e779] [cursor=pointer]
+                - listitem [ref=f3e781]:
+                  - button "Assign Label" [ref=f3e782] [cursor=pointer]
+                - listitem [ref=f3e784]:
+                  - button "Analyze with Grid" [ref=f3e785] [cursor=pointer]
+            - generic [ref=f3e787]:
+              - paragraph [ref=f3e789]:
+                - generic [ref=f3e791]:
+                  - status "Recently Viewed" [ref=f3e792]: 2 items •
+                  - text: Updated a few seconds ago
+              - generic [ref=f3e798]:
+                - generic [ref=f3e799]: Search this list...
+                - searchbox "Search this list..." [ref=f3e801]
+              - generic [ref=f3e805]:
+                - button "List View Controls" [ref=f3e809] [cursor=pointer]
+                - button "Select list display" [ref=f3e821] [cursor=pointer]
+                - generic [ref=f3e832]:
+                  - button "Refresh" [ref=f3e835] [cursor=pointer]
+                  - button "Column sort" [ref=f3e843] [cursor=pointer]
+                  - button "Edit List" [ref=f3e851] [cursor=pointer]
+                  - group [ref=f3e857]:
+                    - generic [ref=f3e859]:
+                      - generic:
+                        - generic:
+                          - button "Charts" [disabled]
+                      - generic:
+                        - generic:
+                          - button "Filters" [disabled]
+          - generic [ref=f3e866]:
+            - generic: Navigation Mode
+            - grid [ref=f3e871]:
+              - rowgroup:
+                - row "Row Number Choose a Row Select 2 items Account Name Account Site Phone Account Owner Alias Action":
+                  - columnheader "Row Number":
+                    - generic [ref=f3e874]:
+                      - generic "Row Number"
+                  - gridcell "Choose a Row Select 2 items":
+                    - generic [ref=f3e875]:
+                      - generic [ref=f3e876]: Choose a Row
+                      - generic [ref=f3e878]:
+                        - checkbox "Select 2 items" [ref=f3e879]
+                        - generic [ref=f3e880]: Select 2 items
+                  - columnheader "Account Name":
+                    - generic [ref=f3e884]:
+                      - 'button "Sort by: Account Name" [ref=f3e885] [cursor=pointer]':
+                        - generic [ref=f3e886]: "Sort by:"
+                        - generic "Account Name" [ref=f3e887]
+                      - generic [ref=f3e888]: "Sorted: None"
+                      - button "Show Account Name column actions" [ref=f3e890] [cursor=pointer]
+                      - slider "Account Name column width" [ref=f3e896]: "700"
+                  - columnheader "Account Site":
+                    - generic [ref=f3e900]:
+                      - 'button "Sort by: Account Site" [ref=f3e901] [cursor=pointer]':
+                        - generic [ref=f3e902]: "Sort by:"
+                        - generic "Account Site" [ref=f3e903]
+                      - generic [ref=f3e904]: "Sorted: None"
+                      - button "Show Account Site column actions" [ref=f3e906] [cursor=pointer]
+                      - slider "Account Site column width" [ref=f3e912]: "68"
+                  - columnheader "Phone":
+                    - generic [ref=f3e916]:
+                      - 'button "Sort by: Phone" [ref=f3e917] [cursor=pointer]':
+                        - generic [ref=f3e918]: "Sort by:"
+                        - generic "Phone" [ref=f3e919]
+                      - generic [ref=f3e920]: "Sorted: None"
+                      - button "Show Phone column actions" [ref=f3e922] [cursor=pointer]
+                      - slider "Phone column width" [ref=f3e928]: "328"
+                  - columnheader "Account Owner Alias":
+                    - generic [ref=f3e932]:
+                      - 'button "Sort by: Account Owner Alias" [ref=f3e933] [cursor=pointer]':
+                        - generic [ref=f3e934]: "Sort by:"
+                        - generic "Account Owner Alias" [ref=f3e935]
+                      - generic [ref=f3e936]: "Sorted: None"
+                      - button "Show Account Owner Alias column actions" [ref=f3e938] [cursor=pointer]
+                      - slider "Account Owner Alias column width" [ref=f3e944]: "172"
+                  - columnheader "Action":
+                    - generic [ref=f3e949]:
+                      - generic "Action"
+              - rowgroup [ref=f3e950]:
+                - row [ref=f3e951]:
+                  - gridcell [ref=f3e952]
+                  - gridcell "Select Item 1 Choose a Row" [ref=f3e956]:
+                    - generic [ref=f3e957]:
+                      - checkbox "Select Item 1 Choose a Row" [ref=f3e958]
+                      - generic [ref=f3e959]: Select Item 1
+                  - rowheader [ref=f3e962]:
+                    - link "Burlington Textiles Corp of America" [ref=f3e969] [cursor=pointer]:
+                      - /url: /lightning/r/001NS00002hB91RYAS/view
+                  - gridcell [ref=f3e971]
+                  - gridcell [ref=f3e972]:
+                    - link "(336) 222-7000" [ref=f3e977] [cursor=pointer]:
+                      - /url: tel:(336) 222-7000
+                  - gridcell [ref=f3e978]:
+                    - link "OEPIC" [ref=f3e984] [cursor=pointer]:
+                      - /url: /lightning/r/005NS00000xbizNYAQ/view
+                  - gridcell [ref=f3e986]:
+                    - button "Show Actions" [ref=f3e992] [cursor=pointer]
+                - row [ref=f3e998]:
+                  - gridcell [ref=f3e999]
+                  - gridcell "Select Item 2" [ref=f3e1003]:
+                    - generic [ref=f3e1004]:
+                      - checkbox "Select Item 2" [ref=f3e1005]
+                      - generic [ref=f3e1006]: Select Item 2
+                  - rowheader [ref=f3e1009]:
+                    - link "GenePoint" [ref=f3e1016] [cursor=pointer]:
+                      - /url: /lightning/r/001NS00002hB91aYAC/view
+                  - gridcell [ref=f3e1018]
+                  - gridcell [ref=f3e1019]:
+                    - link "(650) 867-3450" [ref=f3e1024] [cursor=pointer]:
+                      - /url: tel:(650) 867-3450
+                  - gridcell [ref=f3e1025]:
+                    - link "OEPIC" [ref=f3e1031] [cursor=pointer]:
+                      - /url: /lightning/r/005NS00000xbizNYAQ/view
+                  - gridcell [ref=f3e1033]:
+                    - button "Show Actions" [ref=f3e1039] [cursor=pointer]
+  - generic:
+    - status

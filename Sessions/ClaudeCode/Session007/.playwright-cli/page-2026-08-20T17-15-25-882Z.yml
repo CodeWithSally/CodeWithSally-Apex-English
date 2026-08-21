@@ -1,0 +1,378 @@
+- generic:
+  - generic [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "Skip to Navigation" [ref=f3e4] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - link "Skip to Main Content" [ref=f3e5] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=f3e265]:
+        - generic [ref=f3e269]:
+          - button "Toggle Panel" [ref=f3e273] [cursor=pointer]:
+            - generic [ref=f3e280]: Menu
+          - generic [ref=f3e281]: Developer Edition
+        - button "Show menu" [ref=f3e301] [cursor=pointer]
+      - generic [ref=f3e6]:
+        - button "Search" [ref=f3e12]: Search...
+        - navigation "Global Header" [ref=f3e17]:
+          - list [ref=f3e19]:
+            - listitem [ref=f3e20]:
+              - group [ref=f3e21]:
+                - button "Add favorite" [ref=f3e723] [cursor=pointer]:
+                  - generic [ref=f3e24]:
+                    - tooltip "Add favorite"
+                - button [ref=f3e32] [cursor=pointer]:
+                  - generic [ref=f3e33]:
+                    - tooltip "Favorites list"
+            - listitem [ref=f3e40]:
+              - button [ref=f3e311] [cursor=pointer]:
+                - generic [ref=f3e312]:
+                  - tooltip "Global Actions"
+            - listitem [ref=f3e319]:
+              - button [ref=f3e321] [cursor=pointer]:
+                - generic [ref=f3e322]:
+                  - tooltip "Guidance Center"
+            - listitem [ref=f3e49]:
+              - button [ref=f3e52] [cursor=pointer]:
+                - generic [ref=f3e53]:
+                  - tooltip "Salesforce Help"
+            - listitem [ref=f3e60]:
+              - button [ref=f3e66] [cursor=pointer]:
+                - generic [ref=f3e67]:
+                  - tooltip "Setup"
+            - listitem [ref=f3e74]:
+              - button [ref=f3e77] [cursor=pointer]:
+                - generic [ref=f3e78]:
+                  - tooltip "Notifications"
+            - listitem [ref=f3e87]:
+              - button "View profile" [ref=f3e90] [cursor=pointer]:
+                - generic [ref=f3e91]:
+                  - tooltip "View profile"
+    - generic [ref=f3e93]:
+      - generic [ref=f3e96]:
+        - generic [ref=f3e98]:
+          - navigation "App" [ref=f3e99]:
+            - button "App Launcher" [ref=f3e101] [cursor=pointer]
+          - heading "Sales" [level=1] [ref=f3e113]
+        - navigation "Global" [ref=f3e117]:
+          - list [ref=f3e118]:
+            - listitem [ref=f3e119]:
+              - link "Home" [ref=f3e120] [cursor=pointer]:
+                - /url: /lightning/page/home
+            - listitem [ref=f3e122]:
+              - link "Opportunities" [ref=f3e123] [cursor=pointer]:
+                - /url: /lightning/o/Opportunity/home
+              - button "Opportunities List" [ref=f3e128] [cursor=pointer]
+            - listitem [ref=f3e136]:
+              - link "Leads" [ref=f3e137] [cursor=pointer]:
+                - /url: /lightning/o/Lead/home
+              - button "Leads List" [ref=f3e142] [cursor=pointer]
+            - listitem [ref=f3e150]:
+              - link "Tasks" [ref=f3e151] [cursor=pointer]:
+                - /url: /lightning/o/Task/home
+              - button "Tasks List" [ref=f3e156] [cursor=pointer]
+            - listitem [ref=f3e164]:
+              - link "Files" [ref=f3e165] [cursor=pointer]:
+                - /url: /lightning/o/ContentDocument/home
+              - button "Files List" [ref=f3e170] [cursor=pointer]
+            - listitem [ref=f3e178] [cursor=pointer]:
+              - link "Accounts" [ref=f3e179]:
+                - /url: /lightning/o/Account/home
+              - button "Accounts List" [ref=f3e184]
+            - listitem [ref=f3e192]:
+              - link "Contacts" [ref=f3e193] [cursor=pointer]:
+                - /url: /lightning/o/Contact/home
+              - button "Contacts List" [ref=f3e198] [cursor=pointer]
+            - listitem [ref=f3e206]:
+              - link "Campaigns" [ref=f3e207] [cursor=pointer]:
+                - /url: /lightning/o/Campaign/home
+              - button "Campaigns List" [ref=f3e212] [cursor=pointer]
+            - listitem [ref=f3e220]:
+              - link "Dashboards" [ref=f3e221] [cursor=pointer]:
+                - /url: /lightning/o/Dashboard/home
+              - button "Dashboards List" [ref=f3e226] [cursor=pointer]
+            - listitem [ref=f3e331]:
+              - link "Reports" [ref=f3e332] [cursor=pointer]:
+                - /url: /lightning/o/Report/home
+              - button "Reports List" [ref=f3e337] [cursor=pointer]
+            - listitem [ref=f3e345]:
+              - link "Chatter" [ref=f3e346] [cursor=pointer]:
+                - /url: /lightning/page/chatter
+            - listitem [ref=f3e234]:
+              - button "Show more navigation items" [ref=f3e236] [cursor=pointer]:
+                - generic [ref=f3e237]: More
+            - listitem [ref=f3e245]:
+              - button "Edit nav items" [ref=f3e247] [cursor=pointer]
+      - main [ref=f3e254]:
+        - generic [ref=f3e1105]:
+          - generic [ref=f3e1112]:
+            - generic [ref=f3e1113]:
+              - heading "Account Burlington Textiles Corp of America" [level=1] [ref=f3e1124]:
+                - generic [ref=f3e1125]: Account
+                - generic [ref=f3e1127]: Burlington Textiles Corp of America
+              - generic [ref=f3e1132]:
+                - generic "New Contact" [ref=f3e1133]:
+                  - button "New Contact" [ref=f3e1138] [cursor=pointer]
+                - generic "New Case" [ref=f3e1139]:
+                  - button "New Case" [ref=f3e1144] [cursor=pointer]
+                - generic "New Note" [ref=f3e1145]:
+                  - button "New Note" [ref=f3e1150] [cursor=pointer]
+                - button "Show more actions" [ref=f3e1152] [cursor=pointer]
+            - generic [ref=f3e1158]:
+              - generic [ref=f3e1160]:
+                - paragraph [ref=f3e1161]: Type
+                - paragraph [ref=f3e1162]:
+                  - generic [ref=f3e1163]: Customer - Direct
+              - generic [ref=f3e1165]:
+                - paragraph [ref=f3e1166]: Phone
+                - paragraph [ref=f3e1167]:
+                  - link "(336) 222-7000" [ref=f3e1171] [cursor=pointer]:
+                    - /url: tel:(336) 222-7000
+              - generic [ref=f3e1173]:
+                - paragraph [ref=f3e1174]: Website
+                - paragraph [ref=f3e1175]:
+                  - link "www.burlington.com" [ref=f3e1178] [cursor=pointer]:
+                    - /url: https://www.burlington.com
+              - generic [ref=f3e1180]:
+                - paragraph [ref=f3e1181]: Account Owner
+                - paragraph [ref=f3e1182]:
+                  - generic [ref=f3e1185]:
+                    - generic [ref=f3e1192]:
+                      - link "OrgFarm EPIC" [ref=f3e1193] [cursor=pointer]:
+                        - /url: /lightning/r/User/005NS00000xbizNYAQ/view
+                      - button "Preview" [ref=f3e1199] [cursor=pointer]
+                    - button "Change Owner" [ref=f3e1206] [cursor=pointer]
+              - generic [ref=f3e1213]:
+                - paragraph [ref=f3e1214]: Account Site
+                - paragraph
+              - generic [ref=f3e1216]:
+                - paragraph [ref=f3e1217]: Industry
+                - paragraph [ref=f3e1218]:
+                  - generic [ref=f3e1219]: Apparel
+          - generic [ref=f3e1223]:
+            - heading "Tabs" [level=2] [ref=f3e1224]
+            - generic "Tabs" [ref=f3e1225]:
+              - generic [ref=f3e1226]:
+                - heading "Tabs" [level=2] [ref=f3e1227]
+                - tablist "Tabs" [ref=f3e1229]:
+                  - tab "Details" [selected] [ref=f3e1230] [cursor=pointer]
+                  - tab "Related" [ref=f3e1231] [cursor=pointer]
+                - tabpanel "Details" [ref=f3e1234]:
+                  - generic [ref=f3e1247]:
+                    - list [ref=f3e1251]:
+                      - generic [ref=f3e1252]:
+                        - generic [ref=f3e1254]:
+                          - listitem [ref=f3e1256]:
+                            - generic [ref=f3e1257]:
+                              - generic [ref=f3e1258]: Account Owner
+                              - generic [ref=f3e1263]:
+                                - generic [ref=f3e1270]:
+                                  - link "OrgFarm EPIC" [ref=f3e1271] [cursor=pointer]:
+                                    - /url: /lightning/r/User/005NS00000xbizNYAQ/view
+                                  - button "Preview" [ref=f3e1277] [cursor=pointer]
+                                - button "Change Owner" [ref=f3e1284] [cursor=pointer]
+                          - listitem [ref=f3e1291]:
+                            - generic [ref=f3e1292]:
+                              - generic [ref=f3e1293]: Rating
+                              - generic [ref=f3e1294]:
+                                - generic [ref=f3e1295]: Warm
+                                - button "Edit Rating" [ref=f3e1297] [cursor=pointer]
+                        - generic [ref=f3e1301]:
+                          - listitem [ref=f3e1303]:
+                            - generic [ref=f3e1304]:
+                              - generic [ref=f3e1305]: Account Name
+                              - generic [ref=f3e1306]:
+                                - generic [ref=f3e1307]: Burlington Textiles Corp of America
+                                - button "Edit Account Name" [ref=f3e1309] [cursor=pointer]
+                          - listitem [ref=f3e1313]:
+                            - generic [ref=f3e1314]:
+                              - generic [ref=f3e1315]: Phone
+                              - generic [ref=f3e1316]:
+                                - link "(336) 222-7000" [ref=f3e1321] [cursor=pointer]:
+                                  - /url: tel:(336) 222-7000
+                                - button "Edit Phone" [ref=f3e1322] [cursor=pointer]
+                        - generic [ref=f3e1326]:
+                          - listitem [ref=f3e1328]:
+                            - generic [ref=f3e1329]:
+                              - generic [ref=f3e1330]: Parent Account
+                              - button "Edit Parent Account" [ref=f3e1333] [cursor=pointer]
+                          - listitem [ref=f3e1337]:
+                            - generic [ref=f3e1338]:
+                              - generic [ref=f3e1339]: Fax
+                              - generic [ref=f3e1340]:
+                                - link "(336) 222-8000" [ref=f3e1345] [cursor=pointer]:
+                                  - /url: tel:(336) 222-8000
+                                - button "Edit Fax" [ref=f3e1346] [cursor=pointer]
+                        - generic [ref=f3e1350]:
+                          - listitem [ref=f3e1352]:
+                            - generic [ref=f3e1353]:
+                              - generic [ref=f3e1354]: Account Number
+                              - generic [ref=f3e1355]:
+                                - generic [ref=f3e1356]: CD656092
+                                - button "Edit Account Number" [ref=f3e1358] [cursor=pointer]
+                          - listitem [ref=f3e1362]:
+                            - generic [ref=f3e1363]:
+                              - generic [ref=f3e1364]: Website
+                              - generic [ref=f3e1365]:
+                                - link "www.burlington.com" [ref=f3e1369] [cursor=pointer]:
+                                  - /url: https://www.burlington.com
+                                - button "Edit Website" [ref=f3e1370] [cursor=pointer]
+                        - generic [ref=f3e1374]:
+                          - listitem [ref=f3e1376]:
+                            - generic [ref=f3e1377]:
+                              - generic [ref=f3e1378]: Account Site
+                              - button "Edit Account Site" [ref=f3e1380] [cursor=pointer]
+                          - listitem [ref=f3e1384]:
+                            - generic [ref=f3e1385]:
+                              - generic [ref=f3e1386]: Ticker Symbol
+                              - generic [ref=f3e1387]:
+                                - generic [ref=f3e1388]: BTXT
+                                - button "Edit Ticker Symbol" [ref=f3e1390] [cursor=pointer]
+                        - generic [ref=f3e1394]:
+                          - listitem [ref=f3e1396]:
+                            - generic [ref=f3e1397]:
+                              - generic [ref=f3e1398]: Type
+                              - generic [ref=f3e1399]:
+                                - generic [ref=f3e1400]: Customer - Direct
+                                - button "Edit Type" [ref=f3e1402] [cursor=pointer]
+                          - listitem [ref=f3e1406]:
+                            - generic [ref=f3e1407]:
+                              - generic [ref=f3e1408]: Ownership
+                              - generic [ref=f3e1409]:
+                                - generic [ref=f3e1410]: Public
+                                - button "Edit Ownership" [ref=f3e1412] [cursor=pointer]
+                        - generic [ref=f3e1416]:
+                          - listitem [ref=f3e1418]:
+                            - generic [ref=f3e1419]:
+                              - generic [ref=f3e1420]: Industry
+                              - generic [ref=f3e1421]:
+                                - generic [ref=f3e1422]: Apparel
+                                - button "Edit Industry" [ref=f3e1424] [cursor=pointer]
+                          - listitem [ref=f3e1428]:
+                            - generic [ref=f3e1429]:
+                              - generic [ref=f3e1430]: Employees
+                              - generic [ref=f3e1431]:
+                                - generic [ref=f3e1432]: 9,000
+                                - button "Edit Employees" [ref=f3e1434] [cursor=pointer]
+                        - generic [ref=f3e1438]:
+                          - listitem [ref=f3e1440]:
+                            - generic [ref=f3e1441]:
+                              - generic [ref=f3e1442]: Annual Revenue
+                              - generic [ref=f3e1443]:
+                                - generic [ref=f3e1444]: $350,000,000
+                                - button "Edit Annual Revenue" [ref=f3e1446] [cursor=pointer]
+                          - listitem [ref=f3e1450]:
+                            - generic [ref=f3e1451]:
+                              - generic [ref=f3e1452]: SIC Code
+                              - generic [ref=f3e1453]:
+                                - generic [ref=f3e1454]: "546732"
+                                - button "Edit SIC Code" [ref=f3e1456] [cursor=pointer]
+                    - list [ref=f3e1462]:
+                      - generic [ref=f3e1465]:
+                        - listitem [ref=f3e1467]:
+                          - generic [ref=f3e1468]:
+                            - generic [ref=f3e1469]: Billing Address
+                            - generic [ref=f3e1470]:
+                              - link "525 S. Lexington Ave Burlington, North Carolina 27215 United States" [ref=f3e1474] [cursor=pointer]:
+                                - /url: https://www.google.com/maps?q=525%20S.%20Lexington%20Ave%0ABurlington%2C%20North%20Carolina%2027215%0AUnited%20States
+                                - generic [ref=f3e1475]: 525 S. Lexington Ave
+                                - generic [ref=f3e1476]: Burlington, North Carolina 27215
+                                - generic [ref=f3e1477]: United States
+                              - button "Edit Billing Address" [ref=f3e1478] [cursor=pointer]
+                        - listitem [ref=f3e1482]:
+                          - generic [ref=f3e1483]:
+                            - generic [ref=f3e1484]: Shipping Address
+                            - button "Edit Shipping Address" [ref=f3e1486] [cursor=pointer]
+                    - list [ref=f3e1492]:
+                      - generic [ref=f3e1493]:
+                        - generic [ref=f3e1495]:
+                          - listitem [ref=f3e1497]:
+                            - generic [ref=f3e1498]:
+                              - generic [ref=f3e1499]: Customer Priority
+                              - button "Edit Customer Priority" [ref=f3e1501] [cursor=pointer]
+                          - listitem [ref=f3e1505]:
+                            - generic [ref=f3e1506]:
+                              - generic [ref=f3e1507]: SLA
+                              - generic [ref=f3e1508]:
+                                - generic [ref=f3e1509]: Silver
+                                - button "Edit SLA" [ref=f3e1511] [cursor=pointer]
+                        - generic [ref=f3e1515]:
+                          - listitem [ref=f3e1517]:
+                            - generic [ref=f3e1518]:
+                              - generic [ref=f3e1519]: SLA Expiration Date
+                              - generic [ref=f3e1520]:
+                                - generic [ref=f3e1521]: 5/23/2026
+                                - button "Edit SLA Expiration Date" [ref=f3e1523] [cursor=pointer]
+                          - listitem [ref=f3e1527]:
+                            - generic [ref=f3e1528]:
+                              - generic [ref=f3e1529]: SLA Serial Number
+                              - generic [ref=f3e1530]:
+                                - generic [ref=f3e1531]: "5367"
+                                - button "Edit SLA Serial Number" [ref=f3e1533] [cursor=pointer]
+                        - generic [ref=f3e1537]:
+                          - listitem [ref=f3e1539]:
+                            - generic [ref=f3e1540]:
+                              - generic [ref=f3e1541]: Number of Locations
+                              - generic [ref=f3e1542]:
+                                - generic [ref=f3e1543]: "6"
+                                - button "Edit Number of Locations" [ref=f3e1545] [cursor=pointer]
+                          - listitem [ref=f3e1549]:
+                            - generic [ref=f3e1550]:
+                              - generic [ref=f3e1551]: Upsell Opportunity
+                              - generic [ref=f3e1552]:
+                                - generic [ref=f3e1553]: Maybe
+                                - button "Edit Upsell Opportunity" [ref=f3e1555] [cursor=pointer]
+                        - listitem [ref=f3e1561]:
+                          - generic [ref=f3e1562]:
+                            - generic [ref=f3e1563]: Active
+                            - button "Edit Active" [ref=f3e1565] [cursor=pointer]
+                    - list [ref=f3e1572]:
+                      - generic [ref=f3e1575]:
+                        - listitem [ref=f3e1577]:
+                          - generic [ref=f3e1578]:
+                            - generic [ref=f3e1579]: Created By
+                            - generic [ref=f3e1583]:
+                              - generic [ref=f3e1589]:
+                                - link "OrgFarm EPIC" [ref=f3e1590] [cursor=pointer]:
+                                  - /url: /lightning/r/User/005NS00000xbizNYAQ/view
+                                - button "Preview" [ref=f3e1596] [cursor=pointer]
+                              - text: ", 4/29/2026, 10:48 PM"
+                        - listitem [ref=f3e1603]:
+                          - generic [ref=f3e1604]:
+                            - generic [ref=f3e1605]: Last Modified By
+                            - generic [ref=f3e1609]:
+                              - generic [ref=f3e1615]:
+                                - link "OrgFarm EPIC" [ref=f3e1616] [cursor=pointer]:
+                                  - /url: /lightning/r/User/005NS00000xbizNYAQ/view
+                                - button "Preview" [ref=f3e1622] [cursor=pointer]
+                              - text: ", 4/29/2026, 10:48 PM"
+                    - list [ref=f3e1631]:
+                      - listitem [ref=f3e1636]:
+                        - generic [ref=f3e1637]:
+                          - generic [ref=f3e1638]: Description
+                          - button "Edit Description" [ref=f3e1640] [cursor=pointer]
+                    - list [ref=f3e1646]:
+                      - listitem [ref=f3e1651]:
+                        - generic "Billing" [ref=f3e1656]:
+                          - link "Billing" [ref=f3e1657] [cursor=pointer]:
+                            - /url: /servlet/servlet.Integration?lid=00bNS000006muu7&eid=001NS00002hB91RYAS&ic=1
+          - generic [ref=f3e1663]:
+            - heading "Tabs" [level=2] [ref=f3e1664]
+            - generic "Tabs" [ref=f3e1665]:
+              - generic [ref=f3e1666]:
+                - heading "Tabs" [level=2] [ref=f3e1667]
+                - tablist "Tabs" [ref=f3e1669]:
+                  - tab "Detailed Notes" [selected] [ref=f3e1670] [cursor=pointer]
+                  - tab "Activity" [ref=f3e1671] [cursor=pointer]
+                  - tab "Chatter" [ref=f3e1672] [cursor=pointer]
+                - tabpanel "Detailed Notes" [ref=f3e1675]:
+                  - article [ref=f3e1681]:
+                    - generic [ref=f3e1683]:
+                      - heading "Detailed Notes" [level=2] [ref=f3e1685]
+                      - button "New Note" [ref=f3e1691] [cursor=pointer]
+                    - generic [ref=f3e1694]:
+                      - generic [ref=f3e1696] [cursor=pointer]:
+                        - generic [ref=f3e1697]: Updated Note Title
+                        - generic [ref=f3e1698]: Bill Kuehler · 5/19/2026
+                      - paragraph [ref=f3e1700]: Select a note to view it.
+  - generic:
+    - status

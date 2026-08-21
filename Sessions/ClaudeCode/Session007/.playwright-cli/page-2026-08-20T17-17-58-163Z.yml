@@ -1,0 +1,245 @@
+- generic:
+  - generic [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "Skip to Navigation" [ref=f3e2894] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - link "Skip to Main Content" [ref=f3e2895] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=f3e265]:
+        - generic [ref=f3e269]:
+          - button "Toggle Panel" [ref=f3e2896] [cursor=pointer]:
+            - generic [ref=f3e280]: Menu
+          - generic [ref=f3e281]: Developer Edition
+        - button "Show menu" [ref=f3e2897] [cursor=pointer]
+      - generic [ref=f3e6]:
+        - button "Search" [ref=f3e2898]: Search...
+        - navigation "Global Header" [ref=f3e2899]:
+          - list [ref=f3e19]:
+            - listitem [ref=f3e20]:
+              - group [ref=f3e21]:
+                - button "Add favorite" [ref=f3e2900] [cursor=pointer]:
+                  - generic [ref=f3e24]:
+                    - tooltip "Add favorite"
+                - button [ref=f3e2901] [cursor=pointer]:
+                  - generic [ref=f3e33]:
+                    - tooltip "Favorites list"
+            - listitem [ref=f3e40]:
+              - button [ref=f3e2902] [cursor=pointer]:
+                - generic [ref=f3e312]:
+                  - tooltip "Global Actions"
+            - listitem [ref=f3e319]:
+              - button [ref=f3e2903] [cursor=pointer]:
+                - generic [ref=f3e322]:
+                  - tooltip "Guidance Center"
+            - listitem [ref=f3e49]:
+              - button [ref=f3e2904] [cursor=pointer]:
+                - generic [ref=f3e53]:
+                  - tooltip "Salesforce Help"
+            - listitem [ref=f3e60]:
+              - button [ref=f3e2905] [cursor=pointer]:
+                - generic [ref=f3e67]:
+                  - tooltip "Setup"
+            - listitem [ref=f3e74]:
+              - button [ref=f3e2906] [cursor=pointer]:
+                - generic [ref=f3e78]:
+                  - tooltip "Notifications"
+            - listitem [ref=f3e87]:
+              - button "View profile" [ref=f3e2907] [cursor=pointer]:
+                - generic [ref=f3e91]:
+                  - tooltip "View profile"
+    - generic [ref=f3e93]:
+      - generic [ref=f3e96]:
+        - generic [ref=f3e98]:
+          - navigation "App" [ref=f3e2908]:
+            - button "App Launcher" [ref=f3e2909] [cursor=pointer]
+          - heading "Sales" [level=1] [ref=f3e2910]
+        - navigation "Global" [ref=f3e2912]:
+          - list [ref=f3e118]:
+            - listitem [ref=f3e119]:
+              - link "Home" [ref=f3e2913] [cursor=pointer]:
+                - /url: /lightning/page/home
+            - listitem [ref=f3e122]:
+              - link "Opportunities" [ref=f3e2914] [cursor=pointer]:
+                - /url: /lightning/o/Opportunity/home
+              - button "Opportunities List" [ref=f3e2915] [cursor=pointer]
+            - listitem [ref=f3e136]:
+              - link "Leads" [ref=f3e2916] [cursor=pointer]:
+                - /url: /lightning/o/Lead/home
+              - button "Leads List" [ref=f3e2917] [cursor=pointer]
+            - listitem [ref=f3e150]:
+              - link "Tasks" [ref=f3e2918] [cursor=pointer]:
+                - /url: /lightning/o/Task/home
+              - button "Tasks List" [ref=f3e2919] [cursor=pointer]
+            - listitem [ref=f3e164]:
+              - link "Files" [ref=f3e2920] [cursor=pointer]:
+                - /url: /lightning/o/ContentDocument/home
+              - button "Files List" [ref=f3e2921] [cursor=pointer]
+            - listitem [ref=f3e178]:
+              - link "Accounts" [ref=f3e2922] [cursor=pointer]:
+                - /url: /lightning/o/Account/home
+              - button "Accounts List" [ref=f3e2923] [cursor=pointer]
+            - listitem [ref=f3e192] [cursor=pointer]:
+              - link "Contacts" [ref=f3e2924]:
+                - /url: /lightning/o/Contact/home
+              - button "Contacts List" [ref=f3e2925]
+            - listitem [ref=f3e206]:
+              - link "Campaigns" [ref=f3e2926] [cursor=pointer]:
+                - /url: /lightning/o/Campaign/home
+              - button "Campaigns List" [ref=f3e2927] [cursor=pointer]
+            - listitem [ref=f3e220]:
+              - link "Dashboards" [ref=f3e2928] [cursor=pointer]:
+                - /url: /lightning/o/Dashboard/home
+              - button "Dashboards List" [ref=f3e2929] [cursor=pointer]
+            - listitem [ref=f3e331]:
+              - link "Reports" [ref=f3e2930] [cursor=pointer]:
+                - /url: /lightning/o/Report/home
+              - button "Reports List" [ref=f3e2931] [cursor=pointer]
+            - listitem [ref=f3e345]:
+              - link "Chatter" [ref=f3e2932] [cursor=pointer]:
+                - /url: /lightning/page/chatter
+            - listitem [ref=f3e234]:
+              - button "Show more navigation items" [ref=f3e2933] [cursor=pointer]:
+                - generic [ref=f3e237]: More
+            - listitem [ref=f3e245]:
+              - button "Edit nav items" [ref=f3e2934] [cursor=pointer]
+      - main [ref=f3e254]:
+        - generic [ref=f3e3135]:
+          - generic [ref=f3e3144]:
+            - generic [ref=f3e3145]:
+              - generic [ref=f3e3146]:
+                - heading "Contact Jordan Ellis" [level=1] [ref=f3e3153]:
+                  - generic [ref=f3e3154]: Contact
+                  - generic [ref=f3e3156]: Jordan Ellis
+                - button "View Contact Hierarchy" [ref=f3e3165] [cursor=pointer]
+              - button "Follow" [ref=f3e3175] [cursor=pointer]
+              - generic [ref=f3e3185]:
+                - generic "New Case" [ref=f3e3186]:
+                  - button "New Case" [ref=f3e3191] [cursor=pointer]
+                - generic "New Note" [ref=f3e3192]:
+                  - button "New Note" [ref=f3e3197] [cursor=pointer]
+                - generic "Submit for Approval" [ref=f3e3198]:
+                  - button "Submit for Approval" [ref=f3e3203] [cursor=pointer]
+                - button "Show more actions" [ref=f3e3205] [cursor=pointer]
+            - generic [ref=f3e3211]:
+              - generic [ref=f3e3213]:
+                - paragraph [ref=f3e3214]: Title
+                - paragraph [ref=f3e3215]:
+                  - generic [ref=f3e3216]: VP of Operations
+              - generic [ref=f3e3218]:
+                - paragraph [ref=f3e3219]: Account Name
+                - paragraph [ref=f3e3220]:
+                  - generic [ref=f3e3225]:
+                    - link "Burlington Textiles Corp of America" [ref=f3e3226] [cursor=pointer]:
+                      - /url: /lightning/r/Account/001NS00002hB91RYAS/view
+                    - button "Preview" [ref=f3e3232] [cursor=pointer]
+              - generic [ref=f3e3239]:
+                - button [ref=f3e3240] [cursor=pointer]:
+                  - paragraph [ref=f3e3241]: Phone (2)
+                - list [ref=f3e3249]:
+                  - paragraph [ref=f3e3253]:
+                    - link "(336) 222-7000" [ref=f3e3257] [cursor=pointer]:
+                      - /url: tel:(336) 222-7000
+              - generic [ref=f3e3259]:
+                - paragraph [ref=f3e3260]: Email
+                - paragraph [ref=f3e3261]:
+                  - link "jordan.ellis@burlingtontextiles.com" [ref=f3e3266] [cursor=pointer]:
+                    - /url: mailto:jordan.ellis@burlingtontextiles.com
+              - generic [ref=f3e3268]:
+                - paragraph [ref=f3e3269]: Contact Owner
+                - paragraph [ref=f3e3270]:
+                  - generic [ref=f3e3273]:
+                    - generic [ref=f3e3280]:
+                      - link "Bill Kuehler" [ref=f3e3281] [cursor=pointer]:
+                        - /url: /lightning/r/User/005NS00000y3a6jYAA/view
+                      - button "Preview" [ref=f3e3287] [cursor=pointer]
+                    - button "Change Owner" [ref=f3e3294] [cursor=pointer]
+          - generic [ref=f3e3301]:
+            - generic [ref=f3e3307]:
+              - heading "Tabs" [level=2] [ref=f3e3308]
+              - generic "Tabs" [ref=f3e3309]:
+                - generic [ref=f3e3310]:
+                  - heading "Tabs" [level=2] [ref=f3e3311]
+                  - tablist "Tabs" [ref=f3e3313]:
+                    - tab "Related" [selected] [ref=f3e3314] [cursor=pointer]
+                    - tab "Details" [ref=f3e3315] [cursor=pointer]
+                  - tabpanel "Related" [ref=f3e3318]:
+                    - generic [ref=f3e3319]:
+                      - article [ref=f3e3324]:
+                        - generic "We found no potential duplicates of this Contact." [ref=f3e3335]
+                      - generic [ref=f3e3339]:
+                        - article "Opportunities" [ref=f3e3345]:
+                          - generic [ref=f3e3350]:
+                            - heading [level=2] [ref=f3e3358]:
+                              - link "Opportunities (0)" [ref=f3e3359] [cursor=pointer]:
+                                - /url: /lightning/r/Contact/003NS00002ZFxqbYAD/related/Opportunities/view
+                                - generic "Opportunities" [ref=f3e3360]
+                                - generic "(0)" [ref=f3e3361]
+                            - generic "New" [ref=f3e3365]:
+                              - button "New" [ref=f3e3370] [cursor=pointer]
+                        - article "Cases" [ref=f3e3376]:
+                          - heading [level=2] [ref=f3e3389]:
+                            - link "Cases (0)" [ref=f3e3390] [cursor=pointer]:
+                              - /url: /lightning/r/Contact/003NS00002ZFxqbYAD/related/Cases/view
+                              - generic "Cases" [ref=f3e3391]
+                              - generic "(0)" [ref=f3e3392]
+                        - article [ref=f3e3399]:
+                          - heading "Campaign History" [level=2] [ref=f3e3403]
+                        - article [ref=f3e3410]:
+                          - heading "Notes & Attachments" [level=2] [ref=f3e3414]
+            - generic [ref=f3e3421]:
+              - heading "Tabs" [level=2] [ref=f3e3422]
+              - generic "Tabs" [ref=f3e3423]:
+                - generic [ref=f3e3424]:
+                  - heading "Tabs" [level=2] [ref=f3e3425]
+                  - tablist "Tabs" [ref=f3e3427]:
+                    - tab "Activity" [selected] [ref=f3e3428] [cursor=pointer]
+                    - tab "Chatter" [ref=f3e3429] [cursor=pointer]
+                  - tabpanel "Activity" [ref=f3e3432]:
+                    - generic [ref=f3e3438]:
+                      - heading "Activity Publisher" [level=2] [ref=f3e3439]
+                      - generic [ref=f3e3440]:
+                        - group [ref=f3e3441]:
+                          - generic [ref=f3e3443]:
+                            - button "New Task" [ref=f3e3444] [cursor=pointer]
+                            - generic [ref=f3e3452]:
+                              - button "No Additional New Task Actions" [disabled]
+                        - group [ref=f3e3453]:
+                          - generic [ref=f3e3455]:
+                            - button "Log a Call" [ref=f3e3456] [cursor=pointer]
+                            - button "More Log a Call Actions" [ref=f3e3465] [cursor=pointer]
+                        - group [ref=f3e3471]:
+                          - generic [ref=f3e3473]:
+                            - button "New Event" [ref=f3e3474] [cursor=pointer]
+                            - button "More New Event Actions" [ref=f3e3483] [cursor=pointer]
+                        - group [ref=f3e3489]:
+                          - generic [ref=f3e3491]:
+                            - button "Email" [ref=f3e3492] [cursor=pointer]
+                            - button "More Email Actions" [ref=f3e3501] [cursor=pointer]
+                      - heading "Activity Timeline" [level=2] [ref=f3e3507]
+                      - generic [ref=f3e3509]:
+                        - link "Skip to the bottom of the activity timeline" [ref=f3e3510] [cursor=pointer]:
+                          - /url: javascript:void(0);
+                        - generic [ref=f3e3512]:
+                          - generic [ref=f3e3513]: "Filters: All time • All activities • All types"
+                          - button "Timeline Settings" [ref=f3e3515] [cursor=pointer]
+                        - generic [ref=f3e3523]:
+                          - button "Refresh" [ref=f3e3524] [cursor=pointer]
+                          - text: •
+                          - button "Expand All. Show details for activities in the timeline." [ref=f3e3525] [cursor=pointer]: Expand All
+                          - text: •
+                          - button "View All" [ref=f3e3526] [cursor=pointer]
+                        - generic [ref=f3e3528]:
+                          - heading [level=3] [ref=f3e3529]:
+                            - button "Upcoming & Overdue" [expanded] [ref=f3e3530] [cursor=pointer]
+                          - generic [ref=f3e3535]:
+                            - generic:
+                              - list
+                            - generic [ref=f3e3536]: No activities to show. Get started by sending an email, scheduling a task, and more.
+                        - status [ref=f3e3539]:
+                          - generic [ref=f3e3540]: information
+                          - paragraph [ref=f3e3550]: To change what's shown, try changing your filters.
+                        - button "Show All Activities" [ref=f3e3552] [cursor=pointer]
+                        - link "Skip to the top of the activity timeline" [ref=f3e3553] [cursor=pointer]:
+                          - /url: javascript:void(0);
+  - generic:
+    - status

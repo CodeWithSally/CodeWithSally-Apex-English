@@ -1,0 +1,103 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Hyperframes" [ref=e6]
+      - generic [ref=e26]: "|"
+      - generic [ref=e27]: create-account-contact
+    - tablist "Studio view" [ref=e28]:
+      - tab "Storyboard" [ref=e29] [cursor=pointer]
+      - tab "Preview" [selected] [ref=e30] [cursor=pointer]
+    - generic [ref=e31]:
+      - button "Undo" [disabled] [ref=e33]
+      - button "Redo" [disabled] [ref=e37]
+      - link "Capture current frame" [ref=e41] [cursor=pointer]:
+        - /url: http://localhost:3004/api/projects/create-account-contact/thumbnail/index.html?t=0.000&format=png&output=source&v=1787247320233
+        - generic [ref=e44]: Capture
+      - button "Inspector" [pressed] [ref=e46] [cursor=pointer]
+      - button "Export" [ref=e51] [cursor=pointer]
+  - generic [ref=e53]:
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - button "Code" [ref=e60] [cursor=pointer]
+            - button "Comps" [ref=e62] [cursor=pointer]
+            - button "Assets" [ref=e64] [cursor=pointer]
+            - button "Catalog" [ref=e66] [cursor=pointer]
+          - button "Hide sidebar" [ref=e67] [cursor=pointer]
+        - paragraph [ref=e71]: No compositions found
+        - button "Lint" [ref=e73] [cursor=pointer]
+      - separator "Resize sidebar" [ref=e77]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - generic "Composition preview" [ref=e85]
+          - generic "Composition canvas" [ref=e86]
+          - generic [ref=e87]:
+            - button "Toggle snap" [ref=e88] [cursor=pointer]
+            - button "Toggle grid" [ref=e92] [cursor=pointer]
+        - generic [ref=e96]:
+          - generic [ref=e97]:
+            - button "00:00/00:00" [disabled]
+          - generic [ref=e98]:
+            - button "Play" [disabled]
+          - generic [ref=e99]:
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - slider "Preview volume" [disabled]: "100"
+              - generic [ref=e104]:
+                - button "Mute audio" [disabled]
+            - button "1x" [disabled] [ref=e107]
+            - button "Enable loop playback" [disabled] [ref=e109]
+            - button "Enter fullscreen" [disabled] [ref=e116] [cursor=pointer]
+            - button "Shortcuts and tools" [disabled] [ref=e124] [cursor=pointer]
+      - separator "Resize inspector panel" [ref=e128]
+      - generic [ref=e131]:
+        - generic [ref=e132]:
+          - button "Design" [pressed] [ref=e134] [cursor=pointer]
+          - button "Layers" [ref=e136] [cursor=pointer]
+          - button "Renders" [ref=e138] [cursor=pointer]
+          - button "Variables" [ref=e140] [cursor=pointer]
+        - generic [ref=e142]:
+          - generic [ref=e146]: Nothing selected
+          - generic [ref=e147]: Click any element on the canvas to edit it, or drag to select several.
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - generic [ref=e151]: ●
+                - text: Record a gesture
+              - generic [ref=e152]: R
+            - generic [ref=e153]:
+              - generic [ref=e154]:
+                - generic [ref=e155]: ✦
+                - text: Describe a change to the agent
+              - generic [ref=e156]: ⌘K
+    - separator "Resize timeline (arrow keys)" [ref=e157]
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - generic [ref=e164]:
+          - generic [ref=e165]:
+            - button "Selection tool" [disabled] [pressed] [ref=e167] [cursor=pointer]
+            - button "Razor tool" [disabled] [ref=e171] [cursor=pointer]
+            - button "Toggle timeline snapping" [disabled] [pressed] [ref=e176] [cursor=pointer]
+            - button "Add keyframe at playhead" [disabled] [ref=e180]
+            - button "Auto-record manual edits as keyframes" [disabled] [pressed] [ref=e184] [cursor=pointer]
+            - button "Split at playhead" [disabled] [ref=e189]
+            - button "Add beat at playhead" [disabled] [ref=e194]
+          - generic [ref=e197]:
+            - button "Hide thumbnails — labels only" [disabled] [pressed] [ref=e199] [cursor=pointer]
+            - button "Fit" [disabled] [ref=e203] [cursor=pointer]
+            - button "Zoom out" [disabled] [ref=e205] [cursor=pointer]
+            - slider "Timeline zoom" [disabled] [ref=e208] [cursor=pointer]: "46"
+            - button "Zoom in" [disabled] [ref=e210] [cursor=pointer]
+            - generic "Timeline zoom level" [ref=e213]: Fit
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - generic [ref=e216]: 00:00
+            - generic [ref=e219]: 00:10
+            - generic [ref=e222]: 00:20
+            - generic [ref=e225]: 00:30
+            - generic [ref=e228]: 00:40
+            - generic [ref=e231]: 00:50
+          - generic [ref=e234]: Drop media here or describe your video to start
+      - status [ref=e239]:
+        - generic [ref=e240]: Loading composition…

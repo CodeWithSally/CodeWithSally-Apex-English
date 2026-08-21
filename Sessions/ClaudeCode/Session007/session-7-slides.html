@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude with Sally — Part 7: Quickly Build Salesforce Support Videos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Permanent+Marker&display=swap');
+
+:root {
+  --cws-bg-deepest:#141424;--cws-bg-base:#1A1A2E;--cws-bg-raised:#1E1E32;--cws-bg-elevated:#24243E;--cws-bg-row-alt:#2A2A4A;
+  --cws-green:#50FA7B;--cws-green-dim:#2A3A2A;--cws-green-glow:rgba(80,250,123,0.35);
+  --cws-cyan:#8BE9FD;--cws-cyan-dim:#24353E;--cws-cyan-glow:rgba(139,233,253,0.35);
+  --cws-chalk-orange:#FFB547;--cws-chalk-pink:#FF79C6;--cws-chalk-purple:#BD93F9;
+  --cws-fg:#FFFFFF;--cws-fg-strong:#FFFFFF;--cws-fg-muted:#E0E0E0;--cws-fg-dim:#888899;--cws-fg-faint:#555566;
+  --cws-border:#2A2A4A;--cws-border-soft:#1E1E32;
+  --cws-font-sans:'Inter','Calibri',system-ui,sans-serif;
+  --cws-font-mono:'JetBrains Mono','Courier New',Consolas,monospace;
+  --cws-font-display:'Permanent Marker','Inter',system-ui,sans-serif;
+  --cws-glow-green:0 0 24px var(--cws-green-glow);
+  --cws-glow-cyan:0 0 24px var(--cws-cyan-glow);
+  --cws-shadow-md:0 4px 12px rgba(0,0,0,0.45);
+  --cws-ease:cubic-bezier(0.22,1,0.36,1);
+}
+
+html,body{margin:0;padding:0;background:#0A0A16;font-family:var(--cws-font-sans);overflow:hidden;color:var(--cws-fg);}
+
+/* Stage + slide shell */
+.stage{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+.slide{width:1920px;height:1080px;background:var(--cws-bg-base);position:relative;flex-shrink:0;overflow:hidden;transform-origin:center center;display:none;}
+.slide.active{display:block;}
+.slide::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:0.04;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px);}
+
+/* Layout */
+.safe{position:absolute;inset:96px;}
+.safe-center{position:absolute;inset:96px;display:flex;flex-direction:column;justify-content:center;}
+
+/* Footer */
+.foot{position:absolute;left:96px;right:96px;bottom:48px;display:flex;justify-content:space-between;align-items:center;font-family:var(--cws-font-mono);font-size:16px;color:var(--cws-fg-dim);}
+.foot .brand{color:var(--cws-cyan);}
+
+/* Typography */
+.h-title{font-size:72px;font-weight:700;color:var(--cws-fg-strong);letter-spacing:-0.01em;line-height:1.05;margin:0;}
+.h-subtitle{font-family:var(--cws-font-mono);font-size:36px;color:var(--cws-green);font-weight:400;line-height:1.2;margin:0;}
+.session-tag{font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-green);letter-spacing:0.08em;text-transform:uppercase;}
+.section-numeral{font-family:var(--cws-font-mono);font-size:200px;color:var(--cws-cyan);line-height:1;letter-spacing:0.08em;margin:0;}
+
+/* Prompt list */
+.prompt-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:20px;}
+.prompt-list li{position:relative;padding-left:48px;font-size:28px;color:var(--cws-fg-muted);line-height:1.4;}
+.prompt-list li::before{content:'>';position:absolute;left:0;top:0;color:var(--cws-green);font-family:var(--cws-font-mono);font-weight:600;}
+
+/* Pull quote */
+.pull-quote{font-family:var(--cws-font-sans);font-size:30px;line-height:1.35;color:var(--cws-cyan);font-style:italic;margin:0;border-left:3px solid var(--cws-cyan);padding-left:28px;}
+
+/* Callout boxes */
+.callout-box{padding:28px 36px;background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:8px;}
+.callout-box.green{border-left:3px solid var(--cws-green);}
+.callout-box.cyan{border-left:3px solid var(--cws-cyan);}
+.callout-box.orange{border-left:3px solid var(--cws-chalk-orange);}
+.callout-label{font-family:var(--cws-font-mono);font-size:16px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+
+/* Code */
+code,.inline-code{font-family:var(--cws-font-mono);font-size:0.92em;color:var(--cws-green);background:var(--cws-green-dim);padding:2px 8px;border-radius:4px;}
+pre.code-block{font-family:var(--cws-font-mono);font-size:22px;line-height:1.7;background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-left:3px solid var(--cws-green);border-radius:8px;padding:32px 40px;color:var(--cws-green);margin:0;white-space:pre;}
+pre.code-block .c{color:var(--cws-fg-dim);}
+pre.code-block .k{color:var(--cws-cyan);}
+pre.code-block .s{color:var(--cws-chalk-orange);}
+
+/* Tables */
+table.sl{width:100%;border-collapse:collapse;font-size:22px;}
+table.sl th{text-align:left;padding:16px 20px;font-family:var(--cws-font-mono);font-weight:400;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);border-bottom:1px solid var(--cws-border);}
+table.sl td{padding:18px 20px;border-bottom:1px solid var(--cws-border);color:var(--cws-fg-muted);vertical-align:top;}
+table.sl td:first-child{color:var(--cws-fg-strong);font-weight:500;}
+
+/* Cursor */
+.cursor::after{content:'▊';color:var(--cws-green);animation:blk 1s steps(2) infinite;margin-left:6px;}
+@keyframes blk{to{opacity:0;}}
+
+/* Navigation bar */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;z-index:100;}
+.nav button{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-dim);background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:6px;padding:8px 20px;cursor:pointer;transition:all 120ms;}
+.nav button:hover{color:var(--cws-cyan);border-color:var(--cws-cyan);}
+.nav .counter{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-faint);}
+</style>
+</head>
+<body>
+<div class="stage">
+
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active">
+    <div class="safe-center" style="align-items:flex-start;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Claude with Sally</div>
+      <div style="font-size:96px;font-weight:800;color:var(--cws-fg-strong);line-height:1;margin-bottom:24px;" class="cursor">Part 7</div>
+      <div style="font-family:var(--cws-font-mono);font-size:40px;color:var(--cws-green);font-weight:500;line-height:1.25;margin-bottom:48px;">Quickly Build Salesforce Support Videos with Claude,<br>Playwright, and HyperFrames</div>
+      <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);">Bill Kuehler &nbsp;|&nbsp; Resource Hero &nbsp;|&nbsp; 2026</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: What we're doing today -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:20px;">Part 7</div>
+      <h1 class="h-title" style="margin-bottom:16px;">Empty Terminal to Finished Video</h1>
+      <div style="font-size:23px;color:var(--cws-fg-dim);margin-bottom:40px;line-height:1.4;">Two tools, four builds. Almost all of it live in the terminal.</div>
+      <ul class="prompt-list" style="margin-bottom:36px;">
+        <li><strong style="color:var(--cws-green);">Set up the toolchain</strong> — install Playwright CLI and HyperFrames, and their skills, from nothing</li>
+        <li><strong style="color:var(--cws-green);">Learn the tool on something trivial</strong> — a circle that moves, then captions, then a voiceover</li>
+        <li><strong style="color:var(--cws-green);">Capture a real Salesforce screen</strong> — and highlight what the narration is talking about</li>
+        <li><strong style="color:var(--cws-green);">Do the whole walkthrough</strong> — multi-step capture, multiple scenes, one narrated video</li>
+      </ul>
+      <div class="callout-box cyan">
+        <div class="callout-label" style="color:var(--cws-cyan);">Why it matters</div>
+        <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.5;">Documentation rots because the <strong style="color:var(--cws-fg-strong);">second pass costs as much as the first</strong>. When the capture and the composition are files on disk, the re-shoot next release is nearly free.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Playwright CLI key features -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Tool 1</div>
+      <h1 class="h-title" style="margin-bottom:16px;">Playwright CLI</h1>
+      <div style="font-size:24px;color:var(--cws-fg-muted);margin-bottom:36px;line-height:1.45;">A command-line interface for browser automation designed for coding agents. Token-efficient commands and installable skills let agents balance browser automation with large codebases and reasoning within limited context windows.</div>
+      <div class="session-tag" style="margin-bottom:22px;">Key Features</div>
+      <ul class="prompt-list" style="gap:18px;">
+        <li><strong style="color:var(--cws-green);">Token-efficient</strong> &#8212; concise CLI output avoids loading large tool schemas into the model context</li>
+        <li><strong style="color:var(--cws-green);">Skill-based</strong> &#8212; agents discover capabilities through installable skills rather than verbose help text</li>
+        <li><strong style="color:var(--cws-green);">Daemon architecture</strong> &#8212; persistent browser process means no startup cost per command</li>
+        <li><strong style="color:var(--cws-green);">Ref-based</strong> &#8212; accessibility snapshots with element refs for deterministic interaction</li>
+        <li><strong style="color:var(--cws-green);">Cross-browser</strong> &#8212; Chrome, Firefox, WebKit, and Edge support</li>
+        <li><strong style="color:var(--cws-green);">Sessions</strong> &#8212; multiple isolated browser instances with separate state</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>playwright.dev/agent-cli/introduction</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: What is HyperFrames -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Tool 2</div>
+      <h1 class="h-title" style="margin-bottom:16px;">What is HyperFrames?</h1>
+      <div style="font-size:24px;color:var(--cws-fg-muted);margin-bottom:36px;line-height:1.45;">HyperFrames is an open-source framework that turns HTML into video. You make the request; an AI agent builds an editable project; HyperFrames plays or renders it.</div>
+      <div class="session-tag" style="margin-bottom:22px;">Three Things to Know</div>
+      <ul class="prompt-list" style="gap:20px;margin-bottom:32px;">
+        <li><strong style="color:var(--cws-green);">Agent-built.</strong> You describe the video; the agent writes the HTML, CSS, and JavaScript. You do not need to write code for this path.</li>
+        <li><strong style="color:var(--cws-green);">Editable.</strong> The result is a project folder, not a flattened black box. An agent, Studio, and your own tools can work on the same files.</li>
+        <li><strong style="color:var(--cws-green);">Reliable render.</strong> HyperFrames asks the project for each exact frame instead of depending on live playback, so a slow machine does not drop moments from the finished video.</li>
+      </ul>
+      <div class="callout-box cyan">
+        <div style="font-size:23px;color:var(--cws-fg-muted);line-height:1.5;">HyperFrames is free and open-source, and local rendering does not use HeyGen credits. Your coding agent and any optional hosted, voice, avatar, or generated-media services may have their own costs.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>hyperframes.heygen.com/introduction</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: How a project works -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Tool 2 &nbsp;&#183;&nbsp; The Project</div>
+      <h1 class="h-title" style="margin-bottom:14px;">How a HyperFrames Project Works</h1>
+      <div style="font-size:22px;color:var(--cws-fg-muted);margin-bottom:22px;line-height:1.45;">A HyperFrames project is a folder your agent can create and you can keep editing. Its HTML is the video: it describes the scenes, timing, motion, media, and reusable parts that HyperFrames plays or renders.</div>
+      <div style="display:flex;gap:36px;align-items:flex-start;">
+        <pre class="code-block" style="font-size:18px;line-height:1.6;padding:22px 26px;flex:0 0 780px;">project/
+├── BRIEF.md         <span class="c">what the video must communicate</span>
+├── STORYBOARD.md    <span class="c">the planned sequence and review state</span>
+├── SCRIPT.md        <span class="c">locked narration, when the video has it</span>
+├── frame.md         <span class="c">visual direction, when needed</span>
+├── index.html       <span class="c">the main composition</span>
+├── hyperframes.json <span class="c">project settings</span>
+├── compositions/    <span class="c">scenes and reusable visual parts</span>
+├── assets/          <span class="c">images, video, audio, and fonts</span>
+└── renders/         <span class="c">finished files</span></pre>
+        <div style="flex:1;">
+          <p class="pull-quote" style="font-size:26px;margin-bottom:28px;">One folder of HTML is the whole video. Every tool reads and writes those same files &#8212; there is no export step between them and no second version of the project.</p>
+          <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.5;">Only the project source is essential. Planning files exist to preserve decisions across reviews and agent sessions.</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>hyperframes.heygen.com/concepts/index</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Time is part of the source -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Tool 2 &nbsp;&#183;&nbsp; Compositions</div>
+      <h1 class="h-title" style="margin-bottom:14px;">Time Is Part of the Source</h1>
+      <div style="font-size:22px;color:var(--cws-fg-muted);margin-bottom:22px;line-height:1.45;">A composition is a finite, seekable piece of the project. The main composition is the complete sequence. Timed elements carry their start, duration, and track in HTML:</div>
+      <pre class="code-block" style="font-size:20px;line-height:1.5;padding:22px 30px;margin-bottom:20px;">&lt;<span class="k">img</span>
+  <span class="s">id</span>=<span class="s">"product-shot"</span>
+  <span class="s">class</span>=<span class="s">"clip"</span>
+  <span class="s">data-start</span>=<span class="s">"2"</span>
+  <span class="s">data-duration</span>=<span class="s">"3"</span>
+  <span class="s">data-track-index</span>=<span class="s">"1"</span>
+  <span class="s">src</span>=<span class="s">"./assets/product.png"</span>
+/&gt;</pre>
+      <div style="font-size:22px;color:var(--cws-fg-muted);margin-bottom:22px;line-height:1.5;">This image starts at two seconds, remains for three seconds, and appears on track one. Animation timelines are paused and seekable, so Studio, the Player, and the renderer can request an exact moment without playing from the beginning.</div>
+      <div class="callout-box green">
+        <div class="callout-label" style="color:var(--cws-green);">Why rendering can repeat the same moment</div>
+        <div style="font-size:22px;color:var(--cws-fg-muted);line-height:1.5;">HyperFrames seeks the composition to an exact time, captures the frame, and advances. For the same source, media, and settings, an exact timestamp should resolve to the same project state. Compositions therefore avoid the current clock, unseeded randomness, and render-time network requests.</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>hyperframes.heygen.com/concepts/index</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Let the router choose -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Tool 2 &nbsp;&#183;&nbsp; The Skills</div>
+      <h1 class="h-title" style="margin-bottom:12px;">Let the Router Choose</h1>
+      <div style="font-size:22px;color:var(--cws-fg-muted);margin-bottom:20px;line-height:1.45;">The normal entry point is <code>/hyperframes</code>. It confirms the important intent, then selects a workflow from the input:</div>
+      <table class="sl" style="font-size:20px;">
+        <tr><th style="width:620px;">You provide</th><th>Workflow</th></tr>
+        <tr><td>A product website or product brief</td><td>Product launch video</td></tr>
+        <tr><td>A topic or script with no website capture</td><td>Faceless explainer</td></tr>
+        <tr><td>A GitHub pull request</td><td>PR-to-video</td></tr>
+        <tr><td>Existing talking-head footage</td><td>Captions or a designed recut</td></tr>
+        <tr><td>A music track</td><td>Music-driven video</td></tr>
+        <tr><td>A short design-led animation</td><td>Motion graphic</td></tr>
+        <tr><td>A presentation</td><td>Slideshow</td></tr>
+        <tr><td>A Figma file or frame</td><td>Figma import</td></tr>
+        <tr><td>Anything outside those shapes</td><td>General video</td></tr>
+      </table>
+      <div style="font-size:21px;color:var(--cws-fg-dim);margin-top:18px;line-height:1.45;">You can invoke a workflow directly when you already know it is the right one, but you do not need to memorize the names to start.</div>
+    </div>
+    <div class="foot">
+      <span>hyperframes.heygen.com/guides/skills</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Make your first video -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Tool 2 &nbsp;&#183;&nbsp; Getting Started</div>
+      <h1 class="h-title" style="margin-bottom:20px;">Make Your First Video</h1>
+      <div style="display:flex;gap:28px;margin-bottom:26px;">
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:12px;">1. Install the skills</div>
+          <pre class="code-block" style="font-size:17px;line-height:1.5;padding:18px 20px;margin-bottom:12px;">npx skills add heygen-com/hyperframes --full-depth</pre>
+          <div style="font-size:20px;color:var(--cws-fg-muted);line-height:1.45;">Choose Core Skills in the picker. Keep <code>--full-depth</code> so the installer uses the current repository version. Then open or restart your coding agent in that folder.</div>
+        </div>
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:12px;">2. Ask for the video</div>
+          <pre class="code-block" style="font-size:17px;line-height:1.5;padding:18px 20px;margin-bottom:12px;">Using /hyperframes, make a 10-second
+product intro for https://example.com</pre>
+          <div style="font-size:20px;color:var(--cws-fg-muted);line-height:1.45;">The agent will propose a direction and ask for anything important that is missing. You do not need to write a production specification.</div>
+        </div>
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:12px;">3. Continue</div>
+          <pre class="code-block" style="font-size:17px;line-height:1.5;padding:18px 20px;margin-bottom:12px;">npx hyperframes preview</pre>
+          <div style="font-size:20px;color:var(--cws-fg-muted);line-height:1.45;">The agent leaves you with an editable project folder and opens its local preview. Watch the first version once; it is not a guaranteed final cut.</div>
+        </div>
+      </div>
+      <div class="session-tag" style="margin-bottom:14px;">All three paths work with the same project</div>
+      <table class="sl" style="font-size:21px;">
+        <tr><th style="width:620px;">What you want to change</th><th>Best place to start</th></tr>
+        <tr><td>Story, structure, or several scenes</td><td>Ask the agent</td></tr>
+        <tr><td>Text, layout, timing, or animation you can see</td><td>Studio</td></tr>
+        <tr><td>Preview, checks, snapshots, rendering, or automation</td><td>CLI</td></tr>
+      </table>
+    </div>
+    <div class="foot">
+      <span>hyperframes.heygen.com/quickstart</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: DEMO -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-size:108px;font-weight:700;color:var(--cws-green);line-height:1;text-shadow:0 0 24px rgba(80,250,123,0.35);">DEMO</div>
+      <div style="font-family:var(--cws-font-mono);font-size:30px;color:var(--cws-fg-muted);margin-top:44px;">From an empty folder to a rendered Salesforce walkthrough</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: How I use this -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:14px;">How I Use These Tools</div>
+      <h1 class="h-title" style="margin-bottom:10px;">One Capture Pass, Two Artifacts</h1>
+      <div style="font-size:22px;color:var(--cws-fg-dim);margin-bottom:14px;line-height:1.4;">This is the pipeline behind every Resource Hero feature sprint. Each stage is the input to the next.</div>
+      <svg viewBox="0 0 1760 440" style="width:100%;height:auto;">
+        <defs><marker id="ah7" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#888899"/></marker></defs>
+
+        <g stroke="#888899" stroke-width="2" fill="none" marker-end="url(#ah7)">
+          <path d="M260,75 L400,75"/>
+          <path d="M660,75 L810,75"/>
+          <path d="M1110,75 L1270,75"/>
+          <path d="M960,118 L960,240 L710,240 L710,300"/>
+          <path d="M860,343 L980,343"/>
+          <path d="M1260,343 L1380,343"/>
+        </g>
+
+        <text x="330" y="58" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="#888899">capture</text>
+        <text x="735" y="58" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="#888899">write</text>
+        <text x="1190" y="58" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="#888899">publish</text>
+        <text x="985" y="198" font-family="'JetBrains Mono',monospace" font-size="19" fill="#8BE9FD">the doc is the script</text>
+
+        <rect x="0" y="40" width="260" height="70" rx="8" fill="#1E1E32" stroke="#8BE9FD" stroke-width="2"/>
+        <text x="130" y="83" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" fill="#8BE9FD">Salesforce org</text>
+
+        <rect x="400" y="40" width="260" height="70" rx="8" fill="#1E1E32" stroke="#2A2A4A" stroke-width="2"/>
+        <text x="530" y="83" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" fill="#E0E0E0">screenshots</text>
+
+        <rect x="810" y="32" width="300" height="86" rx="8" fill="#24243E" stroke="#50FA7B" stroke-width="2.5"/>
+        <text x="960" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="25" font-weight="600" fill="#50FA7B">support article</text>
+
+        <rect x="1270" y="40" width="300" height="70" rx="8" fill="#1E1E32" stroke="#8BE9FD" stroke-width="2"/>
+        <text x="1420" y="83" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" fill="#8BE9FD">resourceheroapp.com</text>
+
+        <text x="130" y="142" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="17" fill="#555566">you log in once</text>
+        <text x="530" y="142" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="17" fill="#555566">Playwright CLI</text>
+        <text x="1420" y="142" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="17" fill="#555566">the email's landing page</text>
+
+        <rect x="560" y="300" width="300" height="86" rx="8" fill="#1E1E32" stroke="#2A2A4A" stroke-width="2"/>
+        <text x="710" y="334" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#E0E0E0">storyboard</text>
+        <text x="710" y="364" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="21" fill="#E0E0E0">+ VO script</text>
+
+        <rect x="980" y="308" width="280" height="70" rx="8" fill="#1E1E32" stroke="#BD93F9" stroke-width="2"/>
+        <text x="1120" y="351" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" fill="#BD93F9">HyperFrames</text>
+
+        <rect x="1380" y="300" width="300" height="86" rx="8" fill="#24243E" stroke="#50FA7B" stroke-width="2.5"/>
+        <text x="1530" y="336" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="22" font-weight="600" fill="#50FA7B">2 video cuts</text>
+        <text x="1530" y="366" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="#50FA7B">YouTube + LinkedIn</text>
+
+        <text x="1120" y="412" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="17" fill="#555566">+ ElevenLabs voice</text>
+      </svg>
+      <div style="display:flex;gap:40px;margin-top:14px;">
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:8px;">The sprint</div>
+          <div style="font-size:20px;color:var(--cws-fg-muted);line-height:1.45;">One existing feature every two weeks. The article is written first &#8212; nailing the steps and terminology <em>is</em> the storyboard's backbone.</div>
+        </div>
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:8px;">Two cuts, one capture</div>
+          <div style="font-size:20px;color:var(--cws-fg-muted);line-height:1.45;">A 2&#8211;3 min narrated walkthrough for YouTube, and a 45&#8211;60 sec silent LinkedIn short of the single best moment.</div>
+        </div>
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:8px;">Product shots</div>
+          <div style="font-size:20px;color:var(--cws-fg-muted);line-height:1.45;">Same Playwright pass grabs the report and dashboard stills. They feed the article and the video &#8212; captured once, used everywhere.</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: Possible enhancements -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Where You Take It Next</div>
+      <h1 class="h-title" style="margin-bottom:14px;">Possible Enhancements</h1>
+      <div style="font-size:22px;color:var(--cws-fg-dim);margin-bottom:32px;line-height:1.45;">None of this is needed for your first video. Each one makes the tenth video faster and more consistent than the first.</div>
+      <ul class="prompt-list" style="gap:20px;">
+        <li><strong style="color:var(--cws-green);">Better voice, and music beds.</strong> Swap the local Kokoro voice for ElevenLabs when the video is customer-facing, and lay a music bed underneath. Costs money, sounds it</li>
+        <li><strong style="color:var(--cws-green);">A brand folder.</strong> Colors, fonts, logo, and the rules for using them, sitting in the project where the agent reads them &#8212; so you stop re-specifying your palette in every prompt</li>
+        <li><strong style="color:var(--cws-green);">Your own skill.</strong> Wrap your preferences &#8212; house style, default length, caption treatment, where renders go &#8212; into a skill, so the tenth video starts where the ninth ended</li>
+        <li><strong style="color:var(--cws-green);">A reusable capture script.</strong> The saved browser state plus the shot list is the asset. Next release, re-run it and only the changed screens need attention</li>
+        <li><strong style="color:var(--cws-green);">Publish and template it.</strong> Share a project by URL, and use variables to produce the same video for a different product, customer, or org</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: Resources -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Part 7</div>
+      <h1 class="h-title" style="margin-bottom:32px;">Resources</h1>
+      <div style="display:flex;gap:44px;margin-bottom:34px;">
+
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:16px;">Playwright CLI</div>
+          <div style="font-family:var(--cws-font-mono);font-size:20px;line-height:1.85;">
+            <div><span style="color:var(--cws-cyan);">playwright.dev/agent-cli/introduction</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;margin-bottom:12px;">docs</div>
+            <div><span style="color:var(--cws-cyan);">github.com/microsoft/playwright-cli</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;">source</div>
+          </div>
+          <div class="session-tag" style="margin:28px 0 16px;">Claude Code</div>
+          <div style="font-family:var(--cws-font-mono);font-size:20px;line-height:1.85;">
+            <div><span style="color:var(--cws-cyan);">code.claude.com/docs</span></div>
+          </div>
+        </div>
+
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:16px;">HyperFrames</div>
+          <div style="font-family:var(--cws-font-mono);font-size:20px;line-height:1.85;">
+            <div><span style="color:var(--cws-cyan);">hyperframes.heygen.com</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;margin-bottom:12px;">docs</div>
+            <div><span style="color:var(--cws-cyan);">github.com/heygen-com/hyperframes</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;margin-bottom:12px;">source, Apache 2.0</div>
+            <div><span style="color:var(--cws-cyan);">hyperframes.dev</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;margin-bottom:12px;">playground</div>
+            <div><span style="color:var(--cws-cyan);">hyperframes.heygen.com/catalog</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;">component catalog</div>
+          </div>
+        </div>
+
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:16px;">Voice &amp; Audio</div>
+          <div style="font-family:var(--cws-font-mono);font-size:20px;line-height:1.85;">
+            <div><span style="color:var(--cws-cyan);">huggingface.co/hexgrad/Kokoro-82M</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;margin-bottom:12px;">local TTS, free &#8212; what <code>hyperframes tts</code> runs</div>
+            <div><span style="color:var(--cws-cyan);">elevenlabs.io</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;margin-bottom:12px;">paid voice and music</div>
+            <div><span style="color:var(--cws-cyan);">heygen.com</span></div>
+            <div style="color:var(--cws-fg-dim);font-size:17px;">HyperFrames' originator</div>
+          </div>
+        </div>
+
+      </div>
+      <pre class="code-block" style="font-size:20px;line-height:1.7;padding:24px 32px;"><span class="c"># the two installs, start to finish</span>
+npm install -g @playwright/cli          &amp;&amp;  playwright-cli install --skills
+npx skills add heygen-com/hyperframes --full-depth</pre>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: Questions -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-size:120px;font-weight:700;color:var(--cws-fg-strong);line-height:1;" class="cursor">Questions</div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button onclick="prev()">&larr; Prev</button>
+  <span class="counter" id="counter">1 / 13</span>
+  <button onclick="next()">Next &rarr;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+function show(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = (cur+1) + ' / ' + slides.length;
+  fit();
+}
+function next() { show(cur + 1); }
+function prev() { show(cur - 1); }
+function fit() {
+  const s = document.querySelector('.slide.active');
+  if (!s) return;
+  const sc = Math.min(innerWidth / 1920, innerHeight / 1080);
+  s.style.transform = 'scale(' + sc + ')';
+}
+addEventListener('resize', fit);
+addEventListener('load', fit);
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+});
+</script>
+</body>
+</html>

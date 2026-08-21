@@ -1,0 +1,19 @@
+{
+  "lang": "en",
+  "speed": 1.0,
+  "lines": [
+    { "id": "line1", "text": "Start on the Salesforce Home screen." },
+    { "id": "line2", "text": "Open the Accounts tab to see your accounts." },
+    { "id": "line3", "text": "Click into an account to open its detail page." },
+    { "id": "line4", "text": "Select the Related tab to see connected records." },
+    { "id": "line5", "text": "Find the Contacts related list, and click New." },
+    { "id": "line6", "text": "A blank New Contact form opens." },
+    { "id": "line7", "text": "Enter the contact's first and last name." },
+    { "id": "line8", "text": "Add their title, mobile number, and email." },
+    { "id": "line9", "text": "Review the completed form before saving." },
+    { "id": "line10", "text": "Click Save to create the new contact." },
+    { "id": "line11", "text": "The new contact now appears in the Contacts related list." },
+    { "id": "line12", "text": "Open the contact to confirm everything was saved." }
+  ],
+  "bgm": { "mode": "none" }
+}
