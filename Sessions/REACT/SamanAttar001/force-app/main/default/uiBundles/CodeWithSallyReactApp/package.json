@@ -69,6 +69,7 @@
     "vitest": "^4.0.17"
   },
   "overrides": {
-    "lodash": "^4.18.1"
+    "lodash": "^4.18.1",
+    "websocket-driver": "0.7.5"
   }
 }
