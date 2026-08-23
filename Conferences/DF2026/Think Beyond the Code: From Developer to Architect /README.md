@@ -80,7 +80,7 @@ The best places to keep learning to *think like an architect* — straight from 
 ---
 
 <p align="center">
-  <em>Stop asking "can I build it?" — start asking "should we — and will it hold?"</em>
+  <em>Stop asking "can we build it?" — start asking "should we — and will it hold?"</em>
 </p>
 
 <p align="center">
