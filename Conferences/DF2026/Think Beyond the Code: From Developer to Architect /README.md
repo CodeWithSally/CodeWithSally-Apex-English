@@ -30,19 +30,6 @@ This page has everything from our session: the eight shifts, the reps you can st
 
 ---
 
-## ✅ Start Monday — pick one rep
-
-You don't need a new title to start. Pick **one** and try it this week:
-
-- **Draw before you build** — sketch the ticket's flow or data model first, even when no one asked you to.
-- **Question the ticket before building** — don't build the ask as written; ask why it exists and what it's missing.
-- **Write down the why** — after a real decision, note the context, the options, and why you chose. (Architects call it an *ADR* — that's your first one.)
-- **Pick the right tool, not the familiar one** — your default is code; ask what clicks could do first, then pick what fits the job.
-- **Get in the room** — ask to sit in on a design discussion, and make it useful: take notes or draft the decision record.
-- **Own a small design** — ask your architect to let you design one feature end-to-end, not just build it.
-
----
-
 ## 🎓 Code With Sally
 
 **Code With Sally** is a Salesforce learning platform by Sally ElGhoul — weekly live technical sessions on Salesforce development and AI, in **English and Arabic**, built on real production experience. Practical, honest, mentorship-first.
@@ -54,7 +41,7 @@ You don't need a new title to start. Pick **one** and try it this week:
 - 🔗 **LinkedIn (page):** https://www.linkedin.com/company/codewithsally/
 - 👤 **Sally ElGhoul (LinkedIn):** https://www.linkedin.com/in/sallyelghoul/
 
-**🚀 New series — From Dev to Architect** *(coming soon!)* — technical architects as guest speakers, each explaining a concept or tool they love:
+**🚀 New series — From Dev to Architect** *(New episodes coming soon!)* — technical architects as guest speakers, each explaining a concept or tool they love:
 👉 https://www.youtube.com/playlist?list=PLPNtu86_ZZn0
 
 **🤝 Join our Trailblazer Community Group:**
