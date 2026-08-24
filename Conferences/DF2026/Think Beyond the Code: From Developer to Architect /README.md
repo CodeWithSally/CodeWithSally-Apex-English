@@ -55,6 +55,7 @@ This page has everything from our session: the eight shifts, the things you can 
 
 - 🎥 **YouTube:** https://www.youtube.com/@YallaSalesforce
 - 🔗 **LinkedIn (page):** https://www.linkedin.com/company/yalla-salesforce/
+- 👤 **Bassem Ismaiel (LinkedIn):** https://www.linkedin.com/in/bassem-ismaiel/
 
 ---
 
