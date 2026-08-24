@@ -14,7 +14,7 @@
 <h1 align="center">Think Beyond the Code: From Developer to Architect</h1>
 
 <p align="center">
-  <strong>Dreamforce 2026</strong> · Architect Track<br/>
+  <strong>Dreamforce 2026</strong><br/>
   Presented by <strong>Sally ElGhoul</strong> (Code With Sally) &amp; <strong>Bassem Ismaiel</strong> (Yalla Salesforce)
 </p>
 
