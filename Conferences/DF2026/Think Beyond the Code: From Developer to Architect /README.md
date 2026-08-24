@@ -75,8 +75,6 @@ The best places to keep learning to *think like an architect* — straight from 
   👉 https://architect.salesforce.com/decision-guides/
 - **Salesforce Architects (YouTube)** — short-form videos and deep dives from the Architecture Program.
   👉 https://www.youtube.com/@SalesforceArchitects
-- **Well-Architected (Trailhead module)** — a guided, hands-on intro you can earn a badge for.
-  👉 https://trailhead.salesforce.com/content/learn/modules/salesforce-well-architected
 
 ---
 
