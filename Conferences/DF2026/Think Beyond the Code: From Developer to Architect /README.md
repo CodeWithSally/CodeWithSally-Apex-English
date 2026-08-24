@@ -24,7 +24,7 @@
 
 You don't flip a switch to become an architect — you **practice it while you're still writing code**.
 
-This page has everything from our session: the eight shifts, the reps you can start Monday, and the best resources to keep growing. Bookmark it — we'll add the **slides (PDF)** and the **session recording** here after Dreamforce.
+This page has everything from our session: the eight shifts, the things you can start today, and the best resources to keep growing. Bookmark it — we'll add the **slides (PDF)** and the **session recording** here after Dreamforce.
 
 > **Coming soon to this page:** 📄 Slides (PDF) · 🎥 Session recording
 
