@@ -1,0 +1,114 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef1"
+      },
+      "OpportunityId": "@OppRef1",
+      "PricebookEntryId": "@PBERef1",
+      "Quantity": 1,
+      "TotalPrice": 50000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef2"
+      },
+      "OpportunityId": "@OppRef2",
+      "PricebookEntryId": "@PBERef2",
+      "Quantity": 1,
+      "TotalPrice": 75000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef3"
+      },
+      "OpportunityId": "@OppRef3",
+      "PricebookEntryId": "@PBERef3",
+      "Quantity": 1,
+      "TotalPrice": 25000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef4"
+      },
+      "OpportunityId": "@OppRef4",
+      "PricebookEntryId": "@PBERef4",
+      "Quantity": 1,
+      "TotalPrice": 150000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef5"
+      },
+      "OpportunityId": "@OppRef5",
+      "PricebookEntryId": "@PBERef5",
+      "Quantity": 1,
+      "TotalPrice": 200000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef6"
+      },
+      "OpportunityId": "@OppRef6",
+      "PricebookEntryId": "@PBERef6",
+      "Quantity": 1,
+      "TotalPrice": 35000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef7"
+      },
+      "OpportunityId": "@OppRef7",
+      "PricebookEntryId": "@PBERef7",
+      "Quantity": 1,
+      "TotalPrice": 120000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef8"
+      },
+      "OpportunityId": "@OppRef8",
+      "PricebookEntryId": "@PBERef8",
+      "Quantity": 1,
+      "TotalPrice": 80000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef9"
+      },
+      "OpportunityId": "@OppRef9",
+      "PricebookEntryId": "@PBERef9",
+      "Quantity": 1,
+      "TotalPrice": 45000,
+      "ServiceDate": "2026-12-31"
+    },
+    {
+      "attributes": {
+        "type": "OpportunityLineItem",
+        "referenceId": "OLIRef10"
+      },
+      "OpportunityId": "@OppRef10",
+      "PricebookEntryId": "@PBERef10",
+      "Quantity": 1,
+      "TotalPrice": 60000,
+      "ServiceDate": "2026-12-31"
+    }
+  ]
+}

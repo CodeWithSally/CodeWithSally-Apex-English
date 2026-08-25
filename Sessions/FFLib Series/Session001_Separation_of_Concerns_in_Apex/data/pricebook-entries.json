@@ -1,0 +1,104 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef1"
+      },
+      "Product2Id": "@ProductRef1",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 50000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef2"
+      },
+      "Product2Id": "@ProductRef2",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 75000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef3"
+      },
+      "Product2Id": "@ProductRef3",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 25000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef4"
+      },
+      "Product2Id": "@ProductRef4",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 150000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef5"
+      },
+      "Product2Id": "@ProductRef5",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 200000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef6"
+      },
+      "Product2Id": "@ProductRef6",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 35000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef7"
+      },
+      "Product2Id": "@ProductRef7",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 120000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef8"
+      },
+      "Product2Id": "@ProductRef8",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 80000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef9"
+      },
+      "Product2Id": "@ProductRef9",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 45000,
+      "IsActive": true
+    },
+    {
+      "attributes": {
+        "type": "PricebookEntry",
+        "referenceId": "PBERef10"
+      },
+      "Product2Id": "@ProductRef10",
+      "Pricebook2Id": "@standardPricebookId",
+      "UnitPrice": 60000,
+      "IsActive": true
+    }
+  ]
+}

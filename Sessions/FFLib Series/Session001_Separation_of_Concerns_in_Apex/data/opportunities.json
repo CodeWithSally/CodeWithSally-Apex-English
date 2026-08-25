@@ -1,0 +1,156 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef1"
+      },
+      "Name": "Enterprise Software License",
+      "AccountId": "@AccountRef1",
+      "StageName": "Prospecting",
+      "Amount": 50000,
+      "CloseDate": "2026-03-31",
+      "Type": "New Customer",
+      "Probability": 20,
+      "LeadSource": "Web",
+      "Description": "Large enterprise software license for Acme Corporation"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef2"
+      },
+      "Name": "Manufacturing Equipment Upgrade",
+      "AccountId": "@AccountRef2",
+      "StageName": "Qualification",
+      "Amount": 75000,
+      "CloseDate": "2026-04-30",
+      "Type": "Existing Customer - Upgrade",
+      "Probability": 40,
+      "LeadSource": "Partner Referral",
+      "Description": "Equipment upgrade for Global Industries manufacturing facility"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef3"
+      },
+      "Name": "Startup Tech Package",
+      "AccountId": "@AccountRef3",
+      "StageName": "Prospecting",
+      "Amount": 25000,
+      "CloseDate": "2026-05-31",
+      "Type": "New Customer",
+      "Probability": 15,
+      "LeadSource": "Cold Call",
+      "Description": "Technology package for TechStart Solutions startup"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef4"
+      },
+      "Name": "Healthcare System Implementation",
+      "AccountId": "@AccountRef4",
+      "StageName": "Proposal/Price Quote",
+      "Amount": 150000,
+      "CloseDate": "2026-06-30",
+      "Type": "Existing Customer - Replacement",
+      "Probability": 70,
+      "LeadSource": "Web",
+      "Description": "Complete healthcare system implementation for Healthcare Partners"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef5"
+      },
+      "Name": "Financial Services Platform",
+      "AccountId": "@AccountRef5",
+      "StageName": "Negotiation/Review",
+      "Amount": 200000,
+      "CloseDate": "2026-07-31",
+      "Type": "Existing Customer - Upgrade",
+      "Probability": 85,
+      "LeadSource": "Partner Referral",
+      "Description": "Advanced financial services platform upgrade",
+      "InvoicedStatus__c": "Ready"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef6"
+      },
+      "Name": "Retail POS System",
+      "AccountId": "@AccountRef6",
+      "StageName": "Prospecting",
+      "Amount": 35000,
+      "CloseDate": "2026-08-31",
+      "Type": "New Customer",
+      "Probability": 25,
+      "LeadSource": "Web",
+      "Description": "Point of sale system for Retail Dynamics"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef7"
+      },
+      "Name": "Energy Management Solution",
+      "AccountId": "@AccountRef7",
+      "StageName": "Closed Won",
+      "Amount": 120000,
+      "CloseDate": "2026-09-30",
+      "Type": "Existing Customer - Upgrade",
+      "Probability": 100,
+      "LeadSource": "Web",
+      "Description": "Energy management solution for Energy Solutions",
+      "InvoicedStatus__c": "Ready"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef8"
+      },
+      "Name": "Educational Software License",
+      "AccountId": "@AccountRef8",
+      "StageName": "Qualification",
+      "Amount": 45000,
+      "CloseDate": "2026-10-31",
+      "Type": "New Customer",
+      "Probability": 35,
+      "LeadSource": "Cold Call",
+      "Description": "Educational software license for Education First"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef9"
+      },
+      "Name": "Logistics Platform",
+      "AccountId": "@AccountRef9",
+      "StageName": "Proposal/Price Quote",
+      "Amount": 180000,
+      "CloseDate": "2026-11-30",
+      "Type": "Existing Customer - Upgrade",
+      "Probability": 60,
+      "LeadSource": "Partner Referral",
+      "Description": "Advanced logistics platform for Transportation Hub"
+    },
+    {
+      "attributes": {
+        "type": "Opportunity",
+        "referenceId": "OppRef10"
+      },
+      "Name": "Consulting Services Contract",
+      "AccountId": "@AccountRef10",
+      "StageName": "Prospecting",
+      "Amount": 80000,
+      "CloseDate": "2026-12-31",
+      "Type": "New Customer",
+      "Probability": 30,
+      "LeadSource": "Web",
+      "Description": "Consulting services contract for Consulting Experts"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="selector-title">
+  <title id="selector-title">Query through the Selector, inside and outside the service boundary</title>
+  <defs>
+    <linearGradient id="sb-domain-h" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E7FCD"/>
+      <stop offset="100%" stop-color="#5A98E0"/>
+    </linearGradient>
+    <linearGradient id="sb-domain-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7EB4F4"/>
+      <stop offset="100%" stop-color="#96C0FF"/>
+    </linearGradient>
+    <linearGradient id="sb-service-h" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A0C94A"/>
+      <stop offset="100%" stop-color="#B5DB66"/>
+    </linearGradient>
+    <linearGradient id="sb-service-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8EE80"/>
+      <stop offset="100%" stop-color="#DBFF9C"/>
+    </linearGradient>
+    <linearGradient id="sb-selector-h" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38B6D8"/>
+      <stop offset="100%" stop-color="#5CC7E4"/>
+    </linearGradient>
+    <linearGradient id="sb-selector-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#74D8F0"/>
+      <stop offset="100%" stop-color="#91ECFF"/>
+    </linearGradient>
+    <linearGradient id="sb-client-h" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7F5AAB"/>
+      <stop offset="100%" stop-color="#9573BE"/>
+    </linearGradient>
+    <linearGradient id="sb-client-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B090D8"/>
+      <stop offset="100%" stop-color="#C7AEED"/>
+    </linearGradient>
+    <linearGradient id="sb-soql" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38B6D8"/>
+      <stop offset="100%" stop-color="#91ECFF"/>
+    </linearGradient>
+    <filter id="sb-shadow" x="-12%" y="-12%" width="124%" height="130%">
+      <feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.32"/>
+    </filter>
+    <marker id="sb-arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#7BA7D9"/>
+    </marker>
+  </defs>
+
+  <g font-family="Calibri, 'Segoe UI', system-ui, sans-serif" transform="translate(200, 8) scale(0.95)">
+    <!-- Service Boundary: inverted L above Service, vertical ends just above Controller -->
+    <path d="M 601.8,122.9 H 1018.4 V 437.9"
+          fill="none" stroke="#7BA7D9" stroke-width="2.4"
+          stroke-dasharray="9 7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="810" y="80" text-anchor="middle" fill="#c5d4e0" font-size="20">Service Boundary</text>
+
+    <!-- SOQL behind Selector -->
+    <g filter="url(#sb-shadow)">
+      <ellipse cx="185.25" cy="874.2" rx="106.75" ry="18" fill="url(#sb-soql)" stroke="#45A9C4" stroke-width="1.3"/>
+      <rect x="78.5" y="670.7" width="213.5" height="203.5" fill="url(#sb-soql)"/>
+      <line x1="78.5" y1="670.7" x2="78.5" y2="874.2" stroke="#45A9C4" stroke-width="1.3"/>
+      <line x1="292.0" y1="670.7" x2="292.0" y2="874.2" stroke="#45A9C4" stroke-width="1.3"/>
+      <ellipse cx="185.25" cy="670.7" rx="106.75" ry="18" fill="url(#sb-soql)" stroke="#45A9C4" stroke-width="1.3"/>
+    </g>
+    <text x="185.25" y="777.24" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="600">SOQL</text>
+
+    <!-- Domain -->
+    <g filter="url(#sb-shadow)">
+      <path d="M 32.2,189.3 H 387.7 Q 398.7,189.3 398.7,200.3 V 262.2 H 21.2 V 200.3 Q 21.2,189.3 32.2,189.3 Z" fill="url(#sb-domain-h)" stroke="#4A7DBA" stroke-width="1.2"/>
+      <rect x="21.2" y="262.2" width="377.5" height="91.1" fill="url(#sb-domain-b)" stroke="#4A7DBA" stroke-width="1.2"/>
+    </g>
+    <text x="209.95" y="238.872" text-anchor="middle" fill="#ffffff" font-size="20">Domain Class</text>
+    <text x="209.95" y="315.038" text-anchor="middle" fill="#1a2744" font-size="16">new Domain Class(...)</text>
+
+    <!-- Service -->
+    <g filter="url(#sb-shadow)">
+      <path d="M 573.7,189.3 H 929.2 Q 940.2,189.3 940.2,200.3 V 262.2 H 562.7 V 200.3 Q 562.7,189.3 573.7,189.3 Z" fill="url(#sb-service-h)" stroke="#97B853" stroke-width="1.2"/>
+      <rect x="562.7" y="262.2" width="377.5" height="91.1" fill="url(#sb-service-b)" stroke="#97B853" stroke-width="1.2"/>
+    </g>
+    <text x="751.45" y="238.872" text-anchor="middle" fill="#ffffff" font-size="20">Service Class</text>
+    <text x="751.45" y="315.038" text-anchor="middle" fill="#1a2744" font-size="16">applyDiscount(...)</text>
+
+    <!-- Selector (on top of SOQL) -->
+    <g filter="url(#sb-shadow)">
+      <path d="M 266.5,506.9 H 622.0 Q 633.0,506.9 633.0,517.9 V 579.8 H 255.5 V 517.9 Q 255.5,506.9 266.5,506.9 Z" fill="url(#sb-selector-h)" stroke="#45A9C4" stroke-width="1.2"/>
+      <rect x="255.5" y="579.8" width="377.5" height="192.7" fill="url(#sb-selector-b)" stroke="#45A9C4" stroke-width="1.2"/>
+    </g>
+    <text x="444.25" y="556.472" text-anchor="middle" fill="#ffffff" font-size="20">Selector Class</text>
+    <text fill="#1a2744" font-size="16">
+      <tspan x="273.5" y="607.8">selectById</tspan>
+      <tspan x="273.5" y="635.8">selectByXXX</tspan>
+      <tspan x="273.5" y="663.8">queryLocatorById</tspan>
+      <tspan x="273.5" y="691.8">...</tspan>
+    </text>
+
+    <!-- Controller -->
+    <g filter="url(#sb-shadow)">
+      <path d="M 793.7,480.9 H 1149.2 Q 1160.2,480.9 1160.2,491.9 V 553.8 H 782.7 V 491.9 Q 782.7,480.9 793.7,480.9 Z" fill="url(#sb-client-h)" stroke="#7C5F9F" stroke-width="1.2"/>
+      <rect x="782.7" y="553.8" width="377.5" height="70.3" fill="url(#sb-client-b)" stroke="#7C5F9F" stroke-width="1.2"/>
+    </g>
+    <text x="971.45" y="530.472" text-anchor="middle" fill="#ffffff" font-size="20">Controller Class</text>
+    <text x="971.45" y="594.574" text-anchor="middle" fill="#1a2744" font-size="16">loadXXX(...)</text>
+
+    <!-- Batch -->
+    <g filter="url(#sb-shadow)">
+      <path d="M 793.7,673.5 H 1149.2 Q 1160.2,673.5 1160.2,684.5 V 746.4 H 782.7 V 684.5 Q 782.7,673.5 793.7,673.5 Z" fill="url(#sb-client-h)" stroke="#7C5F9F" stroke-width="1.2"/>
+      <rect x="782.7" y="746.4" width="377.5" height="70.3" fill="url(#sb-client-b)" stroke="#7C5F9F" stroke-width="1.2"/>
+    </g>
+    <text x="971.45" y="723.072" text-anchor="middle" fill="#ffffff" font-size="20">Batch Class</text>
+    <text x="971.45" y="787.174" text-anchor="middle" fill="#1a2744" font-size="16">start(...)</text>
+
+    <!-- query arrows: Domain down, Service down, Controller left, Batch left -->
+    <line x1="312.8" y1="353.3" x2="312.8" y2="506.9" stroke="#7BA7D9" stroke-width="2.4" marker-end="url(#sb-arrow)"/>
+    <line x1="601.8" y1="353.3" x2="601.8" y2="506.9" stroke="#7BA7D9" stroke-width="2.4" marker-end="url(#sb-arrow)"/>
+    <line x1="782.7" y1="598.0" x2="633.0" y2="598.0" stroke="#7BA7D9" stroke-width="2.4" marker-end="url(#sb-arrow)"/>
+    <line x1="782.7" y1="710.0" x2="633.0" y2="710.0" stroke="#7BA7D9" stroke-width="2.4" marker-end="url(#sb-arrow)"/>
+
+    <text x="241.2" y="385.435" text-anchor="middle" fill="#c5d4e0" font-size="18">query</text>
+    <text x="677.3" y="392.935" text-anchor="middle" fill="#c5d4e0" font-size="18">query</text>
+    <text x="704.6" y="537.3" text-anchor="middle" fill="#c5d4e0" font-size="18">query</text>
+    <text x="709.8" y="769.504" text-anchor="middle" fill="#c5d4e0" font-size="18">query</text>
+  </g>
+</svg>
