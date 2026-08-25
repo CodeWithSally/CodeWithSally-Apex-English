@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" role="img" aria-labelledby="gears-title">
+  <title id="gears-title">Domain, Selector, and Service layers as interlocking gears</title>
+  <defs>
+    <linearGradient id="g-domain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7BB4DC"/>
+      <stop offset="100%" stop-color="#3E82B6"/>
+    </linearGradient>
+    <linearGradient id="g-selector" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#62D8D0"/>
+      <stop offset="100%" stop-color="#2AAEA6"/>
+    </linearGradient>
+    <linearGradient id="g-service" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D0EA78"/>
+      <stop offset="100%" stop-color="#8FC22E"/>
+    </linearGradient>
+    <filter id="soft-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="700" text-anchor="middle">
+    <g transform="translate(155.68 242.96) rotate(58)" filter="url(#soft-shadow)">
+      <path fill="url(#g-selector)" d="M -18.41 -46.49 L -9.77 -71.33 L 9.77 -71.33 L 18.41 -46.49 L 31.06 -39.18 L 56.89 -44.13 L 66.66 -27.2 L 49.46 -7.3 L 49.46 7.3 L 66.66 27.2 L 56.89 44.13 L 31.06 39.18 L 18.41 46.49 L 9.77 71.33 L -9.77 71.33 L -18.41 46.49 L -31.06 39.18 L -56.89 44.13 L -66.66 27.2 L -49.46 7.3 L -49.46 -7.3 L -66.66 -27.2 L -56.89 -44.13 L -31.06 -39.18 Z"/>
+      <circle r="43" fill="url(#g-selector)"/>
+      <g transform="rotate(-58)">
+        <text fill="#ffffff" font-size="14">
+          <tspan x="0" y="-3">Selector</tspan>
+          <tspan x="0" y="15">Layer</tspan>
+        </text>
+      </g>
+    </g>
+    <path d="M 88.31 190.32 L 78.06 182.32 A 98.5 98.5 0 0 0 63.15 276.74 L 53.29 280.34 L 80.32 295.73 L 85.23 268.68 L 75.36 272.28 A 85.5 85.5 0 0 1 88.31 190.32 Z" fill="#36C0B8" filter="url(#soft-shadow)"/>
+
+    <g transform="translate(220 114) rotate(208)" filter="url(#soft-shadow)">
+      <path fill="url(#g-domain)" d="M -20.61 -52.07 L -10.86 -79.26 L 10.86 -79.26 L 20.61 -52.07 L 34.78 -43.89 L 63.21 -49.03 L 74.07 -30.23 L 55.4 -8.18 L 55.4 8.18 L 74.07 30.23 L 63.21 49.03 L 34.78 43.89 L 20.61 52.07 L 10.86 79.26 L -10.86 79.26 L -20.61 52.07 L -34.78 43.89 L -63.21 49.03 L -74.07 30.23 L -55.4 8.18 L -55.4 -8.18 L -74.07 -30.23 L -63.21 -49.03 L -34.78 -43.89 Z"/>
+      <circle r="48" fill="url(#g-domain)"/>
+      <g transform="rotate(-208)">
+        <text fill="#ffffff" font-size="15">
+          <tspan x="0" y="-3">Domain</tspan>
+          <tspan x="0" y="16">Layer</tspan>
+        </text>
+      </g>
+    </g>
+    <path d="M 126.56 117.26 L 113.56 117.72 A 106.5 106.5 0 0 1 185.76 13.15 L 182.39 3.21 L 211.28 14.38 L 193.32 35.41 L 189.94 25.46 A 93.5 93.5 0 0 0 126.56 117.26 Z" fill="#5AA3D0" filter="url(#soft-shadow)"/>
+
+    <g transform="translate(358.72 246.59) rotate(-83.76)" filter="url(#soft-shadow)">
+      <path fill="url(#g-service)" d="M -21.76 -74.9 L -11.01 -107.44 L 11.01 -107.44 L 21.76 -74.9 L 37.58 -68.35 L 68.19 -83.75 L 83.75 -68.19 L 68.35 -37.58 L 74.9 -21.76 L 107.44 -11.01 L 107.44 11.01 L 74.9 21.76 L 68.35 37.58 L 83.75 68.19 L 68.19 83.75 L 37.58 68.35 L 21.76 74.9 L 11.01 107.44 L -11.01 107.44 L -21.76 74.9 L -37.58 68.35 L -68.19 83.75 L -83.75 68.19 L -68.35 37.58 L -74.9 21.76 L -107.44 11.01 L -107.44 -11.01 L -74.9 -21.76 L -68.35 -37.58 L -83.75 -68.19 L -68.19 -83.75 L -37.58 -68.35 Z"/>
+      <circle r="66" fill="url(#g-service)"/>
+      <g transform="rotate(83.76)">
+        <text fill="#ffffff" font-size="18">
+          <tspan x="0" y="-4">Service</tspan>
+          <tspan x="0" y="17">Layer</tspan>
+        </text>
+      </g>
+    </g>
+    <path d="M 434.14 150.06 L 443.37 138.24 A 137.5 137.5 0 0 1 417.31 370.98 L 423.07 383.19 L 385.75 373.75 L 405.17 345.2 L 410.92 357.41 A 122.5 122.5 0 0 0 434.14 150.06 Z" fill="#B4D84A" filter="url(#soft-shadow)"/>
+  </g>
+</svg>

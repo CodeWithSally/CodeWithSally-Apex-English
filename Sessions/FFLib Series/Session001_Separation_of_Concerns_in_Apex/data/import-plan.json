@@ -1,0 +1,32 @@
+[
+  {
+    "sobject": "Account",
+    "files": [
+      "accounts.json"
+    ]
+  },
+  {
+    "sobject": "Product2",
+    "files": [
+      "products.json"
+    ]
+  },
+  {
+    "sobject": "Opportunity",
+    "files": [
+      "opportunities.json"
+    ]
+  },
+  {
+    "sobject": "PricebookEntry",
+    "files": [
+      "pricebook-entries.json"
+    ]
+  },
+  {
+    "sobject": "OpportunityLineItem",
+    "files": [
+      "opportunity-line-items.json"
+    ]
+  }
+]

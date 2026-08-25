@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="scd-title">
+  <title id="scd-title">Service consumers call the Service; the Service reuses Domain and Selector</title>
+  <defs>
+    <filter id="scd-shadow" x="-8%" y="-8%" width="116%" height="124%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="scd-arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#7BA7D9"/>
+    </marker>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif">
+    <g filter="url(#scd-shadow)">
+      <rect x="40" y="24" width="480" height="50" fill="#252526"/>
+      <rect x="40" y="24" width="248" height="50" fill="#1e1e1e"/>
+      <rect x="40" y="70" width="248" height="4" fill="#9573BE"/>
+      <rect x="58" y="38" width="18" height="18" rx="3" fill="#519aba"/>
+      <text x="86" y="55" fill="#e6e6e6" font-size="22" font-weight="500">Controller.cls</text>
+      <rect x="40" y="74" width="480" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="22">
+      <tspan x="60" y="122" fill="#d2a8ff">@AuraEnabled</tspan>
+      <tspan x="60" y="154" fill="#ffb86b">public void</tspan>
+      <tspan fill="#79c0ff"> applyDiscount</tspan>
+      <tspan fill="#f0f4f8">()</tspan>
+    </text>
+
+    <g filter="url(#scd-shadow)">
+      <rect x="560" y="24" width="480" height="50" fill="#252526"/>
+      <rect x="560" y="24" width="196" height="50" fill="#1e1e1e"/>
+      <rect x="560" y="70" width="196" height="4" fill="#9573BE"/>
+      <rect x="578" y="38" width="18" height="18" rx="3" fill="#519aba"/>
+      <text x="606" y="55" fill="#e6e6e6" font-size="22" font-weight="500">REST.cls</text>
+      <rect x="560" y="74" width="480" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="22">
+      <tspan x="580" y="122" fill="#d2a8ff">@HttpPost</tspan>
+      <tspan x="580" y="154" fill="#ffb86b">public void</tspan>
+      <tspan fill="#79c0ff"> doPost</tspan>
+      <tspan fill="#f0f4f8">()</tspan>
+    </text>
+
+    <g filter="url(#scd-shadow)">
+      <rect x="1080" y="24" width="480" height="50" fill="#252526"/>
+      <rect x="1080" y="24" width="248" height="50" fill="#1e1e1e"/>
+      <rect x="1080" y="70" width="248" height="4" fill="#9573BE"/>
+      <rect x="1098" y="38" width="18" height="18" rx="3" fill="#519aba"/>
+      <text x="1126" y="55" fill="#e6e6e6" font-size="22" font-weight="500">Invocable.cls</text>
+      <rect x="1080" y="74" width="480" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="22">
+      <tspan x="1100" y="122" fill="#d2a8ff">@InvocableMethod</tspan>
+      <tspan x="1100" y="154" fill="#ffb86b">public void</tspan>
+      <tspan fill="#79c0ff"> applyDiscount</tspan>
+      <tspan fill="#f0f4f8">()</tspan>
+    </text>
+
+    <g filter="url(#scd-shadow)">
+      <rect x="460" y="340" width="680" height="50" fill="#252526"/>
+      <rect x="460" y="340" width="220" height="50" fill="#1e1e1e"/>
+      <rect x="460" y="386" width="220" height="4" fill="#A0C94A"/>
+      <rect x="478" y="354" width="18" height="18" rx="3" fill="#519aba"/>
+      <text x="506" y="371" fill="#e6e6e6" font-size="22" font-weight="500">Service.cls</text>
+      <rect x="460" y="390" width="680" height="130" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="22">
+      <tspan x="484" y="442" fill="#ffb86b">public void</tspan>
+      <tspan fill="#79c0ff"> applyDiscounts</tspan>
+      <tspan fill="#f0f4f8">(</tspan>
+      <tspan x="484" y="478" fill="#79c0ff">Set&lt;Id&gt;</tspan>
+      <tspan fill="#f0f4f8"> ids, </tspan>
+      <tspan fill="#79c0ff">Decimal</tspan>
+      <tspan fill="#f0f4f8"> pct)</tspan>
+    </text>
+
+    <g filter="url(#scd-shadow)">
+      <rect x="80" y="680" width="560" height="50" fill="#252526"/>
+      <rect x="80" y="680" width="220" height="50" fill="#1e1e1e"/>
+      <rect x="80" y="726" width="220" height="4" fill="#5A98E0"/>
+      <rect x="98" y="694" width="18" height="18" rx="3" fill="#519aba"/>
+      <text x="126" y="711" fill="#e6e6e6" font-size="22" font-weight="500">Domain.cls</text>
+      <rect x="80" y="730" width="560" height="130" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="22">
+      <tspan x="104" y="782" fill="#ffb86b">public void</tspan>
+      <tspan x="104" y="818" fill="#79c0ff">applyDiscount</tspan>
+      <tspan fill="#f0f4f8">(</tspan>
+      <tspan fill="#79c0ff">Decimal</tspan>
+      <tspan fill="#f0f4f8"> pct)</tspan>
+    </text>
+
+    <g filter="url(#scd-shadow)">
+      <rect x="960" y="680" width="560" height="50" fill="#252526"/>
+      <rect x="960" y="680" width="232" height="50" fill="#1e1e1e"/>
+      <rect x="960" y="726" width="232" height="4" fill="#5CC7E4"/>
+      <rect x="978" y="694" width="18" height="18" rx="3" fill="#519aba"/>
+      <text x="1006" y="711" fill="#e6e6e6" font-size="22" font-weight="500">Selector.cls</text>
+      <rect x="960" y="730" width="560" height="130" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="22">
+      <tspan x="984" y="782" fill="#ffb86b">public</tspan>
+      <tspan fill="#79c0ff"> List&lt;Opportunity&gt;</tspan>
+      <tspan x="984" y="818" fill="#79c0ff">selectByIdWithProducts</tspan>
+      <tspan fill="#f0f4f8">(</tspan>
+      <tspan fill="#79c0ff">Set&lt;Id&gt;</tspan>
+      <tspan fill="#f0f4f8"> ids)</tspan>
+    </text>
+
+    <line x1="280" y1="192" x2="560" y2="340" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scd-arrow)"/>
+    <line x1="800" y1="192" x2="800" y2="340" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scd-arrow)"/>
+    <line x1="1320" y1="192" x2="1040" y2="340" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scd-arrow)"/>
+
+    <line x1="620" y1="520" x2="380" y2="680" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scd-arrow)"/>
+    <line x1="980" y1="520" x2="1220" y2="680" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scd-arrow)"/>
+
+    <g>
+      <rect x="368" y="242" width="110" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="423" y="269" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">calls</text>
+    </g>
+    <g>
+      <rect x="745" y="242" width="110" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="800" y="269" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">calls</text>
+    </g>
+    <g>
+      <rect x="1122" y="242" width="110" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="1177" y="269" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">calls</text>
+    </g>
+    <g>
+      <rect x="430" y="574" width="126" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="493" y="601" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">reuses</text>
+    </g>
+    <g>
+      <rect x="1044" y="574" width="126" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="1107" y="601" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">reuses</text>
+    </g>
+  </g>
+</svg>

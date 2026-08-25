@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-56 0 1236 686" role="img" aria-labelledby="layers-title">
+  <title id="layers-title">Salesforce Platform SOC Layers</title>
+  <defs>
+    <symbol id="heart" viewBox="0 0 36 36">
+      <path fill="#DD2E44" d="M35.885 11.833c0-5.45-4.418-9.868-9.867-9.868-3.308 0-6.227 1.633-8.018 4.129-1.791-2.496-4.71-4.129-8.017-4.129-5.45 0-9.868 4.417-9.868 9.868 0 .772.098 1.52.266 2.241C1.751 22.587 11.216 31.568 18 34.034c6.783-2.466 16.249-11.447 17.617-19.959.17-.721.268-1.469.268-2.242z"/>
+    </symbol>
+    <linearGradient id="g-presentation" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#A0C94A"/>
+      <stop offset="100%" stop-color="#DBFF9C"/>
+    </linearGradient>
+    <linearGradient id="g-integration" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#2BB3A8"/>
+      <stop offset="100%" stop-color="#8DF0E4"/>
+    </linearGradient>
+    <linearGradient id="g-business" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4DBF77"/>
+      <stop offset="100%" stop-color="#A2FDBB"/>
+    </linearGradient>
+    <linearGradient id="g-data" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#538BB4"/>
+      <stop offset="100%" stop-color="#A7D1F4"/>
+    </linearGradient>
+    <linearGradient id="g-database" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#7E59AA"/>
+      <stop offset="100%" stop-color="#C6ADEC"/>
+    </linearGradient>
+    <filter id="hdr-shadow" x="-8%" y="-20%" width="116%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <filter id="box-shadow" x="-2%" y="-8%" width="104%" height="124%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <g font-family="Calibri, 'Segoe UI', system-ui, sans-serif">
+    <g>
+      <rect x="10" y="22" width="1160" height="108" rx="4" fill="#ffffff" filter="url(#box-shadow)"/>
+      <rect x="48" y="6" width="760" height="44" rx="12" fill="url(#g-presentation)" filter="url(#hdr-shadow)"/>
+      <text x="72" y="36" fill="#ffffff" font-size="26" font-weight="400">Presentation</text>
+      <text x="80" y="78" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You define:</tspan> Layouts, Custom Buttons, Flow, Record Types, Formula, Reports, Dashboards, Agent Builder</text>
+      <text x="80" y="112" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You code:</tspan> Apex Controllers, Visualforce, Aura, Lightning Components, React</text>
+    </g>
+
+    <g>
+      <rect x="10" y="156" width="1160" height="108" rx="4" fill="#ffffff" filter="url(#box-shadow)"/>
+      <rect x="48" y="140" width="760" height="44" rx="12" fill="url(#g-integration)" filter="url(#hdr-shadow)"/>
+      <text x="72" y="170" fill="#ffffff" font-size="26" font-weight="400">Integration</text>
+      <text x="80" y="212" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You define:</tspan> Custom Objects, Custom Fields</text>
+      <text x="80" y="246" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You code:</tspan> Apex SOAP, Apex REST, Invocable Methods, Agent Actions, MCP, <tspan font-family="'Courier New', Courier, monospace">global</tspan> Apex</text>
+    </g>
+
+    <g>
+      <rect x="10" y="290" width="1160" height="108" rx="4" fill="#ffffff" filter="url(#box-shadow)"/>
+      <rect x="48" y="274" width="760" height="44" rx="12" fill="url(#g-business)" filter="url(#hdr-shadow)"/>
+      <text x="72" y="304" fill="#ffffff" font-size="26" font-weight="400">Business Logic</text>
+      <text x="80" y="346" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You define:</tspan> Formula, Validation Rules, Workflow, Process Builder, Flow, Sharing Rules, Prompt Builder</text>
+      <text x="80" y="380" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You code:</tspan> Apex Services, DataWeave, Callouts</text>
+    </g>
+    <use href="#heart" x="-44" y="309" width="70" height="70" filter="url(#hdr-shadow)"/>
+
+    <g>
+      <rect x="10" y="424" width="1160" height="108" rx="4" fill="#ffffff" filter="url(#box-shadow)"/>
+      <rect x="48" y="408" width="760" height="44" rx="12" fill="url(#g-data)" filter="url(#hdr-shadow)"/>
+      <text x="72" y="438" fill="#ffffff" font-size="26" font-weight="400">Data Access</text>
+      <text x="80" y="480" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You define:</tspan> Data Loaders, Permission Sets, Profiles</text>
+      <text x="80" y="514" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You code:</tspan> SOQL, SOSL and Salesforce APIs</text>
+    </g>
+
+    <g>
+      <rect x="10" y="558" width="1160" height="108" rx="4" fill="#ffffff" filter="url(#box-shadow)"/>
+      <rect x="48" y="542" width="760" height="44" rx="12" fill="url(#g-database)" filter="url(#hdr-shadow)"/>
+      <text x="72" y="572" fill="#ffffff" font-size="26" font-weight="400">Database</text>
+      <text x="80" y="614" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You define:</tspan> Custom Objects, Custom Fields, Relationships, Rollups, D360</text>
+      <text x="80" y="648" fill="#1a1a1a" font-size="23" xml:space="preserve">• <tspan font-weight="700">You code:</tspan> Apex Triggers, External Data Sources (External Objects)</text>
+    </g>
+  </g>
+</svg>

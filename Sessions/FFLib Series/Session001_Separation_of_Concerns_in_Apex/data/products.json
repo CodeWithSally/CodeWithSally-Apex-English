@@ -1,0 +1,124 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef1"
+      },
+      "Name": "Enterprise Software License",
+      "ProductCode": "ESL-001",
+      "Description": "Enterprise software license for large organizations",
+      "IsActive": true,
+      "Family": "Software",
+      "DiscountingApproved__c": true
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef2"
+      },
+      "Name": "Manufacturing Equipment",
+      "ProductCode": "ME-002",
+      "Description": "Advanced manufacturing equipment and machinery",
+      "IsActive": true,
+      "Family": "Hardware",
+      "DiscountingApproved__c": false
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef3"
+      },
+      "Name": "Tech Startup Package",
+      "ProductCode": "TSP-003",
+      "Description": "Complete technology package for startups",
+      "IsActive": true,
+      "Family": "Software",
+      "DiscountingApproved__c": true
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef4"
+      },
+      "Name": "Healthcare System",
+      "ProductCode": "HS-004",
+      "Description": "Comprehensive healthcare management system",
+      "IsActive": true,
+      "Family": "Software",
+      "DiscountingApproved__c": false
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef5"
+      },
+      "Name": "Financial Platform",
+      "ProductCode": "FP-005",
+      "Description": "Advanced financial services platform",
+      "IsActive": true,
+      "Family": "Software",
+      "DiscountingApproved__c": true
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef6"
+      },
+      "Name": "Retail POS System",
+      "ProductCode": "RPS-006",
+      "Description": "Point of sale system for retail businesses",
+      "IsActive": true,
+      "Family": "Hardware",
+      "DiscountingApproved__c": false
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef7"
+      },
+      "Name": "Energy Management",
+      "ProductCode": "EM-007",
+      "Description": "Energy management and monitoring solution",
+      "IsActive": true,
+      "Family": "Software",
+      "DiscountingApproved__c": true
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef8"
+      },
+      "Name": "Consulting Services",
+      "ProductCode": "CS-008",
+      "Description": "Professional consulting and implementation services",
+      "IsActive": true,
+      "Family": "Services",
+      "DiscountingApproved__c": false
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef9"
+      },
+      "Name": "Training Package",
+      "ProductCode": "TP-009",
+      "Description": "Comprehensive training and certification package",
+      "IsActive": true,
+      "Family": "Services",
+      "DiscountingApproved__c": true
+    },
+    {
+      "attributes": {
+        "type": "Product2",
+        "referenceId": "ProductRef10"
+      },
+      "Name": "Support Contract",
+      "ProductCode": "SC-010",
+      "Description": "Premium support and maintenance contract",
+      "IsActive": true,
+      "Family": "Services",
+      "DiscountingApproved__c": false
+    }
+  ]
+}

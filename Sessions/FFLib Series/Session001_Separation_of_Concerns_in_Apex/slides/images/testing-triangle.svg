@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 600" role="img" aria-labelledby="triangle-title">
+  <title id="triangle-title">Testing triangle with and without SoC</title>
+  <defs>
+    <linearGradient id="tt-unit" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#0E8A80"/>
+      <stop offset="100%" stop-color="#7EE8DC"/>
+    </linearGradient>
+    <linearGradient id="tt-int" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#538BB4"/>
+      <stop offset="100%" stop-color="#A7D1F4"/>
+    </linearGradient>
+    <linearGradient id="tt-e2e" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#7E59AA"/>
+      <stop offset="100%" stop-color="#C6ADEC"/>
+    </linearGradient>
+    <linearGradient id="tt-with" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4DBF77"/>
+      <stop offset="100%" stop-color="#A2FDBB"/>
+    </linearGradient>
+    <linearGradient id="tt-without" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#7A8490"/>
+      <stop offset="100%" stop-color="#C5CDD6"/>
+    </linearGradient>
+    <filter id="tt-hdr-shadow" x="-8%" y="-20%" width="116%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <clipPath id="tt-pyramid">
+      <polygon points="590,148 292,572 888,572"/>
+    </clipPath>
+  </defs>
+
+  <g font-family="Calibri, 'Segoe UI', system-ui, sans-serif">
+    <text x="158" y="30" fill="#d5dde6" font-size="22" font-weight="400" text-anchor="middle">Faster tests,</text>
+    <text x="158" y="56" fill="#d5dde6" font-size="22" font-weight="400" text-anchor="middle">more durable code base</text>
+    <rect x="48" y="70" width="220" height="44" rx="12" fill="url(#tt-with)" filter="url(#tt-hdr-shadow)"/>
+    <text x="158" y="100" fill="#ffffff" font-size="24" font-weight="400" text-anchor="middle">With SOC</text>
+
+    <text x="1022" y="30" fill="#d5dde6" font-size="22" font-weight="400" text-anchor="middle">Slower tests, less coverage,</text>
+    <text x="1022" y="56" fill="#d5dde6" font-size="22" font-weight="400" text-anchor="middle">less durable to future change</text>
+    <rect x="912" y="70" width="220" height="44" rx="12" fill="url(#tt-without)" filter="url(#tt-hdr-shadow)"/>
+    <text x="1022" y="100" fill="#ffffff" font-size="24" font-weight="400" text-anchor="middle">Without SOC</text>
+
+    <rect x="292" y="148" width="596" height="141" fill="url(#tt-e2e)" clip-path="url(#tt-pyramid)"/>
+    <rect x="292" y="289" width="596" height="142" fill="url(#tt-int)" clip-path="url(#tt-pyramid)"/>
+    <rect x="292" y="431" width="596" height="141" fill="url(#tt-unit)" clip-path="url(#tt-pyramid)"/>
+    <polygon points="590,148 292,572 888,572" fill="none" stroke="#f4f6f9" stroke-width="2.5"/>
+
+    <text x="590" y="250" fill="#ffffff" font-size="20" font-weight="600" text-anchor="middle">UI / E2E</text>
+    <text x="590" y="342" fill="#ffffff" font-size="20" font-weight="600" text-anchor="middle">Integration</text>
+    <text x="590" y="360" fill="#e8f4fc" font-size="13" font-weight="400" text-anchor="middle">Verifies interactions</text>
+    <text x="590" y="376" fill="#e8f4fc" font-size="13" font-weight="400" text-anchor="middle">between components</text>
+    <text x="590" y="486" fill="#08302d" font-size="20" font-weight="600" text-anchor="middle">Unit</text>
+    <text x="590" y="504" fill="#08302d" font-size="13" font-weight="400" text-anchor="middle">Smallest piece of software</text>
+    <text x="590" y="520" fill="#08302d" font-size="13" font-weight="400" text-anchor="middle">tested in isolation</text>
+
+    <text x="268" y="188" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">More focused on</text>
+    <text x="268" y="210" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">broad end-to-end given</text>
+    <text x="268" y="232" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">investment in core</text>
+    <text x="268" y="254" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">logic below</text>
+    <text x="912" y="188" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">Focus can end up going</text>
+    <text x="912" y="210" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">deeper than needed to</text>
+    <text x="912" y="232" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">cover integration or</text>
+    <text x="912" y="254" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">unit test gaps</text>
+
+    <line x1="36" y1="289" x2="1144" y2="289" stroke="#c5d4e3" stroke-width="1.6" opacity="0.85"/>
+    <line x1="36" y1="431" x2="1144" y2="431" stroke="#c5d4e3" stroke-width="1.6" opacity="0.85"/>
+
+    <text x="268" y="340" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">Traditional DML tests</text>
+    <text x="268" y="360" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">focus on testing services</text>
+    <text x="268" y="380" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">perform end to end</text>
+    <text x="912" y="340" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">Traditional DML</text>
+    <text x="912" y="360" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">based tests are slower</text>
+    <text x="912" y="380" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">and can detract from</text>
+    <text x="912" y="400" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">authoring further tests</text>
+
+    <text x="268" y="484" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">Leverage Apex Stub API</text>
+    <text x="268" y="506" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">to mock services, domain,</text>
+    <text x="268" y="528" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">selectors, handlers</text>
+    <text x="268" y="550" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="end">for fast in-memory tests</text>
+    <text x="912" y="484" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">End up being utility</text>
+    <text x="912" y="506" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">classes only, due to</text>
+    <text x="912" y="528" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">lack of mock</text>
+    <text x="912" y="550" fill="#f4f6f9" font-size="20" font-weight="400" text-anchor="start">injection points</text>
+  </g>
+</svg>

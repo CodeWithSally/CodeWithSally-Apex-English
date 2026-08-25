@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 1280 650" role="img" aria-labelledby="service-title">
+  <title id="service-title">Every entry point calls the same Apex Service</title>
+  <defs>
+    <linearGradient id="g-hub" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#A0C94A"/>
+      <stop offset="100%" stop-color="#DBFF9C"/>
+    </linearGradient>
+    <linearGradient id="g-ui" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#7F5AAB"/>
+      <stop offset="100%" stop-color="#C7AEED"/>
+    </linearGradient>
+    <linearGradient id="g-soap" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#6C55B0"/>
+      <stop offset="100%" stop-color="#B8AAF1"/>
+    </linearGradient>
+    <linearGradient id="g-rest" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#5950B8"/>
+      <stop offset="100%" stop-color="#A9A6F6"/>
+    </linearGradient>
+    <linearGradient id="g-invocable" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4A52BE"/>
+      <stop offset="100%" stop-color="#A1A5FC"/>
+    </linearGradient>
+    <linearGradient id="g-agent" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#475BB1"/>
+      <stop offset="100%" stop-color="#9EA8FE"/>
+    </linearGradient>
+    <linearGradient id="g-email" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4564C4"/>
+      <stop offset="100%" stop-color="#9CAEFF"/>
+    </linearGradient>
+    <linearGradient id="g-batch" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#417BCA"/>
+      <stop offset="100%" stop-color="#9ABDFF"/>
+    </linearGradient>
+    <linearGradient id="g-sched" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#3B95D1"/>
+      <stop offset="100%" stop-color="#95D1FF"/>
+    </linearGradient>
+    <linearGradient id="g-queue" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#37B3D7"/>
+      <stop offset="100%" stop-color="#93EAFF"/>
+    </linearGradient>
+    <filter id="shape-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2.4" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <g font-family="Calibri, 'Segoe UI', system-ui, sans-serif">
+    <polygon fill="url(#g-ui)" filter="url(#shape-shadow)"
+             points="267.8,514.0 504.0,514.0 504.0,523.0 534.0,505.0 504.0,487.0 504.0,496.0 267.8,496.0"/>
+    <polygon fill="url(#g-soap)" filter="url(#shape-shadow)"
+             points="298.6,373.3 510.9,461.3 507.5,469.6 542.1,464.4 521.2,436.3 517.8,444.6 305.5,356.7"/>
+    <polygon fill="url(#g-rest)" filter="url(#shape-shadow)"
+             points="363.3,241.0 537.5,415.2 531.1,421.6 565.0,430.0 556.6,396.1 550.2,402.5 376.0,228.3"/>
+    <polygon fill="url(#g-invocable)" filter="url(#shape-shadow)"
+             points="479.3,140.5 579.6,382.8 571.3,386.2 599.4,407.1 604.6,372.5 596.3,375.9 495.9,133.6"/>
+    <polygon fill="url(#g-agent)" filter="url(#shape-shadow)"
+             points="631.0,102.8 631.0,369.0 622.0,369.0 640.0,399.0 658.0,369.0 649.0,369.0 649.0,102.8"/>
+    <polygon fill="url(#g-email)" filter="url(#shape-shadow)"
+             points="784.1,133.6 683.7,375.9 675.4,372.5 680.6,407.1 708.7,386.2 700.4,382.8 800.7,140.5"/>
+    <polygon fill="url(#g-batch)" filter="url(#shape-shadow)"
+             points="904.0,228.3 729.8,402.5 723.4,396.1 715.0,430.0 748.9,421.6 742.5,415.2 916.7,241.0"/>
+    <polygon fill="url(#g-sched)" filter="url(#shape-shadow)"
+             points="974.5,356.7 762.2,444.6 758.8,436.3 737.9,464.4 772.5,469.6 769.1,461.3 981.4,373.3"/>
+    <polygon fill="url(#g-queue)" filter="url(#shape-shadow)"
+             points="1012.2,496.0 776.0,496.0 776.0,487.0 746.0,505.0 776.0,523.0 776.0,514.0 1012.2,514.0"/>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="118.0" y="457.0" width="156" height="96" rx="12" fill="url(#g-ui)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="196.0" y="495.0">Apex UI</tspan>
+      <tspan x="196.0" y="518.0">Controllers</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="151.8" y="287.1" width="156" height="96" rx="12" fill="url(#g-soap)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="229.8" y="325.1">Apex Web</tspan>
+      <tspan x="229.8" y="348.1">Service</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="248.0" y="143.0" width="156" height="96" rx="12" fill="url(#g-rest)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="326.0" y="181.0">Apex REST</tspan>
+      <tspan x="326.0" y="204.0">Service</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="392.1" y="46.8" width="156" height="96" rx="12" fill="url(#g-invocable)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="470.1" y="84.8">Invocable</tspan>
+      <tspan x="470.1" y="107.8">Method</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="562.0" y="13.0" width="156" height="96" rx="12" fill="url(#g-agent)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="640.0" y="51.0">Agent</tspan>
+      <tspan x="640.0" y="74.0">Action</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="731.9" y="46.8" width="156" height="96" rx="12" fill="url(#g-email)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="16">
+      <tspan x="809.9" y="84.8">Inbound Email</tspan>
+      <tspan x="809.9" y="106.8">Handler</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="876.0" y="143.0" width="156" height="96" rx="12" fill="url(#g-batch)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="954.0" y="181.0">Batch</tspan>
+      <tspan x="954.0" y="204.0">Apex</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="972.2" y="287.1" width="156" height="96" rx="12" fill="url(#g-sched)"/>
+    </g>
+    <text text-anchor="middle" fill="#ffffff" font-size="17">
+      <tspan x="1050.2" y="325.1">Scheduled</tspan>
+      <tspan x="1050.2" y="348.1">Apex</tspan>
+    </text>
+
+    <g filter="url(#shape-shadow)">
+      <rect x="1006.0" y="457.0" width="156" height="96" rx="12" fill="url(#g-queue)"/>
+    </g>
+    <text x="1084.0" y="513.0" text-anchor="middle" fill="#ffffff" font-size="20">Queueable</text>
+
+    <circle cx="640" cy="505" r="100" fill="url(#g-hub)" filter="url(#shape-shadow)"/>
+    <text text-anchor="middle" fill="#ffffff" font-size="26">
+      <tspan x="640" y="496">Apex</tspan>
+      <tspan x="640" y="528">Service</tspan>
+    </text>
+  </g>
+</svg>

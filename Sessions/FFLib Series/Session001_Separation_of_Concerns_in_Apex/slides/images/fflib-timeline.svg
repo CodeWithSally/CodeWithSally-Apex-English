@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 148" role="img" aria-labelledby="fflib-timeline-title">
+  <title id="fflib-timeline-title">fflib and Apex Enterprise Patterns timeline</title>
+  <g font-family="system-ui, Segoe UI, sans-serif">
+    <line x1="50" y1="56" x2="960" y2="56" stroke="#81ccc2" stroke-width="2.5" fill="none" opacity="0.85"/>
+    <circle cx="50" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="50" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="start">2013</text>
+    <text x="50" y="82" fill="#f4f6f9" font-size="13" font-weight="500" text-anchor="start">apex-common</text>
+    <text x="50" y="98" fill="#c5d4e3" font-size="12" text-anchor="start">GitHub / Aug</text>
+    <circle cx="200" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="200" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="middle">2014</text>
+    <text x="200" y="82" fill="#f4f6f9" font-size="13" font-weight="500" text-anchor="middle">apex-mocks</text>
+    <text x="200" y="98" fill="#c5d4e3" font-size="12" text-anchor="middle">GitHub / Apr</text>
+    <circle cx="327" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="327" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="middle">2014</text>
+    <text x="327" y="82" fill="#f4f6f9" font-size="13" font-weight="500" text-anchor="middle">Force.com Enterprise</text>
+    <text x="327" y="98" fill="#c5d4e3" font-size="12" text-anchor="middle">Architecture / Book</text>
+    <circle cx="454" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="454" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="middle">2016</text>
+    <text x="454" y="82" fill="#f4f6f9" font-size="13" font-weight="500" text-anchor="middle">Dreamforce</text>
+    <text x="454" y="94" fill="#c5d4e3" font-size="12" text-anchor="middle">Building</text>
+    <text x="454" y="106" fill="#c5d4e3" font-size="12" text-anchor="middle">Strong</text>
+    <text x="454" y="118" fill="#c5d4e3" font-size="12" text-anchor="middle">Foundations</text>
+    <circle cx="581" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="581" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="middle">2018</text>
+    <text x="581" y="82" fill="#f4f6f9" font-size="13" font-weight="500" text-anchor="middle">force-di + AT4DX</text>
+    <text x="581" y="98" fill="#c5d4e3" font-size="12" text-anchor="middle">DI and DX packaging</text>
+    <circle cx="708" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="708" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="middle">2019</text>
+    <text x="708" y="82" fill="#f4f6f9" font-size="13" font-weight="500" text-anchor="middle">apex-enterprise-</text>
+    <text x="708" y="98" fill="#c5d4e3" font-size="12" text-anchor="middle">patterns org / Nov</text>
+    <circle cx="835" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="835" y="82" fill="#c5d4e3" font-size="12" text-anchor="middle">Ongoing</text>
+    <text x="835" y="94" fill="#c5d4e3" font-size="12" text-anchor="middle">Enhancements</text>
+    <text x="835" y="106" fill="#c5d4e3" font-size="12" text-anchor="middle">and</text>
+    <text x="835" y="118" fill="#c5d4e3" font-size="12" text-anchor="middle">Version</text>
+    <text x="835" y="130" fill="#c5d4e3" font-size="12" text-anchor="middle">Updates</text>
+    <circle cx="960" cy="56" r="7" fill="#1b96ff" stroke="#f4f6f9" stroke-width="2"/>
+    <text x="960" y="30" fill="#9fb3c8" font-size="15" font-weight="600" text-anchor="end">Today</text>
+    <text x="960" y="82" fill="#c5d4e3" font-size="12" text-anchor="end">New</text>
+    <text x="960" y="94" fill="#c5d4e3" font-size="12" text-anchor="end">Docs</text>
+    <text x="960" y="106" fill="#c5d4e3" font-size="12" text-anchor="end">Site</text>
+  </g>
+</svg>

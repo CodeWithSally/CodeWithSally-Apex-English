@@ -1,0 +1,16 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app.with-soc",
+      "default": true
+    },
+    {
+      "path": "force-app.without-soc",
+      "default": false
+    }
+  ],
+  "name": "Session001_Separation_of_Concerns_in_Apex",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "67.0"
+}

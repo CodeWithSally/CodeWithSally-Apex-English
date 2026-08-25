@@ -1,0 +1,134 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef1"
+      },
+      "Name": "Acme Corporation",
+      "Industry": "Technology",
+      "Type": "Customer",
+      "BillingCity": "San Francisco",
+      "BillingState": "CA",
+      "Phone": "(555) 123-4567",
+      "Website": "www.acme.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef2"
+      },
+      "Name": "Global Industries",
+      "Industry": "Manufacturing",
+      "Type": "Customer",
+      "BillingCity": "New York",
+      "BillingState": "NY",
+      "Phone": "(555) 234-5678",
+      "Website": "www.globalind.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef3"
+      },
+      "Name": "TechStart Solutions",
+      "Industry": "Technology",
+      "Type": "Prospect",
+      "BillingCity": "Austin",
+      "BillingState": "TX",
+      "Phone": "(555) 345-6789",
+      "Website": "www.techstart.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef4"
+      },
+      "Name": "Healthcare Partners",
+      "Industry": "Healthcare",
+      "Type": "Customer",
+      "BillingCity": "Boston",
+      "BillingState": "MA",
+      "Phone": "(555) 456-7890",
+      "Website": "www.healthcarepartners.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef5"
+      },
+      "Name": "Financial Services Inc",
+      "Industry": "Financial Services",
+      "Type": "Customer",
+      "BillingCity": "Chicago",
+      "BillingState": "IL",
+      "Phone": "(555) 567-8901",
+      "Website": "www.financialservices.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef6"
+      },
+      "Name": "Retail Dynamics",
+      "Industry": "Retail",
+      "Type": "Prospect",
+      "BillingCity": "Miami",
+      "BillingState": "FL",
+      "Phone": "(555) 678-9012",
+      "Website": "www.retaildynamics.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef7"
+      },
+      "Name": "Energy Solutions",
+      "Industry": "Energy",
+      "Type": "Customer",
+      "BillingCity": "Denver",
+      "BillingState": "CO",
+      "Phone": "(555) 789-0123",
+      "Website": "www.energysolutions.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef8"
+      },
+      "Name": "Education First",
+      "Industry": "Education",
+      "Type": "Prospect",
+      "BillingCity": "Seattle",
+      "BillingState": "WA",
+      "Phone": "(555) 890-1234",
+      "Website": "www.educationfirst.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef9"
+      },
+      "Name": "Transportation Hub",
+      "Industry": "Transportation",
+      "Type": "Customer",
+      "BillingCity": "Atlanta",
+      "BillingState": "GA",
+      "Phone": "(555) 901-2345",
+      "Website": "www.transportationhub.com"
+    },
+    {
+      "attributes": {
+        "type": "Account",
+        "referenceId": "AccountRef10"
+      },
+      "Name": "Consulting Experts",
+      "Industry": "Consulting",
+      "Type": "Prospect",
+      "BillingCity": "Portland",
+      "BillingState": "OR",
+      "Phone": "(555) 012-3456",
+      "Website": "www.consultingexperts.com"
+    }
+  ]
+}
