@@ -7,8 +7,8 @@
       <stop offset="100%" stop-color="#3E82B6"/>
     </linearGradient>
     <linearGradient id="g-selector" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#62D8D0"/>
-      <stop offset="100%" stop-color="#2AAEA6"/>
+      <stop offset="0%" stop-color="#F0C46A"/>
+      <stop offset="100%" stop-color="#C98A28"/>
     </linearGradient>
     <linearGradient id="g-service" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#D0EA78"/>

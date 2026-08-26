@@ -22,6 +22,14 @@ section {
   --cw-acc: #81ccc2;
   --cw-grid-size: 34px;
   --cw-grid-line: rgba(129, 204, 194, 0.28);
+  /* IDE tab legend — same hues as the consumer/dependency SVGs. */
+  --tab-client: #5c5c5c;
+  --tab-client-text: #b8b8b8;
+  --tab-service: #A0C94A;
+  --tab-domain: #5A98E0;
+  --tab-selector: #E8A84A;
+  --tab-bg: #1e1e1e;
+  --tab-bg-alt: #2d2d2d;
 
   padding: 40px;
   box-sizing: border-box;
@@ -424,9 +432,8 @@ section.layers-classes-slide .vscode-tab {
 }
 
 section.layers-classes-slide .vscode-tab-alt {
-  background: #2d2d2d;
+  background-color: var(--tab-bg-alt);
   color: #969696;
-  box-shadow: none;
 }
 
 section.layers-classes-slide .vscode-tab-more::before {
@@ -617,9 +624,8 @@ section.evolve-slide .evolve-services .vscode-tab {
 
 section.evolve-slide .evolve-copy .vscode-tab-alt,
 section.evolve-slide .evolve-services .vscode-tab-alt {
-  background: #2d2d2d;
+  background-color: var(--tab-bg-alt);
   color: #969696;
-  box-shadow: none;
 }
 
 section.evolve-slide .evolve-copy pre,
@@ -744,7 +750,6 @@ section .trigger-callout code {
 
 section.trigger-poor-home-slide .trigger-compare .vscode-tab {
   font-size: 16px;
-  box-shadow: inset 0 -3px 0 #A0C94A;
 }
 
 section.trigger-poor-home-slide .trigger-compare pre,
@@ -1065,11 +1070,12 @@ section .vscode-tabs {
 }
 
 section .vscode-tab {
+  --tab-pattern: var(--tab-client);
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
   padding: 0.35em 0.9em 0.3em;
-  background: #1e1e1e;
+  background-color: var(--tab-bg);
   color: #e6e6e6;
   font-size: 19px;
   font-family: "Segoe UI", system-ui, sans-serif;
@@ -1077,7 +1083,66 @@ section .vscode-tab {
   letter-spacing: 0;
   line-height: 1.2;
   border-right: 1px solid #1a1a1a;
-  box-shadow: inset 0 -3px 0 #007acc;
+  box-shadow: inset 0 -3px 0 var(--tab-client);
+}
+
+section .vscode-tab-client {
+  --tab-pattern: var(--tab-client);
+  color: var(--tab-client-text);
+  box-shadow: inset 0 -3px 0 var(--tab-client);
+}
+
+section .vscode-tab-client,
+section .vscode-tab-service,
+section .vscode-tab-domain,
+section .vscode-tab-selector {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--tab-pattern) 58%, var(--tab-bg)) 0%,
+    var(--tab-bg) 48%,
+    var(--tab-bg) 100%
+  );
+}
+
+section .vscode-tab-service {
+  --tab-pattern: var(--tab-service);
+  box-shadow: inset 0 -3px 0 var(--tab-service);
+}
+
+section .vscode-tab-domain {
+  --tab-pattern: var(--tab-domain);
+  box-shadow: inset 0 -3px 0 var(--tab-domain);
+}
+
+section .vscode-tab-selector {
+  --tab-pattern: var(--tab-selector);
+  box-shadow: inset 0 -3px 0 var(--tab-selector);
+}
+
+section .vscode-tab-alt {
+  background-color: var(--tab-bg-alt);
+  color: #969696;
+}
+
+section .vscode-tab-more {
+  box-shadow: none;
+  background-image: none;
+}
+
+section .vscode-tab-alt.vscode-tab-client,
+section .vscode-tab-alt.vscode-tab-service,
+section .vscode-tab-alt.vscode-tab-domain,
+section .vscode-tab-alt.vscode-tab-selector {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--tab-pattern) 38%, var(--tab-bg-alt)) 0%,
+    var(--tab-bg-alt) 48%,
+    var(--tab-bg-alt) 100%
+  );
+}
+
+section .vscode-tab-alt.vscode-tab-client {
+  color: #8e8e8e;
 }
 
 section .vscode-tab::before {
@@ -1085,7 +1150,7 @@ section .vscode-tab::before {
   width: 0.7em;
   height: 0.7em;
   border-radius: 2px;
-  background: #519aba;
+  background: var(--tab-pattern);
   flex-shrink: 0;
 }
 
@@ -1392,7 +1457,6 @@ section.selector-examples-slide .duo-col-span .vscode :is(pre, marp-pre) {
 }
 
 section.selector-examples-slide .vscode-tab {
-  box-shadow: inset 0 -3px 0 #5CC7E4;
   font-size: 15px;
 }
 
@@ -1443,9 +1507,6 @@ section.domain-examples-slide .vscode pre code.hljs {
   line-height: 1.28;
 }
 
-section.domain-examples-slide .vscode-tab {
-  box-shadow: inset 0 -3px 0 #A0C94A;
-}
 
 section.domain-examples-slide .duo {
   flex: 0 0 auto;

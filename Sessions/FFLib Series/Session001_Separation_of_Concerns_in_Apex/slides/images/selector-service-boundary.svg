@@ -18,12 +18,12 @@
       <stop offset="100%" stop-color="#DBFF9C"/>
     </linearGradient>
     <linearGradient id="sb-selector-h" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#38B6D8"/>
-      <stop offset="100%" stop-color="#5CC7E4"/>
+      <stop offset="0%" stop-color="#C98A28"/>
+      <stop offset="100%" stop-color="#E8A84A"/>
     </linearGradient>
     <linearGradient id="sb-selector-b" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#74D8F0"/>
-      <stop offset="100%" stop-color="#91ECFF"/>
+      <stop offset="0%" stop-color="#F0C46A"/>
+      <stop offset="100%" stop-color="#F6D78A"/>
     </linearGradient>
     <linearGradient id="sb-client-h" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#7F5AAB"/>
@@ -34,8 +34,8 @@
       <stop offset="100%" stop-color="#C7AEED"/>
     </linearGradient>
     <linearGradient id="sb-soql" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#38B6D8"/>
-      <stop offset="100%" stop-color="#91ECFF"/>
+      <stop offset="0%" stop-color="#C98A28"/>
+      <stop offset="100%" stop-color="#F6D78A"/>
     </linearGradient>
     <filter id="sb-shadow" x="-12%" y="-12%" width="124%" height="130%">
       <feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.32"/>
@@ -54,13 +54,13 @@
 
     <!-- SOQL behind Selector -->
     <g filter="url(#sb-shadow)">
-      <ellipse cx="185.25" cy="874.2" rx="106.75" ry="18" fill="url(#sb-soql)" stroke="#45A9C4" stroke-width="1.3"/>
+      <ellipse cx="185.25" cy="874.2" rx="106.75" ry="18" fill="url(#sb-soql)" stroke="#C48A2A" stroke-width="1.3"/>
       <rect x="78.5" y="670.7" width="213.5" height="203.5" fill="url(#sb-soql)"/>
-      <line x1="78.5" y1="670.7" x2="78.5" y2="874.2" stroke="#45A9C4" stroke-width="1.3"/>
-      <line x1="292.0" y1="670.7" x2="292.0" y2="874.2" stroke="#45A9C4" stroke-width="1.3"/>
-      <ellipse cx="185.25" cy="670.7" rx="106.75" ry="18" fill="url(#sb-soql)" stroke="#45A9C4" stroke-width="1.3"/>
+      <line x1="78.5" y1="670.7" x2="78.5" y2="874.2" stroke="#C48A2A" stroke-width="1.3"/>
+      <line x1="292.0" y1="670.7" x2="292.0" y2="874.2" stroke="#C48A2A" stroke-width="1.3"/>
+      <ellipse cx="185.25" cy="670.7" rx="106.75" ry="18" fill="url(#sb-soql)" stroke="#C48A2A" stroke-width="1.3"/>
     </g>
-    <text x="185.25" y="777.24" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="600">SOQL</text>
+    <text x="185.25" y="777.24" text-anchor="middle" fill="#1a2744" font-size="22" font-weight="600">SOQL</text>
 
     <!-- Domain -->
     <g filter="url(#sb-shadow)">
@@ -80,8 +80,8 @@
 
     <!-- Selector (on top of SOQL) -->
     <g filter="url(#sb-shadow)">
-      <path d="M 266.5,506.9 H 622.0 Q 633.0,506.9 633.0,517.9 V 579.8 H 255.5 V 517.9 Q 255.5,506.9 266.5,506.9 Z" fill="url(#sb-selector-h)" stroke="#45A9C4" stroke-width="1.2"/>
-      <rect x="255.5" y="579.8" width="377.5" height="192.7" fill="url(#sb-selector-b)" stroke="#45A9C4" stroke-width="1.2"/>
+      <path d="M 266.5,506.9 H 622.0 Q 633.0,506.9 633.0,517.9 V 579.8 H 255.5 V 517.9 Q 255.5,506.9 266.5,506.9 Z" fill="url(#sb-selector-h)" stroke="#C48A2A" stroke-width="1.2"/>
+      <rect x="255.5" y="579.8" width="377.5" height="192.7" fill="url(#sb-selector-b)" stroke="#C48A2A" stroke-width="1.2"/>
     </g>
     <text x="444.25" y="556.472" text-anchor="middle" fill="#ffffff" font-size="20">Selector Class</text>
     <text fill="#1a2744" font-size="16">

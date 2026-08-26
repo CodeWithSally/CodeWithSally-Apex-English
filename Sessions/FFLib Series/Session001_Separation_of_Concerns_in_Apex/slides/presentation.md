@@ -149,7 +149,7 @@ Warm-up from Building Strong Foundations. The fridge looks fine until you notice
 <div class="duo-col">
 <p class="dev-caption">👤 Developer “A” — creates a controller</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunityCreateInvoiceController.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">OpportunityCreateInvoiceController.cls</span></div>
 
 ```apex
 public inherited sharing class OpportunityCreateInvoiceController {
@@ -186,7 +186,7 @@ public inherited sharing class OpportunityCreateInvoiceController {
 <div class="duo-col">
 <p class="dev-caption">👤 Developer “B” — later creates a batch job</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">CreateInvoicesJob.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">CreateInvoicesJob.cls</span></div>
 
 ```apex
 public inherited sharing class CreateInvoicesJob
@@ -263,7 +263,7 @@ Walk Developer A first: business logic lives in a Lightning controller — not c
 # What's wrong with this picture?
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">opportunityApplyDiscount.js</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">opportunityApplyDiscount.js</span></div>
 
 ```javascript
 import { getRecord, getFieldValue, updateRecord } from "lightning/uiRecordApi";
@@ -330,7 +330,7 @@ Walk the table: LDS is fine for reads/writes, but the business rule belongs in A
 # What's wrong with this picture?
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">CreateInvoice.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">CreateInvoice.cls</span></div>
 
 ```apex
 public inherited sharing class CreateInvoice {
@@ -434,7 +434,7 @@ Audience exercise. SoC is about stable homes for behavior, not only DRY. Poll th
 <p class="timeline-legend">🤔 Business Logic Impact</p>
 </div>
 <div class="vscode evolve-copy">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunityController.cls</span><span class="vscode-tab vscode-tab-alt">OpportunityInvocable.cls</span><span class="vscode-tab vscode-tab-alt">InvoiceController.cls</span><span class="vscode-tab vscode-tab-alt">InvoiceInvocable.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">OpportunityController.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">OpportunityInvocable.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">InvoiceController.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">InvoiceInvocable.cls</span></div>
 <pre><code>// logic copied — every new client type
 VF · Aura · LWC · Agent Action · React · Next?
   └─► OpportunityController.applyDiscount(...)
@@ -458,7 +458,7 @@ VF · Aura · LWC · Agent Action · React · Next?
 </div>
 </div>
 <div class="vscode evolve-services">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunityService.cls</span><span class="vscode-tab vscode-tab-alt">InvoiceService.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">OpportunityService.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-service">InvoiceService.cls</span></div>
 <pre><code>// same services — every client type
 LWC · REST · Batch · Flow · Agent Action · Next?
   └─► OpportunityService.applyDiscount(...)
@@ -651,14 +651,14 @@ Every layer has declarative and coding paths. SoC is putting each concern in the
 <div class="soc-layer soc-layer-presentation">
 <div class="soc-layer-header">Presentation</div>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunityCreateInvoiceController.cls</span><span class="vscode-tab vscode-tab-alt">OpportunityApplyDiscountController.cls</span><span class="vscode-tab vscode-tab-alt">OpportunityInvoicingController.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-more">…</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">OpportunityCreateInvoiceController.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">OpportunityApplyDiscountController.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">OpportunityInvoicingController.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-more">…</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/controllers</span></div>
 </div>
 </div>
 <div class="soc-layer soc-layer-integration">
 <div class="soc-layer-header">Integration</div>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">ApplyDiscount.cls</span><span class="vscode-tab vscode-tab-alt">CreateInvoice.cls</span><span class="vscode-tab vscode-tab-alt">OpportunitiesResource.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">ApplyDiscount.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">CreateInvoice.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-client">OpportunitiesResource.cls</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/actions · /classes/apis</span></div>
 </div>
 </div>
@@ -667,15 +667,15 @@ Every layer has declarative and coding paths. SoC is putting each concern in the
 <div class="soc-layer-header">Business Logic</div>
 <div class="soc-layer-windows">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesService.cls</span><span class="vscode-tab vscode-tab-alt">InvoicingService.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">OpportunitiesService.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-service">InvoicingService.cls</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/services</span></div>
 </div>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">Opportunities.cls</span><span class="vscode-tab vscode-tab-alt">OpportunityLineItems.cls</span><span class="vscode-tab vscode-tab-alt">Accounts.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-more">…</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">Opportunities.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-domain">OpportunityLineItems.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-domain">Accounts.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-more">…</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/domains</span></div>
 </div>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesTriggerHandler.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">OpportunitiesTriggerHandler.cls</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/triggerHandlers</span></div>
 </div>
 </div>
@@ -683,14 +683,14 @@ Every layer has declarative and coding paths. SoC is putting each concern in the
 <div class="soc-layer soc-layer-data">
 <div class="soc-layer-header">Data Access</div>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesSelector.cls</span><span class="vscode-tab vscode-tab-alt">OpportunityLineItemsSelector.cls</span><span class="vscode-tab vscode-tab-alt">AccountsSelector.cls</span><span class="vscode-tab vscode-tab-alt">ProductsSelector.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">OpportunitiesSelector.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-selector">OpportunityLineItemsSelector.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-selector">AccountsSelector.cls</span><span class="vscode-tab vscode-tab-alt vscode-tab-selector">ProductsSelector.cls</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/selectors</span></div>
 </div>
 </div>
 <div class="soc-layer soc-layer-database">
 <div class="soc-layer-header">Database</div>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesTriggerHandler.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">OpportunitiesTriggerHandler.cls</span></div>
 <div class="vscode-pane"><span class="vscode-comment">// /classes/triggerHandlers</span></div>
 </div>
 </div>
@@ -806,7 +806,7 @@ Ids and primitives are client-agnostic. A UI-shaped ApplyInputForm couples the s
 # Service - Code Example
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesService.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">OpportunitiesService.cls</span></div>
 
 ```apex
 public void applyDiscounts(
@@ -836,10 +836,10 @@ Walk applyDiscounts: client-agnostic Set<Id>, selector loads with products, doma
 
 # Service - Consumers and Dependencies
 
-![Controller, REST, and Invocable call the Service; the Service reuses Domain and Selector](images/service-consumers-dependencies.svg)
+![Controller, REST, Invocable, and Trigger call the Service; the Service reuses Domain and Selector](images/service-consumers-dependencies.svg)
 
 <!--
-Service is the hub. Controller, REST, and Invocable call the same applyDiscounts. Service then reuses Domain (in-memory discount) and Selector (SOQL). Same collaboration for every consumer — no copy of the rules.
+Service is the hub. Controller, REST, Invocable, and Trigger call the same applyDiscounts. Service then reuses Domain (in-memory discount) and Selector (SOQL). Same collaboration for every consumer — no copy of the rules.
 -->
 
 ---
@@ -895,7 +895,7 @@ Domain is data plus behavior. Methods are the object's tasks. Trigger / CRUD res
 
 <div class="trigger-compare">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">Opportunities.trigger</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">Opportunities.trigger</span></div>
 
 ```apex
 trigger Opportunities on Opportunity (
@@ -916,7 +916,7 @@ trigger Opportunities on Opportunity (
 
 <div class="trigger-compare-col">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">Opportunities.trigger</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">Opportunities.trigger</span></div>
 
 ```apex
 trigger Opportunities on Opportunity (
@@ -947,7 +947,7 @@ Motivation for trigger handlers and thin triggers before the split Domain / hand
 <div class="duo-col">
 <p class="dev-caption">Service Layer → Domain</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">Opportunities.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">Opportunities.cls</span></div>
 
 ```apex
 public class Opportunities {
@@ -976,7 +976,7 @@ public class Opportunities {
 <div class="duo-col">
 <p class="dev-caption">Apex Trigger → Trigger Handler → Domain</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesTriggerHandler.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">OpportunitiesTriggerHandler.cls</span></div>
 
 ```apex
 public class OpportunitiesTriggerHandler {
@@ -1028,7 +1028,7 @@ Domain wraps a list via newInstance. applyDiscount mutates in memory; Service or
 # Domain - Code Example #1
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">Opportunities.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">Opportunities.cls</span></div>
 
 ```apex
 public void applyDiscount(Decimal discountPercentage) {
@@ -1061,7 +1061,7 @@ Walk applyDiscount: factor from calculateDiscountFactor, mutate Amount when ther
 # Domain - Code Example #2
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesTriggerHandler.cls</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">OpportunitiesTriggerHandler.cls</span></div>
 
 ```apex
 public void onValidate() {
@@ -1161,7 +1161,7 @@ Method names are documentation. New developer knows which query to call for disc
 <div class="duo">
 <div class="duo-col">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesSelector.selectById</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">OpportunitiesSelector.selectById</span></div>
 
 ```apex
 public List<Opportunity> selectById(Set<Id> idSet) {
@@ -1179,7 +1179,7 @@ public List<Opportunity> selectById(Set<Id> idSet) {
 </div>
 <div class="duo-col">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesSelector.readyToInvoiceAsQueryLocator</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">OpportunitiesSelector.readyToInvoiceAsQueryLocator</span></div>
 
 ```apex
 public Database.QueryLocator readyToInvoiceAsQueryLocator() {
@@ -1197,7 +1197,7 @@ public Database.QueryLocator readyToInvoiceAsQueryLocator() {
 </div>
 <div class="duo-col duo-col-span">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab">OpportunitiesSelector.selectOpportunitySummary</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">OpportunitiesSelector.selectOpportunitySummary</span></div>
 
 ```apex
 public List<OpportunitySummary> selectOpportunitySummary(Set<Id> idSet) {
@@ -1231,10 +1231,10 @@ Top two query Opportunity fields only. Bottom adds Account fields and wraps each
 
 # Selector - Consumers and Dependencies
 
-![Controller, Service, and Batch call OpportunitiesSelector; Selector returns OpportunitySummary](images/selector-consumers-dependencies.svg)
+![Service, Domain, Controller, and Batch call OpportunitiesSelector; Selector returns OpportunitySummary](images/selector-consumers-dependencies.svg)
 
 <!--
-Controller, Service, and CreateInvoicesJob all call OpportunitiesSelector. listOpportunities is a UI-shaped read that uses selectOpportunitySummary. applyDiscounts loads by Id; the batch start method uses readyToInvoiceAsQueryLocator. OpportunitySummary is the flattened DTO.
+Service, Domain, Controller, and CreateInvoicesJob all call OpportunitiesSelector — pattern consumers first, then other callers. applyDiscounts loads by Id; Domain reuses the same selector when it needs records. listOpportunities is a UI-shaped read that uses selectOpportunitySummary. The batch start method uses readyToInvoiceAsQueryLocator. OpportunitySummary is the flattened DTO.
 -->
 
 ---
