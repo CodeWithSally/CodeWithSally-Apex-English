@@ -1,0 +1,9 @@
+{
+  "name": "session001-slide-toolchain",
+  "private": true,
+  "description": "Marp CLI plumbing used by slides/bin/build.sh",
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.5.0",
+    "highlightjs-apex": "^1.66.0"
+  }
+}

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1304" height="608" viewBox="0 0 1304 608" role="img" aria-labelledby="erd-title">
+  <title id="erd-title">Warehouse operations object model in Schema Builder style</title>
+  <defs>
+    <pattern id="sb-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#d8dde6" stroke-width="1"/>
+    </pattern>
+    <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+    <marker id="arrow-lookup" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="10" markerHeight="8" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#7BA7D9"/>
+    </marker>
+    <marker id="arrow-md" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="10" markerHeight="8" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#8b2332"/>
+    </marker>
+  </defs>
+  <rect width="1304" height="608" fill="#eceff3"/>
+  <rect width="1304" height="608" fill="url(#sb-grid)"/>
+
+  <!--
+    3 x 2 grid, top row bottom-aligned so the alley is one short gap.
+    col1 32 / col2 452 / col3 872
+    FO y=28 h=212. Warehouse y=92 h=148. Robot Model y=60 h=180. Row 2 y=272.
+  -->
+  <g font-family="Arial, Helvetica, sans-serif">
+
+    <!-- Robot Model -->
+    <g filter="url(#card-shadow)" transform="translate(32,60)">
+      <rect width="372" height="180" rx="3" fill="#ffffff" stroke="#5c5c5c"/>
+      <path d="M 0 0 h 372 v 32 h -372 z" fill="#5c5c5c"/>
+      <rect width="372" height="8" rx="3" fill="#5c5c5c"/>
+      <text x="14" y="23" fill="#ffffff" font-size="16" font-weight="700">Robot Model</text>
+      <line x1="18" y1="42" x2="18" y2="58" stroke="#c23934" stroke-width="3"/>
+      <text x="28" y="58" fill="#080707" font-size="14">Model Name</text>
+      <text x="358" y="58" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Text(80)</text>
+      <line x1="0" y1="68" x2="372" y2="68" stroke="#e5e5e5"/>
+      <text x="28" y="90" fill="#080707" font-size="14">Max Load Kg</text>
+      <text x="358" y="90" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Number(18, 0)</text>
+      <line x1="0" y1="100" x2="372" y2="100" stroke="#e5e5e5"/>
+      <text x="28" y="122" fill="#080707" font-size="14">Service Interval Hours</text>
+      <text x="358" y="122" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Number(18, 0)</text>
+      <line x1="0" y1="132" x2="372" y2="132" stroke="#e5e5e5"/>
+      <text x="28" y="154" fill="#080707" font-size="14">Performance Factor</text>
+      <text x="358" y="154" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Number(18, 2)</text>
+    </g>
+
+    <!-- Warehouse -->
+    <g filter="url(#card-shadow)" transform="translate(452,92)">
+      <rect width="372" height="148" rx="3" fill="#ffffff" stroke="#5c5c5c"/>
+      <path d="M 0 0 h 372 v 32 h -372 z" fill="#5c5c5c"/>
+      <rect width="372" height="8" rx="3" fill="#5c5c5c"/>
+      <text x="14" y="23" fill="#ffffff" font-size="16" font-weight="700">Warehouse</text>
+      <line x1="18" y1="42" x2="18" y2="58" stroke="#c23934" stroke-width="3"/>
+      <text x="28" y="58" fill="#080707" font-size="14">Warehouse Name</text>
+      <text x="358" y="58" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Text(80)</text>
+      <line x1="0" y1="68" x2="372" y2="68" stroke="#e5e5e5"/>
+      <text x="28" y="90" fill="#080707" font-size="14">Status</text>
+      <text x="358" y="90" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="100" x2="372" y2="100" stroke="#e5e5e5"/>
+      <text x="28" y="122" fill="#080707" font-size="14">Location</text>
+      <text x="358" y="122" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+    </g>
+
+    <!-- Fulfillment Order -->
+    <g filter="url(#card-shadow)" transform="translate(872,28)">
+      <rect width="400" height="212" rx="3" fill="#ffffff" stroke="#5c5c5c"/>
+      <path d="M 0 0 h 400 v 32 h -400 z" fill="#5c5c5c"/>
+      <rect width="400" height="8" rx="3" fill="#5c5c5c"/>
+      <text x="14" y="23" fill="#ffffff" font-size="16" font-weight="700">Fulfillment Order</text>
+      <line x1="18" y1="42" x2="18" y2="58" stroke="#c23934" stroke-width="3"/>
+      <text x="28" y="58" fill="#080707" font-size="14">Order Number</text>
+      <text x="386" y="58" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Auto Number</text>
+      <line x1="0" y1="68" x2="400" y2="68" stroke="#e5e5e5"/>
+      <text x="28" y="90" fill="#080707" font-size="14">Warehouse</text>
+      <text x="386" y="90" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Lookup(Warehouse)</text>
+      <line x1="0" y1="100" x2="400" y2="100" stroke="#e5e5e5"/>
+      <text x="28" y="122" fill="#080707" font-size="14">Status</text>
+      <text x="386" y="122" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="132" x2="400" y2="132" stroke="#e5e5e5"/>
+      <text x="28" y="154" fill="#080707" font-size="14">Priority</text>
+      <text x="386" y="154" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="164" x2="400" y2="164" stroke="#e5e5e5"/>
+      <text x="28" y="186" fill="#080707" font-size="14">Due Date</text>
+      <text x="386" y="186" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Date</text>
+    </g>
+
+    <!-- Maintenance Job -->
+    <g filter="url(#card-shadow)" transform="translate(32,272)">
+      <rect width="372" height="180" rx="3" fill="#ffffff" stroke="#5c5c5c"/>
+      <path d="M 0 0 h 372 v 32 h -372 z" fill="#5c5c5c"/>
+      <rect width="372" height="8" rx="3" fill="#5c5c5c"/>
+      <text x="14" y="23" fill="#ffffff" font-size="16" font-weight="700">Maintenance Job</text>
+      <text x="28" y="58" fill="#080707" font-size="14">Robot</text>
+      <text x="358" y="58" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Lookup(Robot)</text>
+      <line x1="0" y1="68" x2="372" y2="68" stroke="#e5e5e5"/>
+      <text x="28" y="90" fill="#080707" font-size="14">Type</text>
+      <text x="358" y="90" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="100" x2="372" y2="100" stroke="#e5e5e5"/>
+      <text x="28" y="122" fill="#080707" font-size="14">Status</text>
+      <text x="358" y="122" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="132" x2="372" y2="132" stroke="#e5e5e5"/>
+      <text x="28" y="154" fill="#080707" font-size="14">Hours / Cost / Reason</text>
+      <text x="358" y="154" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Mixed</text>
+    </g>
+
+    <!-- Robot -->
+    <g filter="url(#card-shadow)" transform="translate(452,272)">
+      <rect width="372" height="308" rx="3" fill="#ffffff" stroke="#5c5c5c"/>
+      <path d="M 0 0 h 372 v 32 h -372 z" fill="#5c5c5c"/>
+      <rect width="372" height="8" rx="3" fill="#5c5c5c"/>
+      <text x="14" y="23" fill="#ffffff" font-size="16" font-weight="700">Robot</text>
+      <line x1="18" y1="42" x2="18" y2="58" stroke="#c23934" stroke-width="3"/>
+      <text x="28" y="58" fill="#080707" font-size="14">Robot Name</text>
+      <text x="358" y="58" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Text(80)</text>
+      <line x1="0" y1="68" x2="372" y2="68" stroke="#e5e5e5"/>
+      <text x="28" y="90" fill="#080707" font-size="14">Warehouse</text>
+      <text x="358" y="90" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Lookup(Warehouse)</text>
+      <line x1="0" y1="100" x2="372" y2="100" stroke="#e5e5e5"/>
+      <text x="28" y="122" fill="#080707" font-size="14">Model</text>
+      <text x="358" y="122" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Lookup(Robot Model)</text>
+      <line x1="0" y1="132" x2="372" y2="132" stroke="#e5e5e5"/>
+      <text x="28" y="154" fill="#080707" font-size="14">Status</text>
+      <text x="358" y="154" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="164" x2="372" y2="164" stroke="#e5e5e5"/>
+      <text x="28" y="186" fill="#080707" font-size="14">Health</text>
+      <text x="358" y="186" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="196" x2="372" y2="196" stroke="#e5e5e5"/>
+      <text x="28" y="218" fill="#080707" font-size="14">Wear Percent</text>
+      <text x="358" y="218" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Percent(18, 2)</text>
+      <line x1="0" y1="228" x2="372" y2="228" stroke="#e5e5e5"/>
+      <text x="28" y="250" fill="#080707" font-size="14">Hours Since Service</text>
+      <text x="358" y="250" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Number(18, 2)</text>
+      <line x1="0" y1="260" x2="372" y2="260" stroke="#e5e5e5"/>
+      <text x="28" y="282" fill="#080707" font-size="14">Battery Level</text>
+      <text x="358" y="282" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Percent(18, 2)</text>
+    </g>
+
+    <!-- Fulfillment Line -->
+    <g filter="url(#card-shadow)" transform="translate(872,272)">
+      <rect width="400" height="276" rx="3" fill="#ffffff" stroke="#5c5c5c"/>
+      <path d="M 0 0 h 400 v 32 h -400 z" fill="#5c5c5c"/>
+      <rect width="400" height="8" rx="3" fill="#5c5c5c"/>
+      <text x="14" y="23" fill="#ffffff" font-size="16" font-weight="700">Fulfillment Line</text>
+      <line x1="18" y1="42" x2="18" y2="58" stroke="#c23934" stroke-width="3"/>
+      <text x="28" y="58" fill="#080707" font-size="14">Line Number</text>
+      <text x="386" y="58" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Auto Number</text>
+      <line x1="0" y1="68" x2="400" y2="68" stroke="#e5e5e5"/>
+      <text x="28" y="90" fill="#080707" font-size="14">Fulfillment Order</text>
+      <text x="386" y="90" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Master-Detail</text>
+      <line x1="0" y1="100" x2="400" y2="100" stroke="#e5e5e5"/>
+      <text x="28" y="122" fill="#080707" font-size="14">Status</text>
+      <text x="386" y="122" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Picklist</text>
+      <line x1="0" y1="132" x2="400" y2="132" stroke="#e5e5e5"/>
+      <text x="28" y="154" fill="#080707" font-size="14">Product SKU</text>
+      <text x="386" y="154" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Text(40)</text>
+      <line x1="0" y1="164" x2="400" y2="164" stroke="#e5e5e5"/>
+      <text x="28" y="186" fill="#080707" font-size="14">Quantity</text>
+      <text x="386" y="186" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Number(18, 0)</text>
+      <line x1="0" y1="196" x2="400" y2="196" stroke="#e5e5e5"/>
+      <text x="28" y="218" fill="#080707" font-size="14">Weight Kg</text>
+      <text x="386" y="218" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Number(18, 2)</text>
+      <line x1="0" y1="228" x2="400" y2="228" stroke="#e5e5e5"/>
+      <text x="28" y="250" fill="#080707" font-size="14">Assigned Robot</text>
+      <text x="386" y="250" text-anchor="end" fill="#0070d2" font-size="13" font-style="italic">Lookup(Robot)</text>
+    </g>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" transform="translate(32,476)">
+    <rect width="248" height="100" rx="3" fill="#ffffff" stroke="#c9c9c9"/>
+    <text x="14" y="24" fill="#5c5c5c" font-size="13" font-weight="700">Line key</text>
+    <line x1="18" y1="48" x2="72" y2="48" stroke="#7BA7D9" stroke-width="2" marker-end="url(#arrow-lookup)"/>
+    <text x="86" y="53" fill="#080707" font-size="14">Lookup</text>
+    <line x1="18" y1="78" x2="72" y2="78" stroke="#8b2332" stroke-width="2.4" marker-end="url(#arrow-md)"/>
+    <text x="86" y="83" fill="#080707" font-size="14">Master-Detail</text>
+  </g>
+
+  <!-- Child to parent so the arrow sits on the related object -->
+  <g fill="none">
+    <path d="M 638 272 V 240" stroke="#7BA7D9" stroke-width="2" marker-end="url(#arrow-lookup)"/>
+    <path d="M 452 394 H 428 V 150 H 404" stroke="#7BA7D9" stroke-width="2" marker-end="url(#arrow-lookup)"/>
+    <path d="M 872 118 H 848 V 166 H 824" stroke="#7BA7D9" stroke-width="2" marker-end="url(#arrow-lookup)"/>
+    <path d="M 1072 272 V 240" stroke="#8b2332" stroke-width="2.4" marker-end="url(#arrow-md)"/>
+    <path d="M 872 522 H 824" stroke="#7BA7D9" stroke-width="2" marker-end="url(#arrow-lookup)"/>
+    <path d="M 404 330 H 452" stroke="#7BA7D9" stroke-width="2" marker-end="url(#arrow-lookup)"/>
+  </g>
+</svg>
