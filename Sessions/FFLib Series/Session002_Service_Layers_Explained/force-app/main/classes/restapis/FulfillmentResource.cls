@@ -2,31 +2,61 @@
  * REST resource for warehouse fulfillment operations.
  * Path pattern: {@code /warehouse/fulfillment/{action}}.
  * POST body is JSON with the Id collection for that action.
+ *
+ * Prefer the no-arg constructor / {@link #post} for the default services.
+ * Use the service constructor when composing deliberately (including tests).
  */
 @RestResource(UrlMapping='/warehouse/fulfillment/*')
 global inherited sharing class FulfillmentResource {
+	private final FulfillmentService fulfillmentSvc;
+	private final DispatchService dispatchSvc;
+
 	/**
-	 * Routes a POST to release, dispatch, or complete.
-	 * Path: {@code /warehouse/fulfillment/release} with {@code {"orderIds":["…"]}}.
-	 * Path: {@code /warehouse/fulfillment/dispatch} with {@code {"warehouseIds":["…"]}}.
-	 * Path: {@code /warehouse/fulfillment/complete} with {@code {"lineIds":["…"]}}.
-	 * @throws FulfillmentService.FulfillmentServiceException when the action is unknown or a service fails.
-	 */
+	* Default composition: {@link FulfillmentService#newInstance} and {@link DispatchService#newInstance}.
+	*/
+	public FulfillmentResource() {
+		this(FulfillmentService.newInstance(), DispatchService.newInstance());
+	}
+
+	/**
+	* Creates a resource with the given services.
+	* @param fulfillmentSvc Fulfillment service. Cannot be null.
+	* @param dispatchSvc Dispatch service. Cannot be null.
+	*/
+	public FulfillmentResource(FulfillmentService fulfillmentSvc, DispatchService dispatchSvc) {
+		this.fulfillmentSvc = fulfillmentSvc;
+		this.dispatchSvc = dispatchSvc;
+	}
+
+	/**
+	* Routes a POST to release, dispatch, or complete.
+	* Path: {@code /warehouse/fulfillment/release} with {@code {"orderIds":["…"]}}.
+	* Path: {@code /warehouse/fulfillment/dispatch} with {@code {"warehouseIds":["…"]}}.
+	* Path: {@code /warehouse/fulfillment/complete} with {@code {"lineIds":["…"]}}.
+	* @throws FulfillmentService.FulfillmentServiceException when the action is unknown or a service fails.
+	*/
 	@HttpPost
 	global static void post() {
+		new FulfillmentResource().handlePost();
+	}
+
+	/**
+	* Instance entry used by {@link #post} and by callers that inject services.
+	*/
+	public void handlePost() {
 		RestRequest req = RestContext.request;
 		String[] uriParts = req.requestURI.split('/');
 		String action = uriParts[uriParts.size() - 1];
 		Request body = parseBody(req);
 		switch on action {
 			when 'release' {
-				FulfillmentService.newInstance().releaseOrders(idSet(body.orderIds));
+				fulfillmentSvc.releaseOrders(idSet(body.orderIds));
 			}
 			when 'dispatch' {
-				DispatchService.newInstance().dispatchWarehouses(idSet(body.warehouseIds));
+				dispatchSvc.dispatchWarehouses(idSet(body.warehouseIds));
 			}
 			when 'complete' {
-				FulfillmentService.newInstance().completeLines(idSet(body.lineIds));
+				fulfillmentSvc.completeLines(idSet(body.lineIds));
 			}
 			when else {
 				throw new FulfillmentService.FulfillmentServiceException(
@@ -49,8 +79,8 @@ global inherited sharing class FulfillmentResource {
 	}
 
 	/**
-	 * JSON body for {@link #post}. Populate the collection that matches the URL action.
-	 */
+	* JSON body for {@link #post}. Populate the collection that matches the URL action.
+	*/
 	public class Request {
 		/** Fulfillment Order Ids for the release action. */
 		public List<Id> orderIds;

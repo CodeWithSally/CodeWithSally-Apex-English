@@ -1,46 +1,55 @@
 /**
  * Dispatch process: match idle robots to pending pick lines at a warehouse.
  * Spans Warehouse, Robot, Robot Model (max load), Fulfillment Line, and Fulfillment Order.
+ * Each method that persists creates a fresh {@link UnitOfWork#newInstance}.
  */
 public virtual inherited sharing class DispatchService {
-	@TestVisible
-	private static DispatchService mock;
+	private final FulfillmentLinesSelector lineSelector;
+	private final RobotsSelector robotSelector;
+	private final FulfillmentOrdersSelector orderSelector;
 
 	/**
-	 * Factory that returns this service, or {@link #mock} when tests have set one.
-	 * @return {@link DispatchService} instance.
-	 */
+	* Default composition: live selectors.
+	* @return {@link DispatchService} instance.
+	*/
 	public static DispatchService newInstance() {
-		return mock != null ? mock : new DispatchService();
-	}
-
-	private FulfillmentLinesSelector lineSelector;
-	private RobotsSelector robotSelector;
-	private FulfillmentOrdersSelector orderSelector;
-
-	/**
-	 * Constructs a service wired to the live selectors.
-	 */
-	public DispatchService() {
-		this.lineSelector = FulfillmentLinesSelector.newInstance();
-		this.robotSelector = RobotsSelector.newInstance();
-		this.orderSelector = FulfillmentOrdersSelector.newInstance();
+		return new DispatchService(
+			FulfillmentLinesSelector.newInstance(),
+			RobotsSelector.newInstance(),
+			FulfillmentOrdersSelector.newInstance()
+		);
 	}
 
 	/**
-	 * Runs dispatch at the given warehouses: one available Robot per pending Fulfillment Line
-	 * that fits the Robot Model max load. Matching stays inside each Warehouse.
-	 * Updates Robot, Fulfillment Line, and Fulfillment Order in one Unit of Work.
-	 * @param warehouseIds Warehouses to dispatch. Empty set performs no DML.
-	 * @throws DispatchServiceException if a domain rule fails or DML fails.
-	 */
+	* Creates a service with the given selectors.
+	* @param lineSelector Line selector. Cannot be null.
+	* @param robotSelector Robot selector. Cannot be null.
+	* @param orderSelector Order selector. Cannot be null.
+	*/
+	public DispatchService(
+		FulfillmentLinesSelector lineSelector,
+		RobotsSelector robotSelector,
+		FulfillmentOrdersSelector orderSelector
+	) {
+		this.lineSelector = lineSelector;
+		this.robotSelector = robotSelector;
+		this.orderSelector = orderSelector;
+	}
+
+	/**
+	* Runs dispatch at the given warehouses: one available Robot per pending Fulfillment Line
+	* that fits the Robot Model max load. Matching stays inside each Warehouse.
+	* Updates Robot, Fulfillment Line, and Fulfillment Order in one Unit of Work.
+	* @param warehouseIds Warehouses to dispatch. Empty set performs no DML.
+	* @throws DispatchServiceException if a domain rule fails or DML fails.
+	*/
+	@SuppressWarnings('PMD.DetectCopyPasteForApex') // teaching: keep this method readable top-to-bottom; extract markReleasedOrdersInProgress(orderIds) to DRY
 	public virtual void dispatchWarehouses(Set<Id> warehouseIds) {
 		if (warehouseIds == null || warehouseIds.isEmpty()) {
 			return;
 		}
 		try {
 			fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
-
 			// Load Fulfillment Line and Robot records at these Warehouses
 			List<FulfillmentLine__c> pending = lineSelector.selectPendingUnassignedByWarehouseWithOrder(warehouseIds);
 			if (pending.isEmpty()) {
@@ -101,17 +110,17 @@ public virtual inherited sharing class DispatchService {
 	}
 
 	/**
-	 * Assigns given Robot to Fulfillment Line pairs and marks parent Fulfillment Orders In Progress.
-	 * @param robotIdByLineId Line Id to robot Id. Empty map performs no DML.
-	 * @throws DispatchServiceException if a domain rule fails or DML fails.
-	 */
+	* Assigns given Robot to Fulfillment Line pairs and marks parent Fulfillment Orders In Progress.
+	* @param robotIdByLineId Line Id to robot Id. Empty map performs no DML.
+	* @throws DispatchServiceException if a domain rule fails or DML fails.
+	*/
+	@SuppressWarnings('PMD.DetectCopyPasteForApex') // teaching: keep this method readable top-to-bottom; extract markReleasedOrdersInProgress(orderIds) to DRY
 	public virtual void assignRobots(Map<Id, Id> robotIdByLineId) {
 		if (robotIdByLineId == null || robotIdByLineId.isEmpty()) {
 			return;
 		}
 		try {
 			fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
-
 			// Load the named Fulfillment Line and Robot records
 			List<FulfillmentLine__c> lines = lineSelector.selectById(robotIdByLineId.keySet());
 			List<Robot__c> robotRecords = robotSelector.selectByIdWithModel(new Set<Id>(robotIdByLineId.values()));
@@ -143,9 +152,9 @@ public virtual inherited sharing class DispatchService {
 	}
 
 	/**
-	 * Submits {@link DispatchPendingJob} as a Batch Apex job.
-	 * @return Async Apex job Id.
-	 */
+	* Submits {@link DispatchPendingJob} as a Batch Apex job.
+	* @return Async Apex job Id.
+	*/
 	public Id submitDispatchJob() {
 		return Database.executeBatch(new DispatchPendingJob());
 	}
@@ -225,8 +234,8 @@ public virtual inherited sharing class DispatchService {
 	}
 
 	/**
-	 * Client-agnostic exception thrown by dispatch service methods.
-	 */
+	* Client-agnostic exception thrown by dispatch service methods.
+	*/
 	public class DispatchServiceException extends Exception {
 	}
 }

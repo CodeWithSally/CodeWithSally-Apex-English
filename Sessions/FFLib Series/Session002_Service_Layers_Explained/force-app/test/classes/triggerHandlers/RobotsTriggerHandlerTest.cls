@@ -2,6 +2,7 @@
  * Unit tests for {@link RobotsTriggerHandler}. No DML.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: no DML
 private class RobotsTriggerHandlerTest {
 	@IsTest
 	private static void onApplyDefaultsFillsBlanksAndHealth() {

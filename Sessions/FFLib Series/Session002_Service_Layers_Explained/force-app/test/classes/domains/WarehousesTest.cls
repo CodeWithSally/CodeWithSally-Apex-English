@@ -2,6 +2,7 @@
  * Domain tests for Warehouses.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: in-memory records; no DML
 private class WarehousesTest {
 	@IsTest
 	private static void assertCanAcceptWorkRejectsClosed() {

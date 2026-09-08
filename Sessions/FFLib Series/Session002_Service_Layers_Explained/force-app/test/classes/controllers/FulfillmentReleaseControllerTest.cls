@@ -2,6 +2,7 @@
  * Unit tests for FulfillmentReleaseController using fflib-apex-mocks.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts, PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: ApexMocks verify is the assertion; no DML
 private class FulfillmentReleaseControllerTest {
 	@IsTest
 	private static void releaseOrderCallsService() {
@@ -9,10 +10,8 @@ private class FulfillmentReleaseControllerTest {
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 		FulfillmentService mockService = (FulfillmentService) mocks.mock(FulfillmentService.class);
 		Id orderId = TestIdGenerator.generate(FulfillmentOrder__c.SObjectType);
-		FulfillmentService.mock = mockService;
-
 		// When release is invoked from the Lightning action
-		FulfillmentReleaseController.releaseOrder(orderId);
+		new FulfillmentReleaseController(mockService).handleReleaseOrder(orderId);
 
 		// Then the service is called with the order id
 		((FulfillmentService) mocks.verify(mockService)).releaseOrders(new Set<Id>{ orderId });

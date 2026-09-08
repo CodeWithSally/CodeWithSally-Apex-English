@@ -2,28 +2,25 @@
  * Selector for Maintenance Job queries used by start and complete.
  */
 public virtual inherited sharing class MaintenanceJobsSelector extends fflib_SObjectSelector {
-	@TestVisible
-	private static MaintenanceJobsSelector mock;
-
 	/**
-	 * Factory that returns this selector, or {@link #mock} when tests have set one.
-	 * @return {@link MaintenanceJobsSelector} instance.
-	 */
+	* Factory that returns this selector.
+	* @return {@link MaintenanceJobsSelector} instance.
+	*/
 	public static MaintenanceJobsSelector newInstance() {
-		return mock != null ? mock : new MaintenanceJobsSelector();
+		return new MaintenanceJobsSelector();
 	}
 
 	/**
-	 * Constructs a user-mode maintenance job selector.
-	 */
+	* Constructs a user-mode maintenance job selector.
+	*/
 	public MaintenanceJobsSelector() {
 		super(false, fflib_SObjectSelector.DataAccess.USER_MODE);
 	}
 
 	/**
-	 * Common maintenance job fields used by this selector.
-	 * @return Field list for the query factory.
-	 */
+	* Common maintenance job fields used by this selector.
+	* @return Field list for the query factory.
+	*/
 	public List<Schema.SObjectField> getSObjectFieldList() {
 		return new List<Schema.SObjectField>{
 			MaintenanceJob__c.Id,
@@ -39,27 +36,27 @@ public virtual inherited sharing class MaintenanceJobsSelector extends fflib_SOb
 	}
 
 	/**
-	 * SObject type this selector queries.
-	 * @return {@link MaintenanceJob__c} SObject type.
-	 */
+	* SObject type this selector queries.
+	* @return {@link MaintenanceJob__c} SObject type.
+	*/
 	public Schema.SObjectType getSObjectType() {
 		return MaintenanceJob__c.SObjectType;
 	}
 
 	/**
-	 * Jobs by Id.
-	 * @param idSet Job Ids to query. Empty set returns an empty list.
-	 * @return Matching jobs.
-	 */
+	* Jobs by Id.
+	* @param idSet Job Ids to query. Empty set returns an empty list.
+	* @return Matching jobs.
+	*/
 	public virtual List<MaintenanceJob__c> selectById(Set<Id> idSet) {
 		return (List<MaintenanceJob__c>) selectSObjectsById(idSet);
 	}
 
 	/**
-	 * Jobs by Id including the related robot, used when completing service.
-	 * @param idSet Job Ids to query. Empty set returns an empty list.
-	 * @return Matching jobs with Robot__r fields.
-	 */
+	* Jobs by Id including the related robot, used when completing service.
+	* @param idSet Job Ids to query. Empty set returns an empty list.
+	* @return Matching jobs with Robot__r fields.
+	*/
 	public virtual List<MaintenanceJob__c> selectByIdWithRobot(Set<Id> idSet) {
 		if (idSet == null || idSet.isEmpty()) {
 			return new List<MaintenanceJob__c>();
@@ -70,10 +67,10 @@ public virtual inherited sharing class MaintenanceJobsSelector extends fflib_SOb
 	}
 
 	/**
-	 * Open (not Completed) jobs for the given robots.
-	 * @param robotIds Robot Ids. Empty set returns an empty list.
-	 * @return Matching open jobs.
-	 */
+	* Open (not Completed) jobs for the given robots.
+	* @param robotIds Robot Ids. Empty set returns an empty list.
+	* @return Matching open jobs.
+	*/
 	public virtual List<MaintenanceJob__c> selectOpenByRobot(Set<Id> robotIds) {
 		if (robotIds == null || robotIds.isEmpty()) {
 			return new List<MaintenanceJob__c>();

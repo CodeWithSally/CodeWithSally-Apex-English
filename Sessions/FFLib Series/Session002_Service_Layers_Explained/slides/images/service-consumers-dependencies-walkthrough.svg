@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="scdw-title">
-  <title id="scdw-title">WarehouseDispatchController, FulfillmentResource, DispatchWarehouse, and DispatchPendingJob call DispatchService; DispatchService reuses Robots and RobotsSelector</title>
+  <title id="scdw-title">WarehouseDispatchController, FulfillmentResource, DispatchWarehouse, and DispatchPendingJob call DispatchService; DispatchService reuses Robots, FulfillmentLines, FulfillmentOrders, and their selectors</title>
   <defs>
     <filter id="scdw-shadow" x="-8%" y="-8%" width="116%" height="124%">
       <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
@@ -104,35 +104,85 @@
     </text>
 
     <g filter="url(#scdw-shadow)">
-      <rect x="80" y="680" width="560" height="50" fill="#252526"/>
-      <rect x="80" y="680" width="220" height="50" fill="url(#scdw-tab-domain)"/>
-      <rect x="80" y="726" width="220" height="4" fill="#5A98E0"/>
-      <rect x="98" y="694" width="18" height="18" rx="3" fill="#5A98E0"/>
-      <text x="126" y="711" fill="#e6e6e6" font-size="22" font-weight="500">Robots.cls</text>
-      <rect x="80" y="730" width="560" height="130" fill="#1e1e1e"/>
+      <rect x="32" y="648" width="244" height="42" fill="#252526"/>
+      <rect x="32" y="648" width="168" height="42" fill="url(#scdw-tab-domain)"/>
+      <rect x="32" y="686" width="168" height="4" fill="#5A98E0"/>
+      <rect x="46" y="660" width="16" height="16" rx="3" fill="#5A98E0"/>
+      <text x="70" y="674" fill="#e6e6e6" font-size="15" font-weight="500">Robots.cls</text>
+      <rect x="32" y="690" width="244" height="118" fill="#1e1e1e"/>
     </g>
-    <text font-family="'Courier New', Courier, monospace" font-size="22">
-      <tspan x="104" y="782" fill="#ffb86b">public</tspan>
-      <tspan fill="#79c0ff"> List&lt;Robot__c&gt;</tspan>
-      <tspan x="104" y="818" fill="#79c0ff">getAvailableForWork</tspan>
+    <text font-family="'Courier New', Courier, monospace" font-size="15">
+      <tspan x="46" y="728" fill="#79c0ff">getAvailableForWork</tspan>
       <tspan fill="#f0f4f8">()</tspan>
+      <tspan x="46" y="754" fill="#79c0ff">startWork</tspan>
+      <tspan fill="#f0f4f8">(uow)</tspan>
     </text>
 
     <g filter="url(#scdw-shadow)">
-      <rect x="960" y="680" width="560" height="50" fill="#252526"/>
-      <rect x="960" y="680" width="280" height="50" fill="url(#scdw-tab-selector)"/>
-      <rect x="960" y="726" width="280" height="4" fill="#E8A84A"/>
-      <rect x="978" y="694" width="18" height="18" rx="3" fill="#E8A84A"/>
-      <text x="1006" y="711" fill="#e6e6e6" font-size="22" font-weight="500">RobotsSelector.cls</text>
-      <rect x="960" y="730" width="560" height="130" fill="#1e1e1e"/>
+      <rect x="290" y="648" width="244" height="42" fill="#252526"/>
+      <rect x="290" y="648" width="210" height="42" fill="url(#scdw-tab-domain)"/>
+      <rect x="290" y="686" width="210" height="4" fill="#5A98E0"/>
+      <rect x="304" y="660" width="16" height="16" rx="3" fill="#5A98E0"/>
+      <text x="328" y="674" fill="#e6e6e6" font-size="14" font-weight="500">FulfillmentLines.cls</text>
+      <rect x="290" y="690" width="244" height="118" fill="#1e1e1e"/>
     </g>
-    <text font-family="'Courier New', Courier, monospace" font-size="22">
-      <tspan x="984" y="782" fill="#ffb86b">public</tspan>
-      <tspan fill="#79c0ff"> List&lt;Robot__c&gt;</tspan>
-      <tspan x="984" y="818" fill="#79c0ff">selectIdleByWarehouseWithModel</tspan>
-      <tspan fill="#f0f4f8">(</tspan>
-      <tspan fill="#79c0ff">Set&lt;Id&gt;</tspan>
-      <tspan fill="#f0f4f8"> ids)</tspan>
+    <text font-family="'Courier New', Courier, monospace" font-size="15">
+      <tspan x="304" y="728" fill="#79c0ff">assign</tspan>
+      <tspan fill="#f0f4f8">(…, uow)</tspan>
+    </text>
+
+    <g filter="url(#scdw-shadow)">
+      <rect x="548" y="648" width="244" height="42" fill="#252526"/>
+      <rect x="548" y="648" width="220" height="42" fill="url(#scdw-tab-domain)"/>
+      <rect x="548" y="686" width="220" height="4" fill="#5A98E0"/>
+      <rect x="562" y="660" width="16" height="16" rx="3" fill="#5A98E0"/>
+      <text x="586" y="674" fill="#e6e6e6" font-size="13" font-weight="500">FulfillmentOrders.cls</text>
+      <rect x="548" y="690" width="244" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="15">
+      <tspan x="562" y="728" fill="#79c0ff">markInProgress</tspan>
+      <tspan fill="#f0f4f8">(uow)</tspan>
+    </text>
+
+    <g filter="url(#scdw-shadow)">
+      <rect x="806" y="648" width="244" height="42" fill="#252526"/>
+      <rect x="806" y="648" width="200" height="42" fill="url(#scdw-tab-selector)"/>
+      <rect x="806" y="686" width="200" height="4" fill="#E8A84A"/>
+      <rect x="820" y="660" width="16" height="16" rx="3" fill="#E8A84A"/>
+      <text x="844" y="674" fill="#e6e6e6" font-size="14" font-weight="500">RobotsSelector.cls</text>
+      <rect x="806" y="690" width="244" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="14">
+      <tspan x="820" y="728" fill="#79c0ff">selectIdleByWarehouse</tspan>
+      <tspan x="820" y="754" fill="#79c0ff">WithModel</tspan>
+      <tspan fill="#f0f4f8">(…)</tspan>
+    </text>
+
+    <g filter="url(#scdw-shadow)">
+      <rect x="1064" y="648" width="244" height="42" fill="#252526"/>
+      <rect x="1064" y="648" width="244" height="42" fill="url(#scdw-tab-selector)"/>
+      <rect x="1064" y="686" width="244" height="4" fill="#E8A84A"/>
+      <rect x="1076" y="660" width="16" height="16" rx="3" fill="#E8A84A"/>
+      <text x="1098" y="674" fill="#e6e6e6" font-size="12" font-weight="500">FulfillmentLinesSelector.cls</text>
+      <rect x="1064" y="690" width="244" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="13">
+      <tspan x="1078" y="728" fill="#79c0ff">selectPendingUnassigned</tspan>
+      <tspan x="1078" y="754" fill="#79c0ff">ByWarehouseWithOrder</tspan>
+      <tspan fill="#f0f4f8">(…)</tspan>
+    </text>
+
+    <g filter="url(#scdw-shadow)">
+      <rect x="1322" y="648" width="244" height="42" fill="#252526"/>
+      <rect x="1322" y="648" width="244" height="42" fill="url(#scdw-tab-selector)"/>
+      <rect x="1322" y="686" width="244" height="4" fill="#E8A84A"/>
+      <rect x="1334" y="660" width="16" height="16" rx="3" fill="#E8A84A"/>
+      <text x="1356" y="674" fill="#e6e6e6" font-size="12" font-weight="500">FulfillmentOrdersSelector.cls</text>
+      <rect x="1322" y="690" width="244" height="118" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="15">
+      <tspan x="1336" y="728" fill="#79c0ff">selectById</tspan>
+      <tspan fill="#f0f4f8">(…)</tspan>
     </text>
 
     <line x1="217" y1="192" x2="580" y2="340" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
@@ -140,8 +190,8 @@
     <line x1="993" y1="192" x2="880" y2="340" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
     <line x1="1381" y1="192" x2="1020" y2="340" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
 
-    <line x1="620" y1="520" x2="380" y2="680" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
-    <line x1="980" y1="520" x2="1220" y2="680" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
+    <line x1="640" y1="520" x2="412" y2="648" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
+    <line x1="960" y1="520" x2="1186" y2="648" stroke="#7BA7D9" stroke-width="3" marker-end="url(#scdw-arrow)"/>
 
     <g>
       <rect x="318" y="236" width="96" height="36" rx="18" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
@@ -160,12 +210,12 @@
       <text x="1188" y="260" text-anchor="middle" fill="#f4f6f9" font-size="18" font-weight="600">calls</text>
     </g>
     <g>
-      <rect x="430" y="574" width="126" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
-      <text x="493" y="601" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">reuses</text>
+      <rect x="448" y="560" width="126" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="511" y="587" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">reuses</text>
     </g>
     <g>
-      <rect x="1044" y="574" width="126" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
-      <text x="1107" y="601" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">reuses</text>
+      <rect x="1000" y="560" width="126" height="40" rx="20" fill="#021a38" stroke="#7BA7D9" stroke-width="1.6"/>
+      <text x="1063" y="587" text-anchor="middle" fill="#f4f6f9" font-size="20" font-weight="600">reuses</text>
     </g>
   </g>
 </svg>

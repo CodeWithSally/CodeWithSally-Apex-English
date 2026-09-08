@@ -17,26 +17,26 @@ public virtual inherited sharing class FulfillmentOrders extends fflib_SObjects 
 	private static FulfillmentOrders mock;
 
 	/**
-	 * Factory that wraps the given order records, or {@link #mock} when tests have set one.
-	 * @param recordList Orders to manage. Null is treated as an empty list.
-	 * @return {@link FulfillmentOrders} instance.
-	 */
+	* Factory that wraps the given order records, or {@link #mock} when tests have set one.
+	* @param recordList Orders to manage. Null is treated as an empty list.
+	* @return {@link FulfillmentOrders} instance.
+	*/
 	public static FulfillmentOrders newInstance(List<FulfillmentOrder__c> recordList) {
 		return mock != null ? mock : new FulfillmentOrders(recordList);
 	}
 
 	/**
-	 * Creates a domain wrapping the given Fulfillment Order records.
-	 * @param sObjectList Orders to manage. Null is treated as an empty list.
-	 */
+	* Creates a domain wrapping the given Fulfillment Order records.
+	* @param sObjectList Orders to manage. Null is treated as an empty list.
+	*/
 	public FulfillmentOrders(List<FulfillmentOrder__c> sObjectList) {
 		super(sObjectList == null ? new List<FulfillmentOrder__c>() : sObjectList);
 	}
 
 	/**
-	 * Draft to Released. Requires at least one line.
-	 * @param uow Unit of Work that receives dirty orders. Cannot be null.
-	 */
+	* Draft to Released. Requires at least one line.
+	* @param uow Unit of Work that receives dirty orders. Cannot be null.
+	*/
 	public virtual void release(fflib_SObjectUnitOfWork uow) {
 		for (FulfillmentOrder__c order : (List<FulfillmentOrder__c>) getRecords()) {
 			if (order.Status__c != STATUS_DRAFT) {
@@ -55,9 +55,9 @@ public virtual inherited sharing class FulfillmentOrders extends fflib_SObjects 
 	}
 
 	/**
-	 * Released or In Progress to On Hold.
-	 * @param uow Unit of Work that receives dirty orders. Cannot be null.
-	 */
+	* Released or In Progress to On Hold.
+	* @param uow Unit of Work that receives dirty orders. Cannot be null.
+	*/
 	public virtual void hold(fflib_SObjectUnitOfWork uow) {
 		for (FulfillmentOrder__c order : (List<FulfillmentOrder__c>) getRecords()) {
 			if (order.Status__c != STATUS_RELEASED && order.Status__c != STATUS_IN_PROGRESS) {
@@ -71,9 +71,9 @@ public virtual inherited sharing class FulfillmentOrders extends fflib_SObjects 
 	}
 
 	/**
-	 * On Hold to Released.
-	 * @param uow Unit of Work that receives dirty orders. Cannot be null.
-	 */
+	* On Hold to Released.
+	* @param uow Unit of Work that receives dirty orders. Cannot be null.
+	*/
 	public virtual void unhold(fflib_SObjectUnitOfWork uow) {
 		for (FulfillmentOrder__c order : (List<FulfillmentOrder__c>) getRecords()) {
 			if (order.Status__c != STATUS_ON_HOLD) {
@@ -87,9 +87,9 @@ public virtual inherited sharing class FulfillmentOrders extends fflib_SObjects 
 	}
 
 	/**
-	 * Released to In Progress. Already In Progress is a no-op.
-	 * @param uow Unit of Work that receives dirty orders. Cannot be null.
-	 */
+	* Released to In Progress. Already In Progress is a no-op.
+	* @param uow Unit of Work that receives dirty orders. Cannot be null.
+	*/
 	public virtual void markInProgress(fflib_SObjectUnitOfWork uow) {
 		for (FulfillmentOrder__c order : (List<FulfillmentOrder__c>) getRecords()) {
 			if (order.Status__c == STATUS_IN_PROGRESS) {
@@ -106,21 +106,21 @@ public virtual inherited sharing class FulfillmentOrders extends fflib_SObjects 
 	}
 
 	/**
-	 * Sets Completed when every related line is Complete.
-	 * Only Released or In Progress orders close. Requires lines to be queried.
-	 * @param uow Unit of Work that receives dirty orders. Cannot be null.
-	 */
+	* Sets Completed when every related line is Complete.
+	* Only Released or In Progress orders close. Requires lines to be queried.
+	* @param uow Unit of Work that receives dirty orders. Cannot be null.
+	*/
 	public virtual void complete(fflib_SObjectUnitOfWork uow) {
 		complete(uow, new Set<Id>());
 	}
 
 	/**
-	 * Sets Completed when every related line is Complete.
-	 * Lines in completingLineIds count as Complete (same commit, different instances).
-	 * Only Released or In Progress orders close. Requires lines to be queried.
-	 * @param uow Unit of Work that receives dirty orders. Cannot be null.
-	 * @param completingLineIds Line Ids completed in this commit. Null is treated as empty.
-	 */
+	* Sets Completed when every related line is Complete.
+	* Lines in completingLineIds count as Complete (same commit, different instances).
+	* Only Released or In Progress orders close. Requires lines to be queried.
+	* @param uow Unit of Work that receives dirty orders. Cannot be null.
+	* @param completingLineIds Line Ids completed in this commit. Null is treated as empty.
+	*/
 	public virtual void complete(
 		fflib_SObjectUnitOfWork uow,
 		Set<Id> completingLineIds
@@ -160,8 +160,8 @@ public virtual inherited sharing class FulfillmentOrders extends fflib_SObjects 
 	}
 
 	/**
-	 * Thrown when an order status change is illegal.
-	 */
+	* Thrown when an order status change is illegal.
+	*/
 	public class FulfillmentOrdersException extends Exception {
 	}
 }

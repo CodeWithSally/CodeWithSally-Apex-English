@@ -2,47 +2,64 @@
  * Fulfillment process: release pick work to the floor and complete it.
  * Spans Warehouse, Fulfillment Order, Fulfillment Line, and Robot.
  * Completing a line may hand a due Robot to the Maintenance process on the same Unit of Work.
+ * Each method that persists creates a fresh {@link UnitOfWork#newInstance}.
  */
 public virtual inherited sharing class FulfillmentService {
-	@TestVisible
-	private static FulfillmentService mock;
+	private final FulfillmentOrdersSelector orderSelector;
+	private final FulfillmentLinesSelector lineSelector;
+	private final RobotsSelector robotSelector;
+	private final WarehousesSelector warehouseSelector;
+	private final MaintenanceService maintenanceSvc;
 
 	/**
-	 * Factory that returns this service, or {@link #mock} when tests have set one.
-	 * @return {@link FulfillmentService} instance.
-	 */
+	* Default composition: live selectors and {@link MaintenanceService#newInstance}.
+	* @return {@link FulfillmentService} instance.
+	*/
 	public static FulfillmentService newInstance() {
-		return mock != null ? mock : new FulfillmentService();
-	}
-
-	private FulfillmentOrdersSelector orderSelector;
-	private FulfillmentLinesSelector lineSelector;
-	private RobotsSelector robotSelector;
-	private WarehousesSelector warehouseSelector;
-
-	/**
-	 * Constructs a service wired to the live selectors.
-	 */
-	public FulfillmentService() {
-		this.orderSelector = FulfillmentOrdersSelector.newInstance();
-		this.lineSelector = FulfillmentLinesSelector.newInstance();
-		this.robotSelector = RobotsSelector.newInstance();
-		this.warehouseSelector = WarehousesSelector.newInstance();
+		return new FulfillmentService(
+			FulfillmentOrdersSelector.newInstance(),
+			FulfillmentLinesSelector.newInstance(),
+			RobotsSelector.newInstance(),
+			WarehousesSelector.newInstance(),
+			MaintenanceService.newInstance()
+		);
 	}
 
 	/**
-	 * Release process: Draft Fulfillment Orders become Released after the Warehouse is confirmed Active.
-	 * Touches Warehouse and Fulfillment Order (orders must have Fulfillment Lines).
-	 * @param orderIds Order Ids to release. Empty set performs no DML.
-	 * @throws FulfillmentServiceException if a domain rule fails or DML fails.
-	 */
+	* Creates a service with the given collaborators.
+	* @param orderSelector Order selector. Cannot be null.
+	* @param lineSelector Line selector. Cannot be null.
+	* @param robotSelector Robot selector. Cannot be null.
+	* @param warehouseSelector Warehouse selector. Cannot be null.
+	* @param maintenanceSvc Maintenance process used when completing lines. Cannot be null.
+	*/
+	@SuppressWarnings('PMD.ExcessiveParameterList') // dependency injection: collaborators passed in so tests can stub them
+	public FulfillmentService(
+		FulfillmentOrdersSelector orderSelector,
+		FulfillmentLinesSelector lineSelector,
+		RobotsSelector robotSelector,
+		WarehousesSelector warehouseSelector,
+		MaintenanceService maintenanceSvc
+	) {
+		this.orderSelector = orderSelector;
+		this.lineSelector = lineSelector;
+		this.robotSelector = robotSelector;
+		this.warehouseSelector = warehouseSelector;
+		this.maintenanceSvc = maintenanceSvc;
+	}
+
+	/**
+	* Release process: Draft Fulfillment Orders become Released after the Warehouse is confirmed Active.
+	* Touches Warehouse and Fulfillment Order (orders must have Fulfillment Lines).
+	* @param orderIds Order Ids to release. Empty set performs no DML.
+	* @throws FulfillmentServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void releaseOrders(Set<Id> orderIds) {
 		if (orderIds == null || orderIds.isEmpty()) {
 			return;
 		}
 		try {
 			fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
-
 			// Load Fulfillment Orders with their Fulfillment Lines
 			List<FulfillmentOrder__c> orders = orderSelector.selectByIdWithLines(orderIds);
 
@@ -66,10 +83,10 @@ public virtual inherited sharing class FulfillmentService {
 	}
 
 	/**
-	 * Hold process: Released or In Progress Fulfillment Orders move to On Hold.
-	 * @param orderIds Order Ids to hold. Empty set performs no DML.
-	 * @throws FulfillmentServiceException if a domain rule fails or DML fails.
-	 */
+	* Hold process: Released or In Progress Fulfillment Orders move to On Hold.
+	* @param orderIds Order Ids to hold. Empty set performs no DML.
+	* @throws FulfillmentServiceException if a domain rule fails or DML fails.
+	*/
 	public void holdOrders(Set<Id> orderIds) {
 		if (orderIds == null || orderIds.isEmpty()) {
 			return;
@@ -84,12 +101,12 @@ public virtual inherited sharing class FulfillmentService {
 	}
 
 	/**
-	 * Complete process: finish assigned Fulfillment Lines, return Robots to Idle, apply wear,
-	 * and close the parent Fulfillment Order when every line is done.
-	 * Robots then due for service are handed to {@link MaintenanceService} on the same Unit of Work.
-	 * @param lineIds Line Ids to complete. Empty set performs no DML.
-	 * @throws FulfillmentServiceException if a domain rule fails or DML fails.
-	 */
+	* Complete process: finish assigned Fulfillment Lines, return Robots to Idle, apply wear,
+	* and close the parent Fulfillment Order when every line is done.
+	* Robots then due for service are handed to {@link MaintenanceService} on the same Unit of Work.
+	* @param lineIds Line Ids to complete. Empty set performs no DML.
+	* @throws FulfillmentServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void completeLines(Set<Id> lineIds) {
 		if (lineIds == null || lineIds.isEmpty()) {
 			return;
@@ -102,17 +119,16 @@ public virtual inherited sharing class FulfillmentService {
 	}
 
 	/**
-	 * Complete process for lines already loaded. Skips the line re-query.
-	 * @param lines Lines to complete. Empty list performs no DML.
-	 * @throws FulfillmentServiceException if a domain rule fails or DML fails.
-	 */
+	* Complete process for lines already loaded. Skips the line re-query.
+	* @param lines Lines to complete. Empty list performs no DML.
+	* @throws FulfillmentServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void completeLines(List<FulfillmentLine__c> lines) {
 		if (lines == null || lines.isEmpty()) {
 			return;
 		}
 		try {
 			fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
-
 			// Fulfillment Line: Assigned to Complete
 			FulfillmentLines fulfillmentLines = FulfillmentLines.newInstance(lines);
 			fulfillmentLines.complete(uow);
@@ -135,10 +151,10 @@ public virtual inherited sharing class FulfillmentService {
 			Set<Id> lineIds = new Map<Id, FulfillmentLine__c>(lines).keySet();
 			FulfillmentOrders.newInstance(orders).complete(uow, lineIds);
 
-			// Maintenance process: due Robots share this Unit of Work (Robot + Maintenance Job)
+			// Maintenance process: schedule due Robots
 			Set<Robot__c> dueRobots = robots.getDueForService();
 			if (!dueRobots.isEmpty()) {
-				MaintenanceService.newInstance().scheduleService(dueRobots, uow);
+				maintenanceSvc.scheduleService(dueRobots, uow);
 			}
 
 			uow.commitWork();
@@ -148,9 +164,9 @@ public virtual inherited sharing class FulfillmentService {
 	}
 
 	/**
-	 * Completes every assigned line on the given orders.
-	 * @param orderIds Order Ids whose assigned lines should complete. Empty set performs no DML.
-	 */
+	* Completes every assigned line on the given orders.
+	* @param orderIds Order Ids whose assigned lines should complete. Empty set performs no DML.
+	*/
 	public virtual void completeAssignedLinesForOrders(Set<Id> orderIds) {
 		if (orderIds == null || orderIds.isEmpty()) {
 			return;
@@ -172,8 +188,8 @@ public virtual inherited sharing class FulfillmentService {
 	}
 
 	/**
-	 * Client-agnostic exception thrown by fulfillment service methods.
-	 */
+	* Client-agnostic exception thrown by fulfillment service methods.
+	*/
 	public class FulfillmentServiceException extends Exception {
 	}
 }

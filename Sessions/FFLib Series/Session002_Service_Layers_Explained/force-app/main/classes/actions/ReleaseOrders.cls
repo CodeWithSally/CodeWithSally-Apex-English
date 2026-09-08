@@ -1,92 +1,95 @@
 /**
  * Invocable action that releases draft fulfillment orders.
- * Delegates to {@link FulfillmentService}. Accepts an order name or Id.
+ * Delegates to {@link FulfillmentService}. Accepts an order name.
+ *
+ * Prefer the no-arg constructor / {@link #execute} for the default service.
+ * Use the service constructor when composing deliberately (including tests).
  */
 public inherited sharing class ReleaseOrders {
+	private final FulfillmentService fulfillmentSvc;
+	private final FulfillmentOrdersSelector orderSelector;
+
 	/**
-	 * Releases draft fulfillment orders through {@link FulfillmentService}.
-	 * @param requests Invocable requests, each with a fulfillment order name or Id.
-	 * @return One result per request, echoing the order that was released.
-	 */
+	* Default composition: {@link FulfillmentService#newInstance} and {@link FulfillmentOrdersSelector#newInstance}.
+	*/
+	public ReleaseOrders() {
+		this(FulfillmentService.newInstance(), FulfillmentOrdersSelector.newInstance());
+	}
+
+	/**
+	* Creates an action with the given service and selector.
+	* @param fulfillmentSvc Fulfillment service. Cannot be null.
+	* @param orderSelector Order selector used to resolve names. Cannot be null.
+	*/
+	public ReleaseOrders(FulfillmentService fulfillmentSvc, FulfillmentOrdersSelector orderSelector) {
+		this.fulfillmentSvc = fulfillmentSvc;
+		this.orderSelector = orderSelector;
+	}
+
+	/**
+	* Releases draft fulfillment orders through {@link FulfillmentService}.
+	* @param requests Invocable requests, each with a fulfillment order name.
+	* @return One result per request, with the order name and resolved Id.
+	*/
 	@InvocableMethod(
 		label='Release Fulfillment Orders'
 		description='Releases draft fulfillment orders so they can be dispatched. Pass an order name such as FO-00001.'
 		category='Warehouse Operations'
 	)
 	public static List<Result> execute(List<Request> requests) {
-		// Resolve names to Ids when the caller did not pass Ids
-		Map<String, FulfillmentOrder__c> orderByName = ordersByName(requests);
-		List<Id> resolvedIds = new List<Id>();
+		return new ReleaseOrders().handleExecute(requests);
+	}
+
+	/**
+	* Instance entry used by {@link #execute} and by callers that inject collaborators.
+	* @param requests Invocable requests, each with a fulfillment order name.
+	* @return One result per request, with the order name and resolved Id.
+	*/
+	public List<Result> handleExecute(List<Request> requests) {
+
+		// Resolve the order names to Ids
+		Set<String> names = new Set<String>();
 		for (Request request : requests) {
-			resolvedIds.add(resolveOrderId(request, orderByName));
+			names.add(request.orderName.trim());
+		}
+		Map<String, Id> orderIdByName = new Map<String, Id>();
+		for (FulfillmentOrder__c order : orderSelector.selectByName(names)) {
+			orderIdByName.put(order.Name, order.Id);
+		}
+		for (String name : names) {
+			if (!orderIdByName.containsKey(name)) {
+				throw new ReleaseOrdersException('No fulfillment order named ' + name + '.');
+			}
 		}
 
-		FulfillmentService.newInstance().releaseOrders(new Set<Id>(resolvedIds));
+		// Release the orders
+		fulfillmentSvc.releaseOrders(new Set<Id>(orderIdByName.values()));
 
+		// Build the results
 		List<Result> results = new List<Result>();
-		for (Integer i = 0; i < requests.size(); i++) {
+		for (Request request : requests) {
 			Result result = new Result();
-			result.orderId = resolvedIds[i];
-			result.orderName = requests[i].orderName;
-			if (String.isNotBlank(requests[i].orderName)) {
-				FulfillmentOrder__c order = orderByName.get(requests[i].orderName.trim());
-				if (order != null) {
-					result.orderName = order.Name;
-				}
-			}
+			result.orderName = request.orderName.trim();
+			result.orderId = orderIdByName.get(result.orderName);
 			results.add(result);
 		}
 		return results;
 	}
 
-	private static Map<String, FulfillmentOrder__c> ordersByName(List<Request> requests) {
-		Set<String> names = new Set<String>();
-		for (Request request : requests) {
-			if (request.orderId == null && String.isNotBlank(request.orderName)) {
-				names.add(request.orderName.trim());
-			}
-		}
-		Map<String, FulfillmentOrder__c> orderByName = new Map<String, FulfillmentOrder__c>();
-		for (FulfillmentOrder__c order : FulfillmentOrdersSelector.newInstance().selectByName(names)) {
-			orderByName.put(order.Name, order);
-		}
-		return orderByName;
-	}
-
-	private static Id resolveOrderId(Request request, Map<String, FulfillmentOrder__c> orderByName) {
-		if (request.orderId != null) {
-			return request.orderId;
-		}
-		if (String.isBlank(request.orderName)) {
-			throw new ReleaseOrdersException('Give a fulfillment order name, for example FO-00001.');
-		}
-		FulfillmentOrder__c order = orderByName.get(request.orderName.trim());
-		if (order == null) {
-			throw new ReleaseOrdersException('No fulfillment order named ' + request.orderName.trim() + '.');
-		}
-		return order.Id;
-	}
-
 	/**
-	 * Invocable request for {@link ReleaseOrders#execute}.
-	 */
+	* Invocable request for {@link ReleaseOrders#execute}.
+	*/
 	public class Request {
 		/**
-		 * Order name, for example FO-00001.
-		 */
-		@InvocableVariable(label='Fulfillment Order Name')
+		* Order name, for example FO-00001.
+		*/
+		@InvocableVariable(label='Fulfillment Order Name' required=true)
 		public String orderName;
-
-		/**
-		 * Id of the fulfillment order to release when the name is not used.
-		 */
-		@InvocableVariable(label='Fulfillment Order Id')
-		public Id orderId;
 	}
 
 	/**
-	 * Invocable result for {@link ReleaseOrders#execute}.
-	 */
+	* Invocable result for {@link ReleaseOrders#execute}.
+	*/
 	public class Result {
 		@InvocableVariable(label='Fulfillment Order Name')
 		public String orderName;
@@ -95,8 +98,8 @@ public inherited sharing class ReleaseOrders {
 	}
 
 	/**
-	 * Thrown when the order cannot be resolved.
-	 */
+	* Thrown when the order cannot be resolved.
+	*/
 	public class ReleaseOrdersException extends Exception {
 	}
 }

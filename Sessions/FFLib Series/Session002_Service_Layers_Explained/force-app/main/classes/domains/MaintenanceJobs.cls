@@ -24,29 +24,29 @@ public virtual inherited sharing class MaintenanceJobs extends fflib_SObjects {
 	private static MaintenanceJobs mock;
 
 	/**
-	 * Factory that wraps the given job records, or {@link #mock} when tests have set one.
-	 * @param recordList Jobs to manage. Null is treated as an empty list.
-	 * @return {@link MaintenanceJobs} instance.
-	 */
+	* Factory that wraps the given job records, or {@link #mock} when tests have set one.
+	* @param recordList Jobs to manage. Null is treated as an empty list.
+	* @return {@link MaintenanceJobs} instance.
+	*/
 	public static MaintenanceJobs newInstance(List<MaintenanceJob__c> recordList) {
 		return mock != null ? mock : new MaintenanceJobs(recordList);
 	}
 
 	/**
-	 * Creates a domain wrapping the given Maintenance Job records.
-	 * @param sObjectList Jobs to manage. Null is treated as an empty list.
-	 */
+	* Creates a domain wrapping the given Maintenance Job records.
+	* @param sObjectList Jobs to manage. Null is treated as an empty list.
+	*/
 	public MaintenanceJobs(List<MaintenanceJob__c> sObjectList) {
 		super(sObjectList == null ? new List<MaintenanceJob__c>() : sObjectList);
 	}
 
 	/**
-	 * Builds a job for a robot that is going offline now. Type is Scheduled; status is In Progress
-	 * because the robot has already been taken out of the pool.
-	 * @param robotId Robot the job is for. Cannot be null.
-	 * @param healthAtStart Health captured when the robot is taken offline.
-	 * @return New MaintenanceJob__c in memory.
-	 */
+	* Builds a job for a robot that is going offline now. Type is Scheduled; status is In Progress
+	* because the robot has already been taken out of the pool.
+	* @param robotId Robot the job is for. Cannot be null.
+	* @param healthAtStart Health captured when the robot is taken offline.
+	* @return New MaintenanceJob__c in memory.
+	*/
 	public static MaintenanceJob__c newScheduledJob(Id robotId, String healthAtStart) {
 		return new MaintenanceJob__c(
 			Robot__c = robotId,
@@ -58,10 +58,10 @@ public virtual inherited sharing class MaintenanceJobs extends fflib_SObjects {
 	}
 
 	/**
-	 * Scheduled to In Progress. Stamps HealthAtStart when missing.
-	 * @param healthByRobotId Fallback health by robot Id when HealthAtStart is blank.
-	 * @param uow Unit of Work that receives dirty jobs. Cannot be null.
-	 */
+	* Scheduled to In Progress. Stamps HealthAtStart when missing.
+	* @param healthByRobotId Fallback health by robot Id when HealthAtStart is blank.
+	* @param uow Unit of Work that receives dirty jobs. Cannot be null.
+	*/
 	public virtual void start(Map<Id, String> healthByRobotId, fflib_SObjectUnitOfWork uow) {
 		for (MaintenanceJob__c job : (List<MaintenanceJob__c>) getRecords()) {
 			if (job.Status__c != STATUS_SCHEDULED) {
@@ -86,9 +86,9 @@ public virtual inherited sharing class MaintenanceJobs extends fflib_SObjects {
 	}
 
 	/**
-	 * In Progress to Completed. Sets cost from health at start.
-	 * @param uow Unit of Work that receives dirty jobs. Cannot be null.
-	 */
+	* In Progress to Completed. Sets cost from health at start.
+	* @param uow Unit of Work that receives dirty jobs. Cannot be null.
+	*/
 	public virtual void complete(fflib_SObjectUnitOfWork uow) {
 		for (MaintenanceJob__c job : (List<MaintenanceJob__c>) getRecords()) {
 			if (job.Status__c != STATUS_IN_PROGRESS) {
@@ -111,9 +111,10 @@ public virtual inherited sharing class MaintenanceJobs extends fflib_SObjects {
 	}
 
 	/**
-	 * @param health Health picklist value captured at service start.
-	 * @return Cost for that health. Unknown health uses the Healthy cost.
-	 */
+	* Service cost for a robot health value captured at job start.
+	* @param health Health picklist value captured at service start.
+	* @return Cost for that health. Unknown health uses the Healthy cost.
+	*/
 	public static Decimal costFromHealth(String health) {
 		if (health == Robots.HEALTH_CRITICAL) {
 			return COST_CRITICAL;
@@ -125,8 +126,9 @@ public virtual inherited sharing class MaintenanceJobs extends fflib_SObjects {
 	}
 
 	/**
-	 * @return Distinct robot Ids on the jobs in this domain.
-	 */
+	* Robot Ids on the jobs in this domain.
+	* @return Distinct robot Ids on the jobs in this domain.
+	*/
 	public virtual Set<Id> getRobotIds() {
 		Set<Id> robotIds = new Set<Id>();
 		for (MaintenanceJob__c job : (List<MaintenanceJob__c>) getRecords()) {
@@ -138,8 +140,8 @@ public virtual inherited sharing class MaintenanceJobs extends fflib_SObjects {
 	}
 
 	/**
-	 * Thrown when a job cannot start or complete.
-	 */
+	* Thrown when a job cannot start or complete.
+	*/
 	public class MaintenanceJobsException extends Exception {
 	}
 }

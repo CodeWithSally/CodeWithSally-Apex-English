@@ -1,10 +1,16 @@
 # Session 002 — Service Layers Explained
 
-This session is about the Service layer and Unit of Work ([slides](slides/presentation.html)). Warehouse Operations is the desk: Fulfillment, Dispatch, and Maintenance are named for the process; Domain classes are named for the object. The sample uses fflib. Activating and testing the Warehouse Fulfillment agent is not covered in the presentation; the steps below are a bonus demonstration for anyone interested.
+This session is about the Service layer and Unit of Work ([slides](slides/presentation.html)). Warehouse Operations is the desk: Fulfillment, Dispatch, and Maintenance are named for the process; Domain classes are named for the object. The sample uses fflib. The Warehouse Fulfillment agent is not covered in the presentation, but you must publish it so `WarehouseOperations` can deploy.
 
 One package directory: `force-app` (app in `main`, Apex tests in `test`), plus the Warehouse Fulfillment employee agent.
 
 Use a scratch org from `config/project-scratch-def.json` (Einstein / Agentforce enabled). Alias used below is `session002-mfg`.
+
+## Architecture notes
+
+This sample uses **concrete** Domain, Selector, and Service classes. Constructors take collaborators; `newInstance()` is the default composition. Prefer `X.newInstance()` at entry points over `new X()`. Use the constructor to inject selector and service mocks during Apex tests. Service methods that persist call `UnitOfWork.newInstance()` so each persist gets a fresh Unit of Work — it is not a constructor-injected reusable resource (`commitWork()` does not clear registered work). Tests set `UnitOfWork.mock` to substitute that instance. Callers that already own a Unit of Work pass it as a method argument (for example `FulfillmentService` to `MaintenanceService`). Domain `newInstance(records)` keeps a `@TestVisible` mock for mid-method construction. This sample does not include an `Application` factory.
+
+Domains wrap records, so they are constructed when those records are in hand — including mid-method, as when `FulfillmentService.completeLines` builds `FulfillmentLines` and `Robots`. Domain `newInstance(records)` keeps a `@TestVisible` mock for that case. This sample does not include an `Application` factory.
 
 ## Deploy the app
 
@@ -50,15 +56,9 @@ To delete warehouse sample objects and reload:
 ./bin/data.sh -cleanup -o session002-mfg
 ```
 
-## Run Apex tests
+## Warehouse Fulfillment agent
 
-```bash
-sf apex run test --test-level RunLocalTests --target-org session002-mfg --wait 20 --result-format human
-```
-
-## Warehouse Fulfillment agent (bonus)
-
-Activating and testing the agent below is not covered in the presentation. It is included as a bonus demonstration for anyone interested.
+Publish first — `WarehouseOperations` cannot deploy until the Bot exists, and Apex tests need that permission set.
 
 ```bash
 sf agent publish authoring-bundle --api-name WarehouseFulfillment \
@@ -71,7 +71,7 @@ sf agent activate --api-name WarehouseFulfillment --target-org session002-mfg --
 
 From the utility bar, say **Process North Hub** — the desk action takes the warehouse name.
 
-Run the same package deploy again so the permission set can resolve the Bot:
+Run the same package deploy again so the permission set can resolve the Bot, then assign it:
 
 ```bash
 sf project deploy start --source-dir force-app --target-org session002-mfg --wait 15
@@ -80,7 +80,15 @@ sf org assign permset --name WarehouseOperations --target-org session002-mfg
 sf org assign permset --name UseSetupWithAgentforce --target-org session002-mfg
 ```
 
-### Test the agent
+## Run Apex tests
+
+Run these after the second `force-app` deploy and `WarehouseOperations` assign. Integration tests look up that permission set, and some inserts run as the current user.
+
+```bash
+sf apex run test --test-level RunLocalTests --target-org session002-mfg --wait 20 --result-format human
+```
+
+## Test the agent
 
 ```bash
 ./scripts/agent/warehouse-fulfillment.sh -o session002-mfg

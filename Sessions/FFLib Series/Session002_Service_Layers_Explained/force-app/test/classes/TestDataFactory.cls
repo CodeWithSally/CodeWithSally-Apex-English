@@ -17,19 +17,19 @@ public class TestDataFactory {
 	public FulfillmentLine__c line;
 
 	/**
-	 * Inserts a warehouse, model, idle robot, draft order, and one pending line.
-	 * @return Populated factory.
-	 */
+	* Inserts a warehouse, model, idle robot, draft order, and one pending line.
+	* @return Populated factory.
+	*/
 	public static TestDataFactory createDraftOrder() {
 		return createDraftOrder(0, 8);
 	}
 
 	/**
-	 * Inserts a warehouse, model, idle robot, draft order, and one pending line.
-	 * @param hoursSinceService Starting hours on the robot.
-	 * @param serviceIntervalHours Model service interval.
-	 * @return Populated factory.
-	 */
+	* Inserts a warehouse, model, idle robot, draft order, and one pending line.
+	* @param hoursSinceService Starting hours on the robot.
+	* @param serviceIntervalHours Model service interval.
+	* @return Populated factory.
+	*/
 	public static TestDataFactory createDraftOrder(Decimal hoursSinceService, Decimal serviceIntervalHours) {
 		TestDataFactory data = new TestDataFactory();
 		data.warehouse = new Warehouse__c(
@@ -79,9 +79,9 @@ public class TestDataFactory {
 	}
 
 	/**
-	 * Inserts a Standard User and assigns Warehouse Operations.
-	 * @return The inserted User ready for System.runAs.
-	 */
+	* Inserts a Standard User and assigns Warehouse Operations.
+	* @return The inserted User ready for System.runAs.
+	*/
 	public static User createUserWithWarehousePermissions() {
 		Profile p = [
 			SELECT Id
@@ -113,8 +113,9 @@ public class TestDataFactory {
 	}
 
 	/**
-	 * @return User previously created by {@link #createUserWithWarehousePermissions}.
-	 */
+	* Returns the Standard User created by {@link #createUserWithWarehousePermissions}.
+	* @return User previously created by {@link #createUserWithWarehousePermissions}.
+	*/
 	public static User getRunAsUser() {
 		return [SELECT Id FROM User WHERE LastName = :RUN_AS_USER_LASTNAME LIMIT 1];
 	}

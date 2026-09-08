@@ -1,17 +1,31 @@
 /**
- * Tests for {@link WarehouseService}.
+ * Integration tests for {@link WarehouseService} against real rows.
  */
 @IsTest
 private class WarehouseServiceTest {
+	@TestSetup
+	static void setup() {
+		TestDataFactory.createUserWithWarehousePermissions();
+	}
+
 	@IsTest
 	private static void summariesDescribesNorthHub() {
-		// Given North Hub with one pending draft line and one idle robot
-		TestDataFactory data = TestDataFactory.createDraftOrder();
-		FulfillmentOrder__c named = [SELECT Name FROM FulfillmentOrder__c WHERE Id = :data.order.Id];
+		// Given a run-as user with warehouse permissions
+		User runAsUser = TestDataFactory.getRunAsUser();
+		TestDataFactory data;
+		FulfillmentOrder__c named;
+		System.runAs(runAsUser) {
+			data = TestDataFactory.createDraftOrder();
+			named = [SELECT Name FROM FulfillmentOrder__c WHERE Id = :data.order.Id];
+		}
 
 		// When the desk snapshot is requested
-		List<WarehouseService.Summary> summaries = WarehouseService.newInstance()
-			.summaries(new List<String>{ 'North Hub' });
+		List<WarehouseService.Summary> summaries;
+		Test.startTest();
+		System.runAs(runAsUser) {
+			summaries = WarehouseService.newInstance().summaries(new List<String>{ 'North Hub' });
+		}
+		Test.stopTest();
 
 		// Then pending work, idle robots, and the draft name are returned
 		System.assertEquals(1, summaries.size(), 'One warehouse summary');

@@ -2,6 +2,7 @@
  * Domain tests for FulfillmentOrders.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: in-memory records; no DML
 private class FulfillmentOrdersTest {
 	@IsTest
 	private static void releaseRequiresDraftAndLines() {

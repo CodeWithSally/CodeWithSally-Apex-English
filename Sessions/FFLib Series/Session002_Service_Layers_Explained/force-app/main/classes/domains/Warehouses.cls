@@ -11,26 +11,27 @@ public virtual inherited sharing class Warehouses extends fflib_SObjects {
 	private static Warehouses mock;
 
 	/**
-	 * Factory that wraps the given Warehouse records, or {@link #mock} when tests have set one.
-	 * @param recordList Warehouses to manage. Null is treated as an empty list.
-	 * @return {@link Warehouses} instance.
-	 */
+	* Factory that wraps the given Warehouse records, or {@link #mock} when tests have set one.
+	* @param recordList Warehouses to manage. Null is treated as an empty list.
+	* @return {@link Warehouses} instance.
+	*/
 	public static Warehouses newInstance(List<Warehouse__c> recordList) {
 		return mock != null ? mock : new Warehouses(recordList);
 	}
 
 	/**
-	 * Creates a domain wrapping the given Warehouse records.
-	 * @param sObjectList Warehouses to manage. Null is treated as an empty list.
-	 */
+	* Creates a domain wrapping the given Warehouse records.
+	* @param sObjectList Warehouses to manage. Null is treated as an empty list.
+	*/
 	public Warehouses(List<Warehouse__c> sObjectList) {
 		super(sObjectList == null ? new List<Warehouse__c>() : sObjectList);
 	}
 
 	/**
-	 * @param warehouseIds Warehouse Ids to check. Null or empty returns false.
-	 * @return True when every given warehouse is in this domain and Active.
-	 */
+	* Whether every given warehouse can accept new pick work.
+	* @param warehouseIds Warehouse Ids to check. Null or empty returns false.
+	* @return True when every given warehouse is in this domain and Active.
+	*/
 	public virtual Boolean canAcceptWork(Set<Id> warehouseIds) {
 		if (warehouseIds == null || warehouseIds.isEmpty()) {
 			return false;
@@ -46,9 +47,9 @@ public virtual inherited sharing class Warehouses extends fflib_SObjects {
 	}
 
 	/**
-	 * Throws when any given warehouse cannot accept work.
-	 * @param warehouseIds Warehouse Ids that must be Active. Null or empty performs no check.
-	 */
+	* Throws when any given warehouse cannot accept work.
+	* @param warehouseIds Warehouse Ids that must be Active. Null or empty performs no check.
+	*/
 	public virtual void assertCanAcceptWork(Set<Id> warehouseIds) {
 		if (warehouseIds == null || warehouseIds.isEmpty()) {
 			return;
@@ -66,8 +67,8 @@ public virtual inherited sharing class Warehouses extends fflib_SObjects {
 	}
 
 	/**
-	 * Thrown when a warehouse cannot accept work.
-	 */
+	* Thrown when a warehouse cannot accept work.
+	*/
 	public class WarehousesException extends Exception {
 	}
 }

@@ -2,6 +2,7 @@
  * Domain tests for MaintenanceJobs.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: in-memory records; no DML
 private class MaintenanceJobsTest {
 	@IsTest
 	private static void completeSetsCostFromHealth() {

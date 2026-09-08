@@ -2,6 +2,7 @@
  * Unit tests for MaintenanceService using fflib-apex-mocks. No DML.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts, PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: ApexMocks verify is the assertion; no DML
 private class MaintenanceServiceTest {
 	@IsTest
 	private static void scheduleServiceTakesRobotsOfflineAndRegistersJob() {
@@ -24,11 +25,12 @@ private class MaintenanceServiceTest {
 		mocks.when(jobSelectorMock.selectOpenByRobot(robotIds)).thenReturn(new List<MaintenanceJob__c>());
 		mocks.stopStubbing();
 
-		MaintenanceJobsSelector.mock = jobSelectorMock;
 		Robots.mock = robotsMock;
+		RobotsSelector robotSelectorMock = (RobotsSelector) mocks.mock(RobotsSelector.class);
 
 		// When service is scheduled on the outer Unit of Work
-		MaintenanceService.newInstance().scheduleService(new List<Robot__c>{ robot }, uowMock);
+		new MaintenanceService(robotSelectorMock, jobSelectorMock)
+			.scheduleService(new List<Robot__c>{ robot }, uowMock);
 
 		// Then the robot is taken offline and a job is registered
 		((Robots) mocks.verify(robotsMock)).takeOfflineForService(uowMock);
@@ -65,11 +67,12 @@ private class MaintenanceServiceTest {
 			.thenReturn(new List<MaintenanceJob__c>{ job });
 		mocks.stopStubbing();
 
+		RobotsSelector robotSelectorMock = (RobotsSelector) mocks.mock(RobotsSelector.class);
+
 		UnitOfWork.mock = uowMock;
-		MaintenanceJobsSelector.mock = jobSelectorMock;
 
 		// When the job is started
-		MaintenanceService.newInstance().startJobs(jobIds);
+		new MaintenanceService(robotSelectorMock, jobSelectorMock).startJobs(jobIds);
 
 		// Then health is stamped, the job is In Progress, and the UoW commits
 		System.assertEquals(MaintenanceJobs.STATUS_IN_PROGRESS, job.Status__c, 'Job should start');

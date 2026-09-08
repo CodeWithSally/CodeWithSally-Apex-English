@@ -4,16 +4,16 @@
  */
 public inherited sharing class RobotsTriggerHandler extends fflib_SObjectDomain {
 	/**
-	 * Creates a trigger handler wrapping the given Robot records.
-	 * @param sObjectList Robots in the trigger context.
-	 */
+	* Creates a trigger handler wrapping the given Robot records.
+	* @param sObjectList Robots in the trigger context.
+	*/
 	public RobotsTriggerHandler(List<Robot__c> sObjectList) {
 		super(sObjectList);
 	}
 
 	/**
-	 * Applies Idle, zero wear, zero hours, full battery, and health from wear when fields are blank.
-	 */
+	* Applies Idle, zero wear, zero hours, full battery, and health from wear when fields are blank.
+	*/
 	public override void onApplyDefaults() {
 		for (Robot__c robot : (List<Robot__c>) Records) {
 			if (String.isBlank(robot.Status__c)) {
@@ -33,9 +33,9 @@ public inherited sharing class RobotsTriggerHandler extends fflib_SObjectDomain 
 	}
 
 	/**
-	 * Blocks illegal status edits on update.
-	 * @param existingRecords Prior Robot versions keyed by Id.
-	 */
+	* Blocks illegal status edits on update.
+	* @param existingRecords Prior Robot versions keyed by Id.
+	*/
 	public override void onValidate(Map<Id, SObject> existingRecords) {
 		for (Robot__c robot : (List<Robot__c>) Records) {
 			Robot__c existing = (Robot__c) existingRecords.get(robot.Id);
@@ -53,9 +53,9 @@ public inherited sharing class RobotsTriggerHandler extends fflib_SObjectDomain 
 	}
 
 	/**
-	 * Recalculates health when wear changes.
-	 * @param existingRecords Prior Robot versions keyed by Id.
-	 */
+	* Recalculates health when wear changes.
+	* @param existingRecords Prior Robot versions keyed by Id.
+	*/
 	public override void onBeforeUpdate(Map<Id, SObject> existingRecords) {
 		for (Robot__c robot : (List<Robot__c>) Records) {
 			Robot__c existing = (Robot__c) existingRecords.get(robot.Id);
@@ -66,14 +66,14 @@ public inherited sharing class RobotsTriggerHandler extends fflib_SObjectDomain 
 	}
 
 	/**
-	 * fflib constructable used by {@code fflib_SObjectDomain.triggerHandler}.
-	 */
+	* fflib constructable used by {@code fflib_SObjectDomain.triggerHandler}.
+	*/
 	public class Constructor implements fflib_SObjectDomain.IConstructable {
 		/**
-		 * Builds a {@link RobotsTriggerHandler} for the given records.
-		 * @param sObjectList Robots in the trigger context.
-		 * @return Trigger handler instance.
-		 */
+		* Builds a {@link RobotsTriggerHandler} for the given records.
+		* @param sObjectList Robots in the trigger context.
+		* @return Trigger handler instance.
+		*/
 		public fflib_SObjectDomain construct(List<SObject> sObjectList) {
 			return new RobotsTriggerHandler((List<Robot__c>) sObjectList);
 		}

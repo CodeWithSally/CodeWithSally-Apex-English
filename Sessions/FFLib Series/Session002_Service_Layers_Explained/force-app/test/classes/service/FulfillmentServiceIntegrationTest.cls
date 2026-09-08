@@ -40,26 +40,29 @@ private class FulfillmentServiceIntegrationTest {
 		Test.stopTest();
 
 		// Then the line is complete, the robot is in service, and a maintenance job exists
-		FulfillmentLine__c line = [
-			SELECT Status__c
-			FROM FulfillmentLine__c
-			WHERE Id = :data.line.Id
-		];
+		FulfillmentLine__c line;
+		Robot__c robot;
+		List<MaintenanceJob__c> jobs;
+		System.runAs(runAsUser) {
+			line = [
+				SELECT Status__c
+				FROM FulfillmentLine__c
+				WHERE Id = :data.line.Id
+			];
+			robot = [
+				SELECT Status__c, HoursSinceService__c, Health__c
+				FROM Robot__c
+				WHERE Id = :data.robot.Id
+			];
+			jobs = [
+				SELECT Status__c, Type__c, Robot__c
+				FROM MaintenanceJob__c
+				WHERE Robot__c = :data.robot.Id
+			];
+		}
 		System.assertEquals(FulfillmentLines.STATUS_COMPLETE, line.Status__c, 'Line should be complete');
-
-		Robot__c robot = [
-			SELECT Status__c, HoursSinceService__c, Health__c
-			FROM Robot__c
-			WHERE Id = :data.robot.Id
-		];
 		System.assertEquals(Robots.STATUS_IN_SERVICE, robot.Status__c, 'Due robot should be in service');
 		System.assertEquals(8, robot.HoursSinceService__c, 'Wear hours should include the completed line');
-
-		List<MaintenanceJob__c> jobs = [
-			SELECT Status__c, Type__c, Robot__c
-			FROM MaintenanceJob__c
-			WHERE Robot__c = :data.robot.Id
-		];
 		System.assertEquals(1, jobs.size(), 'One maintenance job should be created');
 		System.assertEquals(MaintenanceJobs.STATUS_IN_PROGRESS, jobs[0].Status__c, 'Job starts in progress');
 	}
@@ -84,25 +87,25 @@ private class FulfillmentServiceIntegrationTest {
 		Test.stopTest();
 
 		// Then the order is complete, the robot is idle, and no maintenance job is created
-		FulfillmentOrder__c order = [
-			SELECT Status__c
-			FROM FulfillmentOrder__c
-			WHERE Id = :data.order.Id
-		];
+		FulfillmentOrder__c order;
+		Robot__c robot;
+		Integer jobCount;
+		System.runAs(runAsUser) {
+			order = [
+				SELECT Status__c
+				FROM FulfillmentOrder__c
+				WHERE Id = :data.order.Id
+			];
+			robot = [
+				SELECT Status__c
+				FROM Robot__c
+				WHERE Id = :data.robot.Id
+			];
+			jobCount = [SELECT COUNT() FROM MaintenanceJob__c WHERE Robot__c = :data.robot.Id];
+		}
 		System.assertEquals(FulfillmentOrders.STATUS_COMPLETED, order.Status__c, 'Single-line order should complete');
-
-		Robot__c robot = [
-			SELECT Status__c
-			FROM Robot__c
-			WHERE Id = :data.robot.Id
-		];
 		System.assertEquals(Robots.STATUS_IDLE, robot.Status__c, 'Robot should be idle when not due');
-
-		System.assertEquals(
-			0,
-			[SELECT COUNT() FROM MaintenanceJob__c WHERE Robot__c = :data.robot.Id],
-			'No job when the robot is not due'
-		);
+		System.assertEquals(0, jobCount, 'No job when the robot is not due');
 	}
 
 	@IsTest
@@ -123,11 +126,14 @@ private class FulfillmentServiceIntegrationTest {
 		Test.stopTest();
 
 		// Then the order is On Hold
-		FulfillmentOrder__c order = [
-			SELECT Status__c
-			FROM FulfillmentOrder__c
-			WHERE Id = :data.order.Id
-		];
+		FulfillmentOrder__c order;
+		System.runAs(runAsUser) {
+			order = [
+				SELECT Status__c
+				FROM FulfillmentOrder__c
+				WHERE Id = :data.order.Id
+			];
+		}
 		System.assertEquals(FulfillmentOrders.STATUS_ON_HOLD, order.Status__c, 'Released order should hold');
 	}
 
@@ -154,12 +160,15 @@ private class FulfillmentServiceIntegrationTest {
 		Test.stopTest();
 
 		// Then release is rejected and the order stays Draft
+		FulfillmentOrder__c order;
+		System.runAs(runAsUser) {
+			order = [
+				SELECT Status__c
+				FROM FulfillmentOrder__c
+				WHERE Id = :data.order.Id
+			];
+		}
 		System.assertEquals(true, thrown, 'Closed warehouse should block release');
-		FulfillmentOrder__c order = [
-			SELECT Status__c
-			FROM FulfillmentOrder__c
-			WHERE Id = :data.order.Id
-		];
 		System.assertEquals(FulfillmentOrders.STATUS_DRAFT, order.Status__c, 'Draft should be unchanged');
 	}
 }

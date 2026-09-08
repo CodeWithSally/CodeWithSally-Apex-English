@@ -28,19 +28,22 @@ private class MaintenanceServiceIntegrationTest {
 		Test.stopTest();
 
 		// Then the job is Completed and the robot is idle with wear cleared
-		MaintenanceJob__c job = [
-			SELECT Status__c, Cost__c
-			FROM MaintenanceJob__c
-			WHERE Id = :jobId
-		];
+		MaintenanceJob__c job;
+		Robot__c robot;
+		System.runAs(runAsUser) {
+			job = [
+				SELECT Status__c, Cost__c
+				FROM MaintenanceJob__c
+				WHERE Id = :jobId
+			];
+			robot = [
+				SELECT Status__c, WearPercent__c, HoursSinceService__c, Health__c
+				FROM Robot__c
+				WHERE Id = :data.robot.Id
+			];
+		}
 		System.assertEquals(MaintenanceJobs.STATUS_COMPLETED, job.Status__c, 'Job should complete');
 		System.assertEquals(MaintenanceJobs.COST_HEALTHY, job.Cost__c, 'Healthy start costs 100');
-
-		Robot__c robot = [
-			SELECT Status__c, WearPercent__c, HoursSinceService__c, Health__c
-			FROM Robot__c
-			WHERE Id = :data.robot.Id
-		];
 		System.assertEquals(Robots.STATUS_IDLE, robot.Status__c, 'Robot should return to idle');
 		System.assertEquals(0, robot.WearPercent__c, 'Wear should be cleared');
 		System.assertEquals(0, robot.HoursSinceService__c, 'Hours should be cleared');

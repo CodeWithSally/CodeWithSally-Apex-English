@@ -35,27 +35,27 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	private static Robots mock;
 
 	/**
-	 * Factory that wraps the given Robot records, or {@link #mock} when tests have set one.
-	 * @param recordList Robots to manage. Null is treated as an empty list.
-	 * @return {@link Robots} instance.
-	 */
+	* Factory that wraps the given Robot records, or {@link #mock} when tests have set one.
+	* @param recordList Robots to manage. Null is treated as an empty list.
+	* @return {@link Robots} instance.
+	*/
 	public static Robots newInstance(List<Robot__c> recordList) {
 		return mock != null ? mock : new Robots(recordList);
 	}
 
 	/**
-	 * Creates a domain wrapping the given Robot records.
-	 * @param sObjectList Robots to manage. Null is treated as an empty list.
-	 */
+	* Creates a domain wrapping the given Robot records.
+	* @param sObjectList Robots to manage. Null is treated as an empty list.
+	*/
 	public Robots(List<Robot__c> sObjectList) {
 		super(sObjectList == null ? new List<Robot__c>() : sObjectList);
 	}
 
 	/**
-	 * Health from a wear percent: under 50 Healthy, 50–80 Warning, over 80 Critical.
-	 * @param wearPercent Wear percent. Null is treated as zero.
-	 * @return Health picklist value.
-	 */
+	* Health from a wear percent: under 50 Healthy, 50–80 Warning, over 80 Critical.
+	* @param wearPercent Wear percent. Null is treated as zero.
+	* @return Health picklist value.
+	*/
 	public static String healthFromWear(Decimal wearPercent) {
 		Decimal wear = wearPercent == null ? 0 : wearPercent;
 		if (wear > WEAR_CRITICAL) {
@@ -68,8 +68,10 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * @return True when the robot is idle, not critical, under 90% wear, and above 20% battery.
-	 */
+	* Whether a robot can be assigned new pick work.
+	* @param robot Robot to evaluate. Cannot be null.
+	* @return True when the robot is idle, not critical, under 90% wear, and above 20% battery.
+	*/
 	public static Boolean canAcceptWork(Robot__c robot) {
 		Decimal wear = robot.WearPercent__c == null ? 0 : robot.WearPercent__c;
 		Decimal battery = robot.BatteryLevel__c == null ? 0 : robot.BatteryLevel__c;
@@ -80,8 +82,9 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * @return Robots in this domain that {@link #canAcceptWork} would accept.
-	 */
+	* Robots in this domain that can be assigned new pick work.
+	* @return Robots in this domain that {@link #canAcceptWork} would accept.
+	*/
 	public virtual List<Robot__c> getAvailableForWork() {
 		List<Robot__c> available = new List<Robot__c>();
 		for (Robot__c robot : (List<Robot__c>) getRecords()) {
@@ -93,9 +96,9 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * Idle to Working. Registers a minimal dirty record.
-	 * @param uow Unit of Work that receives dirty robots. Cannot be null.
-	 */
+	* Idle to Working. Registers a minimal dirty record.
+	* @param uow Unit of Work that receives dirty robots. Cannot be null.
+	*/
 	public virtual void startWork(fflib_SObjectUnitOfWork uow) {
 		for (Robot__c robot : (List<Robot__c>) getRecords()) {
 			if (!canAcceptWork(robot)) {
@@ -109,9 +112,9 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * Working to Idle. Registers a minimal dirty record.
-	 * @param uow Unit of Work that receives dirty robots. Cannot be null.
-	 */
+	* Working to Idle. Registers a minimal dirty record.
+	* @param uow Unit of Work that receives dirty robots. Cannot be null.
+	*/
 	public virtual void goIdle(fflib_SObjectUnitOfWork uow) {
 		for (Robot__c robot : (List<Robot__c>) getRecords()) {
 			if (robot.Status__c != STATUS_WORKING) {
@@ -125,10 +128,10 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * Adds hours since service, recalculates wear from the model interval, and stamps health.
-	 * @param hoursByRobotId Hours to apply per robot Id. Missing keys are skipped.
-	 * @param uow Unit of Work that receives dirty robots. Cannot be null.
-	 */
+	* Adds hours since service, recalculates wear from the model interval, and stamps health.
+	* @param hoursByRobotId Hours to apply per robot Id. Missing keys are skipped.
+	* @param uow Unit of Work that receives dirty robots. Cannot be null.
+	*/
 	public virtual void applyWear(Map<Id, Decimal> hoursByRobotId, fflib_SObjectUnitOfWork uow) {
 		if (hoursByRobotId == null || hoursByRobotId.isEmpty()) {
 			return;
@@ -165,9 +168,9 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * Idle to InService. Working robots must be returned to idle first.
-	 * @param uow Unit of Work that receives dirty robots. Cannot be null.
-	 */
+	* Idle to InService. Working robots must be returned to idle first.
+	* @param uow Unit of Work that receives dirty robots. Cannot be null.
+	*/
 	public virtual void takeOfflineForService(fflib_SObjectUnitOfWork uow) {
 		for (Robot__c robot : (List<Robot__c>) getRecords()) {
 			if (robot.Status__c == STATUS_IN_SERVICE) {
@@ -192,9 +195,9 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * Clears wear and hours, sets health Healthy, status Idle.
-	 * @param uow Unit of Work that receives dirty robots. Cannot be null.
-	 */
+	* Clears wear and hours, sets health Healthy, status Idle.
+	* @param uow Unit of Work that receives dirty robots. Cannot be null.
+	*/
 	public virtual void restoreFromService(fflib_SObjectUnitOfWork uow) {
 		for (Robot__c robot : (List<Robot__c>) getRecords()) {
 			if (robot.Status__c != STATUS_IN_SERVICE) {
@@ -221,8 +224,9 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * @return In-memory robots that are due for service (interval reached, critical, or wear at 90+).
-	 */
+	* Robots in this domain that are due for service.
+	* @return In-memory robots that are due for service (interval reached, critical, or wear at 90+).
+	*/
 	public virtual Set<Robot__c> getDueForService() {
 		Set<Robot__c> dueRobots = new Set<Robot__c>();
 		for (Robot__c robot : (List<Robot__c>) getRecords()) {
@@ -234,8 +238,10 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * @return True when hours since service meet the model interval, health is Critical, or wear is 90+.
-	 */
+	* Whether a robot should be taken into service.
+	* @param robot Robot to evaluate. Cannot be null.
+	* @return True when hours since service meet the model interval, health is Critical, or wear is 90+.
+	*/
 	public static Boolean isDueForService(Robot__c robot) {
 		if (robot.Status__c == STATUS_IN_SERVICE) {
 			return false;
@@ -248,8 +254,11 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * @return True when the status move is legal for a record-page edit.
-	 */
+	* Whether a record-page status edit is allowed.
+	* @param fromStatus Status before the edit.
+	* @param toStatus Status after the edit.
+	* @return True when the status move is legal for a record-page edit.
+	*/
 	public static Boolean isLegalStatusTransition(String fromStatus, String toStatus) {
 		if (fromStatus == toStatus) {
 			return true;
@@ -290,8 +299,8 @@ public virtual inherited sharing class Robots extends fflib_SObjects {
 	}
 
 	/**
-	 * Thrown when a robot status or work request is illegal.
-	 */
+	* Thrown when a robot status or work request is illegal.
+	*/
 	public class RobotsException extends Exception {
 	}
 }

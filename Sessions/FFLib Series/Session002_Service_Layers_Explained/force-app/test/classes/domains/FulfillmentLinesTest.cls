@@ -2,6 +2,7 @@
  * Domain tests for FulfillmentLines.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: in-memory records; no DML
 private class FulfillmentLinesTest {
 	@IsTest
 	private static void assignAndComplete() {

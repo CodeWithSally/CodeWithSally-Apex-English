@@ -1,35 +1,42 @@
 /**
  * Maintenance process: take robots offline for service and restore them afterward.
  * Spans Robot and Maintenance Job, and Warehouse when scanning for robots that are due.
+ * Each method that persists creates a fresh {@link UnitOfWork#newInstance}.
+ * Callers that already own a Unit of Work pass it into {@link #scheduleService}.
  */
 public virtual inherited sharing class MaintenanceService {
-	@TestVisible
-	private static MaintenanceService mock;
+	private final RobotsSelector robotSelector;
+	private final MaintenanceJobsSelector jobSelector;
 
 	/**
-	 * Factory that returns this service, or {@link #mock} when tests have set one.
-	 * @return {@link MaintenanceService} instance.
-	 */
+	* Default composition: live selectors.
+	* @return {@link MaintenanceService} instance.
+	*/
 	public static MaintenanceService newInstance() {
-		return mock != null ? mock : new MaintenanceService();
-	}
-
-	private RobotsSelector robotSelector;
-	private MaintenanceJobsSelector jobSelector;
-
-	/**
-	 * Constructs a service wired to the live selectors.
-	 */
-	public MaintenanceService() {
-		this.robotSelector = RobotsSelector.newInstance();
-		this.jobSelector = MaintenanceJobsSelector.newInstance();
+		return new MaintenanceService(
+			RobotsSelector.newInstance(),
+			MaintenanceJobsSelector.newInstance()
+		);
 	}
 
 	/**
-	 * Scan Warehouses for Robots that are due, then take them offline and book Maintenance Jobs.
-	 * @param warehouseIds Warehouses to scan. Empty set performs no DML.
-	 * @throws MaintenanceServiceException if a domain rule fails or DML fails.
-	 */
+	* Creates a service with the given selectors.
+	* @param robotSelector Robot selector. Cannot be null.
+	* @param jobSelector Maintenance job selector. Cannot be null.
+	*/
+	public MaintenanceService(
+		RobotsSelector robotSelector,
+		MaintenanceJobsSelector jobSelector
+	) {
+		this.robotSelector = robotSelector;
+		this.jobSelector = jobSelector;
+	}
+
+	/**
+	* Scan Warehouses for Robots that are due, then take them offline and book Maintenance Jobs.
+	* @param warehouseIds Warehouses to scan. Empty set performs no DML.
+	* @throws MaintenanceServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void scheduleDueService(Set<Id> warehouseIds) {
 		if (warehouseIds == null || warehouseIds.isEmpty()) {
 			return;
@@ -51,10 +58,10 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Schedules service for the given robots and commits.
-	 * @param robotIds Robot Ids to take offline. Empty set performs no DML.
-	 * @throws MaintenanceServiceException if a domain rule fails or DML fails.
-	 */
+	* Schedules service for the given robots and commits.
+	* @param robotIds Robot Ids to take offline. Empty set performs no DML.
+	* @throws MaintenanceServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void scheduleService(Set<Id> robotIds) {
 		if (robotIds == null || robotIds.isEmpty()) {
 			return;
@@ -69,12 +76,12 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Takes idle robots offline and registers Scheduled jobs on the given Unit of Work.
-	 * Does not commit. Callers such as {@link FulfillmentService} share one transaction.
-	 * Skips robots that already have an open job or are already InService.
-	 * @param robotIds Robot Ids to schedule. Empty set is a no-op.
-	 * @param uow Unit of Work that receives dirty robots and new jobs. Cannot be null.
-	 */
+	* Takes idle robots offline and registers Scheduled jobs on the given Unit of Work.
+	* Does not commit. Callers such as {@link FulfillmentService} share one transaction.
+	* Skips robots that already have an open job or are already InService.
+	* @param robotIds Robot Ids to schedule. Empty set is a no-op.
+	* @param uow Unit of Work that receives dirty robots and new jobs. Cannot be null.
+	*/
 	public virtual void scheduleService(Set<Id> robotIds, fflib_SObjectUnitOfWork uow) {
 		if (robotIds == null || robotIds.isEmpty()) {
 			return;
@@ -83,12 +90,12 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Takes the given in-memory robots offline and registers Scheduled jobs.
-	 * Use this when the caller already applied wear or status in the same transaction.
-	 * Does not commit.
-	 * @param robotsToService Robot records to schedule. Empty set is a no-op.
-	 * @param uow Unit of Work that receives dirty robots and new jobs. Cannot be null.
-	 */
+	* Takes the given in-memory robots offline and registers Scheduled jobs.
+	* Use this when the caller already applied wear or status in the same transaction.
+	* Does not commit.
+	* @param robotsToService Robot records to schedule. Empty set is a no-op.
+	* @param uow Unit of Work that receives dirty robots and new jobs. Cannot be null.
+	*/
 	public virtual void scheduleService(Set<Robot__c> robotsToService, fflib_SObjectUnitOfWork uow) {
 		if (robotsToService == null || robotsToService.isEmpty()) {
 			return;
@@ -97,12 +104,12 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Maintenance booking: Robot to InService and a new Maintenance Job on the same Unit of Work.
-	 * Use this when the caller already applied wear or status in the same transaction.
-	 * Does not commit.
-	 * @param robotsToService Robot records to schedule. Empty list is a no-op.
-	 * @param uow Unit of Work that receives dirty robots and new jobs. Cannot be null.
-	 */
+	* Maintenance booking: Robot to InService and a new Maintenance Job on the same Unit of Work.
+	* Use this when the caller already applied wear or status in the same transaction.
+	* Does not commit.
+	* @param robotsToService Robot records to schedule. Empty list is a no-op.
+	* @param uow Unit of Work that receives dirty robots and new jobs. Cannot be null.
+	*/
 	public virtual void scheduleService(List<Robot__c> robotsToService, fflib_SObjectUnitOfWork uow) {
 		if (robotsToService == null || robotsToService.isEmpty()) {
 			return;
@@ -132,17 +139,16 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Start process: Maintenance Job Scheduled to In Progress, stamping health from the Robot.
-	 * @param jobIds Job Ids to start. Empty set performs no DML.
-	 * @throws MaintenanceServiceException if a domain rule fails or DML fails.
-	 */
+	* Start process: Maintenance Job Scheduled to In Progress, stamping health from the Robot.
+	* @param jobIds Job Ids to start. Empty set performs no DML.
+	* @throws MaintenanceServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void startJobs(Set<Id> jobIds) {
 		if (jobIds == null || jobIds.isEmpty()) {
 			return;
 		}
 		try {
 			fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
-
 			// Read current Robot health so the Maintenance Job can stamp HealthAtStart
 			List<MaintenanceJob__c> jobs = jobSelector.selectByIdWithRobot(jobIds);
 			Map<Id, String> healthByRobotId = new Map<Id, String>();
@@ -160,17 +166,16 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Restore process: complete the Maintenance Job and return the Robot to Idle with wear cleared.
-	 * @param jobIds Job Ids to complete. Empty set performs no DML.
-	 * @throws MaintenanceServiceException if a domain rule fails or DML fails.
-	 */
+	* Restore process: complete the Maintenance Job and return the Robot to Idle with wear cleared.
+	* @param jobIds Job Ids to complete. Empty set performs no DML.
+	* @throws MaintenanceServiceException if a domain rule fails or DML fails.
+	*/
 	public virtual void completeJobs(Set<Id> jobIds) {
 		if (jobIds == null || jobIds.isEmpty()) {
 			return;
 		}
 		try {
 			fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
-
 			// Maintenance Job: In Progress to Completed (cost from health at start)
 			List<MaintenanceJob__c> jobs = jobSelector.selectByIdWithRobot(jobIds);
 			MaintenanceJobs.newInstance(jobs).complete(uow);
@@ -204,8 +209,8 @@ public virtual inherited sharing class MaintenanceService {
 	}
 
 	/**
-	 * Client-agnostic exception thrown by maintenance service methods.
-	 */
+	* Client-agnostic exception thrown by maintenance service methods.
+	*/
 	public class MaintenanceServiceException extends Exception {
 	}
 }

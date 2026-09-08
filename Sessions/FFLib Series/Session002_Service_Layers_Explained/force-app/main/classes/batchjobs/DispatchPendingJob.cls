@@ -5,33 +5,52 @@
 public inherited sharing class DispatchPendingJob
 	implements System.Schedulable, Database.Batchable<SObject>, Database.Stateful
 {
+	private final WarehousesSelector warehouseSelector;
+	private final DispatchService dispatchSvc;
 	private List<JobError> jobErrors = new List<JobError>();
 
 	/**
-	 * Starts a batch of this job from the scheduler.
-	 * @param sc Scheduler context provided by the platform.
-	 */
+	* Default composition: {@link WarehousesSelector#newInstance} and {@link DispatchService#newInstance}.
+	*/
+	public DispatchPendingJob() {
+		this(WarehousesSelector.newInstance(), DispatchService.newInstance());
+	}
+
+	/**
+	* Creates a job with the given selector and service.
+	* @param warehouseSelector Warehouse selector used in {@link #start}. Cannot be null.
+	* @param dispatchSvc Dispatch service used in {@link #execute}. Cannot be null.
+	*/
+	public DispatchPendingJob(WarehousesSelector warehouseSelector, DispatchService dispatchSvc) {
+		this.warehouseSelector = warehouseSelector;
+		this.dispatchSvc = dispatchSvc;
+	}
+
+	/**
+	* Starts a batch of this job from the scheduler.
+	* @param sc Scheduler context provided by the platform.
+	*/
 	public void execute(SchedulableContext sc) {
 		Database.executeBatch(new DispatchPendingJob());
 	}
 
 	/**
-	 * Queries active warehouses for dispatch.
-	 * @param context Batch context provided by the platform.
-	 * @return Query locator of active warehouses.
-	 */
+	* Queries active warehouses for dispatch.
+	* @param context Batch context provided by the platform.
+	* @return Query locator of active warehouses.
+	*/
 	public Database.QueryLocator start(Database.BatchableContext context) {
-		return WarehousesSelector.newInstance().selectActiveAsQueryLocator();
+		return warehouseSelector.selectActiveAsQueryLocator();
 	}
 
 	/**
-	 * Dispatches the warehouses in this chunk through {@link DispatchService}.
-	 * @param context Batch context provided by the platform.
-	 * @param warehouses Active warehouses in this chunk.
-	 */
+	* Dispatches the warehouses in this chunk through {@link DispatchService}.
+	* @param context Batch context provided by the platform.
+	* @param warehouses Active warehouses in this chunk.
+	*/
 	public void execute(Database.BatchableContext context, List<Warehouse__c> warehouses) {
 		try {
-			DispatchService.newInstance().dispatchWarehouses(new Map<Id, Warehouse__c>(warehouses).keySet());
+			dispatchSvc.dispatchWarehouses(new Map<Id, Warehouse__c>(warehouses).keySet());
 		} catch (Exception e) {
 			JobError jobError = new JobError();
 			jobError.records = warehouses;
@@ -41,9 +60,9 @@ public inherited sharing class DispatchPendingJob
 	}
 
 	/**
-	 * Emails chunk failures to the running user when any chunk threw.
-	 * @param context Batch context provided by the platform.
-	 */
+	* Emails chunk failures to the running user when any chunk threw.
+	* @param context Batch context provided by the platform.
+	*/
 	public void finish(Database.BatchableContext context) {
 		if (jobErrors.isEmpty()) {
 			return;
@@ -68,8 +87,8 @@ public inherited sharing class DispatchPendingJob
 	}
 
 	/**
-	 * Failure recorded for one batch chunk so {@link #finish} can email it.
-	 */
+	* Failure recorded for one batch chunk so {@link #finish} can email it.
+	*/
 	public class JobError {
 		/** Exception message from the failed dispatch. */
 		public String message;

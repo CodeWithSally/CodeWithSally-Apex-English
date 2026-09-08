@@ -3,37 +3,49 @@
  * Spans Warehouse, Fulfillment Line, Fulfillment Order, and Robot.
  */
 public virtual inherited sharing class WarehouseService {
-	@TestVisible
-	private static WarehouseService mock;
+	private final WarehousesSelector warehouseSelector;
+	private final FulfillmentLinesSelector lineSelector;
+	private final RobotsSelector robotSelector;
+	private final FulfillmentOrdersSelector orderSelector;
 
 	/**
-	 * Factory that returns this service, or {@link #mock} when tests have set one.
-	 * @return {@link WarehouseService} instance.
-	 */
+	* Default composition: live selectors.
+	* @return {@link WarehouseService} instance.
+	*/
 	public static WarehouseService newInstance() {
-		return mock != null ? mock : new WarehouseService();
-	}
-
-	private WarehousesSelector warehouseSelector;
-	private FulfillmentLinesSelector lineSelector;
-	private RobotsSelector robotSelector;
-	private FulfillmentOrdersSelector orderSelector;
-
-	/**
-	 * Constructs a service wired to the live selectors.
-	 */
-	public WarehouseService() {
-		this.warehouseSelector = WarehousesSelector.newInstance();
-		this.lineSelector = FulfillmentLinesSelector.newInstance();
-		this.robotSelector = RobotsSelector.newInstance();
-		this.orderSelector = FulfillmentOrdersSelector.newInstance();
+		return new WarehouseService(
+			WarehousesSelector.newInstance(),
+			FulfillmentLinesSelector.newInstance(),
+			RobotsSelector.newInstance(),
+			FulfillmentOrdersSelector.newInstance()
+		);
 	}
 
 	/**
-	 * Desk snapshot: pending line counts, available robots, and draft order names.
-	 * @param warehouseNames Warehouse names such as North Hub. One summary per name, in order.
-	 * @return One summary per requested warehouse.
-	 */
+	* Creates a service with the given selectors.
+	* @param warehouseSelector Warehouse selector. Cannot be null.
+	* @param lineSelector Line selector. Cannot be null.
+	* @param robotSelector Robot selector. Cannot be null.
+	* @param orderSelector Order selector. Cannot be null.
+	*/
+	@SuppressWarnings('PMD.ExcessiveParameterList') // dependency injection: collaborators passed in so tests can stub them
+	public WarehouseService(
+		WarehousesSelector warehouseSelector,
+		FulfillmentLinesSelector lineSelector,
+		RobotsSelector robotSelector,
+		FulfillmentOrdersSelector orderSelector
+	) {
+		this.warehouseSelector = warehouseSelector;
+		this.lineSelector = lineSelector;
+		this.robotSelector = robotSelector;
+		this.orderSelector = orderSelector;
+	}
+
+	/**
+	* Desk snapshot: pending line counts, available robots, and draft order names.
+	* @param warehouseNames Warehouse names such as North Hub. One summary per name, in order.
+	* @return One summary per requested warehouse.
+	*/
 	public virtual List<Summary> summaries(List<String> warehouseNames) {
 		if (warehouseNames == null || warehouseNames.isEmpty()) {
 			return new List<Summary>();
@@ -70,8 +82,8 @@ public virtual inherited sharing class WarehouseService {
 	}
 
 	/**
-	 * Desk snapshot for one warehouse.
-	 */
+	* Desk snapshot for one warehouse.
+	*/
 	public class Summary {
 		public Id warehouseId;
 		public String warehouseName;
@@ -80,6 +92,14 @@ public virtual inherited sharing class WarehouseService {
 		public Integer robotShortfall;
 		public String draftOrderNames;
 
+		/**
+		* Builds a desk snapshot from a warehouse and its pending and idle counts.
+		* @param warehouse Warehouse the snapshot describes. Cannot be null.
+		* @param pending Pending unassigned line count. Null is treated as 0.
+		* @param available Idle available robot count. Null is treated as 0.
+		* @param draftNames Comma-separated draft order names. Null is treated as blank.
+		*/
+		@SuppressWarnings('PMD.ExcessiveParameterList') // data only: this class holds snapshot fields; constructor sets them in one place
 		public Summary(
 			Warehouse__c warehouse,
 			Integer pending,
@@ -96,8 +116,8 @@ public virtual inherited sharing class WarehouseService {
 	}
 
 	/**
-	 * Thrown when a warehouse cannot be resolved.
-	 */
+	* Thrown when a warehouse cannot be resolved.
+	*/
 	public class WarehouseServiceException extends Exception {
 	}
 }

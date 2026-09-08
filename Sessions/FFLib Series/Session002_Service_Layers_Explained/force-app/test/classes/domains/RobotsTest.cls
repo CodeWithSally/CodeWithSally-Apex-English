@@ -2,6 +2,7 @@
  * Domain tests for Robots.
  */
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs') // unit test: in-memory records; no DML
 private class RobotsTest {
 	@IsTest
 	private static void healthFromWearUsesThresholds() {
@@ -66,6 +67,56 @@ private class RobotsTest {
 	}
 
 	@IsTest
+	private static void goIdleRequiresWorking() {
+		// Given a working robot
+		Robot__c robot = newRobot(Robots.STATUS_WORKING, Robots.HEALTH_HEALTHY, 10, 80);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_SObjectUnitOfWork uowMock = (fflib_SObjectUnitOfWork) mocks.mock(fflib_SObjectUnitOfWork.class);
+
+		// When it returns from a pick
+		Robots.newInstance(new List<Robot__c>{ robot }).goIdle(uowMock);
+
+		// Then the status is Idle
+		System.assertEquals(Robots.STATUS_IDLE, robot.Status__c, 'Working robot should go idle');
+
+		// Given the same robot is already Idle
+		Boolean thrown = false;
+		try {
+			Robots.newInstance(new List<Robot__c>{ robot }).goIdle(uowMock);
+		} catch (Robots.RobotsException e) {
+			thrown = true;
+		}
+		// Then an exception is raised
+		System.assertEquals(true, thrown, 'Idle robot cannot go idle again');
+	}
+
+	@IsTest
+	private static void getDueForServiceMatchesPublishedRules() {
+		// Given robots at each published due rule, plus one already in service
+		Robot__c intervalDue = newRobot(Robots.STATUS_IDLE, Robots.HEALTH_HEALTHY, 0, 80);
+		intervalDue.HoursSinceService__c = 40;
+		intervalDue.Model__r = new RobotModel__c(ServiceIntervalHours__c = 40);
+		Robot__c critical = newRobot(Robots.STATUS_IDLE, Robots.HEALTH_CRITICAL, 81, 80);
+		Robot__c wearDue = newRobot(Robots.STATUS_IDLE, Robots.HEALTH_WARNING, 90, 80);
+		Robot__c inService = newRobot(Robots.STATUS_IN_SERVICE, Robots.HEALTH_CRITICAL, 100, 80);
+		inService.HoursSinceService__c = 40;
+		Robot__c healthy = newRobot(Robots.STATUS_IDLE, Robots.HEALTH_HEALTHY, 0, 80);
+
+		// When due robots are collected
+		Set<Robot__c> due = Robots.newInstance(
+				new List<Robot__c>{ intervalDue, critical, wearDue, inService, healthy }
+			)
+			.getDueForService();
+
+		// Then interval, Critical, and 90% wear are due; InService and Healthy are not
+		System.assertEquals(true, due.contains(intervalDue), 'Interval hours should be due');
+		System.assertEquals(true, due.contains(critical), 'Critical health should be due');
+		System.assertEquals(true, due.contains(wearDue), 'Wear at 90 should be due');
+		System.assertEquals(false, due.contains(inService), 'Already in service should be skipped');
+		System.assertEquals(false, due.contains(healthy), 'Healthy idle robot should not be due');
+	}
+
+	@IsTest
 	private static void takeOfflineRequiresIdle() {
 		// Given a working robot
 		Robot__c robot = newRobot(Robots.STATUS_WORKING, Robots.HEALTH_HEALTHY, 10, 80);
@@ -82,6 +133,7 @@ private class RobotsTest {
 		System.assertEquals(true, thrown, 'Working robot cannot go into service');
 	}
 
+	@SuppressWarnings('PMD.ExcessiveParameterList') // test fixture: status, health, wear, and battery vary per scenario
 	private static Robot__c newRobot(String status, String health, Decimal wear, Decimal battery) {
 		return new Robot__c(
 			Id = TestIdGenerator.generate(Robot__c.SObjectType),

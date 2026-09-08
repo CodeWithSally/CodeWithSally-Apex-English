@@ -17,10 +17,6 @@ html: true
 
 ![Code With Sally](images/codewithsally.png)
 
-<!--
-Session 001 put SoC on the table. Tonight the Service is the conductor — and the Unit of Work is how it commits. Warehouse Operations is the desk we will walk, then demo.
--->
-
 ---
 
 <!-- _class: detail-slide about-slide -->
@@ -51,10 +47,6 @@ Session 001 put SoC on the table. Tonight the Service is the conductor — and t
 </div>
 </div>
 
-<!--
-Andrew Fawcett — AndyInTheCloud. Same intro as Session 001.
--->
-
 ---
 
 <!-- _class: detail-slide series-slide -->
@@ -75,10 +67,6 @@ Andrew Fawcett — AndyInTheCloud. Same intro as Session 001.
 </tbody>
 </table>
 
-<!--
-Session 1 is done. This session is Service + Unit of Work, using a warehouse operations sample so Service and Domain no longer share a noun.
--->
-
 ---
 
 <!-- _class: detail-slide service-layer-def-slide -->
@@ -88,10 +76,6 @@ Session 1 is done. This session is Service + Unit of Work, using a warehouse ope
 <div class="service-layer-graphic">
   <img src="images/service-layer-conductor.svg?v=11" alt="Client crowds including LWC, REST, Flow, Agent, Batch, and more stand behind the Warehouse Operations App Services; Fulfillment, Dispatch, and Maintenance stand in front" />
 </div>
-
-<!--
-Clients stay behind the Warehouse Operations App Services — LWC, REST, Flow, Agent, Batch, and more. In front are the three warehouse services: Fulfillment, Dispatch, Maintenance. Do not say orchestrator. The Service layer is the conductor; the named services are the features.
--->
 
 ---
 
@@ -108,10 +92,6 @@ Defines an application's boundary with a layer of services that establishes a se
 <div class="service-layer-band">
   <img src="images/service-layer-band.svg" alt="Fulfillment, Dispatch, and Maintenance stand on the Service layer" />
 </div>
-
-<!--
-Fowler. The Service Layer is the application's boundary — a set of operations, and the coordination of the response in each one. Same three warehouse services as the last slide: Fulfillment, Dispatch, Maintenance.
--->
 
 ---
 
@@ -131,10 +111,6 @@ Fowler. The Service Layer is the application's boundary — a set of operations,
 <li>Warehouse Operations Agent<span class="check"></span></li>
 </ul>
 
-<!--
-Tonight's path. Recap first — then Unit of Work, principles, the warehouse desk, the code, then the agent.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide layers-diagram-slide -->
@@ -142,10 +118,6 @@ Tonight's path. Recap first — then Unit of Work, principles, the warehouse des
 # Salesforce Platform Layers
 
 ![Five Salesforce layers — Presentation, Integration, Business Logic, Data Access, and Database — each with You define and You code tools](images/salesforce-application-layers.svg?v=purple2)
-
-<!--
-Recap from 001. Every layer has declarative and coding paths. SoC is putting each concern in the right layer.
--->
 
 ---
 
@@ -167,10 +139,6 @@ Recap from 001. Every layer has declarative and coding paths. SoC is putting eac
 </div>
 </div>
 </div>
-
-<!--
-Grey is a Client. Green is Service — named for the process. Blue is Domain — named for the object. Darker blue is a Trigger Handler — next to Domain because it is record work. Orange is Selector. The stacked key is on this slide; the small strip returns on the class tabs later.
--->
 
 ---
 
@@ -223,10 +191,6 @@ Grey is a Client. Green is Service — named for the process. Blue is Domain —
 </div>
 </div>
 
-<!--
-Same five platform layers as 001 — warehouse class names. The colors you just saw. Service names a process. Domain names an object. That is why this sample exists.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide -->
@@ -234,10 +198,6 @@ Same five platform layers as 001 — warehouse class names. The colors you just 
 # Who can call whom
 
 ![Clients call Service and Selector; trigger handlers call Service, Domain, and Selector; Service, Domain, and Selector may compose](images/callers-graphic.svg?v=left10)
-
-<!--
-Same matrix as the table. Clients call Service and Selector — not Domain. Trigger handlers may call Service, Domain, or Selector. Service may call Service, Domain, and Selector — and when it calls Service, it passes the outer Unit of Work. Domain may call Domain and Selector; it is given a UoW, it does not create one. Selector may compose with Selector — it does not call Service or Domain.
--->
 
 ---
 
@@ -257,10 +217,6 @@ Same matrix as the table. Clients call Service and Selector — not Domain. Trig
 <tr><td><span class="layer-pill layer-pill-selector">Selector</span></td><td></td><td></td><td>●</td></tr>
 </tbody>
 </table>
-
-<!--
-Same matrix as the graphic. Clients call Service and Selector, not Domain. Trigger handlers may call Service, Domain, or Selector. Domain may call Domain and Selector. Service may call Service — and when it does, it passes the outer Unit of Work. Selector may compose with Selector — it does not call Service or Domain.
--->
 
 ---
 
@@ -326,10 +282,6 @@ LWC · REST · Batch · Flow · Agent Action · Next?
 </div>
 </div>
 
-<!--
-Recap from 001, warehouse names. Top timeline: each new client copied dispatch and release. Point at Next? — Claudeforce, August 2026, Salesforce + Anthropic. Claude talking to your org is another interaction layer, not a new place to put the rules. Bottom timeline: DispatchService and FulfillmentService — hearts not warnings. Tonight we stay on the Service that makes the bottom row true.
--->
-
 ---
 
 <!-- _class: detail-slide checklist-slide -->
@@ -348,10 +300,6 @@ Recap from 001, warehouse names. Top timeline: each new client copied dispatch a
 <li>Warehouse Operations Agent<span class="check"></span></li>
 </ul>
 
-<!--
-Recap is done. Unit of Work next — the pattern, then Fowler, then the Opportunity samples from the blog.
--->
-
 ---
 
 <!-- _class: detail-slide -->
@@ -365,10 +313,6 @@ Recap is done. Unit of Work next — the pattern, then Fowler, then the Opportun
 * Relationships: built in memory without having to insert parent
 * `commitWork()` takes a savepoint and rolls back if anything fails
 * In Apex that means: register work now, `commitWork()` once — see [AndyInTheCloud, June 2013](https://andyinthecloud.com/2013/06/09/managing-your-dml-and-transactions-with-a-unit-of-work/)
-
-<!--
-Fowler first. Then the Apex reasons: governors (150 DML), parent-then-child insert order, and savepoint discipline when you catch exceptions.
--->
 
 ---
 
@@ -495,10 +439,6 @@ try {
 </div>
 </div>
 
-<!--
-From AndyInTheCloud 2013. Four inserts, maps and indexes to stay bulkified, you own the dependency order. The left sample has no savepoint — same hole as 001. Catch after insert opps and Apex still commits what succeeded: an Opportunity with no lines. The wrap is the applyDiscounts template from last week.
--->
-
 ---
 
 <!-- _class: detail-slide code-slide compact-code-slide uow-interact-slide -->
@@ -538,10 +478,6 @@ uow.commitWork();
 
 </div>
 
-<!--
-Same blog post. No maps. registerNew / registerRelationship see into the future — the UoW inserts in type order and fills Ids. The type list is dependency order — Product2 and Opportunity before the children that need their Ids. commitWork owns the savepoint.
--->
-
 ---
 
 <!-- _class: detail-slide -->
@@ -554,10 +490,6 @@ Same blog post. No maps. registerNew / registerRelationship see into the future 
 * `registerDirty(record)` · `registerDeleted(record)`
 * `commitWork()` — savepoint, bulk DML, rollback, rethrow
 * Other methods: `registerWork`, `registerUpsert`, `registerEmail` …
-
-<!--
-This is the library class. The warehouse sample wraps it. We will open that wrapper when we walk the app — not yet.
--->
 
 ---
 
@@ -577,10 +509,6 @@ This is the library class. The warehouse sample wraps it. We will open that wrap
 <li>Warehouse Operations Agent<span class="check"></span></li>
 </ul>
 
-<!--
-Pattern is on the table. Service Layer Principles next — conductor, consumers, checklist, Unit of Work in the service. Then the warehouse desk.
--->
-
 ---
 
 <!-- _class: detail-slide service-conductor-slide -->
@@ -599,10 +527,6 @@ Pattern is on the table. Service Layer Principles next — conductor, consumers,
   <p class="conductor-caption"><span>Tasks in front</span><span>Service — the conductor</span><span>The band — querying and object-specific logic</span></p>
 </div>
 
-<!--
-Same 001 slide, new names. There is no RobotsService. Dispatch is not a Robot method.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide -->
@@ -610,10 +534,6 @@ Same 001 slide, new names. There is no RobotsService. Dispatch is not a Robot me
 # Services have many Consumers
 
 ![Hub and spoke: UI controllers, web and REST services, invocable methods, agent actions, email, batch, scheduled, and queueable all call one Apex Service](images/apex-service-entry-points.svg)
-
-<!--
-Same hub as 001. Warehouse LWC, FulfillmentResource, invocables, batch, and Agentforce should call DispatchService — not each copy the match rules.
--->
 
 ---
 
@@ -633,27 +553,22 @@ Same hub as 001. Warehouse LWC, FulfillmentResource, invocables, batch, and Agen
 * **Transactions** — one UOW; rollback; Service→Service passes the outer uow
 * **Security** — enforce user-mode in DML (UOW) and SOQL (Selector)
 
-<!--
-Same promises as 001. Transaction bullet now names Unit of Work instead of a raw savepoint. AuraHandledException still belongs in the controller.
--->
-
 ---
 
-<!-- _class: detail-slide promises-slide -->
+<!-- _class: detail-slide promises-slide service-evolution-slide -->
 
 # Service 🔁 Evolution
 
 * **Services** — now prefer instance methods over static
-  * ✅ `DispatchService.newInstance().dispatchWarehouses(...)`
+  * ✅ `DispatchService.newInstance().dispatchWarehouses(...)` — reduces boilerplate to support mocking, better alignment with Apex Stubs requirements
   * ❌ `public static void dispatchWarehouses(...)`
 * **Apex interfaces** — now recommended only for dependency injection
-  * ✅ `IDispatchService` only when a test or package must inject
-  * ❌ `IFulfillmentService` / `IDispatchService` / `IMaintenanceService` on every service by default
+  * ✅ `IDispatchService` use when decoupling implementation e.g. packaging *
+  * ❌ `IFulfillmentService` / `IMaintenanceService` on every service by default
 * **Application class** — optional; mocking can be done without it — <a href="https://andyinthecloud.com/2026/04/13/apex-enterprise-patterns-recent-updates-and-thoughts-on-the-application-class/">blog</a>
+  * Demonstrated in this sample code via constructor and property injection
 
-<!--
-Same relaxations as 001, Service slice only. This sample is instance methods and newInstance() — DispatchService.mock swaps the instance in tests. No IDispatchService. No Application factory. Interfaces only when you inject. Consumers next.
--->
+<p class="session-callout"><span class="info-mark">ⓘ</span> * <strong>Session #6</strong> — Enterprise-Scale Apex Across Multiple Packages.<span class="session-callout-sub">Metadata driven Dependency Injection (DI) and Apex Interfaces for resolving Services implementations will be covered in this session.</span></p>
 
 ---
 
@@ -662,10 +577,6 @@ Same relaxations as 001, Service slice only. This sample is instance methods and
 # Service - Consumers and Dependencies
 
 ![Controller, REST, Invocable, Queueable, and other callers call the Service; the Service reuses Domain and Selector](images/service-consumers-dependencies.svg)
-
-<!--
-Same collaboration as the hub and the callers table — potential callers, not this sample's names. Controller, REST, Invocable, and Queueable are the class-shaped callers. Other Callers is the overflow: Batch, Scheduled, Trigger Handlers, Agent, Email / Web. Service reuses Domain and Selector. The walkthrough names the real DispatchService callers.
--->
 
 ---
 
@@ -679,10 +590,6 @@ Same collaboration as the hub and the callers table — potential callers, not t
 <span class="info-mark">ⓘ</span><strong>If calling between services.</strong>
 Pass the outer Unit of Work as a parameter. Do not create a new one. Aim for one Unit of Work per request.
 </div>
-
-<!--
-From Apex Patterns.pptx. Create, register, commit. If a service calls a service, pass the outer instance. Aim for one Unit of Work per request. The uow overloads are not for LWC, REST, or Flow.
--->
 
 ---
 
@@ -702,10 +609,6 @@ From Apex Patterns.pptx. Create, register, commit. If a service calls a service,
 <li>Warehouse Operations Agent<span class="check"></span></li>
 </ul>
 
-<!--
-Principles are on the table. Now the warehouse desk — why this sample, then screenshots, ERD, journey, live demo.
--->
-
 ---
 
 <!-- _class: detail-slide warehouse-ops-slide -->
@@ -722,10 +625,6 @@ Principles are on the table. Now the warehouse desk — why this sample, then sc
 
 <img class="ops-loop" src="images/warehouse-ops-loop.svg?v=loop3" alt="Boxes in, robots pick, truck ships, then the next order" />
 
-<!--
-Do not say orchestrator — that word already means the Service layer. Do not mention RoboCo. The strip is the desk loop: boxes in, robots pick, truck out, next order.
--->
-
 ---
 
 <!-- _class: detail-slide sample-code-slide desk-slide -->
@@ -739,10 +638,6 @@ Do not say orchestrator — that word already means the Service layer. Do not me
 <img src="images/demo-fo-00001-clip.png" alt="FO-00001 related — three pending pick lines" />
 </div>
 
-<!--
-Four pages from the starting org: North Hub (Dispatch lives here), Ember (39 of 40 hours, still legal for work), the order header (Draft), and its three pending lines. The Details clip still says FO-00000 until recaptured — same ticket as FO-00001 on the journey. A maintenance job appears after Complete Lines — show it live, not as a still.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide -->
@@ -750,10 +645,6 @@ Four pages from the starting org: North Hub (Dispatch lives here), Ember (39 of 
 # Warehouse App Objects
 
 ![Warehouse, Robot Model, Robot, Fulfillment Order, Fulfillment Line, Maintenance Job](images/manufacturing-erd.svg)
-
-<!--
-Six custom objects. RobotModel is catalog — selector only, no domain. Assignment lives on the line. Health and wear live on the robot.
--->
 
 ---
 
@@ -763,10 +654,6 @@ Six custom objects. RobotModel is catalog — selector only, no domain. Assignme
 ## North Hub Warehouse Fulfillment
 
 ![Put work on the floor, put robots on that work, finish the picks, put Ember back](images/north-hub-journey.svg?v=ends4)
-
-<!--
-Four clicks on one ticket, human world first. Release puts the picks on the floor. Dispatch puts robots on that work. Complete Lines finishes the picks and Ember drops out — that is not a fifth click. Complete Maintenance puts Ember back. The same-UoW hop is the later code story, not this slide.
--->
 
 ---
 
@@ -786,10 +673,6 @@ Four clicks on one ticket, human world first. Release puts the picks on the floo
 <li>Warehouse Operations Agent<span class="check"></span></li>
 </ul>
 
-<!--
-Open the sample. Dispatch first, then the app UnitOfWork wrapper, then Complete Lines calling Maintenance.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide app-class-model-slide -->
@@ -800,10 +683,6 @@ Open the sample. Dispatch first, then the app UnitOfWork wrapper, then Complete 
 
 ![Clients call services; services call domains and selectors](images/warehouse-class-model.svg?v=9)
 
-<!--
-The map before the walk. Clients on top — LWC, REST, batch, invocables. Three services named for the process. Blue lines are Service to Domain; orange lines are Service to Selector — and Domain to its Selector. RobotModel is catalog: selector only, no domain. Next we walk North Hub click by click.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide -->
@@ -813,10 +692,6 @@ The map before the walk. Clients on top — LWC, REST, batch, invocables. Three 
 ![Release, Dispatch, Complete Lines, and Complete Maintenance with the classes behind each click](images/north-hub-journey-classes.svg?v=feet11)
 
 <img class="layer-key" src="images/layer-key.svg?v=h1" alt="Client, Service, Domain, Trigger Handler, Selector" />
-
-<!--
-Same four clicks as the demo. The tab under each moment is the LWC controller the desk actually presses, then the service, domain, and selector. Complete Lines is the hop: FulfillmentService calls MaintenanceService on the same Unit of Work. The LWC controller next — then batch, REST, and invocables, then we open DispatchService.
--->
 
 ---
 
@@ -829,11 +704,17 @@ Same four clicks as the demo. The tab under each moment is the LWC controller th
 
 ```apex
 public inherited sharing class WarehouseDispatchController {
+
+  private DispatchService dispatchSvc = /* constructor initialized */;
+
   @AuraEnabled(cacheable=false)
   public static void dispatchWarehouse(Id warehouseId) {
+    new WarehouseDispatchController().handleDispatchWarehouse(warehouseId);
+  }
+
+  public void handleDispatchWarehouse(Id warehouseId) {
     try {
-      DispatchService.newInstance()
-          .dispatchWarehouses(new Set<Id>{ warehouseId });
+      dispatchSvc.dispatchWarehouses(new Set<Id>{ warehouseId });
     } catch (Exception e) {
       throw toAura(e);
     }
@@ -849,10 +730,6 @@ public inherited sharing class WarehouseDispatchController {
 
 </div>
 
-<!--
-Thin. AuraEnabled, one Id from the record page, wrap it in a Set — the service is bulk even when the button is not. No SOQL, no DML, no match rules. AuraHandledException lives here, not in DispatchService. Batch next — then REST and invocables. Same service call.
--->
-
 ---
 
 <!-- _class: detail-slide code-slide pair-code-slide batch-service-call-slide -->
@@ -866,16 +743,16 @@ Thin. AuraEnabled, one Id from the record page, wrap it in a Set — the service
 public inherited sharing class DispatchPendingJob
     implements System.Schedulable, Database.Batchable<SObject>, Database.Stateful {
 
+  private WarehousesSelector warehouseSelector = /* constructor initialized */;
+  private DispatchService dispatchSvc = /* constructor initialized */;
+
   public Database.QueryLocator start(Database.BatchableContext context) {
-    return WarehousesSelector.newInstance()
-        .selectActiveAsQueryLocator();
+    return warehouseSelector.selectActiveAsQueryLocator();
   }
 
-  public void execute(
-      Database.BatchableContext context,
-      List<Warehouse__c> warehouses) {
+  public void execute(Database.BatchableContext context, List<Warehouse__c> warehouses) {
     try {
-      DispatchService.newInstance()
+      dispatchSvc
           .dispatchWarehouses(new Map<Id, Warehouse__c>(warehouses).keySet());
     } catch (Exception e) {
       jobErrors.add(/* JobError */);
@@ -888,10 +765,6 @@ public inherited sharing class DispatchPendingJob
 
 </div>
 
-<!--
-Same service call as the LWC. start uses the Selector — no SOQL in the job. One dispatchWarehouses per chunk, not per warehouse. finish emails JobErrors — the service still throws DispatchServiceException. Schedulable execute just submits the batch.
--->
-
 ---
 
 <!-- _class: detail-slide code-slide pair-code-slide rest-service-calls-slide -->
@@ -902,36 +775,33 @@ Same service call as the LWC. start uses the Selector — no SOQL in the job. On
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">FulfillmentResource.cls</span></div>
 
 ```apex
-@RestResource(UrlMapping='/warehouse/fulfillment/*')
-global inherited sharing class FulfillmentResource {
-  @HttpPost
-  global static void post() {
-    Request body = (Request) JSON.deserialize(
-        RestContext.request.requestBody.toString(), Request.class);
-    String action = /* last URI segment */;
-    switch on action {
-      when 'release' {
-        FulfillmentService.newInstance()
-            .releaseOrders(new Set<Id>(body.orderIds));
-      }
-      when 'dispatch' {
-        DispatchService.newInstance()
-            .dispatchWarehouses(new Set<Id>(body.warehouseIds));
-      }
-      when 'complete' {
-        FulfillmentService.newInstance()
-            .completeLines(new Set<Id>(body.lineIds));
-      }
+@HttpPost
+global static void post() {
+  new FulfillmentResource().handlePost();
+}
+
+public void handlePost() {
+  Request body = (Request) JSON.deserialize(
+      RestContext.request.requestBody.toString(), Request.class);
+  String action = /* last URI segment */;
+  switch on action {
+    when 'release' {
+      fulfillmentSvc
+          .releaseOrders(new Set<Id>(body.orderIds));
+    }
+    when 'dispatch' {
+      dispatchSvc
+          .dispatchWarehouses(new Set<Id>(body.warehouseIds));
+    }
+    when 'complete' {
+      fulfillmentSvc
+          .completeLines(new Set<Id>(body.lineIds));
     }
   }
 }
 ```
 
 </div>
-
-<!--
-Thin. No SOQL, no DML, no wear math. Request is an inner class — orderIds, warehouseIds, lineIds. Body is a collection of Ids — same bulk contract as the services. Release, dispatch, and complete all call the same services as the LWC.
--->
 
 ---
 
@@ -943,32 +813,31 @@ Thin. No SOQL, no DML, no wear math. Request is an inner class — orderIds, war
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">DispatchWarehouse.cls</span></div>
 
 ```apex
-public inherited sharing class DispatchWarehouse {
-  @InvocableMethod(
-    label='Dispatch Warehouse'
-    category='Warehouse Operations')
-  public static List<Result> execute(List<Request> requests) {
-    Set<Id> warehouseIds = new Set<Id>();
-    for (Request request : requests) {
-      warehouseIds.add(request.warehouseId);
-    }
-    DispatchService.newInstance().dispatchWarehouses(warehouseIds);
-    List<Result> results = new List<Result>();
-    for (Request request : requests) {
-      Result result = new Result();
-      result.warehouseId = request.warehouseId;
-      results.add(result);
-    }
-    return results;
+@InvocableMethod(
+  label='Dispatch Warehouse'
+  category='Warehouse Operations')
+public static List<Result> execute(List<Request> requests) {
+  return new DispatchWarehouse().handleExecute(requests);
+}
+
+public List<Result> handleExecute(List<Request> requests) {
+  Set<Id> warehouseIds = new Set<Id>();
+  for (Request request : requests) {
+    warehouseIds.add(/* resolve request.warehouseName */);
   }
+  dispatchSvc.dispatchWarehouses(warehouseIds);
+  List<Result> results = new List<Result>();
+  for (Request request : requests) {
+    Result result = new Result();
+    result.warehouseName = request.warehouseName;
+    result.warehouseId = /* resolved Id */;
+    results.add(result);
+  }
+  return results;
 }
 ```
 
 </div>
-
-<!--
-Same shape as Session 001 ApplyDiscount: collect Ids, one service call, then build results. The first loop does not call the service. Also: ReleaseOrders, CompleteFulfillmentLines, ScheduleMaintenance, CompleteMaintenance.
--->
 
 ---
 
@@ -976,17 +845,13 @@ Same shape as Session 001 ApplyDiscount: collect Ids, one service call, then bui
 
 # DispatchService - Consumers and Dependencies
 
-![WarehouseDispatchController, FulfillmentResource, DispatchWarehouse, and DispatchPendingJob call DispatchService; DispatchService reuses Robots and RobotsSelector](images/service-consumers-dependencies-walkthrough.svg)
+![WarehouseDispatchController, FulfillmentResource, DispatchWarehouse, and DispatchPendingJob call DispatchService; DispatchService reuses Robots, FulfillmentLines, FulfillmentOrders, and their selectors](images/service-consumers-dependencies-walkthrough.svg?v=reuses1)
 
 <img class="layer-key" src="images/layer-key.svg?v=h1" alt="Client, Service, Domain, Trigger Handler, Selector" />
 
-<!--
-Same map at the start of the walkthrough. LWC, REST, invocable, and batch all call dispatchWarehouses. We open that method next.
--->
-
 ---
 
-<!-- _class: detail-slide pair-code-slide -->
+<!-- _class: detail-slide pair-code-slide service-ide-slide -->
 
 # DispatchService.dispatchWarehouses
 
@@ -995,25 +860,21 @@ Same map at the start of the walkthrough. LWC, REST, invocable, and batch all ca
 <div class="vscode-prose">
 <p class="walk-sig walk-sig-start"><span class="walk-kw">public virtual void</span> dispatchWarehouses(Set&lt;Id&gt; warehouseIds) {</p>
 
-1. <span class="walk-layer walk-layer-service">Service</span> — new `fflib_SObjectUnitOfWork`
+1. <span class="walk-layer walk-layer-service">Service</span> — `UnitOfWork.newInstance()`
 2. <span class="walk-layer walk-layer-selector">Selector</span> — pending unassigned lines at the warehouses
-3. <span class="walk-layer walk-layer-selector">Selector</span> — idle robots, with model max load
-4. <span class="walk-layer walk-layer-domain">Domain</span> — `Robots.getAvailableForWork()` (Idle, not Critical, wear &lt; 90, battery &gt; 20)
+3. <span class="walk-layer walk-layer-selector">Selector</span> — idle robots at the warehouses
+4. <span class="walk-layer walk-layer-domain">Domain</span> — `Robots.getAvailableForWork()` (not Critical, wear &lt; 90, batt &gt; 20)
 5. <span class="walk-layer walk-layer-service">Service</span> — `match` (per warehouse, line weight vs robot max load)
-6. <span class="walk-layer walk-layer-domain">Domain</span> — `Robots.startWork(uow)` · `FulfillmentLines.assign(uow)` · `FulfillmentOrders.markInProgress(uow)`
+6. <span class="walk-layer walk-layer-domain">Domain</span> — `Robots.startWork(uow)` &gt; `FulfillmentLines.assign(robotIdByLineId, uow)` &gt; `FulfillmentOrders.markInProgress(uow)`
 7. <span class="walk-layer walk-layer-service">Service</span> — `uow.commitWork()`
 
 <p class="walk-sig walk-sig-end">}</p>
 </div>
 </div>
 
-<!--
-This is the slide. If they can narrate it, they can tell Service from Domain. Ember is available — she is not skipped.
--->
-
 ---
 
-<!-- _class: detail-slide code-slide pair-code-slide -->
+<!-- _class: detail-slide code-slide pair-code-slide service-ide-slide dispatch-gutter-slide -->
 
 # DispatchService.dispatchWarehouses
 
@@ -1021,38 +882,36 @@ This is the slide. If they can narrate it, they can tell Service from Domain. Em
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">DispatchService.dispatchWarehouses</span></div>
 
 ```apex
-public virtual void dispatchWarehouses(Set<Id> warehouseIds) {
-  fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
+public virtual inherited sharing class DispatchService {
 
-  FulfillmentLinesSelector lineSelector =
-      FulfillmentLinesSelector.newInstance();
-  RobotsSelector robotSelector =
-      RobotsSelector.newInstance();
-  List<FulfillmentLine__c> pending =
-      lineSelector.selectPendingUnassignedByWarehouseWithOrder(warehouseIds);
-  List<Robot__c> idle =
-      robotSelector.selectIdleByWarehouseWithModel(warehouseIds);
+  private FulfillmentLinesSelector lineSelector = /* constructor initialized */;
+  private RobotsSelector robotSelector = /* constructor initialized */;
+  private FulfillmentOrdersSelector orderSelector = /* constructor initialized */;
 
-  List<Robot__c> available =
-      Robots.newInstance(idle).getAvailableForWork();
-  Map<Id, Id> robotIdByLineId = match(pending, available);
-  Robots.newInstance(robotsToStart).startWork(uow);
-  FulfillmentLines.newInstance(linesToAssign).assign(robotIdByLineId, uow);
-  FulfillmentOrders.newInstance(released).markInProgress(uow);
+  public virtual void dispatchWarehouses(Set<Id> warehouseIds) {
+    fflib_SObjectUnitOfWork uow = UnitOfWork.newInstance();
 
-  uow.commitWork();
+    List<FulfillmentLine__c> pending =
+        lineSelector.selectPendingUnassignedByWarehouseWithOrder(warehouseIds);
+    List<Robot__c> idle =
+        robotSelector.selectIdleByWarehouseWithModel(warehouseIds);
+
+    List<Robot__c> available = Robots.newInstance(idle).getAvailableForWork();
+    Map<Id, Id> robotIdByLineId = match(pending, available);
+    Robots.newInstance(robotsToStart).startWork(uow);
+    FulfillmentLines.newInstance(linesToAssign).assign(robotIdByLineId, uow);
+    FulfillmentOrders.newInstance(released).markInProgress(uow);
+
+    uow.commitWork();
+  }
 }
 ```
 
 </div>
 
-<!--
-001 showed applyDiscounts with a savepoint. This session shows the same shape with UoW. Create the UoW first, selector loads, domain decides and registers, service commits.
--->
-
 ---
 
-<!-- _class: detail-slide code-slide pair-code-slide -->
+<!-- _class: detail-slide code-slide pair-code-slide service-ide-slide uow-wrapper-slide -->
 
 # The app wrapper — UnitOfWork.cls
 
@@ -1060,7 +919,13 @@ public virtual void dispatchWarehouses(Set<Id> warehouseIds) {
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">UnitOfWork.cls</span></div>
 
 ```apex
+@TestVisible
+private static fflib_SObjectUnitOfWork mock;
+
 public static fflib_SObjectUnitOfWork newInstance() {
+  if (mock != null) {
+    return mock;
+  }
   return new fflib_SObjectUnitOfWork(
     new List<SObjectType>{
       Warehouse__c.SObjectType,
@@ -1077,13 +942,9 @@ public static fflib_SObjectUnitOfWork newInstance() {
 
 </div>
 
-<!--
-Shown now because we are in the sample. One app type list so Fulfillment and Maintenance can share a UoW. User-mode DML. Tests swap a mock. This is not the engine — fflib_SObjectUnitOfWork is.
--->
-
 ---
 
-<!-- _class: detail-slide pair-code-slide complete-lines-walk-slide -->
+<!-- _class: detail-slide pair-code-slide complete-lines-walk-slide service-ide-slide -->
 
 # FulfillmentService.completeLines
 
@@ -1092,7 +953,7 @@ Shown now because we are in the sample. One app type list so Fulfillment and Mai
 <div class="vscode-prose">
 <p class="walk-sig walk-sig-start"><span class="walk-kw">public virtual void</span> completeLines(Set&lt;Id&gt; lineIds) {</p>
 
-1. <span class="walk-layer walk-layer-service">Service</span> — new `fflib_SObjectUnitOfWork`
+1. <span class="walk-layer walk-layer-service">Service</span> — `UnitOfWork.newInstance()`
 2. <span class="walk-layer walk-layer-selector">Selector</span> — lines by Id (`lineIds`)
 3. <span class="walk-layer walk-layer-domain">Domain</span> — `FulfillmentLines.complete(uow)` · hours by assigned robot
 4. <span class="walk-layer walk-layer-selector">Selector</span> — robots with model (`hoursByRobotId`)
@@ -1106,13 +967,9 @@ Shown now because we are in the sample. One app type list so Fulfillment and Mai
 </div>
 </div>
 
-<!--
-Same shape as dispatchWarehouses. Domain decides who is due — interval, Critical, or wear 90+. Then Fulfillment hops to Maintenance and passes the robots you just wore — a re-query would still see Working. scheduleService(Set, uow) is not a client API.
--->
-
 ---
 
-<!-- _class: detail-slide code-slide pair-code-slide service-hop-slide -->
+<!-- _class: detail-slide code-slide pair-code-slide service-hop-slide service-ide-slide -->
 
 # Service calling service — one outer UoW
 
@@ -1137,17 +994,14 @@ public virtual void completeLines(List<FulfillmentLine__c> lines) {
 
   Set<Robot__c> dueRobots = robots.getDueForService();
   if (!dueRobots.isEmpty()) {
-    MaintenanceService.newInstance().scheduleService(dueRobots, uow); // same uow
+    maintenanceSvc.scheduleService(dueRobots, uow); // same uow
   }
+
   uow.commitWork();
 }
 ```
 
 </div>
-
-<!--
-This is the hop after Complete Lines. Pass the robots you just wore — a re-query would still see Working. scheduleService(Set, uow) is not a client API. Clients call completeLines or scheduleService(Set<Id>).
--->
 
 ---
 
@@ -1166,10 +1020,6 @@ This is the hop after Complete Lines. Pass the robots you just wore — a re-que
 <li>Warehouse Operations App Code<span class="check">✅</span></li>
 <li class="current">Warehouse Operations Agent<span class="check"></span></li>
 </ul>
-
-<!--
-Code walk is done. Same services, now the agent — look up the desk, create the shortfall, release drafts, one dispatch. We did not invent agent logic.
--->
 
 ---
 
@@ -1221,10 +1071,6 @@ Code walk is done. Same services, now the agent — look up the desk, create the
   </div>
 </div>
 
-<!--
-These six are the Agent Script actions. GetWarehouseDesk calls WarehouseService for the desk snapshot. CreateRobot (Flow) does not call a service. Release and Complete Lines call Fulfillment. Dispatch calls Dispatch. Complete Maintenance calls Maintenance. ScheduleMaintenance is not on the agent.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide agent-shot-slide -->
@@ -1233,10 +1079,6 @@ These six are the Agent Script actions. GetWarehouseDesk calls WarehouseService 
 
 ![Warehouse Fulfillment agent on the Robots list — Atlas, Bolt, and Ember idle at North Hub](images/agentstart.png)
 
-<!--
-Same services, now an Agentforce consumer. Three idle robots at North Hub. The agent can review the desk, create robots when you are short, release drafts, and run one dispatch. We did not invent agent logic — invocables wrap the same Fulfillment and Dispatch services the LWC, batch, REST, and Flow already call.
--->
-
 ---
 
 <!-- _class: detail-slide diagram-slide agent-shot-slide -->
@@ -1244,10 +1086,6 @@ Same services, now an Agentforce consumer. Three idle robots at North Hub. The a
 # Warehouse Agent deploying Robots!
 
 ![Warehouse Fulfillment after one North Hub run — eight North Spare robots created, drafts released, one dispatch](images/agentcomplete.png)
-
-<!--
-One utterance: process North Hub, create robots if needed, one dispatch, do it now. The agent created North Spare 1–8, released the drafts, and dispatched. The list jumps from three Idle robots to eleven Working. Same services — the agent is just another consumer.
--->
 
 ---
 
@@ -1266,10 +1104,6 @@ One utterance: process North Hub, create robots if needed, one dispatch, do it n
 <li>Warehouse Operations App Code<span class="check">✅</span></li>
 <li>Warehouse Operations Agent<span class="check">✅</span></li>
 </ul>
-
-<!--
-All six boxes ticked. The agent is another consumer of the same services. Wrap-up next.
--->
 
 ---
 
@@ -1291,10 +1125,6 @@ All six boxes ticked. The agent is another consumer of the same services. Wrap-u
 </tbody>
 </table>
 
-<!--
-Session 2 is done. Session 3 is where Domain vs Service gets the whole hour — we already previewed it every time we said Dispatch is not a Robot method.
--->
-
 ---
 
 <!-- _class: title-slide -->
@@ -1306,6 +1136,3 @@ Session 2 is done. Session 3 is where Domain vs Service gets the whole hour — 
 
 ![Code With Sally](images/codewithsally.png)
 
-<!--
-Questions. Scratch org session002-mfg. App: Warehouse Operations. Demo steps on the warehouse canvas.
--->
