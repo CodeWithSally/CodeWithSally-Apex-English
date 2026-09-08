@@ -1,0 +1,21 @@
+<template>
+	<lightning-quick-action-panel header="Dispatch Warehouse">
+		<lightning-record-view-form record-id={recordId} object-api-name="Warehouse__c">
+			<lightning-output-field field-name="Name"></lightning-output-field>
+			<lightning-output-field field-name="Status__c"></lightning-output-field>
+		</lightning-record-view-form>
+		<p class="slds-m-top_medium">
+			Assign idle, healthy robots to pending lines at this warehouse.
+		</p>
+		<div slot="footer">
+			<lightning-button variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button>
+			<lightning-button
+				variant="brand"
+				class="slds-m-left_x-small"
+				label="Dispatch"
+				onclick={handleDispatch}
+				disabled={isSaving}
+			></lightning-button>
+		</div>
+	</lightning-quick-action-panel>
+</template>

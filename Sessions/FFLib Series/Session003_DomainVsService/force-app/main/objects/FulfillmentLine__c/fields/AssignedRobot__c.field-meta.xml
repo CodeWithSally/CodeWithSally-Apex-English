@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AssignedRobot__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Assigned Robot</label>
+    <referenceTo>Robot__c</referenceTo>
+    <relationshipLabel>Assigned Lines</relationshipLabel>
+    <relationshipName>AssignedLines</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>
