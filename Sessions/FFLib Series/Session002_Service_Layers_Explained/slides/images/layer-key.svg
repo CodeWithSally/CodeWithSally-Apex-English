@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="580" height="40" viewBox="0 0 580 40" role="img" aria-labelledby="lk-title">
+  <title id="lk-title">Client, Service, Domain, Trigger Handler, and Selector color key</title>
+  <rect x="0.5" y="0.5" width="579" height="39" rx="8" fill="#1e1e1e" stroke="#3a3a3a"/>
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600">
+    <rect x="10" y="13" width="14" height="14" rx="2" fill="#5c5c5c"/>
+    <text x="28" y="25" fill="#b8b8b8">Client</text>
+
+    <rect x="96" y="13" width="14" height="14" rx="2" fill="#A0C94A"/>
+    <text x="114" y="25" fill="#e6e6e6">Service</text>
+
+    <rect x="196" y="13" width="14" height="14" rx="2" fill="#5A98E0"/>
+    <text x="214" y="25" fill="#e6e6e6">Domain</text>
+
+    <rect x="300" y="13" width="14" height="14" rx="2" fill="#2B5F9E"/>
+    <text x="318" y="25" fill="#e6e6e6">Trigger Handler</text>
+
+    <rect x="458" y="13" width="14" height="14" rx="2" fill="#E8A84A"/>
+    <text x="476" y="25" fill="#e6e6e6">Selector</text>
+  </g>
+</svg>

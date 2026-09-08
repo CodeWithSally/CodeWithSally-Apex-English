@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="240" viewBox="0 400 1280 240" role="img" aria-labelledby="slb-title">
+  <title id="slb-title">Fulfillment, Dispatch, and Maintenance stand on the Service layer</title>
+  <defs>
+    <g id="slb-person">
+      <circle cx="0" cy="-118" r="20"/>
+      <path d="M-28 -92 C-28 -100 -16 -104 0 -104 C16 -104 28 -100 28 -92 L32 -18 C32 -8 22 -2 12 -2 L-12 -2 C-22 -2 -32 -8 -32 -18 Z"/>
+    </g>
+  </defs>
+
+  <ellipse cx="640" cy="622" rx="560" ry="24" fill="#6F9228"/>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-weight="700">
+    <g fill="#A0C94A">
+      <use href="#slb-person" transform="translate(300 612) scale(1.08)"/>
+      <use href="#slb-person" transform="translate(640 620) scale(1.08)"/>
+      <use href="#slb-person" transform="translate(980 612) scale(1.08)"/>
+    </g>
+    <g fill="#A0C94A">
+      <rect x="214" y="424" width="172" height="34" rx="17"/>
+      <rect x="558" y="432" width="164" height="34" rx="17"/>
+      <rect x="888" y="424" width="184" height="34" rx="17"/>
+    </g>
+    <g fill="#1a2a0a" font-size="17" text-anchor="middle">
+      <text x="300" y="447">Fulfillment</text>
+      <text x="640" y="455">Dispatch</text>
+      <text x="980" y="447">Maintenance</text>
+    </g>
+  </g>
+</svg>

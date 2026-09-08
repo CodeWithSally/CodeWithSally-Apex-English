@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="780" viewBox="0 0 1920 780" role="img" aria-labelledby="acm-title">
+  <title id="acm-title">Warehouse app classes: clients, services, domains, and selectors</title>
+  <defs>
+    <filter id="acm-shadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="1" dy="2" stdDeviation="1.8" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+    <marker id="acm-arrow-client" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#8a8a8a"/>
+    </marker>
+    <marker id="acm-arrow-service" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#A0C94A"/>
+    </marker>
+    <marker id="acm-arrow-domain" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#5A98E0"/>
+    </marker>
+    <marker id="acm-arrow-handler" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#2B5F9E"/>
+    </marker>
+    <marker id="acm-arrow-selector" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#E8A84A"/>
+    </marker>
+  </defs>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+  <text x="20" y="28" fill="#b8b8b8" font-size="14" font-weight="700">Clients</text>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 166 130 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 470 130 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 166 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 470 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 166 226 H 470" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 318 226 V 252" stroke="#8a8a8a" stroke-width="1.6" marker-end="url(#acm-arrow-client)"/>
+    <path d="M 806 130 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1110 130 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 755 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 957 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1160 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 755 226 H 1160" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 958 226 V 252" stroke="#8a8a8a" stroke-width="1.6" marker-end="url(#acm-arrow-client)"/>
+    <path d="M 1110 226 H 470" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1450 130 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1754 130 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1450 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1754 216 V 226" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1450 226 H 1754" stroke="#8a8a8a" stroke-width="1.6"/>
+    <path d="M 1602 226 V 252" stroke="#8a8a8a" stroke-width="1.6" marker-end="url(#acm-arrow-client)"/>
+  </g>
+
+  <g transform="translate(20,56)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">FulfillmentReleaseController</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> releaseOrder(Id)</text>
+  </g>
+  <g transform="translate(324,56)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">FulfillmentCompleteLinesController</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> completeAssignedLines(Id)</text>
+  </g>
+  <g transform="translate(660,56)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">WarehouseDispatchController</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> dispatchWarehouse(Id)</text>
+  </g>
+  <g transform="translate(964,56)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">FulfillmentResource</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> post()</text>
+  </g>
+  <g transform="translate(1304,56)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">MaintenanceCompleteController</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> completeJob(Id)</text>
+  </g>
+  <g transform="translate(1608,56)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">RobotMaintenanceController</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> scheduleService(Id)</text>
+  </g>
+  <g transform="translate(20,142)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">ReleaseOrders</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> execute(List&lt;Request&gt;)</text>
+  </g>
+  <g transform="translate(324,142)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">CompleteFulfillmentLines</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> execute(List&lt;Request&gt;)</text>
+  </g>
+  <g transform="translate(660,142)">
+    <rect width="190" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 190 v 24 h -190 z" fill="#5c5c5c"/>
+    <rect width="190" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="95.0" y="17" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">DispatchWarehouse</text>
+    <line x1="0" y1="24" x2="190" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> execute(requests)</text>
+  </g>
+  <g transform="translate(862,142)">
+    <rect width="190" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 190 v 24 h -190 z" fill="#5c5c5c"/>
+    <rect width="190" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="95.0" y="17" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">DispatchPendingJob</text>
+    <line x1="0" y1="24" x2="190" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> execute(scope)</text>
+  </g>
+  <g transform="translate(1064,142)">
+    <rect width="192" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 192 v 24 h -192 z" fill="#5c5c5c"/>
+    <rect width="192" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="96.0" y="17" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">DispatchPendingJobController</text>
+    <line x1="0" y1="24" x2="192" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> startJob()</text>
+  </g>
+  <g transform="translate(1304,142)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">CompleteMaintenance</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> execute(List&lt;Request&gt;)</text>
+  </g>
+  <g transform="translate(1608,142)">
+    <rect width="292" height="74" rx="3" fill="#ffffff" stroke="#5c5c5c" stroke-width="1.6" />
+    <path d="M 0 0 h 292 v 24 h -292 z" fill="#5c5c5c"/>
+    <rect width="292" height="6" rx="3" fill="#5c5c5c"/>
+    <text x="146.0" y="17" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">ScheduleMaintenance</text>
+    <line x1="0" y1="24" x2="292" y2="24" stroke="#5c5c5c" stroke-width="1"/>
+    <text x="10" y="42" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5c5c5c" font-weight="700">+</tspan> execute(List&lt;Request&gt;)</text>
+  </g>
+  <text x="20" y="240" fill="#A0C94A" font-size="14" font-weight="700">Services</text>
+  <g transform="translate(20,252)">
+    <rect width="596" height="148" rx="3" fill="#ffffff" stroke="#A0C94A" stroke-width="1.6" />
+    <path d="M 0 0 h 596 v 28 h -596 z" fill="#A0C94A"/>
+    <rect width="596" height="6" rx="3" fill="#A0C94A"/>
+    <text x="298.0" y="21" text-anchor="middle" fill="#1e1e1e" font-size="16" font-weight="700">FulfillmentService</text>
+    <line x1="0" y1="28" x2="596" y2="28" stroke="#A0C94A" stroke-width="1"/>
+    <text x="10" y="46" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> releaseOrders(Set&lt;Id&gt;)</text>
+    <text x="10" y="67" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> holdOrders(Set&lt;Id&gt;)</text>
+    <text x="10" y="88" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> completeLines(Set&lt;Id&gt;)</text>
+    <text x="10" y="109" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> completeAssignedLinesForOrders(Set&lt;Id&gt;)</text>
+  </g>
+  <g transform="translate(660,252)">
+    <rect width="596" height="148" rx="3" fill="#ffffff" stroke="#A0C94A" stroke-width="1.6" />
+    <path d="M 0 0 h 596 v 28 h -596 z" fill="#A0C94A"/>
+    <rect width="596" height="6" rx="3" fill="#A0C94A"/>
+    <text x="298.0" y="21" text-anchor="middle" fill="#1e1e1e" font-size="16" font-weight="700">DispatchService</text>
+    <line x1="0" y1="28" x2="596" y2="28" stroke="#A0C94A" stroke-width="1"/>
+    <text x="10" y="46" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> dispatchWarehouses(Set&lt;Id&gt;)</text>
+    <text x="10" y="67" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> assignRobots(Map&lt;Id, Id&gt;)</text>
+    <text x="10" y="88" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> submitDispatchJob()</text>
+  </g>
+  <g transform="translate(1304,252)">
+    <rect width="596" height="148" rx="3" fill="#ffffff" stroke="#A0C94A" stroke-width="1.6" />
+    <path d="M 0 0 h 596 v 28 h -596 z" fill="#A0C94A"/>
+    <rect width="596" height="6" rx="3" fill="#A0C94A"/>
+    <text x="298.0" y="21" text-anchor="middle" fill="#1e1e1e" font-size="16" font-weight="700">MaintenanceService</text>
+    <line x1="0" y1="28" x2="596" y2="28" stroke="#A0C94A" stroke-width="1"/>
+    <text x="10" y="46" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> scheduleDueService(Set&lt;Id&gt;)</text>
+    <text x="10" y="67" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> scheduleService(robots, uow)</text>
+    <text x="10" y="88" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> startJobs(Set&lt;Id&gt;)</text>
+    <text x="10" y="109" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#A0C94A" font-weight="700">+</tspan> completeJobs(Set&lt;Id&gt;)</text>
+  </g>
+  <text x="20" y="436" fill="#5A98E0" font-size="14" font-weight="700">Domains</text>
+  <g transform="translate(20,448)">
+    <rect width="352" height="162" rx="3" fill="#ffffff" stroke="#5A98E0" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#5A98E0"/>
+    <rect width="352" height="6" rx="3" fill="#5A98E0"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Warehouses</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#5A98E0" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> canAcceptWork(Set&lt;Id&gt;)</text>
+    <text x="10" y="65" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> assertCanAcceptWork(Set&lt;Id&gt;)</text>
+  </g>
+  <g transform="translate(388,448)">
+    <rect width="210" height="162" rx="3" fill="#ffffff" stroke="#5A98E0" stroke-width="1.6" />
+    <path d="M 0 0 h 210 v 26 h -210 z" fill="#5A98E0"/>
+    <rect width="210" height="6" rx="3" fill="#5A98E0"/>
+    <text x="105.0" y="19" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Robots</text>
+    <line x1="0" y1="26" x2="210" y2="26" stroke="#5A98E0" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5A98E0" font-weight="700">+</tspan> getAvailableForWork()</text>
+    <text x="10" y="64" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5A98E0" font-weight="700">+</tspan> startWork(uow)</text>
+    <text x="10" y="84" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5A98E0" font-weight="700">+</tspan> goIdle(uow)</text>
+    <text x="10" y="104" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#5A98E0" font-weight="700">+</tspan> restoreFromService(uow)</text>
+  </g>
+  <g transform="translate(606,448)">
+    <rect width="134" height="162" rx="3" fill="#ffffff" stroke="#2B5F9E" stroke-width="1.6" />
+    <path d="M 0 0 h 134 v 26 h -134 z" fill="#2B5F9E"/>
+    <rect width="134" height="6" rx="3" fill="#2B5F9E"/>
+    <text x="67.0" y="19" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">RobotsTriggerHandler</text>
+    <line x1="0" y1="26" x2="134" y2="26" stroke="#2B5F9E" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#2B5F9E" font-weight="700">+</tspan> onApplyDefaults()</text>
+    <text x="10" y="63" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#2B5F9E" font-weight="700">+</tspan> onValidate()</text>
+    <text x="10" y="82" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#2B5F9E" font-weight="700">+</tspan> onBeforeUpdate()</text>
+  </g>
+  <g transform="translate(756,448)">
+    <rect width="352" height="162" rx="3" fill="#ffffff" stroke="#5A98E0" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#5A98E0"/>
+    <rect width="352" height="6" rx="3" fill="#5A98E0"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">FulfillmentOrders</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#5A98E0" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> release(uow)</text>
+    <text x="10" y="65" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> markInProgress(uow)</text>
+    <text x="10" y="86" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> hold(uow)</text>
+    <text x="10" y="107" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> complete(uow)</text>
+  </g>
+  <g transform="translate(1124,448)">
+    <rect width="352" height="162" rx="3" fill="#ffffff" stroke="#5A98E0" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#5A98E0"/>
+    <rect width="352" height="6" rx="3" fill="#5A98E0"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">FulfillmentLines</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#5A98E0" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> assign(robotIdByLineId, uow)</text>
+    <text x="10" y="65" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> complete(uow)</text>
+  </g>
+  <g transform="translate(1492,448)">
+    <rect width="352" height="162" rx="3" fill="#ffffff" stroke="#5A98E0" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#5A98E0"/>
+    <rect width="352" height="6" rx="3" fill="#5A98E0"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">MaintenanceJobs</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#5A98E0" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> newScheduledJob(robotId, health)</text>
+    <text x="10" y="65" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> start(uow)</text>
+    <text x="10" y="86" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#5A98E0" font-weight="700">+</tspan> complete(uow)</text>
+  </g>
+  <text x="20" y="632" fill="#E8A84A" font-size="14" font-weight="700">Selectors</text>
+  <g transform="translate(20,644)">
+    <rect width="352" height="112" rx="3" fill="#ffffff" stroke="#E8A84A" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#E8A84A"/>
+    <rect width="352" height="6" rx="3" fill="#E8A84A"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#1e1e1e" font-size="14" font-weight="700">WarehousesSelector</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#E8A84A" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectById(Set&lt;Id&gt;)</text>
+    <text x="10" y="65" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectActive()</text>
+  </g>
+  <g transform="translate(388,644)">
+    <rect width="170" height="112" rx="3" fill="#ffffff" stroke="#E8A84A" stroke-width="1.6" />
+    <path d="M 0 0 h 170 v 26 h -170 z" fill="#E8A84A"/>
+    <rect width="170" height="6" rx="3" fill="#E8A84A"/>
+    <text x="85.0" y="19" text-anchor="middle" fill="#1e1e1e" font-size="12" font-weight="700">RobotsSelector</text>
+    <line x1="0" y1="26" x2="170" y2="26" stroke="#E8A84A" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectIdleByWarehouseWithModel()</text>
+    <text x="10" y="63" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectByIdWithModel()</text>
+  </g>
+  <g transform="translate(566,644)">
+    <rect width="174" height="112" rx="3" fill="#ffffff" stroke="#E8A84A" stroke-width="1.6" />
+    <path d="M 0 0 h 174 v 26 h -174 z" fill="#E8A84A"/>
+    <rect width="174" height="6" rx="3" fill="#E8A84A"/>
+    <text x="87.0" y="19" text-anchor="middle" fill="#1e1e1e" font-size="11" font-weight="700">RobotModelsSelector</text>
+    <line x1="0" y1="26" x2="174" y2="26" stroke="#E8A84A" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectById(Set&lt;Id&gt;)</text>
+  </g>
+  <g transform="translate(756,644)">
+    <rect width="352" height="112" rx="3" fill="#ffffff" stroke="#E8A84A" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#E8A84A"/>
+    <rect width="352" height="6" rx="3" fill="#E8A84A"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#1e1e1e" font-size="13" font-weight="700">FulfillmentOrdersSelector</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#E8A84A" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectByIdWithLines()</text>
+    <text x="10" y="64" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectOpenByWarehouseWithLines()</text>
+  </g>
+  <g transform="translate(1124,644)">
+    <rect width="352" height="112" rx="3" fill="#ffffff" stroke="#E8A84A" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#E8A84A"/>
+    <rect width="352" height="6" rx="3" fill="#E8A84A"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#1e1e1e" font-size="13" font-weight="700">FulfillmentLinesSelector</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#E8A84A" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="11"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectPendingUnassignedByWarehouseWithOrder()</text>
+    <text x="10" y="64" fill="#080707" font-family="Courier New, Courier, monospace" font-size="12"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectAssignedByOrderId()</text>
+  </g>
+  <g transform="translate(1492,644)">
+    <rect width="352" height="112" rx="3" fill="#ffffff" stroke="#E8A84A" stroke-width="1.6" />
+    <path d="M 0 0 h 352 v 26 h -352 z" fill="#E8A84A"/>
+    <rect width="352" height="6" rx="3" fill="#E8A84A"/>
+    <text x="176.0" y="19" text-anchor="middle" fill="#1e1e1e" font-size="13" font-weight="700">MaintenanceJobsSelector</text>
+    <line x1="0" y1="26" x2="352" y2="26" stroke="#E8A84A" stroke-width="1"/>
+    <text x="10" y="44" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectByIdWithRobot()</text>
+    <text x="10" y="65" fill="#080707" font-family="Courier New, Courier, monospace" font-size="13"><tspan fill="#E8A84A" font-weight="700">+</tspan> selectOpenByRobot()</text>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Blue trunks leave the bottom edge of each service, then fan to domains -->
+    <path d="M 280 400 V 418 H 196 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+    <path d="M 280 418 H 493 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+    <path d="M 280 418 H 932 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+    <path d="M 280 418 H 1300 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+
+    <path d="M 920 400 V 424 H 505 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+    <path d="M 920 424 H 944 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+    <path d="M 920 424 H 1312 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+
+    <path d="M 1564 400 V 430 H 517 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+    <path d="M 1564 430 H 1668 V 447" stroke="#5A98E0" stroke-width="2.2" marker-end="url(#acm-arrow-domain)"/>
+
+    <!-- Orange trunks leave a different point on each service bottom, then alley to selectors -->
+    <path d="M 360 400 V 408 H 380 V 618 H 196 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 380 618 H 473 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 380 618 H 932 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 380 618 H 1300 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+
+    <path d="M 1000 400 V 408 H 1116 V 626 H 485 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 1116 626 H 944 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 1116 626 H 1312 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+
+    <path d="M 1640 400 V 408 H 1484 V 634 H 497 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 1484 634 H 1668 V 643" stroke="#E8A84A" stroke-width="2" marker-end="url(#acm-arrow-selector)"/>
+
+    <path d="M 606 529 H 598" stroke="#2B5F9E" stroke-width="1.5" marker-end="url(#acm-arrow-handler)"/>
+
+    <path d="M 196 610 V 644" stroke="#E8A84A" stroke-width="1.6" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 473 610 V 644" stroke="#E8A84A" stroke-width="1.6" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 932 610 V 644" stroke="#E8A84A" stroke-width="1.6" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 1300 610 V 644" stroke="#E8A84A" stroke-width="1.6" marker-end="url(#acm-arrow-selector)"/>
+    <path d="M 1668 610 V 644" stroke="#E8A84A" stroke-width="1.6" marker-end="url(#acm-arrow-selector)"/>
+  </g>
+  </g>
+</svg>

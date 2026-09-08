@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="af-title">
+  <title id="af-title">Placeholder for the Agentforce North Hub screenshot</title>
+  <rect width="1600" height="900" fill="#1a1a1a"/>
+  <rect x="80" y="80" width="1440" height="740" rx="16" fill="#252526" stroke="#5c5c5c" stroke-width="2" stroke-dasharray="14 10"/>
+  <text x="800" y="380" text-anchor="middle" fill="#A0C94A" font-size="36" font-weight="600">Agentforce screenshot to follow</text>
+  <text x="800" y="440" text-anchor="middle" fill="#f4f6f9" font-size="24">Same invocables: Release, Dispatch, Complete Lines, Complete Maintenance</text>
+  <text x="800" y="500" text-anchor="middle" fill="#b8b8b8" font-size="20">Drop the live capture in as images/demo-agentforce.png</text>
+</svg>

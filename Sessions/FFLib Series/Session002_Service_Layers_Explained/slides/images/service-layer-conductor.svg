@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="slc-title">
+  <title id="slc-title">Client crowds including LWC, REST, Flow, Agent, Batch, and more stand behind the Warehouse Operations App Services; Fulfillment, Dispatch, and Maintenance stand in front</title>
+  <defs>
+    <g id="slc-person">
+      <circle cx="0" cy="-118" r="20"/>
+      <path d="M-28 -92 C-28 -100 -16 -104 0 -104 C16 -104 28 -100 28 -92 L32 -18 C32 -8 22 -2 12 -2 L-12 -2 C-22 -2 -32 -8 -32 -18 Z"/>
+    </g>
+    <g id="slc-conductor">
+      <circle cx="0" cy="-128" r="24"/>
+      <path d="M-34 -100 C-34 -110 -18 -114 0 -114 C18 -114 34 -110 34 -100 L38 -16 C38 -6 26 0 14 0 L-14 0 C-26 0 -38 -6 -38 -16 Z"/>
+    </g>
+  </defs>
+
+  <ellipse cx="640" cy="622" rx="560" ry="24" fill="#6F9228"/>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-weight="700">
+    <g fill="#4a4a4a">
+      <use href="#slc-person" transform="translate(78 150) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(182 146) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(118 140) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(146 134) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(282 138) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(386 134) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(322 128) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(350 122) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(486 144) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(590 140) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(526 134) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(554 128) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(690 144) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(794 140) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(730 134) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(758 128) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(894 138) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(998 134) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(934 128) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(962 122) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(1098 150) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(1202 146) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(1138 140) scale(0.56)"/>
+      <use href="#slc-person" transform="translate(1166 134) scale(0.56)"/>
+    </g>
+    <g fill="#5c5c5c">
+      <use href="#slc-person" transform="translate(130 168) scale(0.7)"/>
+      <use href="#slc-person" transform="translate(334 156) scale(0.7)"/>
+      <use href="#slc-person" transform="translate(538 164) scale(0.7)"/>
+      <use href="#slc-person" transform="translate(742 164) scale(0.7)"/>
+      <use href="#slc-person" transform="translate(946 156) scale(0.7)"/>
+      <use href="#slc-person" transform="translate(1150 168) scale(0.7)"/>
+    </g>
+    <g fill="#5c5c5c">
+      <rect x="88" y="16" width="84" height="26" rx="13"/>
+      <rect x="294" y="12" width="80" height="26" rx="13"/>
+      <rect x="500" y="12" width="76" height="26" rx="13"/>
+      <rect x="702" y="12" width="80" height="26" rx="13"/>
+      <rect x="904" y="12" width="84" height="26" rx="13"/>
+      <rect x="1114" y="16" width="72" height="26" rx="13"/>
+    </g>
+    <g fill="#f4f6f9" font-size="15" text-anchor="middle">
+      <text x="130" y="34">LWC</text>
+      <text x="334" y="30">REST</text>
+      <text x="538" y="30">Flow</text>
+      <text x="742" y="30">Agent</text>
+      <text x="946" y="30">Batch</text>
+      <text x="1150" y="34">...</text>
+    </g>
+
+    <use href="#slc-conductor" transform="translate(640 412)" fill="#9E80D0"/>
+    <rect x="400" y="178" width="480" height="32" rx="16" fill="#9E80D0"/>
+    <text x="640" y="200" text-anchor="middle" fill="#1a1a1a" font-size="16">Warehouse Operations App Services</text>
+
+    <g fill="#A0C94A">
+      <use href="#slc-person" transform="translate(300 612) scale(1.08)"/>
+      <use href="#slc-person" transform="translate(640 620) scale(1.08)"/>
+      <use href="#slc-person" transform="translate(980 612) scale(1.08)"/>
+    </g>
+    <g fill="#A0C94A">
+      <rect x="214" y="424" width="172" height="34" rx="17"/>
+      <rect x="558" y="432" width="164" height="34" rx="17"/>
+      <rect x="888" y="424" width="184" height="34" rx="17"/>
+    </g>
+    <g fill="#1a2a0a" font-size="17" text-anchor="middle">
+      <text x="300" y="447">Fulfillment</text>
+      <text x="640" y="455">Dispatch</text>
+      <text x="980" y="447">Maintenance</text>
+    </g>
+  </g>
+</svg>

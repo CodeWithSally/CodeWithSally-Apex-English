@@ -1,0 +1,13 @@
+# Generated Bot / planner / function metadata from sf agent publish.
+# Source of truth is force-app/main/aiAuthoringBundles/.
+**/bots/**
+**/genAiPlannerBundles/**
+**/genAiPlugins/**
+**/genAiFunctions/**
+**/genAiPromptTemplates/**
+
+package.xml
+**/jsconfig.json
+**/.eslintrc.json
+**/__tests__/**
+node_modules/
