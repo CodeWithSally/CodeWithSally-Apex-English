@@ -1,0 +1,204 @@
+# WarehouseFulfillment - Employee agent for the warehouse desk
+# GetWarehouseDesk by name, Create Robot Flow by name, then ReleaseOrders and DispatchWarehouse by name
+
+config:
+   developer_name: "WarehouseFulfillment"
+   agent_label: "Warehouse Fulfillment"
+   agent_type: "AgentforceEmployeeAgent"
+   description: "Helps warehouse employees review robots against pending pick work, create robots when a warehouse is short, release draft orders, and run one dispatch."
+
+variables:
+   currentRecordId: mutable string = ""
+      description: "Id of the record the employee opened the agent from"
+      visibility: "External"
+   warehouse_name: mutable string = ""
+      description: "Warehouse name for the current request, for example North Hub"
+   model_name: mutable string = ""
+      description: "Robot model name used when creating robots, usually Picker 100"
+
+system:
+   messages:
+      welcome: "I can review warehouse robots against pending fulfillment work, create robots when you are short, release draft orders, and run one dispatch. What would you like to do?"
+      error: "I could not complete that warehouse request. Please try again."
+   instructions: "You help warehouse employees process fulfillment work from the operations desk of a warehouse that uses robots. Work from record names such as North Hub, Picker 100, and FO-00001. Do not ask the user for a Salesforce Id. Use only the provided actions. Look up the desk by warehouse name first. If idle available robots are fewer than pending unassigned lines, create the shortfall before the single dispatch. Never dispatch while pending unassigned lines outnumber available robots. Release every Draft fulfillment order by name, then call Dispatch Warehouse once with the warehouse name. When the user asks you to process work, do the work. Do not ask for confirmation. Speak to the user in record names, not Salesforce Ids."
+
+language:
+   default_locale: "en_US"
+
+start_agent agent_router:
+   description: "Welcome the user and route warehouse fulfillment requests"
+
+   reasoning:
+      instructions:|
+         Select the tool that best matches the user's message and conversation history. If it's unclear, make your best guess.
+      actions:
+         go_to_process_fulfillment: @utils.transition to @subagent.process_fulfillment
+            description: "User wants to review robots, create robots, release draft orders, or dispatch a warehouse"
+         go_to_complete_work: @utils.transition to @subagent.complete_work
+            description: "User wants to complete assigned fulfillment lines or complete a maintenance job"
+
+subagent process_fulfillment:
+   description: "Reviews pending warehouse work, creates robots if the desk is short, releases draft orders, and runs one dispatch"
+
+   actions:
+      get_warehouse_desk:
+         description: "Looks up a warehouse by name and returns pending unassigned line count, idle available robots, robot shortfall, and draft order names"
+         require_user_confirmation: False
+         inputs:
+            warehouseName: string
+               description: "Warehouse name, for example North Hub"
+               is_required: True
+         outputs:
+            warehouseName: string
+               description: "Warehouse name"
+            pendingUnassignedLines: number
+               description: "Pending unassigned fulfillment lines at the warehouse"
+            idleAvailableRobots: number
+               description: "Idle robots that can accept work"
+            robotShortfall: number
+               description: "How many extra robots to create before dispatch"
+            draftOrderNames: string
+               description: "Comma-separated Draft fulfillment order names, for example FO-00001, FO-00002"
+         target: "apex://GetWarehouseDesk"
+
+      create_record:
+         description: "Creates a Robot__c at a warehouse when the desk is short of idle robots. Pass warehouse and model names, not Ids."
+         require_user_confirmation: False
+         inputs:
+            robotName: string
+               description: "Robot name, for example North Spare 1"
+               is_required: True
+            warehouseName: string
+               description: "Warehouse name, for example North Hub"
+               is_required: True
+            modelName: string
+               description: "Robot model name, usually Picker 100"
+               is_required: True
+            status: string
+               description: "Robot status. Use Idle for a new robot."
+               is_required: True
+            health: string
+               description: "Robot health. Use Healthy for a new robot."
+               is_required: True
+            wearPercent: number
+               description: "Wear percent. Use 5 for a new robot."
+               is_required: True
+            hoursSinceService: number
+               description: "Hours since service. Use 1 for a new robot."
+               is_required: True
+            batteryLevel: number
+               description: "Battery percent. Use 95 for a new robot."
+               is_required: True
+         outputs:
+            robotId: string
+               description: "Id of the created Robot__c"
+         target: "flow://Create_Robot"
+
+      release_fulfillment_orders:
+         description: "Releases a draft fulfillment order by name so its pending lines can be dispatched"
+         require_user_confirmation: False
+         inputs:
+            orderName: string
+               description: "Fulfillment order name, for example FO-00001"
+               is_required: True
+         outputs:
+            orderName: string
+               description: "Name of the fulfillment order that was released"
+         target: "apex://ReleaseOrders"
+
+      dispatch_warehouse:
+         description: "Runs one dispatch at a warehouse by name: idle available robots are matched one-to-one to pending unassigned lines that fit the model max load. Leftover lines stay pending."
+         require_user_confirmation: False
+         inputs:
+            warehouseName: string
+               description: "Warehouse name, for example North Hub"
+               is_required: True
+         outputs:
+            warehouseName: string
+               description: "Name of the warehouse that was dispatched"
+         target: "apex://DispatchWarehouse"
+
+   reasoning:
+      instructions:->
+         | Process warehouse fulfillment work using record names, not Salesforce Ids.
+           Do not ask the user for an Id.
+           Prefer a warehouse name the user said, such as North Hub.
+           Call {!@actions.get_warehouse_desk} with warehouseName, for example North Hub.
+           Use the desk result: pendingUnassignedLines, idleAvailableRobots, robotShortfall, draftOrderNames, and warehouseName.
+           If robotShortfall is greater than zero, create that many robots with {!@actions.create_record} before release or dispatch. Never skip robot creation when there is a shortfall. Never dispatch while pending unassigned lines outnumber available robots.
+           Create each missing robot as Idle, Healthy, wearPercent 5, hoursSinceService 1, batteryLevel 95, warehouseName from the desk, modelName Picker 100.
+           Name created robots North Spare 1, North Spare 2, and so on. Do not reuse Atlas, Bolt, or Ember.
+           A greeting is not a request to release or dispatch. Only process when the user asks to process, release, create robots, or dispatch.
+           When the user asks to process, do the work immediately. Do not ask whether to proceed.
+           Release every Draft order listed in draftOrderNames with {!@actions.release_fulfillment_orders}, passing orderName. Do not release an order that is not Draft.
+           Then call {!@actions.dispatch_warehouse} exactly once with the warehouse name.
+           After dispatch, confirm how many robots you created, which order names you released, and that one dispatch ran at that warehouse. Speak in names, not Ids.
+         if @variables.currentRecordId:
+            | Record page Id: {!@variables.currentRecordId}
+         if @variables.warehouse_name:
+            | Current warehouse name: {!@variables.warehouse_name}
+         if @variables.model_name:
+            | Current robot model name: {!@variables.model_name}
+      actions:
+         get_warehouse_desk: @actions.get_warehouse_desk
+            with warehouseName=...
+            set @variables.warehouse_name = @outputs.warehouseName
+         create_record: @actions.create_record
+            with robotName=...
+            with warehouseName=...
+            with modelName=...
+            with status=...
+            with health=...
+            with wearPercent=...
+            with hoursSinceService=...
+            with batteryLevel=...
+         release_fulfillment_orders: @actions.release_fulfillment_orders
+            with orderName=...
+         dispatch_warehouse: @actions.dispatch_warehouse
+            with warehouseName=...
+            set @variables.warehouse_name = @outputs.warehouseName
+
+subagent complete_work:
+   description: "Completes assigned fulfillment lines or a maintenance job when the employee asks"
+
+   actions:
+      complete_fulfillment_lines:
+         description: "Completes an assigned fulfillment line and returns its robot"
+         require_user_confirmation: False
+         inputs:
+            lineId: object
+               description: "Id of the assigned FulfillmentLine__c to complete"
+               is_required: True
+               complex_data_type_name: "lightning__recordIdType"
+         outputs:
+            lineId: object
+               description: "Id of the FulfillmentLine__c that was completed"
+               complex_data_type_name: "lightning__recordIdType"
+         target: "apex://CompleteFulfillmentLines"
+
+      complete_maintenance:
+         description: "Completes a maintenance job and returns the robot to idle"
+         require_user_confirmation: False
+         inputs:
+            jobId: object
+               description: "Id of the MaintenanceJob__c to complete"
+               is_required: True
+               complex_data_type_name: "lightning__recordIdType"
+         outputs:
+            jobId: object
+               description: "Id of the MaintenanceJob__c that was completed"
+               complex_data_type_name: "lightning__recordIdType"
+         target: "apex://CompleteMaintenance"
+
+   reasoning:
+      instructions:->
+         | Complete assigned fulfillment lines or maintenance jobs using the provided Apex actions.
+           Never invent a Salesforce Id. If the user did not give an Id, ask for it.
+           Use {!@actions.complete_fulfillment_lines} for an assigned line Id.
+           Use {!@actions.complete_maintenance} for a maintenance job Id.
+           After success, confirm the Id that was completed.
+      actions:
+         complete_fulfillment_lines: @actions.complete_fulfillment_lines
+            with lineId=...
+         complete_maintenance: @actions.complete_maintenance
+            with jobId=...
