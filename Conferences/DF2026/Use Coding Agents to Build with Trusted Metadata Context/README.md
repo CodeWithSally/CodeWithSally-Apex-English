@@ -41,7 +41,3 @@
 - **Trailblazer Community Group:** [Join the group](https://trailhead.salesforce.com/trailblazer-community/groups/0F9KX000000irsF0AQ)
 
 ---
-
-<p align="center">
-  Made with 💙 by <strong>Code With Sally</strong>
-</p>
