@@ -3,11 +3,6 @@
 <!-- Put the image in this repository, for example assets/code-with-sally-logo.png. -->
 <!-- ============================================================= -->
 
-<p align="center">
-  <!-- TODO: add Code With Sally logo -->
-  <img src="assets/code-with-sally-logo.png" alt="Code With Sally" height="80" />
-</p>
-
 <h1 align="center">Use Coding Agents to Build with Trusted Metadata Context</h1>
 
 <p align="center">
