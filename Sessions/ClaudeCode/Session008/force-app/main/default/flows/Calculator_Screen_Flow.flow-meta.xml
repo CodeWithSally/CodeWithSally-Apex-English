@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <description>Four-screen calculator: enter Number 1, pick an Operation, enter Number 2, then see the Answer after a Calc_History__c record is created. Screen Flow variant of the regressionCalculator LWC — same object, same validation rule, same failure mechanics, different UI-automation surface.</description>
+    <environments>Default</environments>
+    <interviewLabel>Calculator Screen Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Calculator Screen Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <status>Active</status>
+
+    <start>
+        <locationX>176</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Enter_Number_1</targetReference>
+        </connector>
+    </start>
+
+    <screens>
+        <name>Enter_Number_1</name>
+        <label>Enter First Number</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Select_Operation</targetReference>
+        </connector>
+        <fields>
+            <name>Number_1_Input</name>
+            <dataType>Number</dataType>
+            <fieldText>Number 1</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+
+    <screens>
+        <name>Select_Operation</name>
+        <label>Select Operation</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Enter_Number_2</targetReference>
+        </connector>
+        <fields>
+            <name>Operation_Input</name>
+            <choiceReferences>Choice_Add</choiceReferences>
+            <choiceReferences>Choice_Subtract</choiceReferences>
+            <choiceReferences>Choice_Multiply</choiceReferences>
+            <choiceReferences>Choice_Divide</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Operation</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+
+    <screens>
+        <name>Enter_Number_2</name>
+        <label>Enter Second Number</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Determine_Operation</targetReference>
+        </connector>
+        <fields>
+            <name>Number_2_Input</name>
+            <dataType>Number</dataType>
+            <fieldText>Number 2</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+
+    <screens>
+        <name>Answer_Screen</name>
+        <label>Answer</label>
+        <locationX>176</locationX>
+        <locationY>760</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Answer_Display</name>
+            <fieldType>DisplayText</fieldType>
+            <fieldText>&lt;p&gt;&lt;b&gt;Answer: {!Answer_Var}&lt;/b&gt;&lt;/p&gt;</fieldText>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+
+    <screens>
+        <name>Error_Screen</name>
+        <label>Error</label>
+        <locationX>440</locationX>
+        <locationY>760</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Try Again</backButtonLabel>
+        <connector>
+            <targetReference>Enter_Number_1</targetReference>
+        </connector>
+        <fields>
+            <name>Error_Message</name>
+            <fieldType>DisplayText</fieldType>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(194, 57, 52);&quot;&gt;&lt;b&gt;This calculation was rejected&lt;/b&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+
+    <decisions>
+        <name>Determine_Operation</name>
+        <label>Determine Operation</label>
+        <locationX>176</locationX>
+        <locationY>480</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Answer_Add</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default (unreachable)</defaultConnectorLabel>
+        <rules>
+            <name>Is_Add</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Operation_Input</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Add</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Answer_Add</targetReference>
+            </connector>
+            <label>Add</label>
+        </rules>
+        <rules>
+            <name>Is_Subtract</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Operation_Input</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Subtract</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Answer_Subtract</targetReference>
+            </connector>
+            <label>Subtract</label>
+        </rules>
+        <rules>
+            <name>Is_Multiply</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Operation_Input</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Multiply</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Answer_Multiply</targetReference>
+            </connector>
+            <label>Multiply</label>
+        </rules>
+        <rules>
+            <name>Is_Divide</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Operation_Input</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Divide</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Answer_Divide</targetReference>
+            </connector>
+            <label>Divide</label>
+        </rules>
+    </decisions>
+
+    <assignments>
+        <name>Assign_Answer_Add</name>
+        <label>Assign Answer (Add)</label>
+        <locationX>50</locationX>
+        <locationY>600</locationY>
+        <assignmentItems>
+            <assignToReference>Answer_Var</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Add</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Calc_History</targetReference>
+        </connector>
+    </assignments>
+
+    <assignments>
+        <name>Assign_Answer_Subtract</name>
+        <label>Assign Answer (Subtract)</label>
+        <locationX>210</locationX>
+        <locationY>600</locationY>
+        <assignmentItems>
+            <assignToReference>Answer_Var</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Subtract</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Calc_History</targetReference>
+        </connector>
+    </assignments>
+
+    <assignments>
+        <name>Assign_Answer_Multiply</name>
+        <label>Assign Answer (Multiply)</label>
+        <locationX>370</locationX>
+        <locationY>600</locationY>
+        <assignmentItems>
+            <assignToReference>Answer_Var</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Multiply</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Calc_History</targetReference>
+        </connector>
+    </assignments>
+
+    <assignments>
+        <name>Assign_Answer_Divide</name>
+        <label>Assign Answer (Divide)</label>
+        <locationX>530</locationX>
+        <locationY>600</locationY>
+        <assignmentItems>
+            <assignToReference>Answer_Var</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Divide</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Calc_History</targetReference>
+        </connector>
+    </assignments>
+
+    <recordCreates>
+        <name>Create_Calc_History</name>
+        <label>Create Calc History</label>
+        <locationX>176</locationX>
+        <locationY>680</locationY>
+        <connector>
+            <targetReference>Answer_Screen</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Number_1__c</field>
+            <value>
+                <elementReference>Number_1_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Number_2__c</field>
+            <value>
+                <elementReference>Number_2_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Operation__c</field>
+            <value>
+                <elementReference>Operation_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Answer__c</field>
+            <value>
+                <elementReference>Answer_Var</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Calc_History__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+
+    <formulas>
+        <name>Formula_Add</name>
+        <dataType>Number</dataType>
+        <expression>{!Number_1_Input} + {!Number_2_Input}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>Formula_Subtract</name>
+        <dataType>Number</dataType>
+        <expression>{!Number_1_Input} - {!Number_2_Input}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>Formula_Multiply</name>
+        <dataType>Number</dataType>
+        <expression>{!Number_1_Input} * {!Number_2_Input}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>Formula_Divide</name>
+        <dataType>Number</dataType>
+        <expression>{!Number_1_Input} / {!Number_2_Input}</expression>
+        <scale>2</scale>
+    </formulas>
+
+    <choices>
+        <name>Choice_Add</name>
+        <choiceText>Add</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Add</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Subtract</name>
+        <choiceText>Subtract</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Subtract</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Multiply</name>
+        <choiceText>Multiply</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Multiply</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Divide</name>
+        <choiceText>Divide</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Divide</stringValue>
+        </value>
+    </choices>
+
+    <variables>
+        <name>Answer_Var</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+</Flow>
