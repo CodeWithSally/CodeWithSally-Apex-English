@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "skills": {
+    "automation-flow-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/automation-flow-generate/SKILL.md",
+      "computedHash": "9479af810cf351712a86c157c0c90a3789184ff9a1e92b8f5365c1d4eb99331d"
+    },
+    "platform-custom-field-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-custom-field-generate/SKILL.md",
+      "computedHash": "fc39b959b69356ca9dc3ddd1e63161aad20ed9cbdbb82074006c8b532242057d"
+    },
+    "platform-custom-object-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-custom-object-generate/SKILL.md",
+      "computedHash": "b540ae0b7c63b9b2fb609515e5a0382150335e403daa6759d1f72a3d95634cf6"
+    },
+    "platform-custom-tab-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-custom-tab-generate/SKILL.md",
+      "computedHash": "4ee7af75abfd7f3be0e0faabd0e67950957cb52b8ce02be6b3d07e091a73c649"
+    },
+    "platform-list-view-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-list-view-generate/SKILL.md",
+      "computedHash": "c7e75e870a17218623be9bc109f63513d2681034bcbcc61da9b2f037bb398bdd"
+    },
+    "platform-metadata-api-context-get": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-metadata-api-context-get/SKILL.md",
+      "computedHash": "7ac37ca372ba209394268998ef2f2a1f0815be5c9a36b1cbb1cbbd17b66822f6"
+    },
+    "platform-permission-set-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-permission-set-generate/SKILL.md",
+      "computedHash": "f01841059b3cff6f533394f2f3c1bf9961783e985e595467915d4d68de0b93db"
+    },
+    "platform-validation-rule-generate": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-validation-rule-generate/SKILL.md",
+      "computedHash": "5c18f811c6c05a4bb005e96f41149839ebe606c39aee0e99bb8f21379ff24d6f"
+    }
+  }
+}

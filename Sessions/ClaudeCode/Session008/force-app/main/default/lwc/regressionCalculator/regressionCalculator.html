@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Regression Calculator" icon-name="standard:formula">
+        <div class="slds-p-around_medium calc-wrapper">
+            <div class="calc-screen" data-id="screen">{display}</div>
+
+            <div class="calc-grid">
+                <button type="button" class="calc-btn calc-clear" data-id="clear-button" onclick={handleClear}>C</button>
+                <div class="calc-spacer"></div>
+                <div class="calc-spacer"></div>
+                <button type="button" class="calc-btn calc-operator" data-id="divide-button" data-operation="Divide" onclick={handleOperatorClick}>÷</button>
+
+                <button type="button" class="calc-btn calc-digit" data-id="digit-7" data-value="7" onclick={handleDigitClick}>7</button>
+                <button type="button" class="calc-btn calc-digit" data-id="digit-8" data-value="8" onclick={handleDigitClick}>8</button>
+                <button type="button" class="calc-btn calc-digit" data-id="digit-9" data-value="9" onclick={handleDigitClick}>9</button>
+                <button type="button" class="calc-btn calc-operator" data-id="multiply-button" data-operation="Multiply" onclick={handleOperatorClick}>×</button>
+
+                <button type="button" class="calc-btn calc-digit" data-id="digit-4" data-value="4" onclick={handleDigitClick}>4</button>
+                <button type="button" class="calc-btn calc-digit" data-id="digit-5" data-value="5" onclick={handleDigitClick}>5</button>
+                <button type="button" class="calc-btn calc-digit" data-id="digit-6" data-value="6" onclick={handleDigitClick}>6</button>
+                <button type="button" class="calc-btn calc-operator" data-id="subtract-button" data-operation="Subtract" onclick={handleOperatorClick}>−</button>
+
+                <button type="button" class="calc-btn calc-digit" data-id="digit-1" data-value="1" onclick={handleDigitClick}>1</button>
+                <button type="button" class="calc-btn calc-digit" data-id="digit-2" data-value="2" onclick={handleDigitClick}>2</button>
+                <button type="button" class="calc-btn calc-digit" data-id="digit-3" data-value="3" onclick={handleDigitClick}>3</button>
+                <button type="button" class="calc-btn calc-operator" data-id="add-button" data-operation="Add" onclick={handleOperatorClick}>+</button>
+
+                <button type="button" class="calc-btn calc-digit calc-zero" data-id="digit-0" data-value="0" onclick={handleDigitClick}>0</button>
+                <button type="button" class="calc-btn calc-digit" data-id="decimal-button" onclick={handleDecimalClick}>.</button>
+                <button type="button" class="calc-btn calc-operator calc-equals" data-id="equals-button" onclick={handleEquals}>=</button>
+            </div>
+
+            <template if:true={hasError}>
+                <div class="slds-m-top_medium slds-text-color_error" data-id="error-message" role="alert">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
