@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Warehouse__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <label>Warehouse</label>
+    <referenceTo>Warehouse__c</referenceTo>
+    <relationshipLabel>Robots</relationshipLabel>
+    <relationshipName>Robots</relationshipName>
+    <required>true</required>
+    <type>Lookup</type>
+</CustomField>

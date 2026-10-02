@@ -1,0 +1,6 @@
+# Used when Marp previews presentation.md from this folder.
+# Build scripts still use slides/bin/build/.marprc.yml.
+html: true
+allowLocalFiles: true
+engine: ./bin/build/engine.js
+themeSet: ./theme/presentation.css
