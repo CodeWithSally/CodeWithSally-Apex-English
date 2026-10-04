@@ -68,3 +68,11 @@ $RECYCLE.BIN/
 
 # VSCode
 .vscode/
+
+# Added by Illuminated Cloud
+/IlluminatedCloud/
+target/
+/.illuminatedCloud/
+**/tsconfig*.json
+**/*.tsbuildinfo
+**/graphql.config.yml
