@@ -175,12 +175,18 @@ public virtual inherited sharing class RobotsSelector extends fflib_SObjectSelec
 
 	/**
 	* PaginationCursor of robots at the given warehouses, for paging the desk's robot list.
+	* Ordered by Name, then Id: pages need a total order, because each page may open a new cursor.
 	* @param warehouseIds Warehouses to query. Cannot be null; an empty set gives a cursor with no records.
 	* @return PaginationCursor over the matching robots.
 	*/
 	public virtual Database.PaginationCursor selectByWarehouseAsPaginationCursor(Set<Id> warehouseIds) {
 		return Database.getPaginationCursor(
-			newQueryFactory().setCondition(Robot__c.Warehouse__c + ' IN :warehouseIds').toSOQL()
+			newQueryFactory()
+				.setCondition(Robot__c.Warehouse__c + ' IN :warehouseIds')
+				// Name isn't unique, so Id breaks ties
+				.setOrdering(Robot__c.Name, fflib_QueryFactory.SortOrder.ASCENDING)
+				.addOrdering(Robot__c.Id, fflib_QueryFactory.SortOrder.ASCENDING)
+				.toSOQL()
 		);
 	}
 

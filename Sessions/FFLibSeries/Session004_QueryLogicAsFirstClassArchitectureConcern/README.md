@@ -135,6 +135,17 @@ To deploy, publish, activate, then test in one step:
 
 [Session 004 example output: add a representative transcript after the demo has been finalised and verified.]
 
+## PaginationCursor demo
+
+Like the Unit of Work scripts in Session 002, two anonymous Apex scripts compare reading North Hub's robots without and with paging:
+
+```bash
+sf apex run --file scripts/apex/without-paging.apex --target-org session004-mfg
+sf apex run --file scripts/apex/with-paging.apex --target-org session004-mfg
+```
+
+`without-paging.apex` loads every robot in one list query. `with-paging.apex` pages through them two at a time with `RobotsSelector.selectByWarehouseAsPaginationCursor`, works around three PaginationCursor quirks, and fetches page 2 again on a fresh cursor. Load the sample data first.
+
 ## Build and preview the slides
 
 The deck starts from the Session 003 template. From this session directory:
