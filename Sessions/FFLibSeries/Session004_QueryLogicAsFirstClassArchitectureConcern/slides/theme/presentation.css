@@ -1187,56 +1187,6 @@ section.service-evolution-slide .session-callout-sub {
   font-weight: 400;
 }
 
-section.install-fflib-slide .org-link {
-  text-align: center;
-  width: 90%;
-  margin: 0.15em auto 0.45em;
-  font-size: 0.48em;
-  letter-spacing: 0.01em;
-}
-
-section.install-fflib-slide .org-link a,
-section.install-fflib-slide h1 a {
-  color: var(--color-highlight);
-  text-decoration: underline;
-}
-
-section.install-fflib-slide .session-callout {
-  margin-top: auto;
-  width: min(920px, 88%);
-  padding: 0.55em 0.85em;
-  border-radius: 8px;
-  border: 2px solid #c49216;
-  background: #ffe8a3;
-  color: #3d2e00;
-  font-size: 0.42em;
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
-  text-align: left;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-}
-
-section.install-fflib-slide .session-callout .info-mark {
-  font-style: normal;
-  font-weight: 700;
-  margin-right: 0.25em;
-}
-
-section.install-fflib-slide .session-callout-sub {
-  display: block;
-  margin-top: 0.28em;
-  font-weight: 400;
-}
-
-section.install-fflib-slide .vscode pre,
-section.install-fflib-slide .vscode pre code,
-section.install-fflib-slide .vscode pre code.hljs {
-  font-size: 15px;
-  line-height: 1.32;
-  white-space: pre;
-}
-
 section.trigger-poor-home-slide > ul {
   margin-bottom: 0.35em;
 }

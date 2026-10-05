@@ -112,6 +112,23 @@ public virtual inherited sharing class FulfillmentLinesSelector extends fflib_SO
 	}
 
 	/**
+	* Cursor of pending lines at the given warehouses, for Queueables that work through them in chunks.
+	* @param warehouseIds Warehouses to query. Cannot be null; an empty set gives a cursor with no records.
+	* @return Cursor over the pending lines.
+	*/
+	public virtual Database.Cursor selectPendingByWarehouseAsCursor(Set<Id> warehouseIds) {
+		String orderRelationship = FulfillmentLine__c.FulfillmentOrder__c.getDescribe().getRelationshipName();
+		return Database.getCursor(
+			newQueryFactory()
+				.setCondition(
+					FulfillmentLine__c.Status__c + ' = \'' + FulfillmentLines.STATUS_PENDING + '\''
+						+ ' AND ' + orderRelationship + '.' + FulfillmentOrder__c.Warehouse__c + ' IN :warehouseIds'
+				)
+				.toSOQL()
+		);
+	}
+
+	/**
 	* Assigned lines on the given orders, for complete-from-order.
 	* @param orderIds Parent order Ids. Empty set returns an empty list.
 	* @return Assigned lines on those orders.
