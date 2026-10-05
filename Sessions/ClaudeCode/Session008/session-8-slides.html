@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude with Sally, Part 8: Automated Regression Testing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Permanent+Marker&display=swap');
+
+:root {
+  --cws-bg-deepest:#141424;--cws-bg-base:#1A1A2E;--cws-bg-raised:#1E1E32;--cws-bg-elevated:#24243E;--cws-bg-row-alt:#2A2A4A;
+  --cws-green:#50FA7B;--cws-green-dim:#2A3A2A;--cws-green-glow:rgba(80,250,123,0.35);
+  --cws-cyan:#8BE9FD;--cws-cyan-dim:#24353E;--cws-cyan-glow:rgba(139,233,253,0.35);
+  --cws-chalk-orange:#FFB547;--cws-chalk-pink:#FF79C6;--cws-chalk-purple:#BD93F9;
+  --cws-fg:#FFFFFF;--cws-fg-strong:#FFFFFF;--cws-fg-muted:#E0E0E0;--cws-fg-dim:#888899;--cws-fg-faint:#555566;
+  --cws-border:#2A2A4A;--cws-border-soft:#1E1E32;
+  --cws-font-sans:'Inter','Calibri',system-ui,sans-serif;
+  --cws-font-mono:'JetBrains Mono','Courier New',Consolas,monospace;
+  --cws-font-display:'Permanent Marker','Inter',system-ui,sans-serif;
+  --cws-glow-green:0 0 24px var(--cws-green-glow);
+  --cws-glow-cyan:0 0 24px var(--cws-cyan-glow);
+  --cws-shadow-md:0 4px 12px rgba(0,0,0,0.45);
+  --cws-ease:cubic-bezier(0.22,1,0.36,1);
+}
+
+html,body{margin:0;padding:0;background:#0A0A16;font-family:var(--cws-font-sans);overflow:hidden;color:var(--cws-fg);}
+
+/* Stage + slide shell */
+.stage{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+.slide{width:1920px;height:1080px;background:var(--cws-bg-base);position:relative;flex-shrink:0;overflow:hidden;transform-origin:center center;display:none;}
+.slide.active{display:block;}
+.slide::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:0.04;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px);}
+
+/* Layout */
+.safe{position:absolute;inset:96px;}
+.safe-center{position:absolute;inset:96px;display:flex;flex-direction:column;justify-content:center;}
+
+/* Footer */
+.foot{position:absolute;left:96px;right:96px;bottom:48px;display:flex;justify-content:space-between;align-items:center;font-family:var(--cws-font-mono);font-size:16px;color:var(--cws-fg-dim);}
+.foot .brand{color:var(--cws-cyan);}
+
+/* Typography */
+.h-title{font-size:72px;font-weight:700;color:var(--cws-fg-strong);letter-spacing:-0.01em;line-height:1.05;margin:0;}
+.h-subtitle{font-family:var(--cws-font-mono);font-size:36px;color:var(--cws-green);font-weight:400;line-height:1.2;margin:0;}
+.session-tag{font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-green);letter-spacing:0.08em;text-transform:uppercase;}
+.section-numeral{font-family:var(--cws-font-mono);font-size:200px;color:var(--cws-cyan);line-height:1;letter-spacing:0.08em;margin:0;}
+
+/* Prompt list */
+.prompt-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:20px;}
+.prompt-list li{position:relative;padding-left:48px;font-size:28px;color:var(--cws-fg-muted);line-height:1.4;}
+.prompt-list li::before{content:'>';position:absolute;left:0;top:0;color:var(--cws-green);font-family:var(--cws-font-mono);font-weight:600;}
+
+/* Pull quote */
+.pull-quote{font-family:var(--cws-font-sans);font-size:30px;line-height:1.35;color:var(--cws-cyan);font-style:italic;margin:0;border-left:3px solid var(--cws-cyan);padding-left:28px;}
+
+/* Callout boxes */
+.callout-box{padding:28px 36px;background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:8px;}
+.callout-box.green{border-left:3px solid var(--cws-green);}
+.callout-box.cyan{border-left:3px solid var(--cws-cyan);}
+.callout-box.orange{border-left:3px solid var(--cws-chalk-orange);}
+.callout-label{font-family:var(--cws-font-mono);font-size:16px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+
+/* Code */
+a.link{color:inherit;text-decoration:underline;text-decoration-color:var(--cws-green);text-underline-offset:4px;}
+code,.inline-code{font-family:var(--cws-font-mono);font-size:0.92em;color:var(--cws-green);background:var(--cws-green-dim);padding:2px 8px;border-radius:4px;}
+pre.code-block{font-family:var(--cws-font-mono);font-size:22px;line-height:1.7;background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-left:3px solid var(--cws-green);border-radius:8px;padding:32px 40px;color:var(--cws-green);margin:0;white-space:pre;}
+pre.code-block .c{color:var(--cws-fg-dim);}
+pre.code-block .k{color:var(--cws-cyan);}
+pre.code-block .s{color:var(--cws-chalk-orange);}
+
+/* Tables */
+table.sl{width:100%;border-collapse:collapse;font-size:22px;}
+table.sl th{text-align:left;padding:16px 20px;font-family:var(--cws-font-mono);font-weight:400;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--cws-fg-dim);border-bottom:1px solid var(--cws-border);}
+table.sl td{padding:18px 20px;border-bottom:1px solid var(--cws-border);color:var(--cws-fg-muted);vertical-align:top;}
+table.sl td:first-child{color:var(--cws-fg-strong);font-weight:500;}
+
+/* Cursor */
+.cursor::after{content:'▊';color:var(--cws-green);animation:blk 1s steps(2) infinite;margin-left:6px;}
+@keyframes blk{to{opacity:0;}}
+
+/* Navigation bar */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;z-index:100;}
+.nav button{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-dim);background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:6px;padding:8px 20px;cursor:pointer;transition:all 120ms;}
+.nav button:hover{color:var(--cws-cyan);border-color:var(--cws-cyan);}
+.nav .counter{font-family:var(--cws-font-mono);font-size:14px;color:var(--cws-fg-faint);}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active">
+    <div class="safe" style="display:flex;align-items:center;gap:80px;">
+      <div style="flex:1;">
+        <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Claude with Sally</div>
+        <div style="font-size:96px;font-weight:800;color:var(--cws-fg-strong);line-height:1;margin-bottom:24px;" class="cursor">Part 8</div>
+        <div style="font-family:var(--cws-font-mono);font-size:40px;color:var(--cws-green);font-weight:500;line-height:1.25;margin-bottom:48px;">Build an Automated Regression Test Suite with Claude and Playwright</div>
+        <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);">Bill Kuehler &nbsp;|&nbsp; Resource Hero &nbsp;|&nbsp; 2026</div>
+      </div>
+      <div style="flex:0 0 680px;background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-radius:12px;box-shadow:var(--cws-shadow-md);overflow:hidden;">
+        <div style="display:flex;gap:10px;padding:18px 22px;border-bottom:1px solid var(--cws-border);background:var(--cws-bg-raised);">
+          <span style="width:14px;height:14px;border-radius:50%;background:#FF5F57;"></span>
+          <span style="width:14px;height:14px;border-radius:50%;background:#FEBC2E;"></span>
+          <span style="width:14px;height:14px;border-radius:50%;background:#28C840;"></span>
+          <span style="margin-left:16px;font-family:var(--cws-font-mono);font-size:16px;color:var(--cws-fg-dim);">regression-suite</span>
+        </div>
+        <div style="padding:32px 36px;font-family:var(--cws-font-mono);font-size:24px;line-height:2;">
+          <div style="color:var(--cws-fg-dim);">&gt; run the regression suite</div>
+          <div style="display:grid;grid-template-columns:90px 170px 1fr;column-gap:16px;"><span style="color:var(--cws-green);">PASS</span><span style="color:var(--cws-fg-strong);">Jest</span><span style="color:var(--cws-fg-muted);">component logic</span><span style="color:var(--cws-green);">PASS</span><span style="color:var(--cws-fg-strong);">Apex</span><span style="color:var(--cws-fg-muted);">server logic</span><span style="color:var(--cws-green);">PASS</span><span style="color:var(--cws-fg-strong);">UI</span><span style="color:var(--cws-fg-muted);">Playwright CLI</span><span style="color:var(--cws-green);">PASS</span><span style="color:var(--cws-fg-strong);">Backend</span><span style="color:var(--cws-fg-muted);">Salesforce CLI</span><span style="color:var(--cws-chalk-orange);">FAIL</span><span style="color:var(--cws-fg-strong);">Slack</span><span style="color:var(--cws-fg-muted);">no message found</span></div>
+          <div style="color:var(--cws-fg-dim);margin-top:12px;">4 passed, 1 failed<span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Agenda -->
+  <div class="slide">
+    <div class="safe" style="display:flex;gap:96px;align-items:flex-start;">
+      <div style="flex:1;">
+        <div class="session-tag" style="margin-bottom:20px;">Part 8</div>
+        <h1 class="h-title" style="margin-bottom:24px;">What We'll Build</h1>
+        <div style="font-size:28px;color:var(--cws-fg-muted);margin-bottom:48px;line-height:1.4;">Using a new calculator Lightning Web Component we've recently built, we'll:</div>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="callout-box" style="display:flex;gap:28px;align-items:center;padding:24px 32px;"><span style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-cyan);">01</span><span style="font-size:30px;color:var(--cws-fg-strong);">Build Apex and Jest tests</span></div>
+          <div class="callout-box" style="display:flex;gap:28px;align-items:center;padding:24px 32px;"><span style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-cyan);">02</span><span style="font-size:30px;color:var(--cws-fg-strong);">Build browser automation with the Playwright CLI</span></div>
+          <div class="callout-box" style="display:flex;gap:28px;align-items:center;padding:24px 32px;"><span style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-cyan);">03</span><span style="font-size:30px;color:var(--cws-fg-strong);">Verify an external system</span></div>
+          <div class="callout-box" style="display:flex;gap:28px;align-items:center;padding:24px 32px;"><span style="font-family:var(--cws-font-mono);font-size:28px;color:var(--cws-cyan);">04</span><span style="font-size:30px;color:var(--cws-fg-strong);">Generate a pass/fail report you can read at a glance</span></div>
+        </div>
+      </div>
+      <!-- Calculator mock -->
+      <div style="flex:0 0 440px;margin-top:40px;background:var(--cws-bg-raised);border:1px solid var(--cws-border);border-radius:16px;padding:28px;box-shadow:var(--cws-shadow-md);font-family:var(--cws-font-mono);">
+        <div style="font-size:16px;color:var(--cws-fg-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;">Calculator LWC</div>
+        <div style="background:var(--cws-bg-deepest);border:1px solid var(--cws-border);border-radius:10px;padding:20px 24px;text-align:right;font-size:64px;color:var(--cws-fg-strong);margin-bottom:20px;">67</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:28px;text-align:center;">
+          <div style="grid-column:span 3;background:var(--cws-bg-row-alt);border-radius:8px;padding:16px 0;color:var(--cws-fg-muted);">C</div><div style="background:var(--cws-cyan-dim);border-radius:8px;padding:16px 0;color:var(--cws-cyan);">&divide;</div>
+          <div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">7</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">8</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">9</div><div style="background:var(--cws-cyan-dim);border-radius:8px;padding:16px 0;color:var(--cws-cyan);">&times;</div>
+          <div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">4</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">5</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">6</div><div style="background:var(--cws-cyan-dim);border-radius:8px;padding:16px 0;color:var(--cws-cyan);">&minus;</div>
+          <div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">1</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">2</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">3</div><div style="background:var(--cws-cyan-dim);border-radius:8px;padding:16px 0;color:var(--cws-cyan);">+</div>
+          <div style="grid-column:span 2;background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">0</div><div style="background:var(--cws-bg-elevated);border-radius:8px;padding:16px 0;">.</div><div style="background:var(--cws-green-dim);border-radius:8px;padding:16px 0;color:var(--cws-green);">=</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Two tiers of testing -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">The Model</div>
+      <h1 class="h-title" style="margin-bottom:56px;">Two Tiers of Testing</h1>
+      <svg width="1728" height="600" viewBox="0 0 1728 600" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#888899"/>
+          </marker>
+        </defs>
+        <!-- Tier label: unit -->
+        <text x="0" y="24" font-family="JetBrains Mono, monospace" font-size="20" fill="#BD93F9" letter-spacing="3">UNIT</text>
+        <text x="100" y="24" font-family="JetBrains Mono, monospace" font-size="20" fill="#888899">in isolation, fast, checks the logic before deploy</text>
+        <!-- Unit boxes -->
+        <rect x="0" y="48" width="847" height="190" rx="10" fill="#24243E" stroke="#2A2A4A" stroke-width="2"/>
+        <text x="423" y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">Jest</text>
+        <text x="423" y="174" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#888899">LWC logic: the math, input handling, error messages</text>
+        <rect x="881" y="48" width="847" height="190" rx="10" fill="#24243E" stroke="#2A2A4A" stroke-width="2"/>
+        <text x="1304" y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">Apex</text>
+        <text x="1304" y="174" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#888899">Server logic: the record inserts, the 67 rule blocks it</text>
+      <!-- Divider -->
+        <line x1="0" y1="292" x2="1728" y2="292" stroke="#2A2A4A" stroke-width="2" stroke-dasharray="8 8"/>
+        <!-- Tier label: end-to-end -->
+        <text x="0" y="350" font-family="JetBrains Mono, monospace" font-size="20" fill="#50FA7B" letter-spacing="3">END-TO-END</text>
+        <text x="190" y="350" font-family="JetBrains Mono, monospace" font-size="20" fill="#888899">against a running org, proves the pieces connect</text>
+        <!-- E2E boxes -->
+        <rect x="0" y="374" width="500" height="210" rx="10" fill="#24243E" stroke="#50FA7B" stroke-width="3"/>
+        <text x="250" y="444" text-anchor="middle" font-family="Inter, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">UI</text>
+        <text x="250" y="494" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="22" fill="#E0E0E0">Playwright CLI</text>
+        <text x="250" y="544" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#888899">Did the screen show it?</text>
+        <line x1="508" y1="479" x2="606" y2="479" stroke="#888899" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="614" y="374" width="500" height="210" rx="10" fill="#24243E" stroke="#8BE9FD" stroke-width="3"/>
+        <text x="864" y="444" text-anchor="middle" font-family="Inter, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">Backend Data</text>
+        <text x="864" y="494" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="22" fill="#E0E0E0">Salesforce CLI</text>
+        <text x="864" y="544" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#888899">Did the record save?</text>
+        <line x1="1122" y1="479" x2="1220" y2="479" stroke="#888899" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="1228" y="374" width="500" height="210" rx="10" fill="#24243E" stroke="#FFB547" stroke-width="3"/>
+        <text x="1478" y="444" text-anchor="middle" font-family="Inter, sans-serif" font-size="38" font-weight="700" fill="#FFFFFF">Other Systems</text>
+        <text x="1478" y="494" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="22" fill="#E0E0E0">Slack</text>
+        <text x="1478" y="544" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#888899">Did it reach outside?</text>
+        </svg>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Jest for LWC -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Unit Tier &nbsp;&#183;&nbsp; Jest</div>
+      <h1 class="h-title" style="margin-bottom:16px;">Jest for Lightning Web Components</h1>
+      <div style="font-size:26px;color:var(--cws-fg-muted);margin-bottom:36px;line-height:1.45;">Jest is a JavaScript testing framework. Salesforce's <code>sfdx-lwc-jest</code> runs it against the LWCs in a Salesforce DX project.</div>
+      <div style="display:flex;gap:40px;margin-bottom:32px;">
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:18px;color:var(--cws-chalk-purple);">What It Tests</div>
+          <ul class="prompt-list" style="gap:12px;">
+            <li style="font-size:25px;">A component in isolation</li>
+            <li style="font-size:25px;">Its public API: properties, methods, events</li>
+            <li style="font-size:25px;">Basic user interaction, like clicks</li>
+            <li style="font-size:25px;">The DOM it renders</li>
+            <li style="font-size:25px;">That events fire when expected</li>
+          </ul>
+          <div style="font-size:22px;color:var(--cws-fg-dim);line-height:1.5;margin-top:22px;">Runs locally, no browser, no org. Tests live in <code>__tests__</code>, go to version control, and never deploy to Salesforce. Apex calls and base components are mocked.</div>
+        </div>
+        <pre class="code-block" style="flex:0 0 860px;font-size:20px;line-height:1.75;padding:28px 32px;"><span class="c"># A generated SFDX project already includes sfdx-lwc-jest</span>
+<span class="k">npm</span> install
+
+<span class="c"># Older project? Add it manually</span>
+<span class="k">npm</span> install @salesforce/sfdx-lwc-jest --save-dev
+
+<span class="c"># Run (add :watch for instant feedback)</span>
+<span class="k">npm</span> run test:unit
+
+<span class="c"># Use the Node.js LTS release, per Salesforce docs</span></pre>
+      </div>
+      <div class="callout-box cyan" style="padding:24px 32px;">
+        <div class="callout-label" style="color:var(--cws-cyan);">Salesforce recommends</div>
+        <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;font-style:italic;">"We recommend using Jest to unit test individual Lightning web components. Use UI testing tools like Selenium WebDriver only for end-to-end testing."</div>
+      </div>
+      <div style="display:flex;gap:40px;margin-top:24px;font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-fg-dim);">
+        <span style="color:var(--cws-fg-faint);letter-spacing:0.08em;">REFERENCES</span>
+        <span>developer.salesforce.com/docs/platform/lwc/guide/testing.html</span>
+        <span>github.com/salesforce/sfdx-lwc-jest</span>
+        <span>github.com/trailheadapps/lwc-recipes</span>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Apex tests (show before the Apex step) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Unit Tier &nbsp;&#183;&nbsp; Apex</div>
+      <h1 class="h-title" style="margin-bottom:16px;">Apex Tests</h1>
+      <div style="font-size:26px;color:var(--cws-fg-muted);margin-bottom:36px;line-height:1.45;">Test classes marked <code>@isTest</code> run in the org and check server-side logic: classes and triggers.</div>
+      <div style="display:flex;gap:40px;margin-bottom:32px;">
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:18px;color:var(--cws-chalk-purple);">How It Works</div>
+          <ul class="prompt-list" style="gap:12px;">
+            <li style="font-size:25px;">Test methods call your classes directly</li>
+            <li style="font-size:25px;">Tests create their own records; existing org data is hidden by default</li>
+            <li style="font-size:25px;">Nothing is saved: test data is never committed</li>
+            <li style="font-size:25px;">Each run reports pass/fail and code coverage</li>
+          </ul>
+        </div>
+        <pre class="code-block" style="flex:0 0 860px;font-size:20px;line-height:1.75;padding:28px 32px;"><span class="c"># Run one test class, with coverage</span>
+<span class="k">sf</span> apex run test -o cws \
+  --class-names CalcHistoryControllerTest \
+  --code-coverage \
+  --result-format human</pre>
+      </div>
+      <div class="callout-box cyan" style="padding:24px 32px;">
+        <div class="callout-label" style="color:var(--cws-cyan);">Salesforce requires</div>
+        <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;font-style:italic;">"To deploy Apex or package it for the Salesforce AppExchange, unit tests must cover at least 75% of your Apex code, and those tests must pass."</div>
+      </div>
+      <div style="display:flex;gap:40px;margin-top:24px;font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-fg-dim);">
+        <span style="color:var(--cws-fg-faint);letter-spacing:0.08em;">REFERENCES</span>
+        <span>Apex Developer Guide: Testing and Code Coverage</span>
+        <span>Apex Developer Guide: Understanding Test Data</span>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: End-to-end tests (after the Apex step) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">End-to-End Tier</div>
+      <h1 class="h-title" style="margin-bottom:16px;">End-to-End Tests</h1>
+      <div style="font-size:26px;color:var(--cws-fg-muted);margin-bottom:40px;line-height:1.45;">One user action, run against the real org, checked everywhere the result should land.</div>
+      <div style="display:flex;gap:56px;">
+        <div style="flex:0 0 640px;">
+          <div class="session-tag" style="margin-bottom:18px;color:var(--cws-chalk-purple);">What Makes It End to End</div>
+          <ul class="prompt-list" style="gap:14px;">
+            <li style="font-size:25px;">Runs in a deployed org, with nothing mocked</li>
+            <li style="font-size:25px;">Follows one user action all the way through</li>
+            <li style="font-size:25px;">Tests the component, the backend logic, and third-party systems together</li>
+            <li style="font-size:25px;">Unit tests check each piece on its own. They can't show the pieces work together</li>
+          </ul>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:16px;">
+          <div class="session-tag" style="color:var(--cws-fg-dim);">One scenario: 60 + 7</div>
+          <div class="callout-box green" style="padding:20px 28px;">
+            <div class="callout-label" style="color:var(--cws-green);">1 &nbsp;UI &nbsp;&#183;&nbsp; Playwright CLI</div>
+            <div style="font-size:23px;color:var(--cws-fg-muted);">Click 6, 0, +, 7, = &nbsp;&rarr;&nbsp; the screen shows 67</div>
+          </div>
+          <div class="callout-box cyan" style="padding:20px 28px;">
+            <div class="callout-label" style="color:var(--cws-cyan);">2 &nbsp;Backend &nbsp;&#183;&nbsp; Salesforce CLI</div>
+            <div style="font-family:var(--cws-font-mono);font-size:19px;color:var(--cws-fg-muted);line-height:1.5;">sf data query -o cws -q "SELECT Answer__c<br>FROM Calc_History__c ORDER BY CreatedDate DESC LIMIT 1"</div>
+          </div>
+          <div class="callout-box orange" style="padding:20px 28px;">
+            <div class="callout-label" style="color:var(--cws-chalk-orange);">3 &nbsp;Other system &nbsp;&#183;&nbsp; Slack connector</div>
+            <div style="font-size:23px;color:var(--cws-fg-muted);">A 6🤷7 post lands in #calc-history</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Playwright CLI (then DEMO, then the Playwright step) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">End-to-End Tier &nbsp;&#183;&nbsp; UI</div>
+      <h1 class="h-title" style="margin-bottom:16px;">The Playwright CLI</h1>
+      <div style="font-size:26px;color:var(--cws-fg-muted);margin-bottom:36px;line-height:1.45;">A browser Claude drives from the command line, one step at a time, against the running org.</div>
+      <div style="display:flex;gap:40px;">
+        <div style="flex:1;">
+          <div class="session-tag" style="margin-bottom:18px;color:var(--cws-chalk-purple);">How Claude Uses It</div>
+          <ul class="prompt-list" style="gap:12px;">
+            <li style="font-size:25px;"><code>snapshot</code> reads the page and gives each element a ref, like <code>e15</code></li>
+            <li style="font-size:25px;"><code>click</code> and <code>fill</code> act on those refs</li>
+            <li style="font-size:25px;">Every step is a shell command, so every step shows in the transcript</li>
+            <li style="font-size:25px;">Login comes from the Salesforce CLI, so no password is stored</li>
+          </ul>
+        </div>
+        <pre class="code-block" style="flex:0 0 860px;font-size:20px;line-height:1.75;padding:28px 32px;"><span class="c"># Install once</span>
+<span class="k">npm</span> install -g @playwright/cli
+
+<span class="c"># Get a login URL for the org</span>
+<span class="k">sf</span> org open -o cws --url-only
+
+<span class="c"># Open it, read the page, act on it</span>
+<span class="k">playwright-cli</span> open <span class="s">"&lt;login URL&gt;"</span>
+<span class="k">playwright-cli</span> snapshot
+<span class="k">playwright-cli</span> click e15
+<span class="k">playwright-cli</span> close</pre>
+      </div>
+      <div style="display:flex;gap:40px;margin-top:32px;font-family:var(--cws-font-mono);font-size:18px;color:var(--cws-fg-dim);">
+        <span style="color:var(--cws-fg-faint);letter-spacing:0.08em;">REFERENCES</span>
+        <span>github.com/microsoft/playwright-cli</span>
+      </div>
+    </div>
+    <div class="foot">
+      <span>github.com/microsoft/playwright-cli</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Demo -->
+  <div class="slide">
+    <div class="safe-center" style="align-items:center;text-align:center;">
+      <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:24px;">Live Build</div>
+      <div style="font-family:var(--cws-font-mono);font-size:108px;font-weight:700;color:var(--cws-green);text-shadow:0 0 24px rgba(80,250,123,0.35);line-height:1;margin-bottom:40px;">DEMO</div>
+      <div style="font-family:var(--cws-font-mono);font-size:32px;color:var(--cws-fg-muted);margin-bottom:56px;">From an untested component to a regression suite</div>
+      <div style="display:flex;gap:20px;font-family:var(--cws-font-mono);font-size:22px;">
+        <span style="padding:12px 24px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-chalk-purple);">Jest + Apex</span>
+        <span style="padding:12px 24px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-green);">Playwright CLI</span>
+        <span style="padding:12px 24px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-cyan);">Salesforce CLI</span>
+        <span style="padding:12px 24px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-chalk-orange);">Slack</span>
+        <span style="padding:12px 24px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-fg-muted);">Pass/fail report</span>
+      </div>
+    </div>
+    <div class="foot">
+      <span>github.com/microsoft/playwright-cli</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Why the report is HTML (show at the report-skill step) -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">The Report &nbsp;&#183;&nbsp; Why HTML</div>
+      <h1 class="h-title" style="margin-bottom:48px;">Why the Report Is HTML</h1>
+      <div style="display:flex;gap:72px;align-items:flex-start;">
+        <div style="flex:0 0 640px;display:flex;flex-direction:column;gap:40px;">
+          <p class="pull-quote">&ldquo;&hellip;there is almost no set of information that Claude can read that you cannot efficiently represent with HTML.&rdquo;</p>
+          <p class="pull-quote">&ldquo;&hellip;the real reason I use HTML instead of Markdown is that it helps me feel much more in the loop with Claude.&rdquo;</p>
+          <div style="font-family:var(--cws-font-mono);font-size:20px;color:var(--cws-fg-dim);line-height:1.5;">Thariq Shihipar<br>&ldquo;Using Claude Code: The unreasonable effectiveness of HTML&rdquo;</div>
+        </div>
+        <div style="flex:1;">
+          <table class="sl">
+            <thead><tr><th></th><th>Markdown report</th><th style="color:var(--cws-green);">HTML report</th></tr></thead>
+            <tbody>
+              <tr><td>See the trend</td><td>A list per run</td><td>Runs &times; suites grid, red jumps out</td></tr>
+              <tr><td>Find the detail</td><td>Scroll one long file</td><td>Tabs per suite, click a test to expand</td></tr>
+              <tr><td>Share it</td><td>Attach a file</td><td>Send a link</td></tr>
+              <tr><td>Stay in the loop</td><td>Read what Claude did</td><td>Click through what Claude did</td></tr>
+            </tbody>
+          </table>
+          <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:44px;font-family:var(--cws-font-mono);font-size:22px;">
+            <span style="padding:10px 20px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-fg-muted);">.md per run</span>
+            <span style="color:var(--cws-fg-faint);">&rarr;</span>
+            <span style="padding:10px 20px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-chalk-purple);">local HTML</span>
+            <span style="color:var(--cws-fg-faint);">&rarr;</span>
+            <span style="padding:10px 20px;border:1px solid var(--cws-border);border-radius:999px;color:var(--cws-cyan);">shared link</span>
+            <span style="color:var(--cws-fg-faint);">&rarr;</span>
+            <span style="padding:10px 20px;border:1px solid var(--cws-green);border-radius:999px;color:var(--cws-green);">live team dashboard</span>
+          </div>
+          <div class="callout-box green" style="margin-top:36px;">
+            <div class="callout-label" style="color:var(--cws-green);">What we built &nbsp;&#183;&nbsp; Calc Regression Runs</div>
+            <div style="font-family:var(--cws-font-mono);font-size:24px;color:var(--cws-fg-muted);"><a class="link" href="https://claude.ai/artifact/E6Z9StWr59S4RdTMGj4sRH" target="_blank" rel="noopener">claude.ai/artifact/E6Z9StWr59S4RdTMGj4sRH</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>claude.dev/blog/using-claude-code-the-unreasonable-effectiveness-of-html</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Homework + Questions -->
+  <div class="slide">
+    <div class="safe">
+      <div class="session-tag" style="margin-bottom:16px;">Homework</div>
+      <h1 class="h-title" style="margin-bottom:56px;">Your Turn</h1>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-bottom:72px;">
+        <div class="callout-box green" style="padding:36px;">
+          <div style="font-family:var(--cws-font-mono);font-size:44px;color:var(--cws-green);margin-bottom:18px;">01</div>
+          <div style="font-size:30px;font-weight:600;color:var(--cws-fg-strong);margin-bottom:12px;">Pick a target</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;">One screen or flow your users rely on every day</div>
+        </div>
+        <div class="callout-box cyan" style="padding:36px;">
+          <div style="font-family:var(--cws-font-mono);font-size:44px;color:var(--cws-cyan);margin-bottom:18px;">02</div>
+          <div style="font-size:30px;font-weight:600;color:var(--cws-fg-strong);margin-bottom:12px;">Write the scenarios</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;">One that should pass and one that should fail, in plain English</div>
+        </div>
+        <div class="callout-box orange" style="padding:36px;">
+          <div style="font-family:var(--cws-font-mono);font-size:44px;color:var(--cws-chalk-orange);margin-bottom:18px;">03</div>
+          <div style="font-size:30px;font-weight:600;color:var(--cws-fg-strong);margin-bottom:12px;">Test it, then break it</div>
+          <div style="font-size:24px;color:var(--cws-fg-muted);line-height:1.45;">Have Claude check the UI and the record, then confirm the report goes red</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--cws-border);padding-top:48px;">
+        <div style="font-size:88px;font-weight:700;color:var(--cws-fg-strong);line-height:1;">Questions<span style="color:var(--cws-green);animation:blk 1s steps(2) infinite;font-weight:400;">_</span></div>
+        <div style="font-family:var(--cws-font-mono);font-size:22px;color:var(--cws-fg-dim);line-height:1.8;text-align:right;">code.claude.com/docs<br>github.com/microsoft/playwright-cli<br>claude.dev/blog: the unreasonable effectiveness of HTML<br><a class="link" href="https://claude.ai/artifact/E6Z9StWr59S4RdTMGj4sRH" target="_blank" rel="noopener" style="color:var(--cws-green);">Example report: claude.ai/artifact/E6Z9StWr59S4RdTMGj4sRH</a></div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>code.claude.com/docs</span>
+      <span class="brand">Claude with Sally</span>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="nav">
+  <button onclick="prev()">&larr; Prev</button>
+  <span class="counter" id="counter">1 / 10</span>
+  <button onclick="next()">Next &rarr;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+function show(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = (cur+1) + ' / ' + slides.length;
+  fit();
+}
+function next() { show(cur + 1); }
+function prev() { show(cur - 1); }
+function fit() {
+  const s = document.querySelector('.slide.active');
+  if (!s) return;
+  const sc = Math.min(innerWidth / 1920, innerHeight / 1080);
+  s.style.transform = 'scale(' + sc + ')';
+}
+addEventListener('resize', fit);
+addEventListener('load', fit);
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+});
+</script>
+</body>
+</html>

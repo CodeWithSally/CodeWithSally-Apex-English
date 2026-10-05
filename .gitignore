@@ -2,3 +2,8 @@
 /.sfdx
 *.DS_Store
 node_modules/
+
+# Generated tool artifacts (Playwright CLI logs, HyperFrames backups/snapshots)
+.playwright-cli/
+.hyperframes/
+videos/*/snapshots/
