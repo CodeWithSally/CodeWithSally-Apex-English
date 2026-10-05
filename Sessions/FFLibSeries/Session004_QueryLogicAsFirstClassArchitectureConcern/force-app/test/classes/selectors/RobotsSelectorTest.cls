@@ -22,10 +22,10 @@ private class RobotsSelectorTest {
 		Test.stopTest();
 
 		// Then each returns nothing
-		System.assertEquals(0, byIdWithAccess, 'selectById with data access');
-		System.assertEquals(0, byIdWithFields, 'selectById with additional fields');
-		System.assertEquals(0, byIdWithOwner, 'selectByIdWithOwner');
-		System.assertEquals(0, pagedRobots, 'selectByWarehouseAsPaginationCursor');
+		Assert.areEqual(0, byIdWithAccess, 'selectById with data access');
+		Assert.areEqual(0, byIdWithFields, 'selectById with additional fields');
+		Assert.areEqual(0, byIdWithOwner, 'selectByIdWithOwner');
+		Assert.areEqual(0, pagedRobots, 'selectByWarehouseAsPaginationCursor');
 	}
 
 	@IsTest
@@ -38,7 +38,7 @@ private class RobotsSelectorTest {
 		Test.stopTest();
 
 		// Then elevation is named, and the default stays user mode
-		System.assertEquals(fflib_SObjectSelector.DataAccess.SYSTEM_MODE, namedAccess, 'Named data access');
-		System.assertEquals(fflib_SObjectSelector.DataAccess.USER_MODE, byDefault, 'Default data access');
+		Assert.areEqual(fflib_SObjectSelector.DataAccess.SYSTEM_MODE, namedAccess, 'Named data access');
+		Assert.areEqual(fflib_SObjectSelector.DataAccess.USER_MODE, byDefault, 'Default data access');
 	}
 }
