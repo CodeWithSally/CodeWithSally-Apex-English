@@ -2,26 +2,32 @@
 
 **The Selector Pattern in Apex**
 
-SOQL is logic. A query encodes meaning, security, performance, shape, and testability, so it deserves one authoritative home. This session covers the Selector pattern first, then fflib's `fflib_SObjectSelector`, using the Warehouse Operations app extended for cursors and caching.
+SOQL is logic. A query encodes meaning, security, performance, shape, and testability, so it deserves one authoritative home. This session covers the Selector pattern first, then fflib's `fflib_SObjectSelector`, using the Warehouse Operations app, extended with Selector examples for access layering, additive fields, cursors, and pagination.
 
-[Learning outcomes: describe what attendees will understand and practise in Session 004.]
+After this session you'll be able to:
+
+- explain why query logic deserves one home, and what a query carries: meaning, security, performance, shape, and testability;
+- build an fflib Selector: paramount fields, schema tokens over strings, and access modes chosen when composing it or for a single query;
+- compose joint Selectors from root Selectors, and decide between a subselect and separate queries;
+- pick the right return shape: lists and maps, aggregates, QueryLocator, Cursor, and PaginationCursor;
+- keep Selectors easy to stub, ready for Session 005's mocking.
 
 [Slides](slides/presentation.html) · [Editable slide source](slides/presentation.md)
 
-The Warehouse Operations app and supporting tooling are copied from Session 003 as the starting point for this session. The app implementation is unchanged; Session 004-specific Selector examples are still to be developed. The setup commands below use the new `session004-mfg` alias.
+The Warehouse Operations app and supporting tooling are copied from Session 003 as the starting point for this session. Session 004 adds its Selector examples by adding methods only; no inherited method changes. The setup commands below use the new `session004-mfg` alias.
 
 ## Session walkthrough
 
-- **Recap** — [Bricks, a conductor, and who calls whom: continuity from Sessions 1–3.]
-- **Why Query Logic Matters** — [The same question asked twice and answered differently; the five concerns a query carries.]
-- **Selector Principles** — [The canonical Selector, joint Selectors, and the Selector checklist.]
-- **The fflib Selector** — [Anatomy of `fflib_SObjectSelector`, access modes and layering, the query factory, and additive fields.]
-- **Warehouse App Selectors** — [Tight and loose relationships, return shapes, aggregates, cursors, pagination, caching, and the mocking seam.]
-- **Selector Evolution** — [What has changed, and where the library is heading.]
+- **Recap** — Bricks, a conductor, and who calls whom: continuity from Sessions 1–3. Then a quick live deploy of fflib and the app, and a one-slide reminder of good SOQL habits.
+- **Why Query Logic Matters** — The same question asked twice and answered differently; the five concerns a query carries.
+- **Selector Principles** — The canonical Selector, joint Selectors, and the Selector checklist.
+- **The fflib Selector** — Anatomy of `fflib_SObjectSelector`, access modes and layering, the query factory, and additive fields.
+- **Warehouse App Selectors** — Tight and loose relationships, return shapes, aggregates, cursors, pagination, and the mocking seam.
+- **Selector Evolution** — What has changed, and where the library is heading.
 
 ## Sample project
 
-The inherited Warehouse Fulfillment agent remains part of the app setup. Publish it so the `WarehouseOperations` permission set can resolve its agent access. [Decide whether the agent appears in the Session 004 presentation.]
+The inherited Warehouse Fulfillment agent remains part of the app setup. Publish it so the `WarehouseOperations` permission set can resolve its agent access. The agent isn't part of the Session 004 presentation.
 
 One package directory: `force-app` (app in `main`, Apex tests in `test`), plus the Warehouse Fulfillment employee agent.
 
@@ -29,7 +35,14 @@ Use a scratch org from `config/project-scratch-def.json` (Einstein / Agentforce 
 
 ## Architecture notes
 
-[Add the Session 004-specific Selector design discussion here.]
+Session 004 adds Selector examples by adding methods only:
+
+- **Composition:** `newInstance()` is the canonical way in. Constructors are for deliberate composition, such as `new RobotsSelector(DataAccess.SYSTEM_MODE)`.
+- **Per-query access:** `RobotsSelector.selectById(ids, DataAccess)` sets the access mode for that one query and leaves the instance unchanged. Anything but `SYSTEM_MODE` runs in user mode.
+- **Additive fields:** `RobotsSelector.selectById(ids, Set<SObjectField>)` and `selectByIdWithOwner` add to the paramount fields; nothing removes them.
+- **Schema tokens over strings** in new conditions, including `getRelationshipName()` for relationship paths.
+- **Return shapes:** `FulfillmentLinesSelector.selectPendingByWarehouseAsCursor` returns a `Database.Cursor`, and `RobotsSelector.selectByWarehouseAsPaginationCursor` returns a `Database.PaginationCursor`, ordered by `Name, Id` so pages stay stable. Neither has a caller in the app; the paging scripts below show a consumer.
+- **Tests** pass empty conditions only: they check that each query is valid SOQL and leave Salesforce's execution to Salesforce.
 
 The following describes the inherited implementation:
 
@@ -75,8 +88,6 @@ sf project deploy start --source-dir force-app --target-org session004-mfg --wai
 
 The copied data script creates North Hub, Picker 100, Atlas / Bolt / Ember, a High-priority ticket with three pending lines, and extra draft orders.
 
-[Session 004 fixtures: describe the product catalogue records added for the caching example.]
-
 To delete warehouse sample objects and reload:
 
 ```bash
@@ -97,8 +108,6 @@ sf agent activate --api-name WarehouseFulfillment --target-org session004-mfg --
 `--skip-retrieve` keeps generated Bot / planner metadata out of the repo. Source of truth is `force-app/main/aiAuthoringBundles/WarehouseFulfillment/`.
 
 Inherited agent example: from the utility bar, say **Process North Hub** — the desk action takes the warehouse name.
-
-[Session 004 demo: add the prompt and expected behaviour if using the agent.]
 
 Run the same package deploy again so the permission set can resolve the Bot, then assign it:
 
@@ -132,8 +141,6 @@ To deploy, publish, activate, then test in one step:
 ```bash
 ./scripts/agent/warehouse-fulfillment.sh -o session004-mfg --deploy
 ```
-
-[Session 004 example output: add a representative transcript after the demo has been finalised and verified.]
 
 ## PaginationCursor demo
 
