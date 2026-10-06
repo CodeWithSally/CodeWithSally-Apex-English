@@ -3434,3 +3434,284 @@ section .template-image { width: 100%; min-height: 320px; }
 section .template-logo { min-width: 200px; min-height: 100px; }
 section.title-slide .template-logo { margin-top: 24px; }
 section .about-book.template-image { min-height: 260px; }
+
+/* Slide 8: drift callouts, revealed one per click as Marp fragments.
+   Each .drift is a [data-marpit-fragment]; bespoke marks it active/inactive and
+   flags the current one. Bands and badges stay; the arrow and bubble show only
+   for the current callout. Static output (PNG/PDF) shows bands and badges only. */
+section.drift-slide {
+  position: relative;
+}
+
+section.drift-slide .drift {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+section.drift-slide .drift-meaning { --drift: #ffb020; }
+section.drift-slide .drift-security { --drift: #ff5f5f; }
+section.drift-slide .drift-order { --drift: #3ec7f5; }
+section.drift-slide .drift-shape { --drift: #b48cff; }
+section.drift-slide .drift-magic { --drift: #ff6ad5; }
+
+section.drift-slide .drift-band {
+  position: absolute;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--drift) 20%, transparent);
+  box-shadow: inset 3px 0 0 var(--drift);
+  transform-origin: left center;
+  transition: background 0.3s ease;
+}
+
+section.drift-slide .drift-band-token {
+  border-radius: 4px;
+  box-shadow: 0 0 0 1.5px var(--drift);
+}
+
+section.drift-slide :is(.drift-badge, .drift-num) {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--drift);
+  color: #0d1117;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+}
+
+section.drift-slide .drift-badge {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  font-size: 10px;
+  line-height: 16px;
+  box-shadow: 0 0 0 2px #1e1e1e;
+}
+
+section.drift-slide :is(.drift-arrow, .drift-mark) {
+  position: absolute;
+  inset: 0;
+  width: 1280px;
+  height: 720px;
+  overflow: visible;
+}
+
+section.drift-slide :is(.drift-arrow .line, .drift-mark .squiggle) {
+  fill: none;
+  stroke: var(--drift);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+}
+
+section.drift-slide .drift-mark .squiggle {
+  stroke-width: 1.8;
+}
+
+section.drift-slide .drift-arrow .head {
+  fill: var(--drift);
+}
+
+section.drift-slide .drift-bubble {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 9px 14px 11px 12px;
+  border: 2px solid var(--drift);
+  border-radius: 10px;
+  background: #0d1117;
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--drift) 14%, transparent),
+    0 12px 30px rgba(0, 0, 0, 0.55);
+  color: #e6edf3;
+  font-size: 15px;
+  line-height: 1.38;
+  text-align: left;
+}
+
+section.drift-slide .drift-bubble b {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: var(--drift);
+  font-size: 16px;
+  letter-spacing: 0.01em;
+}
+
+section.drift-slide .drift-bubble code {
+  padding: 0 4px;
+  border-radius: 4px;
+  background: #1f2630;
+  font-size: 0.86em;
+}
+
+/* Only the current callout explains itself; earlier ones keep their marks. */
+section.drift-slide .drift :is(.drift-arrow, .drift-bubble) {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+section.drift-slide .drift[data-bespoke-marp-current-fragment] :is(.drift-arrow, .drift-bubble) {
+  opacity: 1;
+}
+
+section.drift-slide .drift[data-bespoke-marp-fragment="active"]:not([data-bespoke-marp-current-fragment]) .drift-band {
+  background: color-mix(in srgb, var(--drift) 10%, transparent);
+}
+
+@media screen {
+  section.drift-slide .drift[data-bespoke-marp-current-fragment] .drift-band {
+    animation: drift-sweep 0.35s ease-out both;
+  }
+
+  section.drift-slide .drift[data-bespoke-marp-current-fragment] .drift-badge {
+    animation: drift-pop 0.3s 0.2s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+
+  section.drift-slide .drift[data-bespoke-marp-current-fragment] .squiggle {
+    animation: drift-draw 0.4s 0.15s ease-out both;
+  }
+
+  section.drift-slide .drift[data-bespoke-marp-current-fragment] .drift-arrow .line {
+    animation: drift-draw 0.45s 0.3s ease-in-out both;
+  }
+
+  section.drift-slide .drift[data-bespoke-marp-current-fragment] .drift-arrow .head {
+    animation: drift-fade 0.15s 0.7s ease-out both;
+  }
+
+  section.drift-slide .drift[data-bespoke-marp-current-fragment] .drift-bubble {
+    animation: drift-pop 0.35s 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section.drift-slide .drift * {
+    animation: none !important;
+  }
+}
+
+@keyframes drift-sweep {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes drift-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes drift-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes drift-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+section.drift-slide .drift-tagline {
+  margin: auto 0 18px;
+  color: var(--color-dimmed);
+  font-size: 0.62em;
+  text-align: center;
+}
+
+/* A light, low-key aside under a code panel (e.g. slide 20's field-token note). */
+section .quiet-note {
+  margin: 8px 0 0;
+  color: var(--color-dimmed);
+  font-size: 0.5em;
+  text-align: center;
+}
+
+/* Tabbed code: one full-width panel holding several files. Live, a click flips
+   to the next tab (each later pane is a Marp fragment); the PNG/PDF stack the
+   panes so nothing is lost. */
+section.tabs-slide .tab-panes {
+  display: grid;
+}
+
+section.tabs-slide .pane-caption {
+  margin: 0;
+  padding: 8px 16px 2px;
+  background: #1e1e1e;
+  color: #9da5b4;
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+}
+
+section.tabs-slide .vscode-tab {
+  transition: opacity 0.2s ease;
+}
+
+section.tabs-slide .vscode:has(.tab-pane[data-bespoke-marp-fragment]) .tab-pane {
+  grid-area: 1 / 1;
+}
+
+section.tabs-slide .vscode:has(.tab-pane[data-bespoke-marp-fragment="active"]) .tab-pane:first-child:not([data-marpit-fragment]) {
+  visibility: hidden;
+}
+
+section.tabs-slide:not(.deploy-slide) .vscode:has(.tab-pane[data-bespoke-marp-fragment="inactive"]) .vscode-tab:nth-child(2),
+section.tabs-slide:not(.deploy-slide) .vscode:has(.tab-pane[data-bespoke-marp-fragment="active"]) .vscode-tab:nth-child(1):not(:only-child) {
+  opacity: 0.45;
+  background-image: none;
+  box-shadow: none;
+}
+
+@media screen {
+  section.tabs-slide .tab-pane[data-bespoke-marp-fragment="active"] {
+    animation: tab-in 0.25s ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section.tabs-slide .tab-pane {
+    animation: none !important;
+  }
+}
+
+@keyframes tab-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Tab panes, three or more: a pane is hidden once any later pane is active */
+section.tabs-slide .vscode:has(.tab-pane[data-bespoke-marp-fragment]) .tab-pane:has(~ .tab-pane[data-bespoke-marp-fragment="active"]) {
+  visibility: hidden;
+}
+
+/* Slide 6: terminal panel under the deploy bullets */
+section.deploy-slide .vscode.terminal {
+  margin-top: 8px;
+}
+
+section.deploy-slide > ul {
+  font-size: 0.8em;
+}
+
+section.deploy-slide .tab-pane :is(pre, marp-pre) {
+  margin: 0;
+}
+
+/* Slide 6, live: the tab for the newest active pane is lit; the others dim; captions repeat the tabs, so hide them */
+section.deploy-slide .vscode:has(.tab-pane[data-bespoke-marp-fragment]) .pane-caption {
+  display: none;
+}
+
+section.deploy-slide .vscode:has(.tab-pane:nth-child(1)[data-bespoke-marp-fragment="inactive"]) .vscode-tab:nth-child(1),
+section.deploy-slide .vscode:has(.tab-pane:nth-child(2)[data-bespoke-marp-fragment="active"]) .vscode-tab:nth-child(1),
+section.deploy-slide .vscode:has(.tab-pane:nth-child(2)[data-bespoke-marp-fragment="inactive"]) .vscode-tab:nth-child(2),
+section.deploy-slide .vscode:has(.tab-pane:nth-child(3)[data-bespoke-marp-fragment="active"]) .vscode-tab:nth-child(2),
+section.deploy-slide .vscode:has(.tab-pane:nth-child(3)[data-bespoke-marp-fragment="inactive"]) .vscode-tab:nth-child(3) {
+  opacity: 0.45;
+  background-image: none;
+  box-shadow: none;
+}
