@@ -18,7 +18,9 @@ html: true
 ![Code With Sally](images/codewithsally.png)
 
 <!--
-Sally introduces John and reads the bio. One sentence of thanks to Sally, Andy, and John Daniel, then straight to the problem, not to us.
+- Sally reads the bio
+- Thank Sally, Andy, JD
+- Straight to the problem
 -->
 
 ---
@@ -33,7 +35,7 @@ Sally introduces John and reads the bio. One sentence of thanks to Sally, Andy, 
 ##### Staff Software Engineer | Thrivent | Apex Enterprise Patterns maintainer
 
 * **Apex Enterprise Patterns** — a maintainer of fflib, the library this series is built on
-* **FinancialForce roots** — helped build fflib in the mid-2010s, alongside Andy Fawcett and John Daniel
+* **FinancialForce roots** — helped build fflib in the mid-2010s, alongside Andy Fawcett, John Daniel ("JD") and others
 
 <!-- -->
 
@@ -51,7 +53,7 @@ Sally introduces John and reads the bio. One sentence of thanks to Sally, Andy, 
 </div>
 
 <!--
-Keep it brief: Sally has just read the bio.
+- Brief: bio just read
 -->
 
 ---
@@ -75,7 +77,9 @@ Keep it brief: Sally has just read the bio.
 </table>
 
 <!--
-We're here: Session 4 of 6. Mocking (Oct 20) and multi-package (Nov 3) follow, and both build on tonight.
+- Session 4 of 6
+- #5 Mocking, Oct 20
+- #6 AT4DX, Nov 3
 -->
 
 ---
@@ -97,7 +101,8 @@ We're here: Session 4 of 6. Mocking (Oct 20) and multi-package (Nov 3) follow, a
 </ul>
 
 <!--
-Three parts: the pattern, fflib's version of it, then the Warehouse app. Two question pauses are built in.
+- Pattern → fflib → Warehouse
+- Two question pauses
 -->
 
 ---
@@ -120,37 +125,70 @@ Three parts: the pattern, fflib's version of it, then the Warehouse app. Two que
 </table>
 
 <!--
-Service conducts: one task per method, and it owns the Unit of Work (Andy's conductor and band).
-Domain is the Lego brick: behaviour of one object, criteria then action (John Daniel's bricks).
-The Selector is the brick everyone reaches for: it's the only column with a dot on every row.
+- Service = conductor, owns UoW
+- Domain = Lego brick
+- Selector: dot on every row
 -->
 
 ---
 
-<!-- _class: detail-slide promises-slide -->
+<!-- _class: detail-slide promises-slide compact-code-slide tabs-slide deploy-slide -->
 
 # Demo: deploy fflib and the app
 
-* **① Apex Mocks** — the README's "Deploy fflib" step
-* **② Apex Common** — depends on Apex Mocks; same README step
-* **③ The Warehouse app (`force-app`)** — depends on Apex Common; the README's "Deploy force-app" step
-* **It's a source deploy, not a package install** — each `sf project deploy start` runs from inside its own repo
-* **Everything is in the session README** — nothing to copy from the screen
-  * github.com/CodeWithSally/CodeWithSally-Apex-English → Sessions/FFLibSeries/Session004…
+* **① Apex Mocks, ② Apex Common, ③ the Warehouse app (`force-app`)** — the app needs both
+* **A source deploy, not a package install** — each `sf project deploy start` runs from inside its own repo
+* **Everything is in the session README** — github.com/CodeWithSally/CodeWithSally-Apex-English → Sessions/FFLibSeries/Session004…
+
+<div class="vscode terminal">
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">① Apex Mocks</span><span class="vscode-tab vscode-tab-selector">② Apex Common</span><span class="vscode-tab vscode-tab-selector">③ Warehouse app</span></div>
+<div class="tab-panes">
+<div class="tab-pane" data-marpit-fragment="1">
+<p class="pane-caption">① Apex Mocks</p>
+
+```bash
+cd /tmp/fflib-apex-mocks
+sf project deploy start --source-dir sfdx-source/apex-mocks \
+  --target-org session004-mfg --wait 15
+```
+
+</div>
+<div class="tab-pane" data-marpit-fragment="2">
+<p class="pane-caption">② Apex Common</p>
+
+```bash
+cd /tmp/fflib-apex-common
+sf project deploy start --source-dir sfdx-source/apex-common \
+  --target-org session004-mfg --wait 20 --ignore-warnings
+```
+
+</div>
+<div class="tab-pane" data-marpit-fragment="3">
+<p class="pane-caption">③ The Warehouse app</p>
+
+```bash
+cd Sessions/FFLibSeries/Session004_QueryLogicAsFirstClassArchitectureConcern
+sf project deploy start --source-dir force-app \
+  --target-org session004-mfg --wait 15 --ignore-errors
+```
+
+</div>
+</div>
+</div>
 
 <!--
-Live: run the README's "Deploy the app" commands exactly as written, with the README open beside the terminal. The scratch org and the two clones are ready beforehand.
---ignore-warnings stops Apex Common's compile warnings from failing the deploy.
---ignore-errors: say the README's one-line reason and move on; the agent isn't today's topic.
-Talk over the Common deploy: "this is the base class library the rest of tonight builds on".
-Agent publishing, permission sets, sample data and tests come later in the README and aren't part of the demo.
+- README beside terminal
+- Click: ① ② ③
+- --ignore-warnings: compile noise
+- --ignore-errors: agent, move on
+- Common = base library
 -->
 
 ---
 
 <!-- _class: detail-slide promises-slide -->
 
-# PSA: good SOQL habits
+# Good SOQL habits
 
 * **No SOQL (or DML) inside loops**
   * ❌ `for (Id lineId : lineIds) { [SELECT … WHERE Id = :lineId]; }`
@@ -161,16 +199,16 @@ Agent publishing, permission sets, sample data and tests come later in the READM
 * **Bound your results** — `LIMIT`, a QueryLocator, or a cursor; mind the 50,000-row limit
 
 <!--
-A one-minute public-service announcement before the Selector content: good SOQL practice wherever your queries live.
-Loop timings, three runs each: index loop with the size cached 487–529 ms; for-each 962–1,177 ms; index loop calling size() every pass 733–920 ms. It's a general Apex habit.
-Bind variables prevent SOQL injection. Formula fields and a leading % in LIKE stop indexes being used. SOQL for loops keep heap down on large results.
-Null versus empty input is a business decision (an empty result or an exception); state it in the method's contract.
-Date literals (TODAY, LAST_N_DAYS) use the running user's time zone.
+- One-minute PSA
+- Cached index loop ≈ 2×
+- Binds stop injection
+- Null vs empty: contract
+- Date literals: user TZ
 -->
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide duo-slide drift-slide -->
 
 # What's wrong with this picture?
 
@@ -181,12 +219,13 @@ Date literals (TODAY, LAST_N_DAYS) use the running user's time zone.
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">WarehouseDeskController.cls</span></div>
 
 ```apex
-List<FulfillmentLine__c> pending = [
+Map<Id, FulfillmentLine__c> pending =
+  new Map<Id, FulfillmentLine__c>([
   SELECT Id, Name, ProductSku__c, Quantity__c
   FROM FulfillmentLine__c
   WHERE Status__c = 'Pending'
     AND FulfillmentOrder__r.Warehouse__c = :warehouseId
-];
+]);
 ```
 
 </div>
@@ -214,36 +253,18 @@ List<FulfillmentLine__c> pending = [
 </div>
 </div>
 
-<!--
-The same business question, "which lines are pending?", written twice by hand. Both compile and both work, which is exactly why the drift goes unnoticed.
-Illustrative only: this code is not in the Warehouse app.
-Let the audience spot the differences before the next slide names them.
--->
-
----
-
-<!-- _class: detail-slide issue-slide issue-slide-single -->
-
-# So what was wrong with that picture?
-
-<div class="issue-block">
-<p class="issue-who">The same question, asked twice, answered differently</p>
-<table>
-<thead><tr><th>Drift</th><th>Issue</th></tr></thead>
-<tbody>
-<tr><td>Meaning</td><td>A counts lines already assigned to a robot, and lines on Draft or On Hold orders. B doesn't.</td></tr>
-<tr><td>Security mode</td><td>A runs in the class default (user mode at API 67.0); B elevates to system mode.</td></tr>
-<tr><td>Order</td><td>A has none; B sorts by Name, though dispatch's rule is High priority first.</td></tr>
-<tr><td>Shape</td><td>Different fields, so a caller switching queries breaks.</td></tr>
-<tr><td>Magic strings</td><td>B's <code>'InProgress'</code> matches nothing: the status is <code>'In Progress'</code>.</td></tr>
-</tbody>
-</table>
-</div>
+<div class="drift drift-meaning" data-marpit-fragment="1"><span class="drift-band" style="left:657px;top:269px;width:544px;height:16px"></span><span class="drift-band" style="left:657px;top:301px;width:544px;height:31px"></span><span class="drift-badge" style="left:1170px;top:277px">1</span><span class="drift-badge" style="left:1170px;top:316.5px">1</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1090 398 C1100 375 1100 355 1088 337"/><path class="head" d="M1088.0 337.0 L1098.5 342.0 L1088.6 348.6Z"/></svg><div class="drift-bubble" style="left:760px;top:398px;width:430px;transform-origin:top right"><b><span class="drift-num">1</span>Meaning</b>B skips lines already assigned to a robot, and orders that are Draft or On Hold. A selects them all.</div></div>
+<div class="drift drift-security" data-marpit-fragment="2"><span class="drift-band" style="left:657px;top:332px;width:544px;height:16px"></span><span class="drift-badge" style="left:1170px;top:340px">2</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M960 420 C985 380 900 340 836 340"/><path class="head" d="M836.0 340.0 L846.0 334.0 L846.0 346.0Z"/></svg><div class="drift-bubble" style="left:760px;top:420px;width:430px;transform-origin:top center"><b><span class="drift-num">2</span>Security mode</b>B elevates to <code>SYSTEM_MODE</code>. A takes the class default: user mode at API 67.0.</div></div>
+<div class="drift drift-order" data-marpit-fragment="3"><span class="drift-band" style="left:657px;top:348px;width:544px;height:16px"></span><span class="drift-badge" style="left:1170px;top:356px">3</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M930 440 C950 395 880 356 812 356"/><path class="head" d="M812.0 356.0 L822.0 350.0 L822.0 362.0Z"/></svg><div class="drift-bubble" style="left:760px;top:440px;width:430px;transform-origin:top center"><b><span class="drift-num">3</span>Order</b>B sorts by Name, though dispatch's rule is High priority first. A has no order at all.</div></div>
+<div class="drift drift-shape" data-marpit-fragment="4"><span class="drift-band" style="left:72px;top:206px;width:544px;height:47px"></span><span class="drift-band" style="left:657px;top:206px;width:544px;height:31px"></span><span class="drift-badge" style="left:588px;top:229.5px">4</span><span class="drift-badge" style="left:1170px;top:221.5px">4</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M480 372 C560 360 580 300 572 258"/><path class="head" d="M572.0 258.0 L579.8 266.7 L568.0 268.9Z"/><path class="line" pathLength="1" d="M552 400 C640 400 600 221 654 221"/><path class="head" d="M654.0 221.0 L644.0 227.0 L644.0 215.0Z"/></svg><div class="drift-bubble" style="left:100px;top:372px;width:452px;transform-origin:top right"><b><span class="drift-num">4</span>Shape</b>A builds a <code>Map</code>, B a <code>List</code>, with different fields. A caller can't switch queries, and a missing field only fails at runtime.</div></div>
+<div class="drift drift-magic" data-marpit-fragment="5"><span class="drift-band drift-band-token" style="left:868px;top:317px;width:101px;height:16px"></span><span class="drift-badge" style="left:977px;top:325px">5</span><svg class="drift-mark" viewBox="0 0 1280 720"><path class="squiggle" pathLength="1" d="M872 336 Q874.0 333.8 876 336 Q878.0 338.2 880 336 Q882.0 333.8 884 336 Q886.0 338.2 888 336 Q890.0 333.8 892 336 Q894.0 338.2 896 336 Q898.0 333.8 900 336 Q902.0 338.2 904 336 Q906.0 333.8 908 336 Q910.0 338.2 912 336 Q914.0 333.8 916 336 Q918.0 338.2 920 336 Q922.0 333.8 924 336 Q926.0 338.2 928 336 Q930.0 333.8 932 336 Q934.0 338.2 936 336 Q938.0 333.8 940 336 Q942.0 338.2 944 336 Q946.0 333.8 948 336 Q950.0 338.2 952 336 Q954.0 333.8 956 336 Q958.0 338.2 960 336 Q962.0 333.8 964 336"/></svg><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1010 410 C1020 380 990 350 930 341"/><path class="head" d="M930.0 341.0 L940.8 336.5 L939.0 348.4Z"/></svg><div class="drift-bubble" style="left:760px;top:410px;width:430px;transform-origin:top center"><b><span class="drift-num">5</span>Magic strings</b><code>'InProgress'</code> matches nothing: the status is <code>'In Progress'</code>. It compiles, runs, and quietly returns fewer lines.</div></div>
 
 <!--
-Queries drift in five ways: meaning, security mode, order, shape, and magic strings.
-None is a syntax error; each is a business decision made by accident.
-Thesis: SOQL is logic, so it needs one authoritative home.
+- Same question, twice
+- Both compile; both drift
+- Illustrative, not app code
+- Click five callouts
+- Shape → slide 30
 -->
 
 ---
@@ -270,16 +291,17 @@ Thesis: SOQL is logic, so it needs one authoritative home.
 
 # Where the pattern comes from
 
+* **In a nutshell:** Selectors encapsulate query logic: one home for every question asked of the database
 * **Data Mapper** (Fowler, *Patterns of Enterprise Application Architecture*) — moves data between objects and the database
 * **Salesforce supplies the object half** — SObjects are the objects, so the Selector reduces to *where queries live*
 * **Builder** — how fflib assembles those queries: `fflib_QueryFactory`
 * **Selector** — Data Mapper's query half, built with a Builder
 
 <!--
-The Selector descends from Fowler's Data Mapper: it moves data between objects and the database.
-Salesforce already provides the objects, so the Selector reduces to "where queries live."
-The Builder pattern is how fflib assembles those queries (fflib_QueryFactory).
-Visual to add: the PoEAA cover, and links to Fowler's catalog.
+- Nutshell: encapsulation
+- Fowler's Data Mapper
+- Salesforce owns objects
+- Builder = QueryFactory
 -->
 
 ---
@@ -288,32 +310,32 @@ Visual to add: the PoEAA cover, and links to Fowler's catalog.
 
 # A query carries five concerns
 
-* **Meaning** — what "pending" or "idle" means to the business
+* **Meaning** — the business rule a query encodes: which records qualify as *pending* or *idle*
 * **Security** — who may see which records and fields
 * **Performance** — selectivity, limits, large data volumes
 * **Shape** — fields, order, relationships, aggregates, result types
 * **Testability** — the seam where tests replace the database
 
 <!--
-The thesis in one list. Each concern maps to one of the drifts on slide 9.
+- Thesis in one list
+- Maps to slide 8 drifts
 -->
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide tabs-slide -->
 
 # Criteria: WHERE clause or Domain?
 
-<div class="duo">
-<div class="duo-col">
-<p class="dev-caption">Selector — the coarse cut the database answers cheaply</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">RobotsSelector.selectIdleByWarehouseWithModel</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">RobotsSelector.selectIdleByWarehouseWithModel</span><span class="vscode-tab vscode-tab-domain">Robots.canAcceptWork</span></div>
+<div class="tab-panes">
+<div class="tab-pane">
+<p class="pane-caption">Selector — the coarse cut the database answers cheaply</p>
 
 ```apex
 fflib_QueryFactory query = newQueryFactory();
-RobotModelsSelector.newInstance()
-  .configureQueryFactoryFields(query, 'Model__r');
+RobotModelsSelector.newInstance().configureQueryFactoryFields(query, 'Model__r');
 return (List<Robot__c>) Database.query(
   query.setCondition('Warehouse__c IN :warehouseIds AND Status__c = \''
     + Robots.STATUS_IDLE + '\'').toSOQL()
@@ -321,13 +343,12 @@ return (List<Robot__c>) Database.query(
 ```
 
 </div>
-</div>
-<div class="duo-col">
-<p class="dev-caption">Domain — the business rule that may change</p>
-<div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-domain">Robots.canAcceptWork</span></div>
+<div class="tab-pane" data-marpit-fragment="1">
+<p class="pane-caption">Domain — the business rule that may change</p>
 
 ```apex
+Decimal wear = robot.WearPercent__c == null ? 0 : robot.WearPercent__c;
+Decimal battery = robot.BatteryLevel__c == null ? 0 : robot.BatteryLevel__c;
 return robot.Status__c == STATUS_IDLE
   && robot.Health__c != HEALTH_CRITICAL
   && wear < WEAR_CANNOT_WORK
@@ -338,12 +359,14 @@ return robot.Status__c == STATUS_IDLE
 </div>
 </div>
 
+<p class="quiet-note">ℹ️ <em>Alternative: a formula field moves the rule into the WHERE clause, with its own baggage.</em></p>
+
 <!--
-Bridge from John Daniel's criteria-then-action.
-The Selector makes the coarse cut the database can answer cheaply (idle robots at these warehouses).
-The Domain applies the business rule that may change (health, wear, battery), in getAvailableForWork via canAcceptWork.
-Both use the same Domain constants, so meaning has one home.
-Rule of thumb: Selector for cheap, shared filters; Domain for rules that compute or change; shared constants for both; Service to join several queries.
+- JD: criteria then action
+- Coarse cut vs changing rule
+- Shared constants
+- Example: exampleCode/CampaignMember
+- Click: Domain tab
 -->
 
 ---
@@ -356,33 +379,33 @@ Rule of thumb: Selector for cheap, shared filters; Domain for rules that compute
 * **It alone defines its object's query knowledge:**
   * fields · default order · access mode · named conditions (what "open" or "idle" means)
 * **Everything broader is built from these roots** — next slide
+* **Aggregates belong here too** — coming up on slide 31
 * Example: `WarehousesSelector`
 
 <!--
-Establish the root: one object, one Selector, one source of truth for that object's query knowledge.
-Visual to add: one Selector box listing what it owns.
+- One object, one Selector
+- One source of truth
 -->
 
 ---
 
 <!-- _class: detail-slide promises-slide -->
 
-# Beyond one object: joint Selectors
+# Beyond one object: related records
 
-* **Canonical:** Warehouse
+* **Canonical:** one Selector per object — Warehouse
+* **Composite Selectors:** usually methods on the object's own Selector, returning related records composed from their Selectors
 * **Tight (master-detail):** Fulfillment Order ⇄ Fulfillment Lines — `…WithLines`, `…WithOrder`
-* **Looser (lookups):** Warehouse → Robots; Robot → Maintenance Jobs — separate Selectors, joined by the Service
+* **Looser (lookups):** each object through its own Selector; the Service joins them — Warehouse → Robots; Robot → Maintenance Jobs
 * **Small parent, always needed:** Robot → Robot Model — `…WithModel`
-* **Feature Selector:** queries grouped by purpose rather than object
-* *Joint Selectors are derived, not defined.*
+* **Feature Selector:** queries grouped by purpose when no single object owns them — e.g. campaign engagement over `CampaignMember`
+* *Composite Selectors build on each object's Selector; they never redefine it.*
 
 <!--
-Significant relationships are needed so often that Selectors should serve them, but joint Selectors are derived from their canonical roots, never defined afresh.
-The mechanics: instance the root Selectors → configure them (fields, conditions, access mode) → let them contribute to the query factory → call toSOQL().
-The rule: a joint Selector instances its root Selectors for fields, relationship name, order, and conditions. It may return more than its object; it never defines another object's query knowledge.
-Andy's Session 1 example accountsSelector.selectByOpportunity(opportunities) is the same idea from the other direction.
-Feature Selectors are illustrative for now: the Warehouse app has no cross-object feature to host one, and its desk snapshot correctly joins two Selectors in WarehouseService, as Andy showed in Session 2. Give a one-line generic example, such as a returns or pricing feature spanning several objects.
-Visual to add: the object model as a spectrum, master-detail solid and lookups dashed.
+- Usually methods, not classes
+- Borrow fields, order, conditions
+- Andy: selectByOpportunity
+- CampaignMember example
 -->
 
 ---
@@ -391,16 +414,15 @@ Visual to add: the object model as a spectrum, master-detail solid and lookups d
 
 # Selector ☑️ Checklist
 
-* **Name what is returned, and how it's filtered** — the method name is documentation
+* **Method names say what is returned and how it's filtered:** `select…By…`, `count…`, `…AsQueryLocator`, `…AsCursor`, `…AsPaginationCursor`
   * ✅ `selectIdleByWarehouseWithModel(warehouseIds)` ❌ `getRobots(ids, true)`
 * **Bulk in and out; empty in, empty out**
   * ✅ `selectById(Set<Id> idSet)` ❌ `selectById(Id robotId)`
 * **Paramount fields by default, additions by need; consistent order**
 * **User mode by default; aggregates and counts belong here too**
-* **Naming:** `select…`, `count…`, `…AsQueryLocator`, `…AsCursor`, `…AsPaginationCursor`
 
 <!--
-The principles, building on Andy's Session 1 list.
+- Builds on Andy's S1 list
 -->
 
 ---
@@ -409,13 +431,14 @@ The principles, building on Andy's Session 1 list.
 
 # Questions you've already asked
 
-* **May a Domain call a Selector?** Yes — say a warehouse fire takes a site offline: the Domain handling it may load that warehouse's robots through a Selector
+* **May a Domain call a Selector?** Yes — when a robot is reassigned, the Robots Domain checks that the target warehouse is Active, through `WarehousesSelector`
 * **May a client call a Selector directly?** Yes, for a plain read — `DispatchWarehouse` calls `WarehousesSelector.selectByName`
-* **One Selector per record type?** No — one per object; say the record type in the method name
-* **Common fields or a new method?** Common fields go on the shared list; a special shape earns its own method
+* **One Selector per record type?** No — one per object, as a rule; say the record type in the method name. A Feature Selector groups queries by purpose when no single object owns them
+* **Common fields or a new method?** Common fields go on the shared list; a special shape earns its own method, or a parameter that lets the consumer add fields
 
 <!--
-Answers to open questions from Sessions 1–3. Nod to fflib issues #379 and #373.
+- Open questions, Sessions 1–3
+- fflib #379, #373
 -->
 
 ---
@@ -427,7 +450,7 @@ Questions so far?
 </blockquote>
 
 <!--
-First pause for Sally to relay chat questions.
+- Sally: chat questions
 -->
 
 ---
@@ -483,13 +506,14 @@ public virtual inherited sharing class WarehousesSelector extends fflib_SObjectS
 
 </div>
 
+<p class="quiet-note">ℹ️ <em>Field tokens may help catch field-name issues before runtime.</em></p>
+
 <!--
-extends fflib_SObjectSelector, inherited sharing, virtual methods.
-Composition: a static newInstance() is the canonical way in; constructors serve deliberate needs, such as elevated posture (new RobotsSelector(DataAccess.SYSTEM_MODE)) and tests.
-getSObjectFieldList is the design decision: the paramount fields. Optional getOrderBy.
-getSObjectType: still required plumbing for the base class; no longer required for Application factory lookup. For audience members on the Application factory: it still works and getSObjectType still routes it; it's simply optional now (Andy's April 2026 post).
-The query factory covers the common 80% of SOQL. For the rest (toLabel(), convertCurrency(), TYPEOF, SOSL, and ALL ROWS through setAllRows()), the method is still the home: write raw SOQL or SOSL, or build with the factory and substitute a token into its output. Mind that user and system mode lowercase selected fields. The inherited aggregate methods already use static SOQL inside the Selector.
-The slide shows selected methods from WarehousesSelector, without Javadoc.
+- newInstance vs constructors
+- Field list = design
+- App factory optional
+- Factory ≈ 80%
+- Token note: light touch
 -->
 
 ---
@@ -498,23 +522,24 @@ The slide shows selected methods from WarehousesSelector, without Javadoc.
 
 # Security: the defaults flipped
 
-* **API 67.0+ (Summer '26):** Apex runs in **user mode** by default; no sharing keyword means **with sharing**
+* **API 67.0+ (Summer '26):** Apex runs in **user mode** by default; no sharing keyword means **with sharing** — fflib's move is in the works
 * **API 66.0 and earlier:** **system mode** by default
 * **Defaults follow each class's API version** — the Warehouse app is 67.0; fflib is 63.0
 * **So state the mode:** `DataAccess.USER_MODE` appends `WITH USER_MODE` wherever the query executes
 
 <!--
-User mode enforces the running user's object permissions, field-level security, and sharing.
-fflib's master branch is 63.0 (a 67.0 bump is in progress; recheck before the session), so one Selector can run under two defaults unless you state the mode.
-In system mode, record sharing follows the class keyword, so inherited base methods (which run in fflib_SObjectSelector, a with sharing class) keep sharing even when elevated.
-Visual to add: a small table, where the query executes × class API version → default mode.
+- User mode: CRUD, FLS, sharing
+- fflib still 63.0
+- Upgrade shipping soon
+- Stated DataAccess: unaffected
+- LEGACY → user mode
 -->
 
 ---
 
 <!-- _class: detail-slide code-slide compact-code-slide -->
 
-# Access layering
+# Data Access Layering
 
 <div class="vscode">
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">RobotsSelector.cls</span></div>
@@ -535,15 +560,17 @@ public virtual List<Robot__c> selectById(Set<Id> idSet, fflib_SObjectSelector.Da
 
 </div>
 
-<p><strong>Entry points still declare. Consumers stay inherited. Queries declare user mode. Elevation is named, never ambient.</strong></p>
+* **Entry points still declare**
+* **Consumers stay inherited**
+* **Queries declare user mode**
+* **Elevation is named, never ambient**
 
 <!--
-Default user mode → posture optionally changed at instantiation (new RobotsSelector(DataAccess.SYSTEM_MODE)) → method argument, if provided (selectById(ids, DataAccess.SYSTEM_MODE)); each overrides the one before.
-newInstance() is the canonical composition; constructors are for deliberate composition, and elevation is deliberate.
-Choose posture when composing a Selector; never flip a shared one mid-logic. One transaction may legitimately use both modes: system mode to compute robot health from maintenance history the user never sees, user mode for the desk's robot list. A system-mode result shouldn't flow back to the user.
-The class keyword remains the safety net for anything not explicitly moded: inline SOQL, DML outside the Unit of Work, and SYSTEM_MODE queries.
-newQueryFactory(access) wraps fflib's legacy-named setEnforceFLS, which emits native WITH USER_MODE / WITH SYSTEM_MODE.
-enforceFLS() and the without sharing inner class are retired (see the Evolution slide). AccessLevel.withPermissionSetId() (developer preview) for targeted elevation is worth a one-line "watch this space."
+- Default → posture → argument
+- Elevation is deliberate
+- Both modes, one transaction
+- Class keyword = safety net
+- withPermissionSetId: watch
 -->
 
 ---
@@ -552,28 +579,31 @@ enforceFLS() and the without sharing inner class are retired (see the Evolution 
 
 # What the base class gives you
 
-* **Required:** `getSObjectType`, `getSObjectFieldList`; optional `getOrderBy`
+* **Required:** `getSObjectType`, `getSObjectFieldList`
 * **Free queries:** `selectSObjectsById`, `queryLocatorById`
-* **`newQueryFactory()`** — starts pre-loaded with fields, order, and mode
-* **Composition:** `configureQueryFactoryFields` (parents), `addQueryFactorySubselect` (children)
-* **Field sets:** `includeFieldSetFields`
-* **Default order:** Name → CreatedDate → Id
+* **`newQueryFactory()`** — creates a query factory pre-loaded with fields, order, and mode
+* **Composition:**
+  * `configureQueryFactoryFields` — adds a parent Selector's fields under a relationship path
+  * `addQueryFactorySubselect` — adds a child Selector's fields and order as a subquery
+* **Field sets:** `includeFieldSetFields` — adds the constituent fields of a field set
+* **Default order:** the name field (unless encrypted) → CreatedDate → Id
 
 <!--
-Fold candidate: could merge into slide 20.
+- Skippable if short
+- Name field, not always Name
 -->
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide tabs-slide -->
 
 # The Builder in action
 
-<div class="duo">
-<div class="duo-col">
-<p class="dev-caption">Order is a business rule, set once</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.getOrderBy</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.getOrderBy</span><span class="vscode-tab vscode-tab-selector">WarehousesSelector.selectByName</span></div>
+<div class="tab-panes">
+<div class="tab-pane">
+<p class="pane-caption">Order is a business rule, set once</p>
 
 ```apex
 public override String getOrderBy() {
@@ -582,11 +612,8 @@ public override String getOrderBy() {
 ```
 
 </div>
-</div>
-<div class="duo-col">
-<p class="dev-caption">A method states only its condition</p>
-<div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">WarehousesSelector.selectByName</span></div>
+<div class="tab-pane" data-marpit-fragment="1">
+<p class="pane-caption">A method states only its condition</p>
 
 ```apex
 Map<String, Warehouse__c> warehouseByName = new Map<String, Warehouse__c>();
@@ -605,10 +632,13 @@ return warehouseByName;
 </div>
 </div>
 
+<p class="quiet-note">ℹ️ <em>An index loop may help with larger result sets.</em></p>
+
 <!--
-Ordering can be a business rule: High priority first, set once in getOrderBy.
-A method states only its condition; fields, order, and mode are inherited.
-Shape choices, such as a map keyed by Name, are made once for every caller.
+- Order = business rule
+- Method states condition only
+- Map by Name, once
+- Click: second tab
 -->
 
 ---
@@ -643,12 +673,11 @@ public virtual List<Robot__c> selectById(Set<Id> idSet, Set<Schema.SObjectField>
 <p><strong>Tokens, not strings: shift left.</strong> Nobody removes the core.</p>
 
 <!--
-The hard-coded list holds the paramount fields nearly every caller needs. Methods and consumers may add fields of interest, never remove the core.
-User mode still checks field-level security on every added field.
-Prefer schema tokens over magic strings: Robot__c.WearPercent__c fails at compile time rather than at query time, can't be deleted out from under the code, and resolves to one canonical name. The cure for slide 9's magic strings. Relationship paths can come from the lookup's token through getRelationshipName(); the inherited code writes them once as strings, a style choice we leave as it is.
-Additions are safe from duplicates: the query factory keeps selected fields in a set, normalised for case.
-Edge cases for the curious: switching a factory from LEGACY to USER_MODE after fields are added can defeat the case normalisation (our Selectors start in USER_MODE, so they're safe); in user or system mode, string field names aren't validated until the query runs.
-Echoes Andy's "start with common fields, add as needed".
+- Paramount core; add, never remove
+- User mode covers added fields
+- Tokens: light touch
+- No duplicate fields
+- Andy: common, then add
 -->
 
 ---
@@ -660,7 +689,7 @@ Questions before the Warehouse app?
 </blockquote>
 
 <!--
-Second pause for chat questions, before the code.
+- Sally: chat questions
 -->
 
 ---
@@ -683,36 +712,31 @@ Second pause for chat questions, before the code.
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide tabs-slide -->
 
 # Tight relationships, in code
 
-<div class="duo">
-<div class="duo-col">
-<p class="dev-caption">Children through a subselect</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentOrdersSelector.selectByIdWithLines</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentOrdersSelector.selectByIdWithLines</span><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPendingUnassignedByWarehouseWithOrder</span></div>
+<div class="tab-panes">
+<div class="tab-pane">
+<p class="pane-caption">Children through a subselect</p>
 
 ```apex
 fflib_QueryFactory ordersQuery = newQueryFactory();
-FulfillmentLinesSelector.newInstance()
-  .addQueryFactorySubselect(ordersQuery);
+FulfillmentLinesSelector.newInstance().addQueryFactorySubselect(ordersQuery);
 return (List<FulfillmentOrder__c>) Database.query(
   ordersQuery.setCondition('Id IN :idSet').toSOQL()
 );
 ```
 
 </div>
-</div>
-<div class="duo-col">
-<p class="dev-caption">Parent fields borrowed from the parent's Selector</p>
-<div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPending…WithOrder</span></div>
+<div class="tab-pane" data-marpit-fragment="1">
+<p class="pane-caption">Parent fields borrowed from the parent's Selector</p>
 
 ```apex
 fflib_QueryFactory query = newQueryFactory();
-FulfillmentOrdersSelector.newInstance()
-  .configureQueryFactoryFields(query, 'FulfillmentOrder__r');
+FulfillmentOrdersSelector.newInstance().configureQueryFactoryFields(query, 'FulfillmentOrder__r');
 return (List<FulfillmentLine__c>) Database.query(
   query.setCondition(
     'Status__c = \'' + FulfillmentLines.STATUS_PENDING + '\''
@@ -730,23 +754,59 @@ return (List<FulfillmentLine__c>) Database.query(
 </div>
 
 <!--
-A joint Selector borrows fields, relationship names, and order from its roots. One toSOQL() renders the whole query, with child subselects inside it.
-One query, one mode: subselects ride the outer query's access mode; mixing modes means two queries, each through its root Selector, joined in memory.
-WITH USER_MODE / WITH SYSTEM_MODE is a clause on the whole statement; fflib appends it only at the top level.
-Caveat: a standalone root factory's toSOQL() is a complete top-level query, so it can't be pasted in as a semi-join subquery.
-A joint Selector can also borrow named conditions. This sample keeps its conditions where its authors wrote them.
-Subselect or two queries? Weigh the likely child counts: subselects handled implicitly in one Selector, or parent Ids passed to a child Selector. Iterate a large child relationship with a for loop; reading it directly can throw "Aggregate query has too many rows for direct assignment". One could get fancy and react to the QueryException instead.
+- Borrow from each Selector
+- One query, one mode
+- Subselect vs two queries
+- Weigh child counts
+- Click: second tab
 -->
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide drift-slide -->
+
+# Who wrote this query?
+
+<div class="vscode">
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPendingUnassignedByWarehouseWithOrder(…) → toSOQL()</span></div>
+
+```sql
+SELECT id, name, fulfillmentorder__c, status__c,
+  productsku__c, quantity__c, weightkg__c, assignedrobot__c,
+  fulfillmentorder__r.id, fulfillmentorder__r.name,
+  fulfillmentorder__r.warehouse__c, fulfillmentorder__r.status__c,
+  fulfillmentorder__r.priority__c, fulfillmentorder__r.duedate__c
+FROM FulfillmentLine__c
+WHERE Status__c = 'Pending' AND AssignedRobot__c = null
+  AND FulfillmentOrder__r.Warehouse__c IN :warehouseIds
+  AND FulfillmentOrder__r.Status__c IN ('Released', 'In Progress')
+WITH USER_MODE
+ORDER BY FulfillmentOrder__r.Priority__c ASC NULLS FIRST , Name ASC NULLS FIRST
+```
+
+</div>
+
+<div class="drift" data-marpit-fragment="1" style="--drift:#3ec7f5"><span class="drift-band" style="left:112px;top:130px;width:1047px;height:41px"></span><span class="drift-band" style="left:112px;top:232px;width:1047px;height:20px"></span><span class="drift-badge" style="left:1136px;top:150.5px">1</span><span class="drift-badge" style="left:1136px;top:242.0px">1</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1070 422 C1070 173.0 1046 161.0 1010 161.0 L795 161.0"/><path class="head" d="M795.0 161.0 L805.0 155.0 L805.0 167.0Z"/><path class="line" pathLength="1" d="M1070 422 C1070 254.0 1046 242.0 1010 242.0 L415 242.0"/><path class="head" d="M415.0 242.0 L425.0 236.0 L425.0 248.0Z"/></svg><div class="drift-bubble" style="left:540px;top:422px;width:560px;transform-origin:top right"><b><span class="drift-num">1</span>FulfillmentLinesSelector</b>Its paramount fields from <code>getSObjectFieldList</code>, and its object from <code>getSObjectType</code>.</div></div>
+<div class="drift" data-marpit-fragment="2" style="--drift:#b48cff"><span class="drift-band" style="left:112px;top:171px;width:1047px;height:61px"></span><span class="drift-badge" style="left:1136px;top:201.5px">2</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1070 422 C1070 213.5 1046 201.5 1010 201.5 L856 201.5"/><path class="head" d="M856.0 201.5 L866.0 195.5 L866.0 207.5Z"/></svg><div class="drift-bubble" style="left:540px;top:422px;width:560px;transform-origin:top right"><b><span class="drift-num">2</span>FulfillmentOrdersSelector</b>Its paramount fields, prefixed by <code>configureQueryFactoryFields(query, 'FulfillmentOrder__r')</code>. Nothing retyped.</div></div>
+<div class="drift" data-marpit-fragment="3" style="--drift:#ffb020"><span class="drift-band" style="left:112px;top:252px;width:1047px;height:62px"></span><span class="drift-badge" style="left:1136px;top:283.0px">3</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1070 422 C1070 295.0 1046 283.0 1010 283.0 L744 283.0"/><path class="head" d="M744.0 283.0 L754.0 277.0 L754.0 289.0Z"/></svg><div class="drift-bubble" style="left:540px;top:422px;width:560px;transform-origin:top right"><b><span class="drift-num">3</span>The method</b>Only the condition, through <code>setCondition</code>: the one part the method writes itself.</div></div>
+<div class="drift" data-marpit-fragment="4" style="--drift:#3ec7f5"><span class="drift-band" style="left:112px;top:334px;width:1047px;height:20px"></span><span class="drift-badge" style="left:1136px;top:344.0px">4</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1070 422 C1070 356.0 1046 344.0 1010 344.0 L988 344.0"/><path class="head" d="M988.0 344.0 L998.0 338.0 L998.0 350.0Z"/></svg><div class="drift-bubble" style="left:540px;top:422px;width:560px;transform-origin:top right"><b><span class="drift-num">4</span>FulfillmentLinesSelector</b>Its <code>getOrderBy</code>: High priority first, a business rule set once for every query.</div></div>
+<div class="drift" data-marpit-fragment="5" style="--drift:#3ec7f5"><span class="drift-band" style="left:112px;top:314px;width:1047px;height:20px"></span><span class="drift-badge" style="left:1136px;top:324.0px">5</span><svg class="drift-arrow" viewBox="0 0 1280 720"><path class="line" pathLength="1" d="M1070 422 C1070 336.0 1046 324.0 1010 324.0 L323 324.0"/><path class="head" d="M323.0 324.0 L333.0 318.0 L333.0 330.0Z"/></svg><div class="drift-bubble" style="left:540px;top:422px;width:560px;transform-origin:top right"><b><span class="drift-num">5</span>FulfillmentLinesSelector</b>Its posture, <code>DataAccess.USER_MODE</code> from the constructor: appended once, at the top level. It's also why the fields are lowercase.</div></div>
+
+<p class="drift-tagline"><em>One statement, three sources of truth, nothing retyped.</em></p>
+
+<!--
+- Real toSOQL() output
+- Click five sources
+- Lowercase = user mode
+- New field flows through
+-->
+
+---
+
+<!-- _class: detail-slide code-slide compact-code-slide -->
 
 # Looser relationships, in code
 
-<div class="duo">
-<div class="duo-col">
-<p class="dev-caption">The Service joins two Selectors</p>
 <div class="vscode">
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">DispatchService.dispatchWarehouses</span></div>
 
@@ -756,34 +816,14 @@ List<FulfillmentLine__c> pending =
 if (pending.isEmpty()) {
   return;
 }
-List<Robot__c> idle =
-  robotSelector.selectIdleByWarehouseWithModel(warehouseIds);
+List<Robot__c> idle = robotSelector.selectIdleByWarehouseWithModel(warehouseIds);
 ```
 
-</div>
-</div>
-<div class="duo-col">
-<p class="dev-caption">A small parent, always needed: …WithModel</p>
-<div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">RobotsSelector.selectIdleByWarehouseWithModel</span></div>
-
-```apex
-fflib_QueryFactory query = newQueryFactory();
-RobotModelsSelector.newInstance()
-  .configureQueryFactoryFields(query, 'Model__r');
-return (List<Robot__c>) Database.query(
-  query.setCondition('Warehouse__c IN :warehouseIds AND Status__c = \''
-    + Robots.STATUS_IDLE + '\'').toSOQL()
-);
-```
-
-</div>
-</div>
 </div>
 
 <!--
-Robots and fulfillment lines are each queried by warehouse through their own Selectors; DispatchService matches them.
-Robot Model is a small parent dispatch always needs, so RobotsSelector borrows its fields with …WithModel. Still derived: RobotModelsSelector.newInstance().configureQueryFactoryFields(query, 'Model__r').
+- Service joins Selectors
+- …WithModel: seen on 12
 -->
 
 ---
@@ -804,7 +844,7 @@ Robot Model is a small parent dispatch always needs, so RobotsSelector borrows i
 </table>
 
 <!--
-Pick the return shape by the job, not by habit.
+- Shape by job, not habit
 -->
 
 ---
@@ -837,38 +877,34 @@ return counts;
 </div>
 
 <!--
-A count is a query, so it lives in the Selector.
-It mirrors Robots.canAcceptWork through the shared Domain constants.
-It states WITH USER_MODE itself, because it's static SOQL rather than factory-built.
-Returns a map keyed by warehouse: shaped for the caller.
+- A count is a query
+- Mirrors canAcceptWork
+- Static SOQL states mode
+- Map by warehouse
+- Named aliases, not ordinals
 -->
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide tabs-slide -->
 
 # Batch versus Queueable chunking
 
-<div class="duo">
-<div class="duo-col">
-<p class="dev-caption">QueryLocator → Batch Apex</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">WarehousesSelector.selectActiveAsQueryLocator</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">WarehousesSelector.selectActiveAsQueryLocator</span><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPendingByWarehouseAsCursor</span></div>
+<div class="tab-panes">
+<div class="tab-pane">
+<p class="pane-caption">QueryLocator → Batch Apex</p>
 
 ```apex
 return Database.getQueryLocator(
-  newQueryFactory().setCondition(
-    'Status__c = \'' + Warehouses.STATUS_ACTIVE + '\''
-  ).toSOQL()
+  newQueryFactory().setCondition('Status__c = \'' + Warehouses.STATUS_ACTIVE + '\'').toSOQL()
 );
 ```
 
 </div>
-</div>
-<div class="duo-col">
-<p class="dev-caption">Cursor → chunked Queueables</p>
-<div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPendingByWarehouseAsCursor</span></div>
+<div class="tab-pane" data-marpit-fragment="1">
+<p class="pane-caption">Cursor → chunked Queueables</p>
 
 ```apex
 String orderRelationship = FulfillmentLine__c.FulfillmentOrder__c
@@ -889,13 +925,11 @@ return Database.getCursor(
 </div>
 
 <!--
-QueryLocator feeds Batch Apex (DispatchPendingJob.start); the batch job never writes SOQL.
-Database.Cursor walks up to 50M rows in chunks across Queueables: fetch(position, count), at most 100 fetches per transaction, serializable.
-Same factory, same fields, same mode; only the return shape changes.
-The cursor method has no caller: the Selector's job ends at returning the cursor. A chunking Queueable keeps the cursor and its position, fetches the next chunk, and re-enqueues itself. It calls existing logic only through a Service or a Domain.
-Unbounded list queries fail past 50,000 rows (slide 7); the QueryLocator and Cursor are the remedy.
-Let toSOQL() carry the access mode rather than also passing an AccessLevel to getCursor.
-A cursor would suit any Queueable that chunks through large data.
+- QueryLocator → Batch
+- Cursor: 50M rows, 100 fetches
+- Same factory, new shape
+- Queueable via Service
+- 50k-row limit
 -->
 
 ---
@@ -923,13 +957,10 @@ return Database.getPaginationCursor(
 <p><strong>Live:</strong> <code>without-paging.apex</code>, then <code>with-paging.apex</code> · up to 100K rows · credit Andy's Jan 2026 post</p>
 
 <!--
-A new platform feature is cheap to adopt because queries already have one home.
-Run without-paging.apex (one list query holds every robot), then with-paging.apex (pages of two, the quirks, and page 2 again on a fresh cursor).
-The Selector returns the cursor; the paging arithmetic belongs to the consumer (here, the script).
-Quirk: fetchPage throws "Fetch beyond bound" past the last record, so the consumer shortens the last page.
-Quirk: getNextIndex() returns 0 after the last page, so the consumer works out the next index itself.
-Quirk: isDone() returned true after every page in our tests; compare the next index with getNumRecords() instead.
-Each page request opens a new cursor, so the query runs again. Pages need a total order: Name isn't unique, so the query orders by Name, Id.
+- Run both scripts
+- Selector returns cursor only
+- Three quirks
+- Order by Name, Id
 -->
 
 ---
@@ -955,21 +986,21 @@ Each page request opens a new cursor, so the query runs again. Pages need a tota
 </div>
 
 <!--
-Fold candidate: drop if time is short.
-Selectors inside a real Service: two query lines, zero SOQL in the Service. (A third, orderSelector.selectById, loads the parent orders before marking them in progress.)
+- Skip if short
+- Two queries, zero SOQL
 -->
 
 ---
 
-<!-- _class: detail-slide code-slide duo-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide tabs-slide -->
 
 # The mocking seam
 
-<div class="duo">
-<div class="duo-col">
-<p class="dev-caption">Composition: real Selectors by default</p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">DispatchService.newInstance</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">DispatchService.newInstance</span><span class="vscode-tab vscode-tab-alt">DispatchServiceTest.cls</span></div>
+<div class="tab-panes">
+<div class="tab-pane">
+<p class="pane-caption">Composition: real Selectors by default</p>
 
 ```apex
 public static DispatchService newInstance() {
@@ -982,20 +1013,15 @@ public static DispatchService newInstance() {
 ```
 
 </div>
-</div>
-<div class="duo-col">
-<p class="dev-caption">Tests: stub the virtual methods, inject through the constructor</p>
-<div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">DispatchServiceTest.cls</span></div>
+<div class="tab-pane" data-marpit-fragment="1">
+<p class="pane-caption">Tests: stub the virtual methods, inject through the constructor</p>
 
 ```apex
-RobotsSelector robotSelectorMock =
-  (RobotsSelector) mocks.mock(RobotsSelector.class);
+RobotsSelector robotSelectorMock = (RobotsSelector) mocks.mock(RobotsSelector.class);
 mocks.startStubbing();
 mocks.when(robotSelectorMock.selectIdleByWarehouseWithModel(warehouseIds))
   .thenReturn(new List<Robot__c>{ robot });
 mocks.stopStubbing();
-
 new DispatchService(lineSelectorMock, robotSelectorMock, orderSelectorMock)
   .dispatchWarehouses(warehouseIds);
 ```
@@ -1007,9 +1033,11 @@ new DispatchService(lineSelectorMock, robotSelectorMock, orderSelectorMock)
 <p>ⓘ <strong>Session #5 — Mocking in Apex</strong> · Oct 20: the deep dive</p>
 
 <!--
-Keeps John Daniel's promise: "you'll see the same thing with selectors next."
-virtual Selector methods plus constructor injection make Selectors easy to stub. No interfaces or Application factory required.
-Session 5 goes deeper.
+- JD's promise kept
+- virtual + constructor injection
+- No interfaces needed
+- Session 5: deep dive
+- Click: test tab
 -->
 
 ---
@@ -1041,14 +1069,14 @@ Session 5 goes deeper.
   * ❌ `enforceFLS()`, CRUD/FLS constructor flags, `without sharing` inner classes
 * **Fields**
   * ✅ Common fields, with additions by need
-  * ❌ God-selectors that fetch everything for everyone
+  * ❌ Kitchen-sink Selectors that fetch everything for everyone
 * **Composition**
   * ✅ Instances composed through `newInstance()` and constructors; feature Selectors where queries belong together
   * ❌ Static query methods
 * **New shapes:** cursors, absorbed without changing the pattern
 
 <!--
-A small, safe idea for later: per-transaction memoization, where a Selector remembers results within one transaction instead of asking the same question twice.
+- Memoization: future idea
 -->
 
 ---
@@ -1065,7 +1093,8 @@ A small, safe idea for later: per-transaction memoization, where a Selector reme
 <p class="session-callout"><span class="info-mark">ⓘ</span> <strong>Session #6 — Enterprise-Scale Apex Across Multiple Packages</strong><span class="session-callout-sub">Nov 3: AT4DX and more</span></p>
 
 <!--
-Fold candidate: could merge into slide 37.
+- Skippable if short
+- AT4DX → Session 6
 -->
 
 ---
@@ -1074,10 +1103,13 @@ Fold candidate: could merge into slide 37.
 
 # Go deeper
 
-* **Matt Gerry** — chapters 12–14 at apex-enterprise-patterns.dev
+* **Matt Gerry** — chapters 12–14 at apex-enterprise-patterns.dev; moving to the AEP GitHub soon
 * **fflib-apex-common** — github.com/apex-enterprise-patterns/fflib-apex-common
 * **The Warehouse sample** — this session's repo and README
-* **Andy Fawcett** — posts on the Application class (Apr 2026) and Apex Pagination Cursors (Jan 2026)
+* **Andy Fawcett** — andyinthecloud.com
+  * [Recent updates and thoughts on the Application class](https://andyinthecloud.com/2026/04/13/apex-enterprise-patterns-recent-updates-and-thoughts-on-the-application-class/) (Apr 2026)
+  * [What does the new Apex User Mode Default mean for you?](https://andyinthecloud.com/2026/04/27/what-does-the-new-apex-user-mode-default-mean-for-you/) (Apr 2026)
+  * [Infinite scrolling with Apex Pagination Cursors](https://andyinthecloud.com/2026/01/19/improved-infinite-data-scrolling-with-new-apex-pagination-cursors-ga/) (Jan 2026)
 
 ---
 
@@ -1108,7 +1140,7 @@ Ask the database a question once, in one place, in words the business would reco
 </table>
 
 <!--
-To confirm with Sally: she may prefer to present the series roadmap herself. If so, this slide hands off to her.
+- Sally may present roadmap
 -->
 
 ---
@@ -1122,27 +1154,3 @@ To confirm with Sally: she may prefer to present the series roadmap herself. If 
 
 ![Code With Sally](images/codewithsally.png)
 
----
-
-<!-- _class: detail-slide callers-table-slide -->
-<!-- _paginate: false -->
-
-# Who can call whom
-
-<table>
-<thead>
-<tr><th>Caller</th><th><span class="layer-pill layer-pill-service">Service</span></th><th><span class="layer-pill layer-pill-domain">Domain</span></th><th><span class="layer-pill layer-pill-selector">Selector</span></th></tr>
-</thead>
-<tbody>
-<tr><td><span class="layer-pill layer-pill-client">Client</span> (LWC, REST, Flow, Agent, Batch, ...)</td><td>●</td><td></td><td>●</td></tr>
-<tr><td><span class="layer-pill layer-pill-handler">Trigger Handler</span></td><td>●</td><td>●</td><td>●</td></tr>
-<tr><td><span class="layer-pill layer-pill-service">Service</span></td><td>●</td><td>●</td><td>●</td></tr>
-<tr><td><span class="layer-pill layer-pill-domain">Domain</span></td><td></td><td>●</td><td>●</td></tr>
-<tr><td><span class="layer-pill layer-pill-selector">Selector</span></td><td></td><td></td><td>●</td></tr>
-</tbody>
-</table>
-
-<!--
-Buffer slide for Q&A: point at this when questions come up about who may call a Selector.
-Marp has no built-in hidden slide; it's last, after Thank you, so it's only shown if needed.
--->

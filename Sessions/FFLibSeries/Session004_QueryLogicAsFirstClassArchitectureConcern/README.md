@@ -8,7 +8,7 @@ After this session you'll be able to:
 
 - explain why query logic deserves one home, and what a query carries: meaning, security, performance, shape, and testability;
 - build an fflib Selector: paramount fields, schema tokens over strings, and access modes chosen when composing it or for a single query;
-- compose joint Selectors from root Selectors, and decide between a subselect and separate queries;
+- build Composite Selectors from each object's Selector, and decide between a subselect and separate queries;
 - pick the right return shape: lists and maps, aggregates, QueryLocator, Cursor, and PaginationCursor;
 - keep Selectors easy to stub, ready for Session 005's mocking.
 
@@ -20,7 +20,7 @@ The Warehouse Operations app and supporting tooling are copied from Session 003 
 
 - **Recap** — Bricks, a conductor, and who calls whom: continuity from Sessions 1–3. Then a quick live deploy of fflib and the app, and a one-slide reminder of good SOQL habits.
 - **Why Query Logic Matters** — The same question asked twice and answered differently; the five concerns a query carries.
-- **Selector Principles** — The canonical Selector, joint Selectors, and the Selector checklist.
+- **Selector Principles** — The canonical Selector, Composite Selectors, Feature Selectors, and the Selector checklist.
 - **The fflib Selector** — Anatomy of `fflib_SObjectSelector`, access modes and layering, the query factory, and additive fields.
 - **Warehouse App Selectors** — Tight and loose relationships, return shapes, aggregates, cursors, pagination, and the mocking seam.
 - **Selector Evolution** — What has changed, and where the library is heading.
