@@ -40,7 +40,7 @@ public inherited sharing class DispatchPendingJob
 	* @return Query locator of active warehouses.
 	*/
 	public Database.QueryLocator start(Database.BatchableContext context) {
-		return warehouseSelector.selectActiveAsQueryLocator();
+		return warehouseSelector.selectByStatusAsQueryLocator(Warehouses.STATUS_ACTIVE);
 	}
 
 	/**

@@ -15,7 +15,7 @@ private class DispatchPendingJobTest {
 		);
 
 		mocks.startStubbing();
-		mocks.when(warehouseSelectorMock.selectActiveAsQueryLocator()).thenReturn(locator);
+		mocks.when(warehouseSelectorMock.selectByStatusAsQueryLocator('Active')).thenReturn(locator);
 		mocks.stopStubbing();
 
 		// When start runs
@@ -23,7 +23,7 @@ private class DispatchPendingJobTest {
 			.start(null);
 
 		// Then the injected selector is asked for the active-warehouse locator
-		((WarehousesSelector) mocks.verify(warehouseSelectorMock)).selectActiveAsQueryLocator();
+		((WarehousesSelector) mocks.verify(warehouseSelectorMock)).selectByStatusAsQueryLocator('Active');
 		System.assertEquals(locator, actual, 'start should return the selector QueryLocator');
 	}
 
