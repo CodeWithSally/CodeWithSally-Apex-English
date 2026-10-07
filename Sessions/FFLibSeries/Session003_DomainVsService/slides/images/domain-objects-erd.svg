@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="erd-title">
+  <title id="erd-title">Warehouse, RobotModel, Robot, FulfillmentOrder, FulfillmentLine, and MaintenanceJob objects and their relationships</title>
+  <defs>
+    <filter id="erd-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <linearGradient id="erd-box" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7BB4DC"/>
+      <stop offset="100%" stop-color="#3E82B6"/>
+    </linearGradient>
+    <marker id="erd-arrow-lookup" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#7BB4DC"/>
+    </marker>
+    <marker id="erd-arrow-md" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#e0798a"/>
+    </marker>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif">
+
+    <!-- Relationship lines (drawn first, boxes on top) -->
+    <g fill="none">
+      <!-- Robot -> Warehouse (lookup, required) -->
+      <path d="M 800,580 V 190" stroke="#7BB4DC" stroke-width="2.5" marker-end="url(#erd-arrow-lookup)"/>
+      <!-- Robot -> RobotModel (lookup, required) -->
+      <path d="M 660,580 V 380 H 250 V 190" stroke="#7BB4DC" stroke-width="2.5" marker-end="url(#erd-arrow-lookup)"/>
+      <!-- FulfillmentOrder -> Warehouse (lookup, required) -->
+      <path d="M 1180,145 H 970" stroke="#7BB4DC" stroke-width="2.5" marker-end="url(#erd-arrow-lookup)"/>
+      <!-- FulfillmentLine -> FulfillmentOrder (master-detail) -->
+      <path d="M 1350,580 V 190" stroke="#e0798a" stroke-width="3.2" marker-end="url(#erd-arrow-md)"/>
+      <!-- FulfillmentLine -> Robot (lookup, optional) -->
+      <path d="M 1180,625 H 970" stroke="#7BB4DC" stroke-width="2.5" stroke-dasharray="9 7" marker-end="url(#erd-arrow-lookup)"/>
+      <!-- MaintenanceJob -> Robot (lookup, required) -->
+      <path d="M 420,625 H 630" stroke="#7BB4DC" stroke-width="2.5" marker-end="url(#erd-arrow-lookup)"/>
+    </g>
+
+    <!-- Relationship verb labels -->
+    <g font-size="16" fill="#eaf3fb" text-anchor="middle">
+      <rect x="750" y="367" width="100" height="36" rx="18" fill="#021a38" stroke="#7BB4DC" stroke-width="1.6"/>
+      <text x="800" y="390">houses</text>
+
+      <rect x="380" y="362" width="150" height="36" rx="18" fill="#021a38" stroke="#7BB4DC" stroke-width="1.6"/>
+      <text x="455" y="385">configures</text>
+
+      <rect x="1010" y="127" width="130" height="36" rx="18" fill="#021a38" stroke="#7BB4DC" stroke-width="1.6"/>
+      <text x="1075" y="150">receives</text>
+
+      <rect x="1285" y="367" width="130" height="36" rx="18" fill="#021a38" stroke="#e0798a" stroke-width="1.6"/>
+      <text x="1350" y="390">contains</text>
+
+      <rect x="995" y="607" width="160" height="36" rx="18" fill="#021a38" stroke="#7BB4DC" stroke-width="1.6"/>
+      <text x="1075" y="630">assigned to</text>
+
+      <rect x="460" y="607" width="130" height="36" rx="18" fill="#021a38" stroke="#7BB4DC" stroke-width="1.6"/>
+      <text x="525" y="630">services</text>
+    </g>
+
+    <!-- Top row -->
+    <g filter="url(#erd-shadow)">
+      <rect x="80" y="100" width="340" height="90" rx="10" fill="url(#erd-box)"/>
+    </g>
+    <text x="250" y="153" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">RobotModel</text>
+
+    <g filter="url(#erd-shadow)">
+      <rect x="630" y="100" width="340" height="90" rx="10" fill="url(#erd-box)"/>
+    </g>
+    <text x="800" y="153" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">Warehouse</text>
+
+    <g filter="url(#erd-shadow)">
+      <rect x="1180" y="100" width="340" height="90" rx="10" fill="url(#erd-box)"/>
+    </g>
+    <text x="1350" y="153" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">FulfillmentOrder</text>
+
+    <!-- Bottom row -->
+    <g filter="url(#erd-shadow)">
+      <rect x="80" y="580" width="340" height="90" rx="10" fill="url(#erd-box)"/>
+    </g>
+    <text x="250" y="633" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">MaintenanceJob</text>
+
+    <g filter="url(#erd-shadow)">
+      <rect x="630" y="580" width="340" height="90" rx="10" fill="url(#erd-box)"/>
+    </g>
+    <text x="800" y="633" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">Robot</text>
+
+    <g filter="url(#erd-shadow)">
+      <rect x="1180" y="580" width="340" height="90" rx="10" fill="url(#erd-box)"/>
+    </g>
+    <text x="1350" y="633" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">FulfillmentLine</text>
+
+    <!-- Legend -->
+    <g filter="url(#erd-shadow)">
+      <rect x="80" y="740" width="400" height="140" rx="10" fill="#021a38" stroke="#3d5a7a" stroke-width="1.5"/>
+    </g>
+    <text x="104" y="772" fill="#f4f6f9" font-size="18" font-weight="700">Relationship key</text>
+    <line x1="104" y1="798" x2="164" y2="798" stroke="#7BB4DC" stroke-width="2.5" marker-end="url(#erd-arrow-lookup)"/>
+    <text x="176" y="803" fill="#eaf3fb" font-size="16">Lookup (required)</text>
+    <line x1="104" y1="827" x2="164" y2="827" stroke="#7BB4DC" stroke-width="2.5" stroke-dasharray="9 7" marker-end="url(#erd-arrow-lookup)"/>
+    <text x="176" y="832" fill="#eaf3fb" font-size="16">Lookup (optional)</text>
+    <line x1="104" y1="856" x2="164" y2="856" stroke="#e0798a" stroke-width="3.2" marker-end="url(#erd-arrow-md)"/>
+    <text x="176" y="861" fill="#eaf3fb" font-size="16">Master-Detail</text>
+
+  </g>
+</svg>

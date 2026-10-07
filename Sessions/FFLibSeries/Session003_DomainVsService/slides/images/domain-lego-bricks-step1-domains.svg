@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="lego1-title">
+  <title id="lego1-title">Robots, FulfillmentLines, and FulfillmentOrders domain bricks</title>
+  <defs>
+    <filter id="lego1-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="2" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <linearGradient id="lego1-brick" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7BB4DC"/>
+      <stop offset="100%" stop-color="#3E82B6"/>
+    </linearGradient>
+    <radialGradient id="lego1-stud" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0%" stop-color="#9AC7E6"/>
+      <stop offset="100%" stop-color="#3E82B6"/>
+    </radialGradient>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif">
+
+    <!-- Brick 1: Robots.cls -->
+    <g filter="url(#lego1-shadow)">
+      <circle cx="220" cy="580" r="22" fill="url(#lego1-stud)"/>
+      <circle cx="330" cy="580" r="22" fill="url(#lego1-stud)"/>
+      <rect x="110" y="598" width="330" height="120" rx="14" fill="url(#lego1-brick)"/>
+    </g>
+    <text x="275" y="652" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="700">Robots.cls</text>
+    <text x="275" y="682" text-anchor="middle" fill="#eaf3fb" font-size="16" opacity="0.85">status · wear · health</text>
+
+    <!-- Brick 2: FulfillmentLines.cls -->
+    <g filter="url(#lego1-shadow)">
+      <circle cx="705" cy="580" r="22" fill="url(#lego1-stud)"/>
+      <circle cx="815" cy="580" r="22" fill="url(#lego1-stud)"/>
+      <rect x="595" y="598" width="330" height="120" rx="14" fill="url(#lego1-brick)"/>
+    </g>
+    <text x="760" y="652" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="700">FulfillmentLines.cls</text>
+    <text x="760" y="682" text-anchor="middle" fill="#eaf3fb" font-size="16" opacity="0.85">assign · complete</text>
+
+    <!-- Brick 3: FulfillmentOrders.cls -->
+    <g filter="url(#lego1-shadow)">
+      <circle cx="1190" cy="580" r="22" fill="url(#lego1-stud)"/>
+      <circle cx="1300" cy="580" r="22" fill="url(#lego1-stud)"/>
+      <rect x="1080" y="598" width="330" height="120" rx="14" fill="url(#lego1-brick)"/>
+    </g>
+    <text x="1245" y="652" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="700">FulfillmentOrders.cls</text>
+    <text x="1245" y="682" text-anchor="middle" fill="#eaf3fb" font-size="16" opacity="0.85">release · markInProgress</text>
+
+  </g>
+</svg>

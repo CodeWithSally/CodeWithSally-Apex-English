@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="lego4-title">
+  <title id="lego4-title">Same three bricks. Two different builds. No one re-implemented robot wear, line status, or order status for the second function.</title>
+  <defs>
+    <filter id="lego4-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="2" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif">
+
+    <!-- Caption banner -->
+    <g filter="url(#lego4-shadow)">
+      <rect x="180" y="748" width="1240" height="84" rx="10" fill="#ffe8a3" stroke="#c49216" stroke-width="2"/>
+      <text x="800" y="785" text-anchor="middle" fill="#3d2e00" font-size="21" font-weight="700">Same three bricks. Two different builds.</text>
+      <text x="800" y="814" text-anchor="middle" fill="#3d2e00" font-size="17">No one re-implemented robot wear, line status, or order status for the second function.</text>
+    </g>
+
+  </g>
+</svg>
