@@ -341,6 +341,24 @@ section.diagram-slide img {
   margin: 0 auto;
 }
 
+/* Layered, click-revealed variant: stack same-viewBox SVGs exactly on top of each other. */
+section.diagram-slide .diagram-stack {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
+}
+
+section.diagram-slide .diagram-stack img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
 section.diagram-slide.agent-actions-slide {
   padding: 28px 36px 22px;
   justify-content: flex-start;
@@ -1302,6 +1320,16 @@ section.service-layer-def-slide .service-layer-graphic img {
   object-position: center bottom;
 }
 
+/* Layered, click-revealed variant: stack same-viewBox SVGs exactly on top of each other. */
+section.service-layer-def-slide .service-layer-graphic.lego-reveal {
+  position: relative;
+}
+
+section.service-layer-def-slide .service-layer-graphic.lego-reveal img {
+  position: absolute;
+  inset: 0;
+}
+
 section.service-conductor-slide {
   justify-content: flex-start;
 }
@@ -2073,6 +2101,7 @@ section.domain-examples-slide .duo {
   align-items: start;
   margin-top: auto;
   margin-bottom: 12px;
+  order: 2;
 }
 
 section.domain-examples-slide .duo-col {
@@ -2099,6 +2128,7 @@ section.domain-examples-slide .trigger-callout-south {
   margin-top: 6px;
   margin-bottom: 18px;
   overflow: visible;
+  order: 1;
 }
 
 section.domain-examples-slide .trigger-callout-south::before,
@@ -2123,32 +2153,17 @@ section.domain-examples-slide .trigger-callout-south::after {
   border-top: 10px solid #ffe8a3;
 }
 
-section.domain-examples-slide .trigger-callout-west {
+section.domain-examples-slide .trigger-callout-north-right {
+  width: 92%;
+  align-self: center;
+  margin-top: 22px;
   overflow: visible;
+  order: 3;
 }
 
-section.domain-examples-slide .trigger-callout-west .callout-west,
-section.domain-examples-slide .trigger-callout-west .callout-west-fill {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  pointer-events: none;
-}
-
-section.domain-examples-slide .trigger-callout-west .callout-west {
-  left: -12px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 12px solid #c49216;
-}
-
-section.domain-examples-slide .trigger-callout-west .callout-west-fill {
-  left: -9px;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-right: 10px solid #ffe8a3;
+section.domain-examples-slide .trigger-callout-north-right::before,
+section.domain-examples-slide .trigger-callout-north-right::after {
+  left: 75%;
 }
 
 section.domain-examples-slide .vscode {
@@ -3281,6 +3296,13 @@ section.pair-code-slide .vscode :is(pre, marp-pre) code.hljs {
   font-size: 21px !important;
   line-height: 1.26;
   padding: 0.55em 0.7em !important;
+}
+
+/* Longer verbatim excerpts: shrink to fit as many lines as possible. */
+section.pair-code-slide.compact-code-slide .vscode :is(pre, marp-pre) code,
+section.pair-code-slide.compact-code-slide .vscode :is(pre, marp-pre) code.hljs {
+  font-size: 16px !important;
+  line-height: 1.25;
 }
 
 /* Slides 33–36, 39, 42: layer dots in the line-number gutter */

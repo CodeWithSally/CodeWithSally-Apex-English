@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="erd-classes-title">
+  <title id="erd-classes-title">Domain classes associated with each object — Warehouses.cls, Robots.cls, FulfillmentOrders.cls, FulfillmentLines.cls, MaintenanceJobs.cls, and RobotModel with no Domain class</title>
+  <defs>
+    <filter id="erdc-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="1" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif" font-size="17">
+
+    <!-- RobotModel: no Domain class -->
+    <g filter="url(#erdc-shadow)">
+      <rect x="380" y="196" width="190" height="46" rx="8" fill="#021a38" stroke="#5c5c5c" stroke-width="1.6"/>
+    </g>
+    <rect x="392" y="207" width="14" height="14" rx="3" fill="#5c5c5c"/>
+    <text x="414" y="219" fill="#e6e6e6" font-size="14" font-weight="600">No Domain class</text>
+    <text x="414" y="236" fill="#b8b8b8" font-size="13">(Selector only)</text>
+
+    <!-- Warehouse -> Warehouses.cls -->
+    <g filter="url(#erdc-shadow)">
+      <rect x="930" y="196" width="190" height="34" rx="8" fill="#021a38" stroke="#5A98E0" stroke-width="1.6"/>
+    </g>
+    <rect x="942" y="205" width="14" height="14" rx="3" fill="#5A98E0"/>
+    <text x="964" y="217" fill="#eaf3fb" font-size="15" font-weight="600">Warehouses.cls</text>
+
+    <!-- FulfillmentOrder -> FulfillmentOrders.cls -->
+    <g filter="url(#erdc-shadow)">
+      <rect x="1400" y="196" width="190" height="34" rx="8" fill="#021a38" stroke="#5A98E0" stroke-width="1.6"/>
+    </g>
+    <rect x="1412" y="205" width="14" height="14" rx="3" fill="#5A98E0"/>
+    <text x="1434" y="217" fill="#eaf3fb" font-size="14" font-weight="600">FulfillmentOrders.cls</text>
+
+    <!-- MaintenanceJob -> MaintenanceJobs.cls -->
+    <g filter="url(#erdc-shadow)">
+      <rect x="380" y="676" width="190" height="34" rx="8" fill="#021a38" stroke="#5A98E0" stroke-width="1.6"/>
+    </g>
+    <rect x="392" y="685" width="14" height="14" rx="3" fill="#5A98E0"/>
+    <text x="414" y="697" fill="#eaf3fb" font-size="14" font-weight="600">MaintenanceJobs.cls</text>
+
+    <!-- Robot -> Robots.cls -->
+    <g filter="url(#erdc-shadow)">
+      <rect x="930" y="676" width="190" height="34" rx="8" fill="#021a38" stroke="#5A98E0" stroke-width="1.6"/>
+    </g>
+    <rect x="942" y="685" width="14" height="14" rx="3" fill="#5A98E0"/>
+    <text x="964" y="697" fill="#eaf3fb" font-size="15" font-weight="600">Robots.cls</text>
+
+    <!-- FulfillmentLine -> FulfillmentLines.cls -->
+    <g filter="url(#erdc-shadow)">
+      <rect x="1400" y="676" width="190" height="34" rx="8" fill="#021a38" stroke="#5A98E0" stroke-width="1.6"/>
+    </g>
+    <rect x="1412" y="685" width="14" height="14" rx="3" fill="#5A98E0"/>
+    <text x="1434" y="697" fill="#eaf3fb" font-size="14" font-weight="600">FulfillmentLines.cls</text>
+
+  </g>
+</svg>

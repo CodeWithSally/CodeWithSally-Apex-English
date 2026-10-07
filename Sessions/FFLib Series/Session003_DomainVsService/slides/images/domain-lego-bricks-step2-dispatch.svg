@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="lego2-title">
+  <title id="lego2-title">DispatchService.dispatchWarehouses calling Robots, FulfillmentLines, and FulfillmentOrders</title>
+  <defs>
+    <filter id="lego2-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="2" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="lego2-arrow-left" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#8FC22E"/>
+    </marker>
+    <linearGradient id="lego2-tab-service-left" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0.52" stop-color="#1e1e1e"/>
+      <stop offset="1" stop-color="#8FC22E" stop-opacity="0.58"/>
+    </linearGradient>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif">
+
+    <!-- Arrows: DispatchService down to all three bricks -->
+    <path d="M 260,240 C 260,340 270,460 275,558" fill="none" stroke="#8FC22E" stroke-width="3" marker-end="url(#lego2-arrow-left)"/>
+    <path d="M 400,240 C 500,320 650,420 730,558" fill="none" stroke="#8FC22E" stroke-width="3" marker-end="url(#lego2-arrow-left)"/>
+    <path d="M 500,240 C 800,340 1050,460 1200,558" fill="none" stroke="#8FC22E" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#lego2-arrow-left)"/>
+
+    <!-- DispatchService panel -->
+    <g filter="url(#lego2-shadow)">
+      <rect x="70" y="40" width="620" height="50" fill="#252526"/>
+      <rect x="70" y="40" width="330" height="50" fill="url(#lego2-tab-service-left)"/>
+      <rect x="70" y="86" width="330" height="4" fill="#8FC22E"/>
+      <rect x="88" y="54" width="18" height="18" rx="3" fill="#8FC22E"/>
+      <text x="116" y="71" fill="#e6e6e6" font-size="20" font-weight="500">DispatchService.cls</text>
+      <rect x="70" y="90" width="620" height="150" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="19">
+      <tspan x="94" y="132" fill="#ffb86b">public void</tspan>
+      <tspan fill="#79c0ff"> dispatchWarehouses</tspan>
+      <tspan x="94" y="162" fill="#f0f4f8">(Set&lt;Id&gt; warehouseIds) {</tspan>
+      <tspan x="118" y="192" fill="#a5d6ff">Robots.getAvailableForWork / startWork</tspan>
+      <tspan x="118" y="220" fill="#a5d6ff">FulfillmentLines.assign</tspan>
+    </text>
+
+  </g>
+</svg>
