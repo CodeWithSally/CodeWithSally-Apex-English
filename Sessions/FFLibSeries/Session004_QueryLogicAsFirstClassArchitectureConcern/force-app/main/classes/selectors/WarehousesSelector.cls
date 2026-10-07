@@ -69,22 +69,24 @@ public virtual inherited sharing class WarehousesSelector extends fflib_SObjectS
 	}
 
 	/**
-	* Active warehouses, for batch dispatch.
-	* @return Active warehouses.
+	* Warehouses with the given status, for batch dispatch.
+	* @param status Warehouse status to query.
+	* @return Warehouses with the requested status.
 	*/
-	public virtual List<Warehouse__c> selectActive() {
+	public virtual List<Warehouse__c> selectByStatus(String status) {
 		return (List<Warehouse__c>) Database.query(
-			newQueryFactory().setCondition('Status__c = \'' + Warehouses.STATUS_ACTIVE + '\'').toSOQL()
+			newQueryFactory().setCondition('Status__c = :status').toSOQL()
 		);
 	}
 
 	/**
-	* QueryLocator of active warehouses for Batch Apex.
-	* @return QueryLocator of active warehouses.
+	* QueryLocator of warehouses with the given status for Batch Apex.
+	* @param status Warehouse status to query.
+	* @return QueryLocator of warehouses with the requested status.
 	*/
-	public virtual Database.QueryLocator selectActiveAsQueryLocator() {
+	public virtual Database.QueryLocator selectByStatusAsQueryLocator(String status) {
 		return Database.getQueryLocator(
-			newQueryFactory().setCondition('Status__c = \'' + Warehouses.STATUS_ACTIVE + '\'').toSOQL()
+			newQueryFactory().setCondition('Status__c = :status').toSOQL()
 		);
 	}
 }

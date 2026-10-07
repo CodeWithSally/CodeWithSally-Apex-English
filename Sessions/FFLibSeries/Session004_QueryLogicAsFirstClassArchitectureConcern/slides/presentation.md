@@ -496,9 +496,9 @@ public virtual inherited sharing class WarehousesSelector extends fflib_SObjectS
   public Schema.SObjectType getSObjectType() {              // plumbing
     return Warehouse__c.SObjectType;
   }
-  public virtual List<Warehouse__c> selectActive() {        // a select method
+  public virtual List<Warehouse__c> selectByStatus(String status) { // a select method
     return (List<Warehouse__c>) Database.query(
-      newQueryFactory().setCondition('Status__c = \'' + Warehouses.STATUS_ACTIVE + '\'').toSOQL()
+      newQueryFactory().setCondition('Status__c = :status').toSOQL()
     );
   }
 }
@@ -891,7 +891,7 @@ return counts;
 # Batch versus Queueable chunking
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">WarehousesSelector.selectActiveAsQueryLocator</span><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPendingByWarehouseAsCursor</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">WarehousesSelector.selectByStatusAsQueryLocator</span><span class="vscode-tab vscode-tab-selector">FulfillmentLinesSelector.selectPendingByWarehouseAsCursor</span></div>
 <div class="tab-panes">
 <div class="tab-pane">
 <p class="pane-caption">QueryLocator → Batch Apex</p>
