@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="lego3-title">
+  <title id="lego3-title">FulfillmentService.completeLines calling Robots, FulfillmentLines, and FulfillmentOrders</title>
+  <defs>
+    <filter id="lego3-shadow" x="-20%" y="-16%" width="140%" height="145%">
+      <feDropShadow dx="2" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="lego3-arrow-right" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#36C0B8"/>
+    </marker>
+    <linearGradient id="lego3-tab-service-right" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0.52" stop-color="#1e1e1e"/>
+      <stop offset="1" stop-color="#36C0B8" stop-opacity="0.58"/>
+    </linearGradient>
+  </defs>
+
+  <g font-family="'Segoe UI', system-ui, sans-serif">
+
+    <!-- Arrows: FulfillmentService down to all three bricks -->
+    <path d="M 1140,240 C 1140,340 1130,460 1130,558" fill="none" stroke="#36C0B8" stroke-width="3" marker-end="url(#lego3-arrow-right)"/>
+    <path d="M 1000,240 C 900,320 830,420 790,558" fill="none" stroke="#36C0B8" stroke-width="3" marker-end="url(#lego3-arrow-right)"/>
+    <path d="M 910,240 C 650,340 400,460 310,558" fill="none" stroke="#36C0B8" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#lego3-arrow-right)"/>
+
+    <!-- FulfillmentService panel -->
+    <g filter="url(#lego3-shadow)">
+      <rect x="910" y="40" width="620" height="50" fill="#252526"/>
+      <rect x="910" y="40" width="330" height="50" fill="url(#lego3-tab-service-right)"/>
+      <rect x="910" y="86" width="330" height="4" fill="#36C0B8"/>
+      <rect x="928" y="54" width="18" height="18" rx="3" fill="#36C0B8"/>
+      <text x="956" y="71" fill="#e6e6e6" font-size="20" font-weight="500">FulfillmentService.cls</text>
+      <rect x="910" y="90" width="620" height="150" fill="#1e1e1e"/>
+    </g>
+    <text font-family="'Courier New', Courier, monospace" font-size="19">
+      <tspan x="934" y="132" fill="#ffb86b">public void</tspan>
+      <tspan fill="#79c0ff"> completeLines</tspan>
+      <tspan x="934" y="162" fill="#f0f4f8">(Set&lt;Id&gt; lineIds) {</tspan>
+      <tspan x="958" y="192" fill="#a5d6ff">FulfillmentLines.complete</tspan>
+      <tspan x="958" y="220" fill="#a5d6ff">Robots.goIdle / applyWear</tspan>
+    </text>
+
+  </g>
+</svg>
