@@ -1,5 +1,5 @@
 {
-  "name": "session004-slide-toolchain",
+  "name": "session005-slide-toolchain",
   "private": true,
   "description": "Marp CLI plumbing used by slides/bin/build.sh",
   "devDependencies": {

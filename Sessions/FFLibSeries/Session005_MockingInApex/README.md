@@ -1,6 +1,6 @@
-# Session 004 — Query Logic as a First-Class Architecture Concern
+# Session 005 — Mocking in Apex
 
-**The Selector Pattern in Apex**
+**Why It Changes Everything**
 
 SOQL is logic. A query encodes meaning, security, performance, shape, and testability, so it deserves one authoritative home. This session covers the Selector pattern first, then fflib's `fflib_SObjectSelector`, using the Warehouse Operations app, extended with Selector examples for access layering, additive fields, cursors, and pagination.
 
@@ -14,7 +14,7 @@ After this session you'll be able to:
 
 [Slides](slides/presentation.html) · [Editable slide source](slides/presentation.md)
 
-The Warehouse Operations app and supporting tooling are copied from Session 003 as the starting point for this session. Session 004 adds its Selector examples by adding methods only; no inherited method changes. The setup commands below use the new `session004-mfg` alias.
+The Warehouse Operations app and supporting tooling are copied from Session 003 as the starting point for this session. Session 005 adds its Selector examples by adding methods only; no inherited method changes. The setup commands below use the new `session005-mfg` alias.
 
 ## Session walkthrough
 
@@ -27,15 +27,15 @@ The Warehouse Operations app and supporting tooling are copied from Session 003 
 
 ## Sample project
 
-The inherited Warehouse Fulfillment agent remains part of the app setup. Publish it so the `WarehouseOperations` permission set can resolve its agent access. The agent isn't part of the Session 004 presentation.
+The inherited Warehouse Fulfillment agent remains part of the app setup. Publish it so the `WarehouseOperations` permission set can resolve its agent access. The agent isn't part of the Session 005 presentation.
 
 One package directory: `force-app` (app in `main`, Apex tests in `test`), plus the Warehouse Fulfillment employee agent.
 
-Use a scratch org from `config/project-scratch-def.json` (Einstein / Agentforce enabled). Alias used below is `session004-mfg`.
+Use a scratch org from `config/project-scratch-def.json` (Einstein / Agentforce enabled). Alias used below is `session005-mfg`.
 
 ## Architecture notes
 
-Session 004 adds Selector examples by adding methods only:
+Session 005 adds Selector examples by adding methods only:
 
 - **Composition:** `newInstance()` is the canonical way in. Constructors are for deliberate composition, such as `new RobotsSelector(DataAccess.SYSTEM_MODE)`.
 - **Per-query access:** `RobotsSelector.selectById(ids, DataAccess)` sets the access mode for that one query and leaves the instance unchanged. Anything but `SYSTEM_MODE` runs in user mode.
@@ -55,7 +55,7 @@ Domains wrap records, so they are constructed when those records are in hand —
 ### Create a scratch org
 
 ```bash
-sf org create scratch --definition-file config/project-scratch-def.json --alias session004-mfg
+sf org create scratch --definition-file config/project-scratch-def.json --alias session005-mfg
 ```
 
 ### Deploy fflib
@@ -68,14 +68,14 @@ git clone --depth 1 https://github.com/apex-enterprise-patterns/fflib-apex-commo
 ```
 
 ```bash
-( cd /tmp/fflib-apex-mocks && sf project deploy start --source-dir sfdx-source/apex-mocks --target-org session004-mfg --wait 15 )
-( cd /tmp/fflib-apex-common && sf project deploy start --source-dir sfdx-source/apex-common --target-org session004-mfg --wait 20 --ignore-warnings )
+( cd /tmp/fflib-apex-mocks && sf project deploy start --source-dir sfdx-source/apex-mocks --target-org session005-mfg --wait 15 )
+( cd /tmp/fflib-apex-common && sf project deploy start --source-dir sfdx-source/apex-common --target-org session005-mfg --wait 20 --ignore-warnings )
 ```
 
 ### Deploy force-app
 
 ```bash
-sf project deploy start --source-dir force-app --target-org session004-mfg --wait 15 --ignore-errors
+sf project deploy start --source-dir force-app --target-org session005-mfg --wait 15 --ignore-errors
 ```
 
 `--ignore-errors` is only needed on a brand-new org. `WarehouseOperations` grants Agent Access to `WarehouseFulfillment`, and that Bot does not exist until you publish. Without `--ignore-errors` Salesforce rolls back the whole deploy — app and tests.
@@ -83,7 +83,7 @@ sf project deploy start --source-dir force-app --target-org session004-mfg --wai
 ## Load sample data
 
 ```bash
-./bin/data.sh -o session004-mfg
+./bin/data.sh -o session005-mfg
 ```
 
 The copied data script creates North Hub, Picker 100, Atlas / Bolt / Ember, a High-priority ticket with three pending lines, and extra draft orders.
@@ -91,7 +91,7 @@ The copied data script creates North Hub, Picker 100, Atlas / Bolt / Ember, a Hi
 To delete warehouse sample objects and reload:
 
 ```bash
-./bin/data.sh -cleanup -o session004-mfg
+./bin/data.sh -cleanup -o session005-mfg
 ```
 
 ## Warehouse Fulfillment agent
@@ -100,9 +100,9 @@ Publish first — `WarehouseOperations` cannot deploy until the Bot exists, and 
 
 ```bash
 sf agent publish authoring-bundle --api-name WarehouseFulfillment \
-  --skip-retrieve --target-org session004-mfg
+  --skip-retrieve --target-org session005-mfg
 
-sf agent activate --api-name WarehouseFulfillment --target-org session004-mfg --json
+sf agent activate --api-name WarehouseFulfillment --target-org session005-mfg --json
 ```
 
 `--skip-retrieve` keeps generated Bot / planner metadata out of the repo. Source of truth is `force-app/main/aiAuthoringBundles/WarehouseFulfillment/`.
@@ -112,10 +112,10 @@ Inherited agent example: from the utility bar, say **Process North Hub** — the
 Run the same package deploy again so the permission set can resolve the Bot, then assign it:
 
 ```bash
-sf project deploy start --source-dir force-app --target-org session004-mfg --wait 15
+sf project deploy start --source-dir force-app --target-org session005-mfg --wait 15
 
-sf org assign permset --name WarehouseOperations --target-org session004-mfg
-sf org assign permset --name UseSetupWithAgentforce --target-org session004-mfg
+sf org assign permset --name WarehouseOperations --target-org session005-mfg
+sf org assign permset --name UseSetupWithAgentforce --target-org session005-mfg
 ```
 
 ## Run Apex tests
@@ -123,13 +123,13 @@ sf org assign permset --name UseSetupWithAgentforce --target-org session004-mfg
 Run these after the second `force-app` deploy and `WarehouseOperations` assign. Integration tests look up that permission set, and some inserts run as the current user.
 
 ```bash
-sf apex run test --test-level RunLocalTests --target-org session004-mfg --wait 20 --result-format human
+sf apex run test --test-level RunLocalTests --target-org session005-mfg --wait 20 --result-format human
 ```
 
 ## Test the agent
 
 ```bash
-./scripts/agent/warehouse-fulfillment.sh -o session004-mfg
+./scripts/agent/warehouse-fulfillment.sh -o session005-mfg
 ```
 
 Reloads the warehouse fixtures, runs a live `sf agent preview` session against the authoring bundle, and SOQL-asserts extra robots were created and that one dispatch assigned every pending North Hub line.
@@ -139,7 +139,7 @@ The agent looks up North Hub by name with `GetWarehouseDesk`, creates robots thr
 To deploy, publish, activate, then test in one step:
 
 ```bash
-./scripts/agent/warehouse-fulfillment.sh -o session004-mfg --deploy
+./scripts/agent/warehouse-fulfillment.sh -o session005-mfg --deploy
 ```
 
 ## PaginationCursor demo
@@ -147,8 +147,8 @@ To deploy, publish, activate, then test in one step:
 Like the Unit of Work scripts in Session 002, two anonymous Apex scripts compare reading North Hub's robots without and with paging:
 
 ```bash
-sf apex run --file scripts/apex/without-paging.apex --target-org session004-mfg
-sf apex run --file scripts/apex/with-paging.apex --target-org session004-mfg
+sf apex run --file scripts/apex/without-paging.apex --target-org session005-mfg
+sf apex run --file scripts/apex/with-paging.apex --target-org session005-mfg
 ```
 
 `without-paging.apex` loads every robot in one list query. `with-paging.apex` pages through them two at a time with `RobotsSelector.selectByWarehouseAsPaginationCursor`, works around three PaginationCursor quirks, and fetches page 2 again on a fresh cursor. Load the sample data first.

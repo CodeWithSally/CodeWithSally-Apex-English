@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "Session004_QueryLogicAsFirstClassArchitectureConcern",
+  "name": "Session005_MockingInApex",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "67.0"

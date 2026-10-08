@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# Warehouse Operations sample data for Session 004.
+# Warehouse Operations sample data for Session 005.
 # Loads force-app/scripts/demo-data.apex (North Hub teaching story plus extra draft work).
 
 set -e
@@ -13,7 +13,7 @@ SCRATCH_ORG_ALIAS=""
 show_usage() {
 	echo "Usage: $0 [-cleanup] [-o org-alias]"
 	echo "  -cleanup   Delete warehouse sample objects first, then reload"
-	echo "  -o alias   Target org (default: sf target-org, then session004-mfg)"
+	echo "  -o alias   Target org (default: sf target-org, then session005-mfg)"
 	exit 1
 }
 
@@ -41,7 +41,7 @@ if [ -z "$SCRATCH_ORG_ALIAS" ]; then
 fi
 
 if [ -z "$SCRATCH_ORG_ALIAS" ]; then
-	SCRATCH_ORG_ALIAS="session004-mfg"
+	SCRATCH_ORG_ALIAS="session005-mfg"
 fi
 
 echo "Loading warehouse sample data into org: $SCRATCH_ORG_ALIAS"

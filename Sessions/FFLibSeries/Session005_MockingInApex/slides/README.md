@@ -1,4 +1,4 @@
-# Session 004 slides
+# Session 005 slides
 
 [`presentation.md`](presentation.md) is the slide source. Edit it by hand, or ask an agent in Cursor or Claude to edit it. The agent reads and writes that markdown, then you both check the result in preview. The build script turns the same file into HTML, a PDF, and one PNG per slide.
 

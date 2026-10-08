@@ -20,7 +20,7 @@ ORG_FLAG=()
 
 show_usage() {
 	echo "Usage: $0 [-o org-alias] [--deploy]"
-	echo "  -o alias   Target org (default: sf target-org, then session004-mfg)"
+	echo "  -o alias   Target org (default: sf target-org, then session005-mfg)"
 	echo "  --deploy   Deploy force-app, publish, and activate WarehouseFulfillment"
 	exit 1
 }
@@ -52,7 +52,7 @@ if [ -z "$ORG_ALIAS" ]; then
 fi
 
 if [ -z "$ORG_ALIAS" ]; then
-	ORG_ALIAS="session004-mfg"
+	ORG_ALIAS="session005-mfg"
 fi
 
 ORG_FLAG=(--target-org "$ORG_ALIAS")
