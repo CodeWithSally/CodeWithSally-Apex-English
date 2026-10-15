@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>WDGT_MightBeRequired</fullName>
+    <active>false</active>
+    <description>Session 005 demo: activate in Setup to show an org change breaking DML and SOQL tests while mocked tests still pass.</description>
+    <errorConditionFormula>ISBLANK(WDGT_MightBeRequired__c)</errorConditionFormula>
+    <errorDisplayField>WDGT_MightBeRequired__c</errorDisplayField>
+    <errorMessage>Might Be Required is required.</errorMessage>
+</ValidationRule>
