@@ -47,11 +47,12 @@ One Service method does the work: `WDGT_WidgetsService.tagWidgetsWithGuid(Set<Id
 | `WDGT_WidgetsUtility` | `generateGuid()`: random, so tests must mock it |
 | `WDGT_UnitOfWork` | Unit of Work factory with a `@TestVisible` static `mock` |
 | `WDGT_WidgetsTriggerHandler` and `WDGT_Widgets.trigger` | A trigger handler with no logic yet |
-| `WDGT_InertDml` (test) | An `IDML` that saves nothing and records what would have been saved |
+| `WDGT_InertDml` (test) | An `IDML` that saves nothing and records what would have been saved. Inserted records get fake Ids, so relationships resolve, and `getInserted(SObjectType)` and the other getters return one type at a time |
 
 | Test class | What it shows |
 |---|---|
 | `WDGT_UnitOfWorkTest` | The same method tested three ways: a mocked Unit of Work, an inert Unit of Work over `WDGT_InertDml`, and real DML and SOQL. Two more mocked tests verify the same calls with matchers, an argument captor, and in-order verification |
+| `WDGT_InertDmlTest` | The inert IDML with several objects: a Contact linked to its Account through fake Ids, and records pulled back by type (standard Account and Contact; nothing is saved) |
 | `WDGT_WidgetsServiceTest` | A Selector stubbed to throw; verifies nothing else is called |
 | `WDGT_WidgetsSelectorTest` | Empty and null conditions. Two marked demonstrations: reading a field the Selector doesn't query (and how a mocked Selector hides it), and the hazard of tests that depend on DML |
 | `WDGT_WidgetsTriggerHandlerTest` | Trigger coverage: disable the handler, save one widget |
@@ -75,7 +76,7 @@ Then run the tests below with `--target-org widgets-mfg`.
 These run in either org; change `--target-org` to match:
 
 ```bash
-sf apex run test --class-names WDGT_UnitOfWorkTest --class-names WDGT_WidgetsServiceTest \
+sf apex run test --class-names WDGT_UnitOfWorkTest --class-names WDGT_InertDmlTest --class-names WDGT_WidgetsServiceTest \
   --class-names WDGT_WidgetsSelectorTest --class-names WDGT_WidgetsTriggerHandlerTest \
   --class-names WDGT_WidgetsUtilityTest --target-org session005-mfg --wait 20 --result-format human
 ```

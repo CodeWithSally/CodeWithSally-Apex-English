@@ -3715,3 +3715,813 @@ section.deploy-slide .vscode:has(.tab-pane:nth-child(3)[data-bespoke-marp-fragme
   background-image: none;
   box-shadow: none;
 }
+
+/* ---- Session 005 additions ---- */
+
+/* 💡 Practice callout: one line, under a slide's main content */
+section .practice {
+  margin: 10px auto 0;
+  padding: 0.4em 0.9em;
+  width: fit-content;
+  max-width: 90%;
+  font-size: 0.6em;
+  border-left: 4px solid #f3d36a;
+  background: rgba(243, 211, 106, 0.14);
+  border-radius: 4px;
+}
+
+/* Two-column list of short points under a code panel */
+section .points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+  row-gap: 2px;
+  width: 92%;
+  margin: 10px auto 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.48em;
+  line-height: 1.25;
+}
+
+section .points li::before {
+  content: "✗ ";
+  color: #d9534f;
+  font-weight: 700;
+}
+
+/* Plain comparison table on a bullet slide */
+section.table-slide table {
+  width: 94%;
+  margin: 8px auto 0;
+  font-size: 0.56em;
+  border-collapse: collapse;
+}
+
+section.table-slide th,
+section.table-slide td {
+  padding: 0.45em 0.7em;
+  vertical-align: top;
+  text-align: left;
+}
+
+section.table-slide > p {
+  font-size: 0.66em;
+  margin: 0 0 4px;
+}
+
+/* Testing triangle with a note line under it */
+section.testing-triangle-slide .quiet-note {
+  margin-top: 2px;
+  font-size: 0.5em;
+}
+
+section.testing-triangle-slide:has(.quiet-note) img {
+  max-height: calc(100% - 40px);
+}
+
+section.compact-code-slide > ul.points {
+  font-size: 0.46em;
+  line-height: 1.25;
+  margin-top: 8px !important;
+}
+
+/* A taller code panel: shrink the code a step */
+section.compact-code-slide.tall-code-slide .vscode pre,
+section.compact-code-slide.tall-code-slide .vscode :is(pre, marp-pre),
+section.compact-code-slide.tall-code-slide .vscode pre code,
+section.compact-code-slide.tall-code-slide .vscode pre code.hljs {
+  font-size: 15px !important;
+}
+
+section.table-slide th:nth-child(1) { width: 16%; }
+section.table-slide th:nth-child(2) { width: 30%; }
+
+/* Blast radius: two diagram rows, the triangle as a corner vignette */
+section.blast-slide {
+  padding: 26px 50px 18px;
+  justify-content: flex-start;
+}
+
+section.blast-slide h1 {
+  font-size: 1.28em;
+  margin: 0 0 6px;
+}
+
+section.blast-slide .blast-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section.blast-slide .blast-caption {
+  margin: 4px 0 2px;
+  font-size: 0.56em;
+  align-self: flex-start;
+  padding-left: 30px;
+}
+
+section.blast-slide .blast-row img {
+  width: 1060px;
+  height: auto;
+}
+
+section.blast-slide .quiet-note {
+  margin-top: 2px;
+}
+
+section.blast-slide .blast-vignette {
+  position: absolute;
+  top: 14px;
+  right: 22px;
+  margin: 0;
+  width: 150px;
+  opacity: 0.85;
+  text-align: center;
+}
+
+section.blast-slide .blast-vignette img {
+  width: 150px;
+  height: auto;
+}
+
+section.blast-slide .blast-vignette figcaption {
+  font-size: 11px;
+  color: var(--color-dimmed);
+  letter-spacing: 0.5px;
+}
+
+/* Live: a practice line right after a click-through list appears with the list's last item */
+section .points:has(> li:last-child[data-bespoke-marp-fragment="inactive"]) + .practice {
+  visibility: hidden;
+}
+
+/* The long way: a record's life as cards, meters climbing toward the limits */
+section.longway-slide {
+  padding: 24px 32px 16px;
+  justify-content: flex-start;
+}
+
+section.longway-slide h1 {
+  font-size: 1.24em;
+  margin: 0 0 2px;
+}
+
+section.longway-slide .longway-sub {
+  font-size: 0.5em;
+  margin: 0 0 10px;
+  color: var(--color-dimmed);
+}
+
+section.longway-slide .longway {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr) 1.35fr;
+  gap: 8px;
+  width: 100%;
+  align-items: stretch;
+}
+
+section.longway-slide .lw-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid #3a4d6e;
+  border-radius: 8px;
+  padding: 8px 8px 6px;
+  min-width: 0;
+}
+
+section.longway-slide .lw-target {
+  border: 2px solid #3fb950;
+  background: rgba(63, 185, 80, 0.10);
+}
+
+section.longway-slide .lw-state {
+  margin: 0;
+  font-size: 0.5em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+section.longway-slide .lw-step {
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 0.35em;
+  border-radius: 50%;
+  background: #f3d36a;
+  color: #2b2100;
+  text-align: center;
+  font-size: 0.85em;
+  line-height: 1.4em;
+}
+
+section.longway-slide .lw-act {
+  margin: 4px 0 6px;
+  font-size: 0.36em;
+  font-style: italic;
+  color: var(--color-dimmed);
+  line-height: 1.25;
+  min-height: 2.5em;
+}
+
+section.longway-slide .lw-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+
+section.longway-slide .lw-chips li {
+  margin: 0 0 3px;
+  padding: 2px 5px;
+  font-family: 'DejaVu Sans Mono', Consolas, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0;
+  line-height: 1.3;
+  border-radius: 4px;
+  background: #5a1d24;
+  border: 1px solid #ff7b72;
+  color: #ffd8d3;
+  overflow-wrap: anywhere;
+}
+
+section.longway-slide .lw-code {
+  flex: 1 1 auto;
+  margin: 6px 0;
+  padding: 8px !important;
+  font-size: 13px !important;
+  line-height: 1.3;
+  background: #1e1e1e;
+  border-radius: 6px;
+}
+
+section.longway-slide .lw-code code {
+  font-size: 13px !important;
+  background: none;
+  color: #e6edf3;
+}
+
+section.longway-slide .lw-meters {
+  margin-top: 6px;
+}
+
+section.longway-slide .lw-m {
+  position: relative;
+  margin: 0 0 4px;
+  font-size: 10.5px;
+  letter-spacing: 0;
+}
+
+section.longway-slide .lw-m span {
+  display: block;
+  margin-bottom: 2px;
+}
+
+section.longway-slide .lw-m::after {
+  content: "";
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: #1b2a44;
+  border: 1px solid #3a4d6e;
+}
+
+section.longway-slide .lw-m i {
+  position: absolute;
+  left: 1px;
+  bottom: 1px;
+  height: 6px;
+  border-radius: 3px;
+  z-index: 1;
+}
+
+section.longway-slide .m-lo i { background: #3fb950; }
+section.longway-slide .m-mid i { background: #f3a33a; }
+section.longway-slide .m-hi i { background: #ff5b4f; }
+section.longway-slide .m-hi span { color: #ff9a92; font-weight: 700; }
+
+section.longway-slide .lw-punch {
+  margin-top: 10px;
+  font-size: 0.5em;
+}
+
+section.longway-slide .longway {
+  grid-template-columns: repeat(6, 1fr) 1.7fr;
+  flex: 1 1 auto;
+  max-height: 520px;
+}
+section.longway-slide .lw-state { font-size: 0.56em; }
+section.longway-slide .lw-act { font-size: 0.4em; }
+section.longway-slide .lw-chips li { font-size: 12px; margin-bottom: 5px; padding: 3px 5px; }
+section.longway-slide .lw-m { font-size: 12.5px; margin-bottom: 6px; }
+section.longway-slide .lw-m::after, section.longway-slide .lw-m i { height: 8px; }
+section.longway-slide .lw-code, section.longway-slide .lw-code code { font-size: 11.5px !important; }
+section.longway-slide .lw-code { flex: 0 0 auto; }
+section.longway-slide .lw-target .lw-act { min-height: 0; margin-top: 2px; }
+section.longway-slide .lw-target .lw-meters { margin-top: auto; }
+section.longway-slide .lw-punch { margin-top: 12px; }
+
+section.longway-slide .lw-state { font-size: 0.5em; white-space: nowrap; }
+section.longway-slide .lw-chips li { font-size: 10.5px; margin-bottom: 4px; padding: 2px 4px; overflow-wrap: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+section.longway-slide .lw-tally { margin: 18px 0 0; font-size: 0.5em; line-height: 1.5; text-align: center; }
+section.longway-slide .lw-tally b { color: #f3d36a; font-size: 1.4em; }
+
+section.longway-slide .longway { max-height: 470px; }
+section.longway-slide .lw-code, section.longway-slide .lw-code code { font-size: 10.5px !important; }
+
+/* The long way, part two: another team's change, and the failure it causes downstream */
+section.longway-slide .lw-card { position: relative; }
+section.longway-slide .lw-chips li.lw-team {
+  background: #4a3a0c;
+  border: 1px dashed #f3d36a;
+  color: #ffe9a8;
+}
+section.longway-slide .lw-team-tag {
+  margin: 4px 0 0;
+  font-size: 11px;
+  letter-spacing: 0;
+  line-height: 1.3;
+  color: #ffe9a8;
+}
+section.longway-slide .lw-fail {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  padding: 8px 6px;
+  border-radius: 6px;
+  background: rgba(60, 8, 12, 0.94);
+  border: 2px solid #ff5b4f;
+  color: #ffd8d3;
+  font-size: 11.5px;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-align: center;
+  z-index: 3;
+}
+section.longway-slide .lw-fail b {
+  display: block;
+  font-size: 15px;
+  color: #ff7b72;
+  margin-bottom: 4px;
+}
+section.longway-slide .lw-fail code {
+  display: block;
+  background: none;
+  color: #ffd8d3;
+  font-size: 10.5px;
+}
+section.longway-slide .lw-fail-never {
+  top: 40px;
+  bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 13px;
+}
+section.longway-slide .lw-fail-never b { font-size: 20px; }
+section.longway-slide .lw-trigger { display: none; }
+section.longway-slide:has(.lw-t1[data-bespoke-marp-fragment="inactive"]) .lw-team,
+section.longway-slide:has(.lw-t2[data-bespoke-marp-fragment="inactive"]) .lw-fail {
+  visibility: hidden;
+}
+
+/* Souvenir t-shirt: the slide's last click, dropped over everything */
+section.longway-slide .lw-shirt {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 380px;
+  height: auto;
+  margin: 0;
+  transform: translate(-50%, -46%) rotate(-8deg);
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+  z-index: 10;
+}
+section.longway-slide .lw-fail { background: rgb(52, 8, 12); }
+
+/* ---- Act II ---- */
+
+/* Slide 3: "Promises we made" panel, revealed over the series table */
+section.series-slide { position: relative; }
+section.series-slide .promises-pane {
+  position: absolute;
+  inset: 108px 56px 40px;
+  padding: 18px 26px;
+  background: #032d60;
+  border: 1px solid #3a4d6e;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  z-index: 5;
+}
+section.series-slide .promises-pane h2 {
+  margin: 0 0 10px;
+  font-size: 0.9em;
+}
+section.series-slide .promise-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.54em;
+}
+section.series-slide .promise-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 7px 0;
+  border-bottom: 1px solid #22406b;
+}
+section.series-slide .promise-list b {
+  flex: 0 0 auto;
+  color: #f3d36a;
+  white-space: nowrap;
+}
+section.series-slide .promise-list b::before { content: "→ slide "; font-weight: 400; color: var(--color-dimmed); }
+
+/* Small "promise kept" tag, bottom of a slide */
+section .promise-tag {
+  position: absolute;
+  left: 50px;
+  bottom: 14px;
+  margin: 0;
+  font-size: 0.42em;
+  color: #9be3a9;
+}
+
+/* Quote line */
+section blockquote.slide-quote {
+  margin: 10px auto 0;
+  width: 88%;
+  padding: 6px 14px;
+  font-size: 0.5em;
+  font-style: italic;
+  border-left: 4px solid #8fb3ff;
+  background: rgba(143, 179, 255, 0.08);
+}
+section blockquote.slide-quote cite {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+  font-size: 0.85em;
+  color: var(--color-dimmed);
+}
+
+/* Code on the left, prose on the right */
+section.split-slide .split {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 22px;
+  width: 100%;
+  align-items: start;
+}
+section.split-slide .split .vscode {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0 !important;
+}
+section.split-slide .split .vscode pre,
+section.split-slide .split .vscode pre code,
+section.split-slide .split .vscode pre code.hljs {
+  font-size: 13px !important;
+}
+section.split-slide .split-side {
+  font-size: 0.5em;
+  line-height: 1.35;
+  text-align: left;
+}
+section.split-slide .split-side p { margin: 0 0 8px; }
+section.split-slide .split-side ol { margin: 0 0 8px; padding-left: 1.2em; }
+section.split-slide .split-side li { margin-bottom: 6px; }
+
+/* Stateful objects: lead line, two code columns */
+section.stateful-slide .stateful-lead {
+  margin: 0 0 8px;
+  font-size: 0.5em;
+  width: 94%;
+}
+section.stateful-slide .duo { flex: 0 0 auto; }
+section.stateful-slide .dev-caption code { font-size: 0.95em; }
+section.stateful-slide blockquote.slide-quote { margin-top: 8px; }
+section.stateful-slide .promise-tag { bottom: 8px; }
+
+/* Timeline of stages */
+section.timeline-slide .timeline {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  width: 96%;
+  margin: 18px auto 0;
+  padding: 0;
+  counter-reset: stage;
+}
+section.timeline-slide .timeline li {
+  position: relative;
+  padding: 34px 12px 14px;
+  border-top: 4px solid #5b6b85;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 8px 8px;
+  font-size: 0.5em;
+  line-height: 1.35;
+  counter-increment: stage;
+}
+section.timeline-slide .timeline li::before {
+  content: counter(stage);
+  position: absolute;
+  top: -16px;
+  left: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #5b6b85;
+  color: #fff;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 700;
+}
+section.timeline-slide .timeline li b { display: block; margin-bottom: 6px; font-size: 1.1em; }
+section.timeline-slide .timeline li span { color: var(--color-dimmed); }
+section.timeline-slide .timeline li.now { border-top-color: #3fb950; background: rgba(63, 185, 80, 0.10); }
+section.timeline-slide .timeline li.now::before { background: #3fb950; }
+section.timeline-slide .timeline li.next { border-top-style: dashed; border-top-color: #8fb3ff; }
+section.timeline-slide .timeline li.next::before { background: #8fb3ff; color: #032d60; }
+section.timeline-slide .practice { margin-top: 26px; }
+
+section .promise-tag { font-size: 15px; letter-spacing: 0.5px; }
+section .promise-tag code { font-size: 13px; }
+section blockquote.slide-quote::before,
+section blockquote.slide-quote::after { content: none; display: none; }
+section.stateful-slide .dev-caption { font-size: 0.5em; padding: 0.45em 0.9em; }
+section.checklist-mock-slide > ul { list-style: none; padding-left: 0; }
+section.table-slide > p.promise-tag { font-size: 15px; margin: 0; }
+section.split-slide .split-side { font-size: 0.47em; }
+
+section.stateful-slide ul.stateful-lead { margin: 0 0 8px; padding-left: 1.1em; font-size: 0.48em; line-height: 1.3; text-align: left; }
+section.stateful-slide ul.stateful-lead li { margin-bottom: 2px; }
+section.stateful-slide .duo-col .vscode pre, section.stateful-slide .duo-col .vscode pre code { font-size: 12px !important; }
+section.split-slide .split-side { font-size: 0.52em; }
+
+section.dense-bullets-slide h1 { font-size: 1.3em; }
+section.dense-bullets-slide > ul { font-size: 0.66em; line-height: 1.3; }
+section.dense-bullets-slide > ul li { margin-bottom: 6px; }
+
+/* ---- Act III ---- */
+
+/* Three code columns ("more than one way to bake a cake") */
+section.bake-slide { padding: 26px 40px 18px; justify-content: flex-start; }
+section.bake-slide h1 { font-size: 1.28em; margin: 0 0 4px; }
+section.bake-slide .bake-lead { font-size: 0.5em; margin: 0 0 8px; }
+section.bake-slide .bake {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+section.bake-slide .bake-col { display: flex; flex-direction: column; min-width: 0; }
+section.bake-slide .bake-cap {
+  margin: 0 0 6px;
+  font-size: 0.46em;
+  line-height: 1.3;
+  color: var(--color-dimmed);
+}
+section.bake-slide .bake-cap b { color: var(--color-foreground); font-size: 1.15em; }
+section.bake-slide .vscode { width: 100%; max-width: 100%; margin: 0; flex: 1 1 auto; }
+section.bake-slide .vscode pre,
+section.bake-slide .vscode pre code,
+section.bake-slide .vscode pre code.hljs { font-size: 13px !important; line-height: 1.25; }
+section.bake-slide .quiet-note { margin-top: 10px; font-size: 0.46em; }
+
+/* Reference card: two columns of small type */
+section.refcard-slide { padding: 24px 44px 16px; justify-content: flex-start; }
+section.refcard-slide h1 { font-size: 1.24em; margin: 0 0 8px; }
+section.refcard-slide .refcard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  width: 100%;
+  font-size: 0.4em;
+  line-height: 1.4;
+  text-align: left;
+}
+section.refcard-slide h3 { margin: 6px 0 4px; font-size: 1.25em; color: #f3d36a; }
+section.refcard-slide h3 span { font-size: 0.75em; color: var(--color-dimmed); font-weight: 400; }
+section.refcard-slide ul { margin: 0 0 6px; padding-left: 1.1em; }
+section.refcard-slide li { margin-bottom: 3px; }
+section.refcard-slide code { font-size: 0.95em; }
+section.refcard-slide .refcard-links { color: var(--color-dimmed); }
+
+/* A short bullet lead above two code columns */
+section ul.slide-lead {
+  margin: 0 0 8px;
+  padding-left: 1.1em;
+  width: 96%;
+  font-size: 0.46em;
+  line-height: 1.3;
+  text-align: left;
+}
+section ul.slide-lead li { margin-bottom: 3px; }
+section.selector-test-slide .duo,
+section.inert-slide .duo,
+section.trigger-test-slide .duo { flex: 0 0 auto; }
+section.selector-test-slide .dev-caption,
+section.inert-slide .dev-caption,
+section.trigger-test-slide .dev-caption { font-size: 0.48em; padding: 0.45em 0.9em; }
+section.selector-test-slide .duo-col .vscode pre,
+section.selector-test-slide .duo-col .vscode pre code,
+section.inert-slide .duo-col .vscode pre,
+section.inert-slide .duo-col .vscode pre code,
+section.trigger-test-slide .duo-col .vscode pre,
+section.trigger-test-slide .duo-col .vscode pre code { font-size: 12px !important; }
+section.selector-test-slide .practice,
+section.inert-slide .practice,
+section.trigger-test-slide .practice { margin-top: 8px; font-size: 0.48em; }
+
+/* Unit of Work decision table + bullets */
+section.uow-test-slide > ul { font-size: 0.56em; margin-top: 12px; text-align: left; }
+
+section.refcard-slide .refcard { font-size: 0.47em; }
+section.selector-test-slide .duo-col .vscode pre,
+section.selector-test-slide .duo-col .vscode pre code,
+section.inert-slide .duo-col .vscode pre,
+section.inert-slide .duo-col .vscode pre code,
+section.trigger-test-slide .duo-col .vscode pre,
+section.trigger-test-slide .duo-col .vscode pre code { font-size: 13px !important; }
+
+/* Slide 19: the cat sticker */
+section.bake-slide { position: relative; }
+section.bake-slide .cat-sticker {
+  position: absolute;
+  right: 26px;
+  bottom: 30px;
+  margin: 0;
+  width: 150px;
+  text-align: center;
+  transform: rotate(4deg);
+}
+section.bake-slide .cat-sticker img { width: 104px; height: auto; }
+section.bake-slide .cat-sticker figcaption {
+  font-size: 11px;
+  line-height: 1.25;
+  letter-spacing: 0;
+  font-style: italic;
+  color: var(--color-dimmed);
+}
+
+/* Slide 23: calls vs outcome */
+section.uow-test-slide table { font-size: 0.5em; }
+section.uow-test-slide .calls-outcome {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  width: 94%;
+  margin: 12px auto 0;
+  text-align: left;
+}
+section.uow-test-slide .co-panel {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.44em;
+  line-height: 1.3;
+}
+section.uow-test-slide .co-calls { background: rgba(143, 179, 255, 0.10); border: 1px solid #8fb3ff; }
+section.uow-test-slide .co-outcome { background: rgba(63, 185, 80, 0.10); border: 1px solid #3fb950; }
+section.uow-test-slide .co-head { margin: 0 0 6px; color: var(--color-dimmed); }
+section.uow-test-slide .co-head b { font-size: 1.35em; color: var(--color-foreground); }
+section.uow-test-slide dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0; }
+section.uow-test-slide dt { font-weight: 700; color: #f3d36a; }
+section.uow-test-slide dd { margin: 0; }
+section.bake-slide .cat-sticker { right: 60px; bottom: 56px; width: 170px; }
+section.bake-slide .cat-sticker img { width: 120px; }
+section.bake-slide .cat-sticker figcaption { font-size: 12px; }
+
+/* Slide 19 rework: the cat sits beside "cake" in the title; the content shifts down to make room */
+section.bake-slide .cat-sticker {
+  right: auto;
+  bottom: auto;
+  left: 1012px;
+  top: 10px;
+  width: 170px;
+  transform: rotate(6deg);
+}
+section.bake-slide .cat-sticker img { width: 112px; }
+section.bake-slide .cat-sticker figcaption { font-size: 12px; margin-top: 2px; }
+section.bake-slide .bake-lead { margin-top: 62px; }
+
+/* ---- Act IV and Close ---- */
+
+section.domain-test-slide .split { grid-template-columns: 1.35fr 1fr; }
+section.domain-test-slide h1 { font-size: 1.18em; }
+section.domain-test-slide .split .vscode pre,
+section.domain-test-slide .split .vscode pre code,
+section.domain-test-slide .split .vscode pre code.hljs { font-size: 11.5px !important; }
+section.domain-test-slide .split-side ul { margin: 0 0 8px; padding-left: 1.1em; }
+section.domain-test-slide .split-side .quiet-note { text-align: left; }
+
+section.layers-mock-slide table { font-size: 0.52em; }
+section.layers-mock-slide th:nth-child(1) { width: 18%; }
+section.layers-mock-slide th:nth-child(2) { width: 32%; }
+
+section.pitfalls-slide { padding: 24px 44px 16px; justify-content: flex-start; }
+section.pitfalls-slide h1 { font-size: 1.28em; margin: 0 0 8px; }
+section.pitfalls-slide .pitfalls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  width: 100%;
+  font-size: 0.44em;
+  line-height: 1.35;
+  text-align: left;
+}
+section.pitfalls-slide h3 { margin: 0 0 6px; font-size: 1.3em; color: #f3d36a; }
+section.pitfalls-slide ul { margin: 0; padding-left: 1.1em; }
+section.pitfalls-slide li { margin-bottom: 6px; }
+section.pitfalls-slide .pitfall-band {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-left: 4px solid #ff7b72;
+  background: rgba(255, 123, 114, 0.10);
+  border-radius: 4px;
+  font-size: 0.44em;
+  line-height: 1.35;
+  text-align: left;
+}
+section.pitfalls-slide .pitfall-band p { margin: 2px 0; }
+
+section.takeaway-slide { justify-content: flex-start; padding-top: 50px; }
+section.takeaway-slide blockquote.takeaway {
+  margin: 0 auto 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 1.6em;
+  font-weight: 800;
+  text-align: center;
+}
+section.takeaway-slide blockquote.takeaway::before,
+section.takeaway-slide blockquote.takeaway::after { content: none; display: none; }
+section.takeaway-slide .takeaway-cols {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 34px;
+  width: 92%;
+  text-align: left;
+}
+section.takeaway-slide h3 { margin: 0 0 8px; font-size: 0.7em; color: #f3d36a; }
+section.takeaway-slide ul.kept { list-style: none; margin: 0; padding: 0; font-size: 0.5em; }
+section.takeaway-slide ul.kept li { padding: 5px 0; border-bottom: 1px solid #22406b; }
+section.takeaway-slide ul.kept li span { float: right; color: var(--color-dimmed); font-size: 0.9em; }
+section.takeaway-slide .next-up {
+  padding: 14px 18px;
+  border: 1px solid #3a4d6e;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.52em;
+}
+section.takeaway-slide .next-up p { margin: 0 0 8px; }
+section.takeaway-slide .next-why { color: var(--color-dimmed); font-style: italic; }
+
+section.scale-slide .vscode pre, section.scale-slide .vscode pre code, section.scale-slide .vscode pre code.hljs { font-size: 13.5px !important; }
+section.scale-slide > ul { font-size: 0.6em; }
+section.layers-mock-slide .practice { margin-top: 14px; }
+section.domain-test-slide .split .vscode pre,
+section.domain-test-slide .split .vscode pre code,
+section.domain-test-slide .split .vscode pre code.hljs { font-size: 12px !important; }
+section.domain-test-slide .split-side { font-size: 0.5em; }
+section.domain-test-slide .split-side .quiet-note { font-size: 0.8em; }
+
+section.scale-slide .vscode pre, section.scale-slide .vscode pre code, section.scale-slide .vscode pre code.hljs { font-size: 12px !important; line-height: 1.18; }
+section.scale-slide .practice { margin-top: 6px; }
+section.pitfalls-slide .pitfalls, section.pitfalls-slide .pitfall-band { font-size: 0.52em; }
+section.pitfalls-slide li { margin-bottom: 9px; }
+section.pitfalls-slide .pitfall-band { margin-top: 18px; }
+section.takeaway-slide .next-up h3 { font-size: 1.3em; }
+section.compact-code-slide.tall-code-slide.scale-slide .vscode pre,
+section.compact-code-slide.tall-code-slide.scale-slide .vscode :is(pre, marp-pre),
+section.compact-code-slide.tall-code-slide.scale-slide .vscode pre code,
+section.compact-code-slide.tall-code-slide.scale-slide .vscode pre code.hljs { font-size: 12px !important; line-height: 1.15; }
+section.callers-table-slide.layers-mock-slide table th:nth-child(1),
+section.callers-table-slide.layers-mock-slide table td:nth-child(1) { width: 17%; }
+section.callers-table-slide.layers-mock-slide table th:nth-child(2),
+section.callers-table-slide.layers-mock-slide table td:nth-child(2) { width: 33%; text-align: left; }
+section.callers-table-slide.layers-mock-slide table th:nth-child(3),
+section.callers-table-slide.layers-mock-slide table td:nth-child(3) { width: 50%; text-align: left; }
+
+/* Slide 24: the multi-object beat */
+section.inert-slide .many-objects { width: 94%; margin-top: 8px; text-align: left; }
+section.inert-slide .many-head { margin: 0 0 4px; font-size: 0.46em; }
+section.inert-slide .many-objects .vscode { width: 100%; max-width: 100%; margin: 0; }
+section.inert-slide .many-objects .vscode pre,
+section.inert-slide .many-objects .vscode pre code,
+section.inert-slide .many-objects .vscode pre code.hljs { font-size: 12px !important; }
+section.inert-slide .duo-col .vscode pre,
+section.inert-slide .duo-col .vscode pre code { font-size: 11.5px !important; }
+
+section.inert-slide .many-objects { margin-top: 6px; }
+section.inert-slide .practice { margin-top: 6px; font-size: 0.44em; }
+section.domain-test-slide .split { grid-template-columns: 1.45fr 1fr; gap: 16px; }
+section.domain-test-slide .split .vscode pre,
+section.domain-test-slide .split .vscode pre code,
+section.domain-test-slide .split .vscode pre code.hljs { font-size: 11px !important; }

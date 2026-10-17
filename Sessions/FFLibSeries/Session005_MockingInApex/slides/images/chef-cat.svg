@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 150" role="img" aria-labelledby="cat-title">
+  <title id="cat-title">A happy cat in a chef's hat, licking batter off a whisk</title>
+  <!-- tail -->
+  <path d="M112 118 C140 112 146 86 132 74" fill="none" stroke="#f0a35b" stroke-width="9" stroke-linecap="round"/>
+  <!-- body -->
+  <ellipse cx="80" cy="112" rx="38" ry="30" fill="#f0a35b"/>
+  <ellipse cx="80" cy="120" rx="20" ry="17" fill="#ffe2c2"/>
+  <!-- head -->
+  <circle cx="80" cy="70" r="30" fill="#f0a35b"/>
+  <path d="M55 52 L58 30 L74 46 Z" fill="#f0a35b"/>
+  <path d="M105 52 L102 30 L86 46 Z" fill="#f0a35b"/>
+  <path d="M60 48 L61 36 L70 45 Z" fill="#ffc4c4"/>
+  <path d="M100 48 L99 36 L90 45 Z" fill="#ffc4c4"/>
+  <!-- chef's hat -->
+  <rect x="58" y="30" width="44" height="10" rx="3" fill="#ffffff" stroke="#c9d4e5" stroke-width="1.5"/>
+  <path d="M60 31 C48 28 50 8 64 12 C66 0 94 0 96 12 C110 8 112 28 100 31 Z" fill="#ffffff" stroke="#c9d4e5" stroke-width="1.5"/>
+  <!-- happy closed eyes -->
+  <path d="M66 68 Q71 63 76 68" fill="none" stroke="#3a2a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M84 68 Q89 63 94 68" fill="none" stroke="#3a2a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- blush -->
+  <ellipse cx="64" cy="77" rx="5" ry="3" fill="#ff9a9a" opacity="0.7"/>
+  <ellipse cx="96" cy="77" rx="5" ry="3" fill="#ff9a9a" opacity="0.7"/>
+  <!-- nose, mouth, tongue -->
+  <path d="M77 74 L83 74 L80 78 Z" fill="#d9534f"/>
+  <path d="M80 78 Q76 83 72 80 M80 78 Q84 83 88 80" fill="none" stroke="#3a2a1a" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M84 82 Q88 90 92 84 Z" fill="#ff7b9a"/>
+  <!-- whiskers -->
+  <path d="M60 76 L44 72 M60 80 L44 82 M100 76 L116 72 M100 80 L116 82" stroke="#3a2a1a" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- whisk, held up to the tongue -->
+  <g transform="rotate(-35 110 96)">
+    <rect x="106" y="94" width="8" height="34" rx="3" fill="#7a5a3a"/>
+    <path d="M110 94 C96 80 98 58 110 54 C122 58 124 80 110 94 Z" fill="none" stroke="#c9d4e5" stroke-width="2.2"/>
+    <path d="M110 94 C103 80 104 62 110 54 C116 62 117 80 110 94 Z" fill="none" stroke="#c9d4e5" stroke-width="2"/>
+    <path d="M110 94 L110 54" stroke="#c9d4e5" stroke-width="2"/>
+    <ellipse cx="110" cy="62" rx="7" ry="5" fill="#ffe7a8"/>
+  </g>
+  <!-- paw on the whisk handle -->
+  <ellipse cx="108" cy="104" rx="9" ry="7" fill="#f0a35b"/>
+</svg>
