@@ -43,6 +43,78 @@ private class WDGT_UnitOfWorkTest {
 	}
 
 	@IsTest
+	private static void tagWidgetsWithGuid_WHEN_twoWidgetsMocked_EXPECT_matchedAndCaptured() {
+		// Given two widgets, a stubbed selector, a stubbed GUID generator, and a mock Unit of Work
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		WDGT_WidgetsSelector selectorMock = (WDGT_WidgetsSelector) mocks.mock(WDGT_WidgetsSelector.class);
+		WDGT_WidgetsUtility utilityMock = (WDGT_WidgetsUtility) mocks.mock(WDGT_WidgetsUtility.class);
+		fflib_SObjectUnitOfWork uowMock = (fflib_SObjectUnitOfWork) mocks.mock(fflib_SObjectUnitOfWork.class);
+
+		WDGT_Widget__c first = new WDGT_Widget__c(Id = fflib_IDGenerator.generate(WDGT_Widget__c.SObjectType));
+		WDGT_Widget__c second = new WDGT_Widget__c(Id = fflib_IDGenerator.generate(WDGT_Widget__c.SObjectType));
+		Set<Id> widgetIds = new Set<Id>{ first.Id, second.Id };
+		String firstGuid = '11111111111111111111111111111111';
+		String secondGuid = '22222222222222222222222222222222';
+
+		mocks.startStubbing();
+		mocks.when(selectorMock.selectById(widgetIds)).thenReturn(new List<WDGT_Widget__c>{ first, second });
+		mocks.when(utilityMock.generateGuid()).thenReturnMulti(new List<Object>{ firstGuid, secondGuid });
+		mocks.stopStubbing();
+
+		WDGT_UnitOfWork.mock = uowMock;
+
+		// When the widgets are tagged
+		new WDGT_WidgetsService(selectorMock, utilityMock).tagWidgetsWithGuid(widgetIds);
+
+		// Then, with matchers: two registrations, one of them carrying the first widget's Id and GUID
+		((fflib_SObjectUnitOfWork) mocks.verify(uowMock, 2)).registerDirty(fflib_Match.anySObject());
+		((fflib_SObjectUnitOfWork) mocks.verify(uowMock)).registerDirty(
+			fflib_Match.sObjectWith(new Map<SObjectField, Object>{
+				WDGT_Widget__c.Id => first.Id,
+				WDGT_Widget__c.WDGT_Guid__c => firstGuid
+			})
+		);
+
+		// And, with a captor: the registered records themselves, in the order they were registered
+		fflib_ArgumentCaptor captor = fflib_ArgumentCaptor.forClass(WDGT_Widget__c.class);
+		((fflib_SObjectUnitOfWork) mocks.verify(uowMock, 2)).registerDirty((SObject) captor.capture());
+		List<Object> registered = captor.getAllValues();
+		Assert.areEqual(new WDGT_Widget__c(Id = first.Id, WDGT_Guid__c = firstGuid), registered[0], 'First widget registration');
+		Assert.areEqual(new WDGT_Widget__c(Id = second.Id, WDGT_Guid__c = secondGuid), registered[1], 'Second widget registration');
+	}
+
+	@IsTest
+	private static void tagWidgetsWithGuid_WHEN_twoWidgetsMocked_EXPECT_registeredBeforeCommit() {
+		// Given two widgets, a stubbed selector, a stubbed GUID generator, and a mock Unit of Work
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		WDGT_WidgetsSelector selectorMock = (WDGT_WidgetsSelector) mocks.mock(WDGT_WidgetsSelector.class);
+		WDGT_WidgetsUtility utilityMock = (WDGT_WidgetsUtility) mocks.mock(WDGT_WidgetsUtility.class);
+		fflib_SObjectUnitOfWork uowMock = (fflib_SObjectUnitOfWork) mocks.mock(fflib_SObjectUnitOfWork.class);
+
+		WDGT_Widget__c first = new WDGT_Widget__c(Id = fflib_IDGenerator.generate(WDGT_Widget__c.SObjectType));
+		WDGT_Widget__c second = new WDGT_Widget__c(Id = fflib_IDGenerator.generate(WDGT_Widget__c.SObjectType));
+		Set<Id> widgetIds = new Set<Id>{ first.Id, second.Id };
+
+		mocks.startStubbing();
+		mocks.when(selectorMock.selectById(widgetIds)).thenReturn(new List<WDGT_Widget__c>{ first, second });
+		mocks.when(utilityMock.generateGuid()).thenReturnMulti(new List<Object>{
+			'11111111111111111111111111111111',
+			'22222222222222222222222222222222'
+		});
+		mocks.stopStubbing();
+
+		WDGT_UnitOfWork.mock = uowMock;
+
+		// When the widgets are tagged
+		new WDGT_WidgetsService(selectorMock, utilityMock).tagWidgetsWithGuid(widgetIds);
+
+		// Then both widgets are registered before the Unit of Work commits
+		fflib_InOrder inOrder = mocks.inOrder(new List<Object>{ uowMock });
+		((fflib_SObjectUnitOfWork) inOrder.verify(uowMock, mocks.calls(2))).registerDirty(fflib_Match.anySObject());
+		((fflib_SObjectUnitOfWork) inOrder.verify(uowMock, mocks.calls(1))).commitWork();
+	}
+
+	@IsTest
 	private static void tagWidgetsWithGuid_WHEN_twoWidgetsInert_EXPECT_eachUpdatedWithStubbedGuid() {
 		Long startMs = System.currentTimeMillis();
 

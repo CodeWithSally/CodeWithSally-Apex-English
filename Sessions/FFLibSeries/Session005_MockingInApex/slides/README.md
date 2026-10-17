@@ -19,6 +19,7 @@ Earlier sessions in this series use the same slide layout. An agent can open the
 - `Sessions/FFLibSeries/Session001_Separation_of_Concerns_in_Apex/slides/`
 - `Sessions/FFLibSeries/Session002_Service_Layers_Explained/slides/`
 - `Sessions/FFLibSeries/Session003_DomainVsService/slides/`
+- `Sessions/FFLibSeries/Session004_QueryLogicAsFirstClassArchitectureConcern/slides/`
 
 Copy the markdown slide (the block between `---` rules) and any SVG it references. Keep the theme classes and image paths so the copied slide still matches this deck. After the preview looks right, run the build so `presentation.html` and `presentation.pdf` match the source.
 

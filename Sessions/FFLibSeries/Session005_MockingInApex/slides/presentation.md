@@ -71,11 +71,11 @@ html: true
 <tr class="done"><td><span class="check">✅</span></td><td>Session #3 — Domain vs Service: Where Should Your Apex Logic Live?</td></tr>
 <tr class="done"><td><span class="check">✅</span></td><td>Session #4 — Query Logic as a First-Class Architecture Concern</td></tr>
 <tr class="current"><td><span class="check"></span></td><td>Session #5 — Mocking in Apex: Why It Changes Everything · Oct 20</td></tr>
-<tr><td><span class="check"></span></td><td>Session #6 — Enterprise-Scale Apex Across Multiple Packages · Nov 3</td></tr>
+<tr><td><span class="check"></span></td><td>Session #6 — Enterprise-Scale Apex Across Multiple Packages · John Daniel · Nov 3</td></tr>
 </tbody>
 </table>
 
 <!--
 - Session 5 of 6
-- #6 AT4DX, Nov 3
+- #6 John Daniel: packages, AT4DX, Nov 3
 -->

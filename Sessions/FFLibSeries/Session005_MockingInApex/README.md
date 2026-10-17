@@ -2,28 +2,29 @@
 
 **Why It Changes Everything**
 
-SOQL is logic. A query encodes meaning, security, performance, shape, and testability, so it deserves one authoritative home. This session covers the Selector pattern first, then fflib's `fflib_SObjectSelector`, using the Warehouse Operations app, extended with Selector examples for access layering, additive fields, cursors, and pagination.
+A unit test proves one method's logic and nothing else. Mocking makes that possible. This session covers how to make Apex code mockable, how ApexMocks builds on the Apex Stub API, and how to test each fflib layer in memory: no DML, no SOQL, every collaborator mocked. Most of the code comes from a small, self-contained Widgets example; the Warehouse Operations app from earlier sessions shows the same patterns at real scale.
 
 After this session you'll be able to:
 
-- explain why query logic deserves one home, and what a query carries: meaning, security, performance, shape, and testability;
-- build an fflib Selector: paramount fields, schema tokens over strings, and access modes chosen when composing it or for a single query;
-- build Composite Selectors from each object's Selector, and decide between a subselect and separate queries;
-- pick the right return shape: lists and maps, aggregates, QueryLocator, Cursor, and PaginationCursor;
-- keep Selectors easy to stub, ready for Session 005's mocking.
+- tell quality tests (no DML, no SOQL, every collaborator mocked) from the few tests that exist only for coverage;
+- make code mockable with `newInstance()` plus constructor injection, and explain why `virtual` isn't needed;
+- stub and verify with ApexMocks, including matchers, argument captors, and in-order verification;
+- test code that uses a Unit of Work, either fully mocked or with an inert IDML that records what would have been saved;
+- cover Selectors and triggers cheaply;
+- decide what to mock at each layer: Service, Domain, Selector, and trigger handler.
 
 [Slides](slides/presentation.html) · [Editable slide source](slides/presentation.md)
 
-The Warehouse Operations app and supporting tooling are copied from Session 003 as the starting point for this session. Session 005 adds its Selector examples by adding methods only; no inherited method changes. The setup commands below use the new `session005-mfg` alias.
+The Warehouse Operations app and supporting tooling are copied from Session 004 as the starting point for this session. Session 005 adds the self-contained Widgets example under `force-app/mocking-with-widgets/`; no inherited code changes. The setup commands below use the new `session005-mfg` alias.
 
 ## Session walkthrough
 
-- **Recap** — Bricks, a conductor, and who calls whom: continuity from Sessions 1–3. Then a quick live deploy of fflib and the app, and a one-slide reminder of good SOQL habits.
-- **Why Query Logic Matters** — The same question asked twice and answered differently; the five concerns a query carries.
-- **Selector Principles** — The canonical Selector, Composite Selectors, Feature Selectors, and the Selector checklist.
-- **The fflib Selector** — Anatomy of `fflib_SObjectSelector`, access modes and layering, the query factory, and additive fields.
-- **Warehouse App Selectors** — Tight and loose relationships, return shapes, aggregates, cursors, pagination, and the mocking seam.
-- **Selector Evolution** — What has changed, and where the library is heading.
+- **Opening** — The series so far, and the promises earlier sessions made about mocking.
+- **The goal** — Meet the Widgets. What's wrong with a test that saves and queries real records; unit tests for quality, a few special cases for coverage; just enough vocabulary.
+- **Seams: making code mockable** — The Stub API and how ApexMocks uses it; what can't be stubbed; `newInstance()` plus constructors; substituting stateful objects where they're created; a mockability checklist; where fflib is heading, and how its mocking evolved.
+- **The tools** — ApexMocks stubbing and verification, more than one way to verify the same call, records built in memory, and testing Selectors, the Unit of Work, and triggers.
+- **At real scale** — The Warehouse app's `DispatchServiceTest` and a Domain test, what to mock at each layer, and pitfalls.
+- **Close** — Test the method. Mock the rest. Next: Session 006, packages and AT4DX.
 
 ## Sample project
 
@@ -33,16 +34,63 @@ One package directory: `force-app` (app in `main`, Apex tests in `test`), plus t
 
 Use a scratch org from `config/project-scratch-def.json` (Einstein / Agentforce enabled). Alias used below is `session005-mfg`.
 
+## The Widgets example
+
+`force-app/mocking-with-widgets/` is a small example written for this session, separate from the inherited Warehouse app. Everything in it is prefixed `WDGT_`, a namespace-like prefix inside one package (Session 006 takes that separation across packages). It deploys with `force-app`.
+
+One Service method does the work: `WDGT_WidgetsService.tagWidgetsWithGuid(Set<Id>)` selects the widgets, gives each a new GUID, registers each as dirty with a Unit of Work, and commits.
+
+| Class | Role |
+|---|---|
+| `WDGT_WidgetsService` | The method under test. `newInstance()` for callers; a constructor that takes the Selector and utility, where tests inject mocks |
+| `WDGT_WidgetsSelector` | Queries widgets by Id. Deliberately doesn't query `WDGT_MightBeRequired__c` |
+| `WDGT_WidgetsUtility` | `generateGuid()`: random, so tests must mock it |
+| `WDGT_UnitOfWork` | Unit of Work factory with a `@TestVisible` static `mock` |
+| `WDGT_WidgetsTriggerHandler` and `WDGT_Widgets.trigger` | A trigger handler with no logic yet |
+| `WDGT_InertDml` (test) | An `IDML` that saves nothing and records what would have been saved |
+
+| Test class | What it shows |
+|---|---|
+| `WDGT_UnitOfWorkTest` | The same method tested three ways: a mocked Unit of Work, an inert Unit of Work over `WDGT_InertDml`, and real DML and SOQL. Two more mocked tests verify the same calls with matchers, an argument captor, and in-order verification |
+| `WDGT_WidgetsServiceTest` | A Selector stubbed to throw; verifies nothing else is called |
+| `WDGT_WidgetsSelectorTest` | Empty and null conditions. Two marked demonstrations: reading a field the Selector doesn't query (and how a mocked Selector hides it), and the hazard of tests that depend on DML |
+| `WDGT_WidgetsTriggerHandlerTest` | Trigger coverage: disable the handler, save one widget |
+| `WDGT_WidgetsUtilityTest` | GUID shape and randomness |
+
+### Run the Widgets example on its own
+
+The Widgets example depends only on fflib, so it doesn't need the Warehouse app or the agent publish step. Clone fflib as shown in [Deploy fflib](#deploy-fflib), then:
+
+```bash
+sf org create scratch --definition-file config/project-scratch-def.json --alias widgets-mfg
+( cd /tmp/fflib-apex-mocks && sf project deploy start --source-dir sfdx-source/apex-mocks --target-org widgets-mfg --wait 15 )
+( cd /tmp/fflib-apex-common && sf project deploy start --source-dir sfdx-source/apex-common --target-org widgets-mfg --wait 20 --ignore-warnings )
+sf project deploy start --source-dir force-app/mocking-with-widgets --target-org widgets-mfg --wait 15
+```
+
+Then run the tests below with `--target-org widgets-mfg`.
+
+### Run the Widgets tests
+
+These run in either org; change `--target-org` to match:
+
+```bash
+sf apex run test --class-names WDGT_UnitOfWorkTest --class-names WDGT_WidgetsServiceTest \
+  --class-names WDGT_WidgetsSelectorTest --class-names WDGT_WidgetsTriggerHandlerTest \
+  --class-names WDGT_WidgetsUtilityTest --target-org session005-mfg --wait 20 --result-format human
+```
+
+Each `WDGT_UnitOfWorkTest` test writes a `TIMING` line to its debug log (elapsed and CPU milliseconds, SOQL queries, DML statements), so the three approaches can be compared. Open the log in the Developer Console.
+
+### Optional demo: a validation rule breaks DML-dependent tests
+
+The `WDGT_MightBeRequired` validation rule requires **Might Be Required** and deploys inactive. In Setup, open Object Manager → **Widget** → Validation Rules, activate it, and rerun the Widgets tests. The tests that save widgets fail even though no Apex changed; the mocked and inert tests still pass. Deactivate the rule afterwards.
+
 ## Architecture notes
 
-Session 005 adds Selector examples by adding methods only:
+The Selector examples added in Session 004 (per-query access, additive fields, cursors, pagination) remain; see the [Session 004 README](../Session004_QueryLogicAsFirstClassArchitectureConcern/README.md).
 
-- **Composition:** `newInstance()` is the canonical way in. Constructors are for deliberate composition, such as `new RobotsSelector(DataAccess.SYSTEM_MODE)`.
-- **Per-query access:** `RobotsSelector.selectById(ids, DataAccess)` sets the access mode for that one query and leaves the instance unchanged. Anything but `SYSTEM_MODE` runs in user mode.
-- **Additive fields:** `RobotsSelector.selectById(ids, Set<SObjectField>)` and `selectByIdWithOwner` add to the paramount fields; nothing removes them.
-- **Schema tokens over strings** in new conditions, including `getRelationshipName()` for relationship paths.
-- **Return shapes:** `FulfillmentLinesSelector.selectPendingByWarehouseAsCursor` returns a `Database.Cursor`, and `RobotsSelector.selectByWarehouseAsPaginationCursor` returns a `Database.PaginationCursor`, ordered by `Name, Id` so pages stay stable. Neither has a caller in the app; the paging scripts below show a consumer.
-- **Tests** pass empty conditions only: they check that each query is valid SOQL and leave Salesforce's execution to Salesforce.
+The Widgets example follows the same patterns as the inherited code: `newInstance()` is the default composition, constructors take collaborators so tests can inject mocks, `WDGT_UnitOfWork.mock` substitutes the Unit of Work, and there is no `Application` factory.
 
 The following describes the inherited implementation:
 
@@ -50,7 +98,9 @@ This sample uses **concrete** Domain, Selector, and Service classes. Constructor
 
 Domains wrap records, so they are constructed when those records are in hand — including mid-method, as when `FulfillmentService.completeLines` builds `FulfillmentLines` and `Robots`. Domain `newInstance(records)` keeps a `@TestVisible` mock for that case. This sample does not include an `Application` factory.
 
-## Deploy the app
+## Deploy the Warehouse app
+
+This deploys the Widgets example too, since it lives under `force-app`. To run Widgets alone, see [Run the Widgets example on its own](#run-the-widgets-example-on-its-own).
 
 ### Create a scratch org
 
@@ -144,18 +194,11 @@ To deploy, publish, activate, then test in one step:
 
 ## PaginationCursor demo
 
-Like the Unit of Work scripts in Session 002, two anonymous Apex scripts compare reading North Hub's robots without and with paging:
-
-```bash
-sf apex run --file scripts/apex/without-paging.apex --target-org session005-mfg
-sf apex run --file scripts/apex/with-paging.apex --target-org session005-mfg
-```
-
-`without-paging.apex` loads every robot in one list query. `with-paging.apex` pages through them two at a time with `RobotsSelector.selectByWarehouseAsPaginationCursor`, works around three PaginationCursor quirks, and fetches page 2 again on a fresh cursor. Load the sample data first.
+The `scripts/apex/*-paging.apex` scripts are carried over from Session 004; see the [Session 004 README](../Session004_QueryLogicAsFirstClassArchitectureConcern/README.md) for how to run them.
 
 ## Build and preview the slides
 
-The deck starts from the Session 003 template. From this session directory:
+The deck starts from the Session 004 template. From this session directory:
 
 ```bash
 ./slides/bin/build.sh
