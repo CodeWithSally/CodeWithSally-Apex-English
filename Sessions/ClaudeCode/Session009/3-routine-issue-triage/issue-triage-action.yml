@@ -1,0 +1,43 @@
+# .github/workflows/issue-triage.yml (optional alternative, not used live)
+#
+# Fires the "Issue triage" routine's API trigger when an issue is opened.
+# On stream we used the routine's built-in GitHub event trigger
+# ("Issues: opened") instead, which needs no Action, token or secrets.
+# Use this when you want to fire on an event the routine form doesn't offer.
+#
+# Repo secrets (from the routine's API trigger on claude.ai):
+#   CLAUDE_ROUTINE_URL   - the routine's /fire URL
+#   CLAUDE_ROUTINE_TOKEN - the bearer token (shown once when generated)
+
+name: Issue triage
+
+on:
+  issues:
+    types: [opened]
+
+# The Action only makes an outbound HTTP call; it needs no repo access.
+permissions: {}
+
+jobs:
+  fire-routine:
+    if: github.event.issue.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fire the triage routine
+        # Event values go through env, never ${{ }} inside run:, so issue
+        # text can't inject shell. Only the number and URL are sent; the
+        # routine reads the title and body itself.
+        env:
+          ROUTINE_URL: ${{ secrets.CLAUDE_ROUTINE_URL }}
+          ROUTINE_TOKEN: ${{ secrets.CLAUDE_ROUTINE_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          jq -n --arg text "Triage issue #${ISSUE_NUMBER} in ${REPO}: ${ISSUE_URL}" '{text: $text}' \
+            | curl -sS --fail-with-body -X POST "$ROUTINE_URL" \
+                -H "Authorization: Bearer ${ROUTINE_TOKEN}" \
+                -H "anthropic-beta: experimental-cc-routine-2026-04-01" \
+                -H "anthropic-version: 2023-06-01" \
+                -H "Content-Type: application/json" \
+                -d @-

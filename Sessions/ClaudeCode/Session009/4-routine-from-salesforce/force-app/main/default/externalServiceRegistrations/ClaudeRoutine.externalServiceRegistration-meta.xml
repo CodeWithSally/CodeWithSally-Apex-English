@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalServiceRegistration xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Claude Routine</label>
+    <namedCredentialReference>Claude_Routine</namedCredentialReference>
+    <operations>
+        <active>true</active>
+        <name>fireroutine</name>
+    </operations>
+    <registrationProviderType>Custom</registrationProviderType>
+    <schema>{&quot;openapi&quot;: &quot;3.0.0&quot;, &quot;info&quot;: {&quot;title&quot;: &quot;Claude Routine&quot;, &quot;version&quot;: &quot;1.0&quot;}, &quot;paths&quot;: {&quot;/v1/claude_code/routines/trig_YOUR_ROUTINE_ID/fire&quot;: {&quot;post&quot;: {&quot;operationId&quot;: &quot;fireRoutine&quot;, &quot;requestBody&quot;: {&quot;required&quot;: true, &quot;content&quot;: {&quot;application/json&quot;: {&quot;schema&quot;: {&quot;$ref&quot;: &quot;#/components/schemas/FireRequest&quot;}}}}, &quot;responses&quot;: {&quot;200&quot;: {&quot;description&quot;: &quot;Run started&quot;, &quot;content&quot;: {&quot;application/json&quot;: {&quot;schema&quot;: {&quot;$ref&quot;: &quot;#/components/schemas/FireResponse&quot;}}}}}}}}, &quot;components&quot;: {&quot;schemas&quot;: {&quot;FireRequest&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;text&quot;: {&quot;type&quot;: &quot;string&quot;}}}, &quot;FireResponse&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;type&quot;: {&quot;type&quot;: &quot;string&quot;}, &quot;claude_code_session_id&quot;: {&quot;type&quot;: &quot;string&quot;}, &quot;claude_code_session_url&quot;: {&quot;type&quot;: &quot;string&quot;}}}}}}</schema>
+    <schemaType>OpenApi3</schemaType>
+    <schemaUploadFileExtension>json</schemaUploadFileExtension>
+    <schemaUploadFileName>claude_routine</schemaUploadFileName>
+    <serviceBinding>{&quot;host&quot;:&quot;&quot;,&quot;basePath&quot;:&quot;/&quot;,&quot;allowedSchemes&quot;:[],&quot;requestMediaTypes&quot;:[],&quot;responseMediaTypes&quot;:[],&quot;compatibleMediaTypes&quot;:{},&quot;integrationFlags&quot;:null,&quot;extensions&quot;:{}}</serviceBinding>
+    <status>Complete</status>
+    <systemVersion>5</systemVersion>
+</ExternalServiceRegistration>

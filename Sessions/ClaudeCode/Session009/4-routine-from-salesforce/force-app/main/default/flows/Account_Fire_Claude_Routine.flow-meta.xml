@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Fire_Claude_Routine</name>
+        <label>Fire Claude Routine</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>ClaudeRoutine.fireRoutine</actionName>
+        <actionType>externalService</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>FireBody</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ClaudeRoutine.fireRoutine</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Build_Fire_Text</name>
+        <label>Build Fire Text</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>FireBody.text</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FireText</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Fire_Claude_Routine</targetReference>
+        </connector>
+    </assignments>
+    <description>When an Account is created, fires the Claude Code routine&apos;s API trigger with the account name, website and Id, so the routine can research it and post a brief to Slack.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>FireText</name>
+        <dataType>String</dataType>
+        <expression>&quot;New Salesforce Account in the cws org. Name: &quot; &amp; {!$Record.Name} &amp; &quot;. Website: &quot; &amp; BLANKVALUE({!$Record.Website}, &quot;none&quot;) &amp; &quot;. Id: &quot; &amp; {!$Record.Id} &amp; &quot;.&quot;</expression>
+    </formulas>
+    <interviewLabel>Account: Fire Claude Routine {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Account: Fire Claude Routine</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <object>Account</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <connector>
+                <targetReference>Build_Fire_Text</targetReference>
+            </connector>
+            <pathType>AsyncAfterCommit</pathType>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>FireBody</name>
+        <apexClass>ExternalService__ClaudeRoutine_FireRequest</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
