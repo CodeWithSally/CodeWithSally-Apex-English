@@ -445,11 +445,14 @@ public Object mock(Type classToMock) {
 
 ```apex
 // Creating the mock
+fflib_ApexMocks mocks = new fflib_ApexMocks();
 WDGT_WidgetsUtility utilityMock =
   (WDGT_WidgetsUtility) mocks.mock(WDGT_WidgetsUtility.class);
 
 // Given: you stub
 mocks.startStubbing();
+mocks.when(selectorMock.selectById(widgetIds))
+  .thenReturn(new List<WDGT_Widget__c>{ first });
 mocks.when(utilityMock.generateGuid()).thenReturn(firstGuid);
 mocks.stopStubbing();
 
@@ -459,6 +462,8 @@ new WDGT_WidgetsService(selectorMock, utilityMock)
 
 // Then: you verify
 ((WDGT_WidgetsUtility) mocks.verify(utilityMock)).generateGuid();
+Assert.areEqual(firstGuid, first.WDGT_Guid__c,
+  'The widget should get the stubbed GUID');
 ```
 
 </div>
@@ -997,6 +1002,7 @@ String fromMock =
 <p class="practice">💡 Test our logic, not Salesforce's. E2E test automation catches the field gap.</p>
 
 <!--
+- ⚠️ DEMO: show the missing-field demo — WDGT_WidgetsSelectorTest.selectById_WHEN_savedWidgetReadsUnqueriedField_EXPECT_sObjectException
 - Null throws in dynamic SOQL
 - Demonstration test, both halves
 - Don't contort unit tests for it
@@ -1007,7 +1013,7 @@ String fromMock =
 
 <!-- _class: detail-slide table-slide uow-test-slide -->
 
-# Testing the Unit of Work
+# Testing with Unit of Work
 
 <p class="tagline">Calls or outcome?</p>
 
@@ -1373,7 +1379,7 @@ System.assertEquals(false, due.contains(healthy), 'Healthy idle robot should not
 </div>
 
 <!--
-- ⚠️ DEMO: show the missing-field demo — WDGT_WidgetsSelectorTest.selectById_WHEN_savedWidgetReadsUnqueriedField_EXPECT_sObjectException
+- Recap: slide 22's missing field
 - Recap: slide 5's validation rule
 - Order, mutation, final state
 -->
