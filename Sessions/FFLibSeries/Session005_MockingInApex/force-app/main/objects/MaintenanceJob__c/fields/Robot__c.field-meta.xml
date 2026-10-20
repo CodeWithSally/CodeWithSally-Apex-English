@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Robot__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <label>Robot</label>
+    <referenceTo>Robot__c</referenceTo>
+    <relationshipLabel>Maintenance Jobs</relationshipLabel>
+    <relationshipName>MaintenanceJobs</relationshipName>
+    <required>true</required>
+    <type>Lookup</type>
+</CustomField>

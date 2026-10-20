@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1676" height="900" viewBox="-36 0 1676 900" overflow="visible" role="img" aria-labelledby="cg-title">
+  <title id="cg-title">Clients and trigger handlers call inward; Service, Domain, and Selector may compose</title>
+  <defs>
+    <marker id="cg-arrow-svc" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="24" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#A0C94A"/>
+    </marker>
+    <marker id="cg-arrow-dom" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="24" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#5A98E0"/>
+    </marker>
+    <marker id="cg-arrow-sel" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="24" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#E8A84A"/>
+    </marker>
+  </defs>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+
+    <rect x="56" y="48" width="500" height="220" rx="12" fill="#5c5c5c" stroke="#333333" stroke-width="5"/>
+    <text x="306" y="100" text-anchor="middle" fill="#f4f6f9" font-size="34" font-weight="700">Clients</text>
+    <text x="130" y="150" fill="#e6e6e6" font-size="22">LWC</text>
+    <text x="320" y="150" fill="#e6e6e6" font-size="22">REST</text>
+    <text x="130" y="190" fill="#e6e6e6" font-size="22">Flow</text>
+    <text x="320" y="190" fill="#e6e6e6" font-size="22">Agent</text>
+    <text x="130" y="230" fill="#e6e6e6" font-size="22">Batch</text>
+    <text x="320" y="230" fill="#e6e6e6" font-size="22">...</text>
+
+    <rect x="56" y="320" width="500" height="168" rx="12" fill="#2B5F9E" stroke="#16365c" stroke-width="5"/>
+    <text x="306" y="404" text-anchor="middle" dominant-baseline="central" fill="#f4f6f9" font-size="34" font-weight="700">Trigger Handler</text>
+
+    <rect x="760" y="120" width="520" height="188" rx="12" fill="#A0C94A" stroke="#6F9228" stroke-width="5"/>
+    <text x="1020" y="214" text-anchor="middle" dominant-baseline="central" fill="#1a2a0a" font-size="36" font-weight="700">Service</text>
+    <path d="M 1280 192 C 1348 192 1348 244 1282 244" fill="none" stroke="#A0C94A" stroke-width="2.5" stroke-linecap="butt" marker-end="url(#cg-arrow-svc)"/>
+    <text x="1290" y="166" fill="#A0C94A" font-size="30">Composition</text>
+
+    <rect x="130" y="640" width="500" height="188" rx="12" fill="#5A98E0" stroke="#2B5F9E" stroke-width="5"/>
+    <text x="380" y="734" text-anchor="middle" dominant-baseline="central" fill="#f4f6f9" font-size="34" font-weight="700">Domain</text>
+    <path d="M 130 716 C 58 716 58 770 128 770" fill="none" stroke="#5A98E0" stroke-width="2.5" stroke-linecap="butt" marker-end="url(#cg-arrow-dom)"/>
+    <text x="94" y="628" text-anchor="middle" fill="#5A98E0" font-size="30">Composition</text>
+
+    <rect x="1040" y="640" width="500" height="188" rx="12" fill="#E8A84A" stroke="#c49216" stroke-width="5"/>
+    <text x="1290" y="734" text-anchor="middle" dominant-baseline="central" fill="#2a1f0a" font-size="34" font-weight="700">Selector</text>
+    <path d="M 1400 640 C 1400 572 1452 572 1452 638" fill="none" stroke="#E8A84A" stroke-width="2.5" stroke-linecap="butt" marker-end="url(#cg-arrow-sel)"/>
+    <text x="1426" y="556" text-anchor="middle" fill="#E8A84A" font-size="30">Composition</text>
+
+    <polyline points="556,158 758,158" fill="none" stroke="#A0C94A" stroke-width="3" marker-end="url(#cg-arrow-svc)"/>
+
+    <polyline points="306,48 306,20 1618,20 1618,734 1542,734" fill="none" stroke="#E8A84A" stroke-width="3" stroke-linejoin="round" marker-end="url(#cg-arrow-sel)"/>
+
+    <polyline points="556,404 680,404 680,214 758,214" fill="none" stroke="#A0C94A" stroke-width="3" stroke-linejoin="round" stroke-dasharray="9 7" marker-end="url(#cg-arrow-svc)"/>
+
+    <polyline points="306,488 306,638" fill="none" stroke="#5A98E0" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#cg-arrow-dom)"/>
+
+    <polyline points="56,404 -12,404 -12,868 1290,868 1290,830" fill="none" stroke="#E8A84A" stroke-width="3" stroke-linejoin="round" stroke-dasharray="9 7" marker-end="url(#cg-arrow-sel)"/>
+
+    <polyline points="900,308 900,734 632,734" fill="none" stroke="#5A98E0" stroke-width="3" stroke-linejoin="round" marker-end="url(#cg-arrow-dom)"/>
+
+    <polyline points="1140,308 1140,638" fill="none" stroke="#E8A84A" stroke-width="3" marker-end="url(#cg-arrow-sel)"/>
+
+    <polyline points="630,786 1038,786" fill="none" stroke="#E8A84A" stroke-width="3" marker-end="url(#cg-arrow-sel)"/>
+  </g>
+</svg>

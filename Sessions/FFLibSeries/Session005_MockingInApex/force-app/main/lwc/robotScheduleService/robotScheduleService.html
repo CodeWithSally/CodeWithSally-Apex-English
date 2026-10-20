@@ -1,0 +1,23 @@
+<template>
+	<lightning-quick-action-panel header="Schedule Service">
+		<lightning-record-view-form record-id={recordId} object-api-name="Robot__c">
+			<lightning-output-field field-name="Name"></lightning-output-field>
+			<lightning-output-field field-name="Status__c"></lightning-output-field>
+			<lightning-output-field field-name="Health__c"></lightning-output-field>
+			<lightning-output-field field-name="WearPercent__c"></lightning-output-field>
+		</lightning-record-view-form>
+		<p class="slds-m-top_medium">
+			Take this idle robot offline and open a maintenance job.
+		</p>
+		<div slot="footer">
+			<lightning-button variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button>
+			<lightning-button
+				variant="brand"
+				class="slds-m-left_x-small"
+				label="Schedule Service"
+				onclick={handleSchedule}
+				disabled={isSaving}
+			></lightning-button>
+		</div>
+	</lightning-quick-action-panel>
+</template>

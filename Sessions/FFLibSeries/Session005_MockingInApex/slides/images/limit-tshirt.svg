@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 210" role="img" aria-labelledby="tshirt-title">
+  <title id="tshirt-title">A souvenir t-shirt: I survived Too many SOQL queries: 101</title>
+  <!-- the shirt -->
+  <path d="M70 18 Q110 44 150 18 L204 44 L184 92 L162 82 L162 196 Q110 204 58 196 L58 82 L36 92 L16 44 Z"
+        fill="#e8eef7" stroke="#9fb3cf" stroke-width="3" stroke-linejoin="round" transform="rotate(-4 110 110)"/>
+  <!-- collar -->
+  <path d="M84 24 Q110 48 136 24" fill="none" stroke="#9fb3cf" stroke-width="3" transform="rotate(-4 110 110)"/>
+  <g transform="rotate(-4 110 110)" font-family="Lato, Calibri, 'Segoe UI', sans-serif" text-anchor="middle">
+    <text x="110" y="78" font-size="13" font-weight="700" fill="#5b6b85" letter-spacing="1">I SURVIVED</text>
+    <text x="110" y="100" font-size="15" font-weight="900" fill="#c62828">TOO MANY</text>
+    <text x="110" y="117" font-size="15" font-weight="900" fill="#c62828">SOQL QUERIES</text>
+    <text x="110" y="160" font-size="44" font-weight="900" fill="#c62828">101</text>
+    <text x="110" y="181" font-size="8.5" font-style="italic" fill="#5b6b85">…and all I got was this t-shirt</text>
+  </g>
+  <!-- a little sweat drop, for feeling -->
+  <path d="M190 120 q6 10 0 14 q-6 -4 0 -14 z" fill="#8fd3ff"/>
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#014486</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Warehouse operations sample for Apex Enterprise Patterns. Service names a process; Domain names an object.</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Warehouse Operations</label>
+    <navType>Standard</navType>
+    <tabs>standard-home</tabs>
+    <tabs>Warehouse__c</tabs>
+    <tabs>Robot__c</tabs>
+    <tabs>RobotModel__c</tabs>
+    <tabs>FulfillmentOrder__c</tabs>
+    <tabs>FulfillmentLine__c</tabs>
+    <tabs>MaintenanceJob__c</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>
