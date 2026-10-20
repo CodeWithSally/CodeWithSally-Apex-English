@@ -4525,3 +4525,69 @@ section.domain-test-slide .split { grid-template-columns: 1.45fr 1fr; gap: 16px;
 section.domain-test-slide .split .vscode pre,
 section.domain-test-slide .split .vscode pre code,
 section.domain-test-slide .split .vscode pre code.hljs { font-size: 11px !important; }
+
+/* ---- Final review rework (2026-10-19) ---- */
+
+/* A closing question that hands off to the next slide */
+section .transition-q {
+  margin: 14px auto 0;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: #f3d36a;
+  text-align: center;
+}
+section.blast-slide .transition-q.blast-next { margin-top: 6px; font-size: 0.7em; }
+
+/* Slide 8: the fake, below the banner */
+section.promises-slide ul.fake-line { margin-top: 14px; }
+
+/* Slide 10: lead line under the title, points below the code */
+section .slide-lead-line { margin: 0 0 10px; font-size: 0.62em; text-align: center; }
+section ul.below-code {
+  width: 92%;
+  margin: 12px auto 0;
+  padding-left: 1.1em;
+  font-size: 0.6em;
+  line-height: 1.35;
+  text-align: left;
+}
+section ul.below-code li { margin-bottom: 6px; }
+
+/* Slide 11: two stacked code panels on the left */
+section.apexmocks-works-slide .split-code { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+section.apexmocks-works-slide .split-code .vscode { width: 100%; max-width: 100%; margin: 0 !important; }
+section.apexmocks-works-slide .split-code .vscode pre,
+section.apexmocks-works-slide .split-code .vscode pre code,
+section.apexmocks-works-slide .split-code .vscode pre code.hljs { font-size: 13px !important; }
+section .slide-lead-line { font-size: 0.55em; }
+
+/* Title + tagline: the title names the topic; the tagline sits under it in italics */
+section h1 + p.tagline,
+section p.tagline {
+  margin: -2px 0 8px !important;
+  font-size: 0.56em;
+  font-style: italic;
+  font-weight: 400;
+  color: #f3d36a;
+  text-align: center;
+  align-self: center;
+}
+
+/* Room for the taglines */
+section.compact-code-slide.tall-code-slide .vscode pre,
+section.compact-code-slide.tall-code-slide .vscode pre code,
+section.compact-code-slide.tall-code-slide .vscode pre code.hljs { font-size: 14px !important; }
+section.compact-code-slide .vscode pre,
+section.compact-code-slide .vscode pre code,
+section.compact-code-slide .vscode pre code.hljs { line-height: 1.15; }
+section.longway-slide .longway { max-height: 420px; }
+section.longway-slide .longway-sub { margin-bottom: 6px; }
+section.bake-slide .bake-lead { margin-top: 14px; }
+section.bake-slide .cat-sticker { left: 822px; top: 52px; width: 140px; transform: rotate(6deg); }
+section.bake-slide .cat-sticker img { width: 78px; }
+section.bake-slide .cat-sticker figcaption { font-size: 10.5px; }
+section.bake-slide .bake-lead { margin-top: 40px; }
+section.blast-slide .blast-row img { width: 990px; }
+section.blast-slide .blast-caption { margin: 2px 0 0; }
+section.compact-code-slide:has(.transition-q) > ul { font-size: 0.62em; }
+section.compact-code-slide .transition-q { margin-top: 10px; }

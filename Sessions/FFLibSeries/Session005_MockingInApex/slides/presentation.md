@@ -98,7 +98,9 @@ html: true
 
 <!-- _class: detail-slide code-slide compact-code-slide -->
 
-# Meet the Widgets
+# The Widgets example
+
+<p class="tagline">Small enough to fit on a slide</p>
 
 * **`WDGT_Widget__c`** — an auto-number Name, plus `WDGT_Guid__c` and `WDGT_MightBeRequired__c`
 * **One Service method, three collaborators** — a Selector, a GUID generator, and a Unit of Work
@@ -127,18 +129,23 @@ public virtual void tagWidgetsWithGuid(Set<Id> widgetsIdSet) {
 
 </div>
 
+<p class="transition-q" data-marpit-fragment="1">How should we test it?</p>
+
 <!--
 - Small, ours, slide-sized
 - Select → GUID → register → commit
 - Plus trigger, thin handler
 - Warehouse returns in Act IV
+- Click: how should we test it?
 -->
 
 ---
 
 <!-- _class: detail-slide code-slide compact-code-slide tall-code-slide -->
 
-# What's wrong with this test?
+# A test that uses the database
+
+<p class="tagline">What's wrong with this test?</p>
 
 <div class="vscode">
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">WDGT_UnitOfWorkTest.cls</span></div>
@@ -180,9 +187,9 @@ private static void tagWidgetsWithGuid_WHEN_twoWidgetsSaved_EXPECT_eachSavedWith
 <p class="practice">💡 Coverage isn't quality.</p>
 
 <!--
+- ⚠️ DEMO: show the validation failure — WDGT_WidgetsSelectorTest.insert_WHEN_widgetSaved_EXPECT_success (activate WDGT_MightBeRequired, rerun, deactivate)
 - Real, passing, in the repo
 - Click: six gripes
-- Optional: activate WDGT_MightBeRequired, rerun
 - Mocked & inert stay green
 - Goal: only this method
 -->
@@ -191,7 +198,9 @@ private static void tagWidgetsWithGuid_WHEN_twoWidgetsSaved_EXPECT_eachSavedWith
 
 <!-- _class: detail-slide blast-slide -->
 
-# Test only the method in front of you
+# What a unit test should touch
+
+<p class="tagline">Test only the method in front of you</p>
 
 <figure class="blast-vignette">
 <img src="images/testing-triangle.svg" alt="Andy Fawcett's testing triangle from Session 1" />
@@ -209,11 +218,14 @@ private static void tagWidgetsWithGuid_WHEN_twoWidgetsSaved_EXPECT_eachSavedWith
 <p class="quiet-note">…and a Widget is a tiny object with no automation. Every trigger, flow and related record grows the top row.</p>
 </div>
 
+<p class="transition-q blast-next" data-marpit-fragment="2">Now imagine your own, more complex logic…</p>
+
 <!--
 - Top: what the DML test touched
 - Click: what it should touch
 - Real limits hit: triggers, flows, data
 - Andy's unit band = bottom row
+- Click 2 → next slide
 - "We're only human…"
 -->
 
@@ -221,7 +233,9 @@ private static void tagWidgetsWithGuid_WHEN_twoWidgetsSaved_EXPECT_eachSavedWith
 
 <!-- _class: detail-slide longway-slide -->
 
-# The long way to a one-line method
+# Testing through the database, at scale
+
+<p class="tagline">The long way to a one-line method</p>
 
 <p class="longway-sub">An illustrative test, not from the repo: to test <code>Invoice.isOverdue()</code>, the test first walks a real record through its whole life.</p>
 
@@ -327,23 +341,31 @@ private static void tagWidgetsWithGuid_WHEN_twoWidgetsSaved_EXPECT_eachSavedWith
 
 # Stubs, mocks, and fakes
 
-* **Stub** — canned method returns: `when(...).thenReturn(...)`
-* **Mock** — a stand-in class that records its calls for the test to verify, with Mockito-style methods: `verify`, matchers
-* **Fake** — a working stand-in: `WDGT_InertDml` saves nothing, but remembers what it would have saved
+<p class="tagline">Three kinds of stand-in</p>
+
+- **Stub** — canned method returns: `when(...).thenReturn(...)`
+- **Mock** — a stand-in class that records its calls for the test to verify, with Mockito-style methods: `verify`, matchers
 
 <p class="practice">One ApexMocks object does both: it stubs answers and records calls.</p>
 
+<ul class="fake-line" data-marpit-fragment="1">
+<li><b>Fake</b> — a working stand-in: <code>WDGT_InertDml</code> saves nothing, but remembers what it would have saved</li>
+</ul>
+
 <!--
 - Don't sweat the words
-- Fake → slide 22 (InertDml)
-- Both → slide 16
+- Both → slide 18
+- Click: fake, a class we write
+- Fake → slide 24 (InertDml)
 -->
 
 ---
 
 <!-- _class: detail-slide table-slide -->
 
-# Three special cases
+# Tests that exist for coverage
+
+<p class="tagline">Three special cases</p>
 
 Coverage isn't quality, but some things just need coverage: the 0.01%.
 
@@ -363,11 +385,9 @@ Coverage isn't quality, but some things just need coverage: the 0.01%.
 
 <!-- _class: detail-slide code-slide compact-code-slide -->
 
-# The Stub API, briefly
+# The Stub API
 
-* **A platform feature, tests only** (GA in Spring '17): `Test.createStub(Type, System.StubProvider)` returns an object of that type
-* **One hook:** every call on it lands in your provider's `handleMethodCall`; whatever that returns, the caller gets
-* **Nothing else built in:** no `when`, no `verify`, no matchers. That's what ApexMocks adds
+<p class="slide-lead-line">The Stub API does the work; ApexMocks wraps it in Mockito-style stubbing and verifying (next slide).</p>
 
 <div class="vscode">
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">A hand-written stub (illustrative)</span></div>
@@ -387,7 +407,14 @@ utility.generateGuid();   // '11111111111111111111111111111111'
 
 </div>
 
+<ul class="below-code">
+<li data-marpit-fragment="1"><b>A platform feature, tests only</b> (GA in Spring '17): <code>Test.createStub(Type, System.StubProvider)</code> returns an object of that type</li>
+<li data-marpit-fragment="2"><b>One hook:</b> every call on it lands in your provider's <code>handleMethodCall</code>; whatever that returns, the caller gets</li>
+<li data-marpit-fragment="3"><b>Nothing else built in:</b> no <code>when</code>, no <code>verify</code>, no matchers</li>
+</ul>
+
 <!--
+- Clicks: three points
 - Platform, not a library
 - One method, every call
 - fflib-apex-common's own tests do this
@@ -395,46 +422,46 @@ utility.generateGuid();   // '11111111111111111111111111111111'
 
 ---
 
-<!-- _class: detail-slide code-slide compact-code-slide split-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide split-slide apexmocks-works-slide -->
 
-# How ApexMocks uses the Stub API
+# How ApexMocks works
+
+<p class="tagline">One mock, three phases</p>
 
 <div class="split">
+<div class="split-code">
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">fflib_ApexMocks.cls (trimmed)</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">Inside fflib_ApexMocks.cls</span></div>
 
 ```apex
-public with sharing class fflib_ApexMocks
-    implements System.StubProvider {
-
-  public Object mock(Type classToMock) {
-    return Test.createStub(classToMock, this);
-  }
-
-  public Object handleMethodCall(Object stubbedObject,
-      String stubbedMethodName, Type returnType,
-      List<Type> listOfParamTypes,
-      List<String> listOfParamNames,
-      List<Object> listOfArgs) {
-    return mockNonVoidMethod(stubbedObject,
-        stubbedMethodName, listOfParamTypes, listOfArgs);
-  }
-
-  public Object mockNonVoidMethod(...) {
-    // type + method + parameter types + arguments
-    if (this.verifying) {
-      verifyMethodCall(invocation);
-    } else if (Stubbing) {
-      prepareMethodReturnValue(invocation);
-    } else {
-      recordMethod(invocation);
-      return returnValue(invocation);
-    }
-    return null;
-  }
+public Object mock(Type classToMock) {
+  return Test.createStub(classToMock, this);
 }
 ```
 
+</div>
+<div class="vscode">
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">In a test (from WDGT_UnitOfWorkTest, trimmed)</span></div>
+
+```apex
+// Creating the mock
+WDGT_WidgetsUtility utilityMock =
+  (WDGT_WidgetsUtility) mocks.mock(WDGT_WidgetsUtility.class);
+
+// Given: you stub
+mocks.startStubbing();
+mocks.when(utilityMock.generateGuid()).thenReturn(firstGuid);
+mocks.stopStubbing();
+
+// When: your code runs
+new WDGT_WidgetsService(selectorMock, utilityMock)
+  .tagWidgetsWithGuid(widgetIds);
+
+// Then: you verify
+((WDGT_WidgetsUtility) mocks.verify(utilityMock)).generateGuid();
+```
+
+</div>
 </div>
 <div class="split-side">
 
@@ -454,10 +481,9 @@ public with sharing class fflib_ApexMocks
 </div>
 
 <!--
-- Real source, trimmed
-- mock(): one line
-- Three modes, one method
-- Key: method + args
+- mock(): one line over the Stub API
+- Same three phases as every test
+- Full test on slide 18
 -->
 
 ---
@@ -465,6 +491,8 @@ public with sharing class fflib_ApexMocks
 <!-- _class: detail-slide table-slide -->
 
 # What the Stub API can't stub
+
+<p class="tagline">The limits that shape our code</p>
 
 | It can't stub… | So we write… |
 |---|---|
@@ -487,7 +515,9 @@ public with sharing class fflib_ApexMocks
 
 <!-- _class: detail-slide code-slide compact-code-slide -->
 
-# One way in, one way to customize
+# Injecting collaborators
+
+<p class="tagline">One way in, one way to customize</p>
 
 <div class="vscode">
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">WDGT_WidgetsService.cls</span></div>
@@ -535,11 +565,13 @@ new WDGT_WidgetsService(selectorMock, utilityMock).tagWidgetsWithGuid(widgetIds)
 
 <!-- _class: detail-slide code-slide duo-slide stateful-slide -->
 
-# Stateful objects: substitute where they're created
+# Substituting stateful objects
+
+<p class="tagline">Swap them where they're made</p>
 
 <ul class="stateful-lead">
 <li><b>Some objects carry state.</b> A Domain wraps the records it was given; a Unit of Work collects changes until it commits.</li>
-<li><b>They're created mid-method,</b> from records that only exist at that point, so a constructor shouldn't hand one in ahead of time.</li>
+<li><b>They hold state while in use,</b> so each piece of work needs a fresh one; a constructor shouldn't hand in one to be reused.</li>
 <li><b>So we swap them where they're made:</b> their <code>newInstance()</code> returns the test's mock when one is set.</li>
 </ul>
 
@@ -603,7 +635,9 @@ Robots.mock = robotsMock;
 
 <!-- _class: detail-slide promises-slide checklist-mock-slide -->
 
-# Mockability ☑️ checklist
+# Making a class mockable
+
+<p class="tagline">A short checklist</p>
 
 * ☑️ **A non-private constructor**
 * ☑️ **A top-level class**
@@ -622,7 +656,9 @@ Robots.mock = robotsMock;
 
 <!-- _class: detail-slide promises-slide dense-bullets-slide -->
 
-# Where fflib is heading: mainstream DI
+# Where fflib is heading
+
+<p class="tagline">Mainstream dependency injection</p>
 
 * **A static factory plus constructor injection** — `newInstance()` by default, constructors for customized instances: the same shape as Spring, .NET, or any Mockito-era stack
 * **Interfaces only where implementations genuinely vary** — the refreshed sample keeps just `ISupportInvoicing`; the Widgets code has none
@@ -645,10 +681,12 @@ Robots.mock = robotsMock;
 
 # How fflib mocking evolved
 
+<p class="tagline">Not wrong, just earlier</p>
+
 <ol class="timeline">
 <li><b>Generated mocks</b><span>ApexMocks generated mock classes, for interfaces only. So interfaces went everywhere</span></li>
-<li><b>The Stub API arrives</b><span>Mocks are created at run time, for classes too. Code generation fades away</span></li>
-<li><b>The Application factory</b><span>Interfaces plus a central factory, and <code>setMock</code> to swap implementations</span></li>
+<li><b>The Application factory</b><span>Interfaces plus a central factory, and <code>setMock</code> to swap in the generated mocks</span></li>
+<li><b>The Stub API arrives</b><span>Mocks made at run time, for classes too; the generator, and the need for interfaces everywhere, fade away</span></li>
 <li class="now"><b>Today</b><span>Concrete classes, <code>newInstance()</code> plus constructors, interfaces only where they vary</span></li>
 <li class="next"><b>Next: multi-package</b><span>AT4DX: the same seam, with metadata deciding (Session 6)</span></li>
 </ol>
@@ -666,7 +704,9 @@ Robots.mock = robotsMock;
 
 <!-- _class: detail-slide code-slide compact-code-slide tall-code-slide -->
 
-# ApexMocks: the three you'll use daily
+# Stubbing and verifying
+
+<p class="tagline">The three you'll use daily</p>
 
 * **① `thenReturn`** — what a call answers
 * **② `thenReturnMulti`** — one answer per call, in order
@@ -712,7 +752,9 @@ new WDGT_WidgetsService(selectorMock, utilityMock).tagWidgetsWithGuid(widgetIds)
 
 <!-- _class: detail-slide code-slide bake-slide -->
 
-# More than one way to bake a cake
+# Other ways to verify
+
+<p class="tagline">More than one way to bake a cake</p>
 
 <p class="bake-lead">Slide 18's <b>Then</b>, three more ways. Same Given and When; real tests in <code>WDGT_UnitOfWorkTest</code>.</p>
 
@@ -809,6 +851,8 @@ fflib_InOrder inOrder =
 
 # ApexMocks reference card
 
+<p class="tagline">If you've wished for it, it's probably here</p>
+
 <div class="refcard">
 <div>
 <h3>Stubbing</h3>
@@ -859,6 +903,8 @@ fflib_InOrder inOrder =
 
 # Building records in memory
 
+<p class="tagline">No inserts required</p>
+
 <div class="vscode">
 <div class="vscode-tabs"><span class="vscode-tab vscode-tab-alt">Test setup, no DML (snippets)</span></div>
 
@@ -899,6 +945,8 @@ List<Account> accounts = (List<Account>) fflib_ApexMocksUtils.makeRelationship(
 <!-- _class: detail-slide code-slide duo-slide selector-test-slide -->
 
 # Testing Selectors
+
+<p class="tagline">Mostly coverage, never pointless</p>
 
 <ul class="slide-lead">
 <li><b>Callers mock them, so the quality lives in the callers' tests.</b> The Selector's own test is mostly for coverage (slide 9): empty conditions, no data, no DML. As a bonus, it proves the SOQL is valid.</li>
@@ -961,6 +1009,8 @@ String fromMock =
 
 # Testing the Unit of Work
 
+<p class="tagline">Calls or outcome?</p>
+
 | If… | Use | Assert with |
 |---|---|---|
 | **You don't care about the resulting records** | A fully mocked Unit of Work (ApexMocks) | `verify(uowMock).registerDirty(…)`, `commitWork()`, or capture the records (slide 19) |
@@ -998,7 +1048,9 @@ String fromMock =
 
 <!-- _class: detail-slide code-slide duo-slide inert-slide -->
 
-# InertDml: assert what would have been saved
+# Inspecting what would be saved
+
+<p class="tagline">InertDml: a database that saves nothing</p>
 
 <ul class="slide-lead">
 <li><b>The real Unit of Work runs its full commit logic,</b> but the IDML <em>collects</em> the records instead of saving them.</li>
@@ -1092,6 +1144,8 @@ Assert.areEqual(acme.Id, saved.AccountId, '…');
 
 # Testing triggers
 
+<p class="tagline">One save, for coverage</p>
+
 <ul class="slide-lead">
 <li><b>Keep the trigger a one-line handoff and the handler thin:</b> it converts trigger specifics to general Apex and calls other logic. Unit-test that logic where it lives.</li>
 <li><b>Coverage only:</b> switch the handler off with fflib's own switch, then save one record. The trigger and the handler's construction are covered; no handler logic runs.</li>
@@ -1141,14 +1195,15 @@ Assert.isTrue(result.isSuccess(), '…');
 <!--
 - The 0.01%
 - Why not a mock: Configuration null
-- Activate WDGT_MightBeRequired: it fails
 -->
 
 ---
 
 <!-- _class: detail-slide code-slide compact-code-slide tall-code-slide scale-slide -->
 
-# The same patterns at real scale
+# Service tests at real scale
+
+<p class="tagline">Same patterns, bigger method</p>
 
 * **The Warehouse app's `DispatchServiceTest`** — Selectors in through the constructor; Domains and the Unit of Work through their static mocks (slide 14)
 
@@ -1199,7 +1254,9 @@ new DispatchService(lineSelectorMock, robotSelectorMock, orderSelectorMock)
 
 <!-- _class: detail-slide code-slide split-slide domain-test-slide -->
 
-# A Domain test: in memory, mock only what it calls out to
+# Testing a Domain
+
+<p class="tagline">In memory; mock only what it calls out to</p>
 
 <div class="split">
 <div class="vscode">
@@ -1259,6 +1316,8 @@ System.assertEquals(false, due.contains(healthy), 'Healthy idle robot should not
 
 # What to mock at each layer
 
+<p class="tagline">Each layer checks its own decisions</p>
+
 <table>
 <thead><tr><th>Layer</th><th>Its test checks</th><th>Mock</th></tr></thead>
 <tbody>
@@ -1283,6 +1342,8 @@ System.assertEquals(false, due.contains(healthy), 'Healthy idle robot should not
 
 # Pitfalls and gotchas
 
+<p class="tagline">Learned the hard way</p>
+
 <div class="pitfalls">
 <div>
 <h3>Test design</h3>
@@ -1301,6 +1362,7 @@ System.assertEquals(false, due.contains(healthy), 'Healthy idle robot should not
 <li><b>Mocks of the same type share stubs</b> by default (<code>HasIndependentMocks</code>)</li>
 <li><b>Matchers are all or nothing</b> per call; use <code>isNull()</code>, not <code>eq(null)</code></li>
 <li><b>One <code>fflib_ApexMocks</code> per test</b></li>
+<li><b>Arguments match by value, at call time:</b> List order matters, and changing an argument after stubbing or calling breaks the match</li>
 </ul>
 </div>
 </div>
@@ -1311,9 +1373,9 @@ System.assertEquals(false, due.contains(healthy), 'Healthy idle robot should not
 </div>
 
 <!--
-- Optional live: activate WDGT_MightBeRequired
-- DML tests fail; mocked stay green
-- Deactivate after
+- ⚠️ DEMO: show the missing-field demo — WDGT_WidgetsSelectorTest.selectById_WHEN_savedWidgetReadsUnqueriedField_EXPECT_sObjectException
+- Recap: slide 5's validation rule
+- Order, mutation, final state
 -->
 
 ---
