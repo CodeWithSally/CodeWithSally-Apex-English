@@ -1,0 +1,141 @@
+# =============================================================================
+# EXERCISE FILE — DO NOT FIX BEFORE THE SESSION
+#
+# Summit Outdoor Gear — Customer Support Service Agent
+#
+# This script does not compile. It contains three defects, in increasing
+# order of difficulty. All three surface in a single validation run.
+#
+# Fix them one at a time and re-validate after each. Your error count
+# should go 3 -> 2 -> 1 -> 0.
+#
+# Reference: https://developer.salesforce.com/docs/ai/agentforce/guide/agent-script.html
+# =============================================================================
+
+system:
+    instructions: "You are a courteous, efficient service agent for Summit Outdoor Gear, an outdoor equipment retailer. You help customers check the status of their support cases. Never share case details until the customer's identity is verified."
+    messages:
+        welcome: "Hi there! I'm the Summit Outdoor Gear support assistant. How can I help today?"
+        error: "Sorry, something went wrong on my end. Could you say that a different way?"
+
+config:
+    developer_name: "Summit_Service_Agent"
+    description: "Verifies a customer's identity, then looks up the status of their support case."
+
+access:
+    # REPLACE THIS before publishing. Every org's agent user is different.
+    # Find yours:   sf org create agent-user --target-org mydemo
+    # or query it:  sf data query --query "SELECT Username FROM User WHERE IsActive = true" --target-org mydemo
+    # Not needed for the validation part of this lab — only for publish.
+    default_agent_user: "REPLACE_WITH_YOUR_ORG_AGENT_USER"
+
+variables:
+    contact_email: mutable string = ""
+        description: "The email address on the customer's account."
+    verification_code: mutable string
+        description: "The one-time code the agent generated for this customer."
+    verified: mutable boolean = False
+        description: "Whether the customer's identity has been verified."
+    case_number: mutable string
+        description: "The support case number the customer is asking about."
+    case_status: mutable string = ""
+        description: "The status summary returned for the customer's case."
+
+language:
+    default_locale: "en_US"
+    additional_locales: ""
+    all_additional_locales: False
+
+
+# -----------------------------------------------------------------------------
+# Entry point. Runs on every customer utterance.
+# -----------------------------------------------------------------------------
+start_agent support_router:
+    description: "Greet the customer and route them to the correct subagent."
+    reasoning:
+        instructions: ->
+            | You are the router for Summit Outdoor Gear customer support.
+              Greet the customer warmly and work out what they need.
+              Do not escalate to a human unless the customer explicitly asks for one.
+        actions:
+            go_to_identity: @utils.transition to @subagent.Identity
+                description: "Verifies the customer's identity before any case data is shared."
+                available when @variables.verified == False
+            go_to_case_status: @utils.transition to @subagent.CaseStatus
+                description: "Looks up and summarizes the status of a support case."
+                available when @variables.verified == True
+
+
+# -----------------------------------------------------------------------------
+# Identity verification
+# -----------------------------------------------------------------------------
+subagent Identity:
+    description: "Verifies the customer's identity before any account data is shared."
+    reasoning:
+        instructions: ->
+            | Ask the customer for the email address on their Summit account.
+              Send them a one-time code using {!@actions.send_code}.
+              Then ask for the code they received and check it with {!@actions.check_code}.
+              If they say the code never arrived, confirm the email and send it again.
+        actions:
+            send_code: @actions.send_code
+                with email=@variables.contact_email
+                set @variables.verification_code=@outputs.code
+
+            check_code: @actions.check_code
+                available when @variables.code_sent != None
+                with entered_code = ...
+                set @variables.verified=@outputs.is_valid
+
+            go_to_case_status: @utils.transition to @subagent.Case_Status
+                available when @variables.verified == True
+
+    actions:
+        send_code:
+            description: "Emails a one-time verification code to the customer."
+            inputs:
+                email: string
+            outputs:
+                code: string
+            target: "flow://Send_Verification_Code"
+
+        check_code:
+            description: "Checks the verification code the customer entered."
+            inputs:
+                submitted_code: string
+            outputs:
+                is_valid: boolean
+                    description: "True when the submitted code matches the generated code."
+            target: "flow://Validate_Verification_Code"
+
+
+# -----------------------------------------------------------------------------
+# Case status lookup
+# -----------------------------------------------------------------------------
+subagent Case_Status:
+    description: "Looks up and summarizes the status of a customer's support case."
+    reasoning:
+        instructions: ->
+            if @variables.case_status == "":
+                | Ask the customer for their case number, then look it up
+                  using {!@actions.lookup_case}.
+            else:
+                | Give the customer their case status: {!@variables.case_status}.
+                  Then ask whether there's anything else they need.
+        actions:
+            lookup_case: @actions.lookup_case
+                with case_number = ...
+                set @variables.case_status=@outputs.status_summary
+                set @variables.case_number=@outputs.case_number
+
+    actions:
+        lookup_case:
+            description: "Retrieves the status of a support case by case number."
+            inputs:
+                case_number: string
+            outputs:
+                status_summary: string
+                case_number: string
+            target: "flow://Lookup_Case_Status"
+
+# End of Summit Outdoor Gear service agent script
