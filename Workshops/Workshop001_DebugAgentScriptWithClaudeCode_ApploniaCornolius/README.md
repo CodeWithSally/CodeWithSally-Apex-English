@@ -120,7 +120,7 @@ Now sign in. Run `claude` from any folder, follow the login prompt in your brows
 
 ## 6. Download the broken script
 
-The exercise file is in this folder: [`Summit_Service_Agent.agent`](./Summit_Service_Agent.agent)
+The exercise file is in this folder: [`Summit_Service_Agent.agent`](./Summit_Service_Agent (4).agent)
 
 1. Click the file name above.
 2. Click the **Download raw file** button (the down-arrow icon at the top right of the file view).
