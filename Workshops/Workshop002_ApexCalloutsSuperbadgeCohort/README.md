@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="assets/code-with-sally-logo.png" alt="Code With Sally logo" height="120">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/apex-callouts-badge.png" alt="Apex Callouts superbadge" height="120">
+</p>
+
 # Apex Callouts Superbadge Cohort
 
 A two-day, hands-on cohort hosted by **Code With Sally**. You earn the **Apex Callouts** superbadge by building it yourself, in small peer groups. Sally facilitates: she gives hints along the way, not answers.
@@ -34,7 +40,7 @@ Sign up here: **http://sfdc.co/ApexCalloutsDev**
 
 ### 3. Get access to the cohort tracker
 
-After you fill in the pre-event survey, [contact Sally](https://www.linkedin.com/in/sallyelghoul/) to get access to the **[cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing)**. There, you'll add your details and track your progress through the challenges.
+After you fill in the pre-event survey, [contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/) to get access to the **[cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing)**. There, you'll add your details and track your progress through the challenges.
 
 ### 4. Have your tools ready
 
@@ -125,7 +131,7 @@ To qualify for the random draw:
 2. Fill in the [pre-event survey](https://www.surveymonkey.com/r/ApexCallouts?cohort=ApexSally26).
 3. Fill in the [post-event survey](https://www.surveymonkey.com/r/ApexCalloutsPostSurvey?cohort=ApexSally26).
 4. Finish the superbadge with the cohort.
-5. Share your Trailhead profile link and confirm steps 2 to 4 in the [cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing). [Contact Sally](https://codewithsally.com/contact-sally/) for access after you fill in the pre-event survey.
+5. Share your Trailhead profile link and confirm steps 2 to 4 in the [cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing). [Contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/) for access after you fill in the pre-event survey.
 
 **The draw is on Tuesday, November 17, 2026.** Sally will contact the winner directly.
 
@@ -133,6 +139,6 @@ To qualify for the random draw:
 
 ## Questions?
 
-[Contact Sally](https://www.linkedin.com/in/sallyelghoul/) through Linkedin.
+[Contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/).
 
 See you in the cohort!
