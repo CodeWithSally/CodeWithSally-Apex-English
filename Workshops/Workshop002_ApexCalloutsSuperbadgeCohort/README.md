@@ -34,7 +34,7 @@ Sign up here: **http://sfdc.co/ApexCalloutsDev**
 
 ### 3. Get access to the cohort tracker
 
-After you fill in the pre-event survey, [contact Sally](https://codewithsally.com/contact-sally/) to get access to the **[cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing)**. There, you'll add your details and track your progress through the challenges.
+After you fill in the pre-event survey, [contact Sally](https://www.linkedin.com/in/sallyelghoul/) to get access to the **[cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing)**. There, you'll add your details and track your progress through the challenges.
 
 ### 4. Have your tools ready
 
@@ -133,6 +133,6 @@ To qualify for the random draw:
 
 ## Questions?
 
-[Contact Sally](https://codewithsally.com/contact-sally/) through Code With Sally.
+[Contact Sally](https://www.linkedin.com/in/sallyelghoul/) through Linkedin.
 
 See you in the cohort!
