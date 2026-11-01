@@ -1,0 +1,3 @@
+node_modules/
+# Marp slide render output
+slides/bin/out/
