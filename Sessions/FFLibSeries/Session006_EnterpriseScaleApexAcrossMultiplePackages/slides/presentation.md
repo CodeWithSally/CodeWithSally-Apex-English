@@ -1169,6 +1169,8 @@ public class FUL_ClosedWonConsumer
 
 #### John M. Daniel
 ###### github.com/ImJohnMDaniel
+###### x.com/ImJohnMDaniel
+###### linkedin.com/in/ImJohnMDaniel
 
 ![Code With Sally](images/codewithsally.png)
 
