@@ -19,6 +19,9 @@
     .solid { fill: none; stroke: #9fb3c8; stroke-width: 2.5; marker-end: url(#pdm-arrow); }
     .dash { fill: none; stroke: #f3d36a; stroke-width: 2; stroke-dasharray: 7 6; marker-end: url(#pdm-arrow-d); }
   </style>
+  <defs><clipPath id="pdm-hl"><rect x="370" y="688" width="860" height="208" rx="16"/></clipPath></defs>
+  <!-- Everything, faded -->
+  <g opacity="0.3">
 
   <!-- Happy Soup -->
   <rect x="610" y="14" width="380" height="56" rx="28" fill="rgba(159,179,200,0.10)" stroke="#9fb3c8" stroke-width="2" stroke-dasharray="4 5"/>
@@ -165,9 +168,155 @@
     <text class="t" x="74" y="122" style="font-size:15px">Specific dependency</text>
     <text class="t" x="74" y="140" style="font-size:15px">between packages</text>
   </g>
+</g>
+  <!-- Highlight: framework, full strength -->
+  <g clip-path="url(#pdm-hl)">
 
-  <!-- Highlight: framework -->
-  <mask id="pdm-hl"><rect width="1600" height="900" fill="#fff"/><rect x="370" y="688" width="860" height="208" rx="16" fill="#000"/></mask>
-  <rect width="1600" height="900" fill="#032d60" fill-opacity="0.74" mask="url(#pdm-hl)"/>
+  <!-- Happy Soup -->
+  <rect x="610" y="14" width="380" height="56" rx="28" fill="rgba(159,179,200,0.10)" stroke="#9fb3c8" stroke-width="2" stroke-dasharray="4 5"/>
+  <text class="t box" x="800" y="48" text-anchor="middle">Remaining “Happy Soup” (unpackaged)</text>
+
+  <!-- Business layer -->
+  <rect x="330" y="108" width="940" height="172" rx="12" fill="rgba(160,201,74,0.08)" stroke="#A0C94A" stroke-width="2.5"/>
+  <text class="t band" x="348" y="132" fill="#A0C94A" style="fill:#A0C94A">BUSINESS</text>
+  <g filter="url(#pdm-shadow)" stroke-width="2">
+    <rect x="350" y="144" width="200" height="46" rx="6" fill="#0b3a70" stroke="#A0C94A"/>
+    <rect x="580" y="144" width="200" height="46" rx="6" fill="#0b3a70" stroke="#A0C94A"/>
+    <rect x="810" y="144" width="200" height="46" rx="6" fill="#0b3a70" stroke="#A0C94A"/>
+    <rect x="1040" y="144" width="200" height="46" rx="6" fill="#0b3a70" stroke="#A0C94A" stroke-dasharray="5 4"/>
+    <rect x="350" y="212" width="200" height="46" rx="6" fill="rgba(160,201,74,0.30)" stroke="#A0C94A"/>
+    <rect x="580" y="212" width="200" height="46" rx="6" fill="rgba(160,201,74,0.30)" stroke="#A0C94A"/>
+    <rect x="810" y="212" width="200" height="46" rx="6" fill="rgba(210,168,255,0.30)" stroke="#d2a8ff"/>
+    <rect x="1040" y="212" width="200" height="46" rx="6" fill="rgba(210,168,255,0.30)" stroke="#d2a8ff"/>
+  </g>
+  <text class="t box" x="450" y="173" text-anchor="middle">CRM</text>
+  <text class="t box" x="680" y="173" text-anchor="middle">Marketing</text>
+  <text class="t box" x="910" y="173" text-anchor="middle">Case / Service</text>
+  <text class="t box" x="1140" y="173" text-anchor="middle">…more</text>
+  <text class="t box" x="450" y="241" text-anchor="middle">Project XXX-A</text>
+  <text class="t box" x="680" y="241" text-anchor="middle">Project XXX-B</text>
+  <text class="t box" x="910" y="241" text-anchor="middle">Project YYY-A</text>
+  <text class="t box" x="1140" y="241" text-anchor="middle">Project YYY-B</text>
+
+  <!-- Common layer -->
+  <rect x="380" y="328" width="840" height="332" rx="12" fill="rgba(90,152,224,0.10)" stroke="#5A98E0" stroke-width="2.5"/>
+  <text class="t band" x="398" y="352" style="fill:#8fb3ff">COMMON</text>
+  <g filter="url(#pdm-shadow)" stroke-width="2">
+    <rect x="420" y="368" width="220" height="52" rx="6" fill="rgba(160,201,74,0.30)" stroke="#A0C94A"/>
+    <rect x="690" y="368" width="220" height="52" rx="6" fill="rgba(210,168,255,0.30)" stroke="#d2a8ff"/>
+    <rect x="960" y="368" width="220" height="52" rx="6" fill="rgba(255,138,122,0.28)" stroke="#ff8a7a"/>
+    <rect x="420" y="450" width="500" height="72" rx="6" fill="rgba(90,152,224,0.35)" stroke="#5A98E0"/>
+    <rect x="420" y="560" width="760" height="76" rx="6" fill="rgba(90,152,224,0.18)" stroke="#5A98E0" stroke-dasharray="7 5"/>
+  </g>
+  <text class="t box" x="530" y="400" text-anchor="middle">Project XXX Common</text>
+  <text class="t box" x="800" y="400" text-anchor="middle">Project YYY Common</text>
+  <text class="t box" x="1070" y="400" text-anchor="middle">BackOffice Common</text>
+  <text class="t box" x="670" y="482" text-anchor="middle">Org-wide Common</text>
+  <text class="t small" x="670" y="506" text-anchor="middle">Core SObject concerns for this org</text>
+  <text class="t box" x="800" y="592" text-anchor="middle">Universal Common</text>
+  <text class="t small" x="800" y="616" text-anchor="middle">Core SObject concerns shared by every org · in a single org, this lives in Org-wide Common</text>
+
+  <!-- Framework layer -->
+  <rect x="380" y="698" width="840" height="188" rx="12" fill="rgba(129,204,194,0.08)" stroke="#81ccc2" stroke-width="2.5"/>
+  <text class="t band" x="398" y="722" style="fill:#81ccc2">FRAMEWORK</text>
+  <rect x="610" y="734" width="590" height="140" rx="8" fill="none" stroke="#81ccc2" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text class="t small" x="1188" y="754" text-anchor="end" style="fill:#81ccc2">Apex Enterprise Patterns</text>
+  <g filter="url(#pdm-shadow)" stroke-width="2">
+    <rect x="410" y="736" width="170" height="40" rx="6" fill="#0b3a70" stroke="#81ccc2"/>
+    <rect x="410" y="786" width="170" height="40" rx="6" fill="#0b3a70" stroke="#81ccc2"/>
+    <rect x="410" y="836" width="170" height="40" rx="6" fill="#0b3a70" stroke="#81ccc2"/>
+    <rect x="640" y="758" width="170" height="44" rx="6" fill="rgba(129,204,194,0.35)" stroke="#81ccc2"/>
+    <rect x="640" y="820" width="170" height="44" rx="6" fill="rgba(129,204,194,0.35)" stroke="#81ccc2"/>
+    <rect x="840" y="820" width="150" height="44" rx="6" fill="rgba(129,204,194,0.35)" stroke="#81ccc2"/>
+    <rect x="1020" y="820" width="165" height="44" rx="6" fill="rgba(129,204,194,0.35)" stroke="#81ccc2"/>
+  </g>
+  <text class="t box" x="495" y="762" text-anchor="middle">Utils</text>
+  <text class="t box" x="495" y="812" text-anchor="middle">Promises</text>
+  <text class="t box" x="495" y="862" text-anchor="middle">Other libraries</text>
+  <text class="t box" x="725" y="786" text-anchor="middle">AT4DX</text>
+  <text class="t box" x="725" y="848" text-anchor="middle">fflib Apex Common</text>
+  <text class="t box" x="915" y="848" text-anchor="middle">Force-DI</text>
+  <text class="t box" x="1102" y="848" text-anchor="middle">fflib Apex Mocks</text>
+
+  <!-- Third-party -->
+  <rect x="20" y="328" width="300" height="152" rx="12" fill="rgba(159,179,200,0.08)" stroke="#9fb3c8" stroke-width="2.5"/>
+  <text class="t band" x="36" y="352" style="fill:#9fb3c8;font-size:13px">THIRD-PARTY EXTENSIONS</text>
+  <rect x="20" y="518" width="300" height="152" rx="12" fill="rgba(159,179,200,0.05)" stroke="#9fb3c8" stroke-width="2" stroke-dasharray="6 5"/>
+  <text class="t band" x="36" y="542" style="fill:#9fb3c8;font-size:13px">THIRD-PARTY MANAGED PACKAGES</text>
+  <g filter="url(#pdm-shadow)" stroke-width="2" fill="#0b3a70" stroke="#9fb3c8">
+    <rect x="38" y="370" width="128" height="40" rx="6"/><rect x="176" y="370" width="128" height="40" rx="6"/>
+    <rect x="38" y="422" width="128" height="40" rx="6"/><rect x="176" y="422" width="128" height="40" rx="6"/>
+    <rect x="38" y="560" width="128" height="40" rx="6"/><rect x="176" y="560" width="128" height="40" rx="6"/>
+    <rect x="38" y="612" width="128" height="40" rx="6"/><rect x="176" y="612" width="128" height="40" rx="6"/>
+  </g>
+  <g class="t" style="font-size:15px" text-anchor="middle">
+    <text x="102" y="396">DocuSignExt</text><text x="240" y="396">SpringCMExt</text>
+    <text x="102" y="448">ASCENTExt</text><text x="240" y="448">PSAExt</text>
+    <text x="102" y="586">DocuSign</text><text x="240" y="586">SpringCM</text>
+    <text x="102" y="638">ASCENT</text><text x="240" y="638">PSA</text>
+  </g>
+
+  <!-- Integration APIs -->
+  <rect x="1300" y="108" width="280" height="172" rx="12" fill="rgba(232,168,74,0.08)" stroke="#E8A84A" stroke-width="2.5"/>
+  <text class="t band" x="1316" y="132" style="fill:#E8A84A;font-size:13px">INBOUND INTEGRATION API</text>
+  <rect x="1300" y="398" width="280" height="172" rx="12" fill="rgba(232,168,74,0.08)" stroke="#E8A84A" stroke-width="2.5"/>
+  <text class="t band" x="1316" y="422" style="fill:#E8A84A;font-size:13px">OUTBOUND INTEGRATION API</text>
+  <g filter="url(#pdm-shadow)" stroke-width="2">
+    <rect x="1316" y="146" width="120" height="44" rx="6" fill="#0b3a70" stroke="#E8A84A"/>
+    <rect x="1446" y="146" width="120" height="44" rx="6" fill="#0b3a70" stroke="#E8A84A"/>
+    <rect x="1316" y="208" width="120" height="52" rx="6" fill="rgba(255,138,122,0.28)" stroke="#ff8a7a"/>
+    <rect x="1446" y="208" width="120" height="52" rx="6" fill="rgba(255,138,122,0.28)" stroke="#ff8a7a"/>
+    <rect x="1316" y="438" width="120" height="44" rx="6" fill="#0b3a70" stroke="#E8A84A"/>
+    <rect x="1446" y="438" width="120" height="44" rx="6" fill="#0b3a70" stroke="#E8A84A"/>
+    <rect x="1316" y="500" width="120" height="44" rx="6" fill="#0b3a70" stroke="#E8A84A"/>
+    <rect x="1446" y="500" width="120" height="44" rx="6" fill="#0b3a70" stroke="#E8A84A"/>
+  </g>
+  <g class="t" style="font-size:15px" text-anchor="middle">
+    <text x="1376" y="173">MDM</text><text x="1506" y="173">ERP</text>
+    <text x="1376" y="231">BackOffice</text><text x="1376" y="250">System A</text>
+    <text x="1506" y="231">BackOffice</text><text x="1506" y="250">System B</text>
+    <text x="1376" y="465">Outbound A</text><text x="1506" y="465">Outbound B</text>
+    <text x="1376" y="527">Outbound C</text><text x="1506" y="527">Outbound D</text>
+  </g>
+
+  <!-- Layer dependencies -->
+  <path class="solid" d="M800 70 V106"/>
+  <path class="solid" d="M1185 280 V326"/>
+  <path class="solid" d="M350 280 V305 H170 V326"/>
+  <path class="solid" d="M1255 280 V365 H1440 V396"/>
+  <path class="solid" d="M1330 280 V318 H1224"/>
+  <path class="solid" d="M1580 194 H1592 V820 H1222"/>
+  <path class="solid" d="M1440 570 V780 H1222"/>
+  <path class="solid" d="M1220 600 H1272 V530 H1298"/>
+  <path class="solid" d="M800 660 V696"/>
+  <path class="solid" d="M170 480 V516"/>
+  <path class="solid" d="M320 455 H350 V790 H378"/>
+
+  <!-- Specific dependencies -->
+  <path class="dash" d="M450 258 V298 H505 V366"/>
+  <path class="dash" d="M680 258 V310 H555 V366"/>
+  <path class="dash" d="M910 258 V298 H775 V366"/>
+  <path class="dash" d="M1140 258 V310 H825 V366"/>
+  <path class="solid" d="M530 420 V448"/>
+  <path class="dash" d="M670 522 V558"/>
+  <path class="dash" d="M1070 420 V558"/>
+  <path class="dash" d="M1376 260 V292 H1150 V366"/>
+  <path class="dash" d="M580 756 H610 V780 H638"/>
+  <path class="solid" d="M725 802 V818"/>
+  <path class="solid" d="M810 780 H915 V818"/>
+
+  <!-- Legend -->
+  <g transform="translate(20,720)">
+    <rect width="300" height="150" rx="10" fill="rgba(2,26,56,0.55)" stroke="#3a4d6e"/>
+    <text class="t band" x="16" y="26" style="fill:#9fb3c8;font-size:13px">LEGEND</text>
+    <rect x="16" y="42" width="44" height="26" rx="5" fill="#0b3a70" stroke="#9fb3c8" stroke-width="2"/>
+    <text class="t" x="74" y="61" style="font-size:15px">Package</text>
+    <path class="solid" d="M16 92 H58"/>
+    <text class="t" x="74" y="97" style="font-size:15px">Depends on</text>
+    <path class="dash" d="M16 126 H58"/>
+    <text class="t" x="74" y="122" style="font-size:15px">Specific dependency</text>
+    <text class="t" x="74" y="140" style="font-size:15px">between packages</text>
+  </g>
+</g>
   <rect x="370" y="688" width="860" height="208" rx="16" fill="none" stroke="#f3d36a" stroke-width="4"/>
 </svg>
