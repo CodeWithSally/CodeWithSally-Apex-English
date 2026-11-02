@@ -71,18 +71,18 @@
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-class="detail-slide promises-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide promises-slide" data-marpit-pagination="4" style="--paginate:true;--class:detail-slide promises-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="one-package-so-far">One package so far</h1>
-<p class="tagline">Tonight the same layers split across packages</p>
+<p class="tagline">Today the same layers split across packages</p>
 <ul>
 <li><strong>Sessions 1 to 5 lived in one package:</strong> <code>force-app</code>. Every class could see every other class</li>
-<li><strong>Service, Domain, Selector and Unit of Work</strong> don't change tonight. Where they live does</li>
+<li><strong>Service, Domain, Selector and Unit of Work</strong> don't change today. Where they live does</li>
 <li><strong>Session 5's seams</strong> — <code>newInstance()</code>, constructors, mocks — are what make the split possible</li>
 </ul>
 <p class="practice">Same patterns. Different boxes. The boxes are packages.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-class="detail-slide checklist-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide checklist-slide" data-marpit-pagination="5" style="--paginate:true;--class:detail-slide checklist-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
-<h1 id="tonight">Tonight</h1>
+<h1 id="today">Today</h1>
 <ul class="checklist">
-<li>Tonight</li>
+<li>Today</li>
 <li>Meridian: one org, four divisions<span class="check"></span></li>
 <li>The package layers<span class="check"></span></li>
 <li>Cross-package architecture<span class="check"></span></li>
@@ -147,7 +147,7 @@
 <blockquote>
 How do the divisions work together without wiring themselves so tightly that every change ripples through all of them?
 </blockquote>
-<p class="quote-source">The question from tonight's abstract</p>
+<p class="quote-source">The question from today's abstract</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-class="detail-slide diagram-slide map-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide diagram-slide map-slide" data-marpit-pagination="9" style="--paginate:true;--class:detail-slide diagram-slide map-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="the-package-layers">The package layers</h1>
@@ -253,7 +253,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-class="detail-slide promises-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide promises-slide" data-marpit-pagination="15" style="--paginate:true;--class:detail-slide promises-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="dependencies-only-point-down">Dependencies only point down</h1>
-<p class="tagline">The rule that forces everything else tonight</p>
+<p class="tagline">The rule that forces everything else today</p>
 <ul>
 <li><strong><code>common</code> can never name a class in <code>sales</code> or <code>fulfillment</code>.</strong> It doesn't compile, because it can't see them</li>
 <li><strong><code>sales</code> can't name a class in <code>fulfillment</code> either.</strong> Business packages never depend on each other</li>
@@ -267,9 +267,9 @@ How do the divisions work together without wiring themselves so tightly that eve
 <ul>
 <li><strong>Each package gets a prefix:</strong> 3 to 8 characters, an underscore, then the element's proper name</li>
 <li><strong><code>sales_OpportunitiesService</code>, <code>svc_SLATier__c</code>, <code>whse_Robot__c</code>:</strong> the prefix says which package owns it</li>
-<li><strong>Session 5's <code>WDGT_</code> prefix was a package prefix inside one package.</strong> Tonight every package gets one</li>
+<li><strong>Session 5's <code>WDGT_</code> prefix was a package prefix inside one package.</strong> Today every package gets one</li>
 </ul>
-<p class="practice">Namespaces and <code>@NamespaceAccessible</code> are for ISVs building managed packages. The AEP frameworks support that too; it's not tonight's case.</p>
+<p class="practice">Namespaces and <code>@NamespaceAccessible</code> are for ISVs building managed packages. The AEP frameworks support that too; it's not today's case.</p>
 <p class="promise-tag">✅ Session 5: the <code>WDGT_</code> prefix · ✅ Session 4: <code>@NamespaceAccessible</code></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-paginate="true" data-class="detail-slide table-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide table-slide" data-marpit-pagination="17" style="--paginate:true;--class:detail-slide table-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
@@ -326,7 +326,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-paginate="true" data-class="detail-slide promises-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide promises-slide" data-marpit-pagination="19" style="--paginate:true;--class:detail-slide promises-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="interfaces-return-on-purpose">Interfaces return, on purpose</h1>
-<p class="tagline">Session 5 saved this case for tonight</p>
+<p class="tagline">Session 5 saved this case for today</p>
 <ul>
 <li><strong>Session 5:</strong> use interfaces &quot;only where implementations genuinely vary&quot;</li>
 <li><strong>Across packages, they always vary:</strong> the caller can't see the implementation at all</li>
@@ -376,7 +376,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </div>
 </div>
 <div class="duo-col">
-<p class="dev-caption">ful_FulfillmentService.cls · tonight</p>
+<p class="dev-caption">ful_FulfillmentService.cls · today</p>
 <div class="vscode">
 <pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-comment">// Can&#x27;t see maintenance: use the contract</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src"><span class="hljs-comment"></span><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> whse_IMaintenanceService maintenanceSvc<span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ful_FulfillmentService <span class="hljs-title function_">newInstance</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">ful_FulfillmentService</span><span class="hljs-punctuation">(</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src">    <span class="hljs-comment">// ...selectors</span></span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src"><span class="hljs-comment"></span>    <span class="hljs-punctuation">(</span>whse_IMaintenanceService<span class="hljs-punctuation">)</span> Application<span class="hljs-punctuation">.</span>Service</span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src">      <span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">newInstance</span><span class="hljs-punctuation">(</span><span class="hljs-variable">whse_IMaintenanceService</span><span class="hljs-punctuation">.</span><span class="hljs-variable">class</span><span class="hljs-punctuation">)</span></span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src">  <span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src"><span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src"><span class="hljs-comment">// Same call, through the contract</span></span></span><span class="code-line"><span class="code-ln">13</span><span class="code-src"><span class="hljs-comment"></span>maintenanceSvc<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">scheduleService</span><span class="hljs-punctuation">(</span><span class="hljs-variable">dueRobots</span><span class="hljs-punctuation">,</span> <span class="hljs-variable">uow</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span></code></pre>
 </div>
@@ -778,7 +778,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 - Last of six</p></div><div class="bespoke-marp-note" data-index="1" tabindex="0"><p></p><p>- Brief: bio just read</p></div><div class="bespoke-marp-note" data-index="2" tabindex="0"><p>- 1: SoC. 2: Service, UoW
 - 3 (mine): Domain vs Service
 - 4: Selectors. 5: mocking, newInstance()
-- Click: promises for tonight
+- Click: promises for today
 - Ticked as we go; recap at close</p></div><div class="bespoke-marp-note" data-index="3" tabindex="0"><p>- Nothing to unlearn
 - Seams from S5 carry the weight</p></div><div class="bespoke-marp-note" data-index="4" tabindex="0"><p>- Story first, then the map
 - Four abstract topics on the map
@@ -807,7 +807,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 - Packages make them real</p></div><div class="bespoke-marp-note" data-index="14" tabindex="0"><p>- Compiler enforces this, not reviews
 - &quot;Ask for it&quot;: contract, factory, metadata</p></div><div class="bespoke-marp-note" data-index="15" tabindex="0"><p>- Enterprise default: no namespace
 - Prefix does the ownership job
-- ISV case: one line, move on</p></div><div class="bespoke-marp-note" data-index="16" tabindex="0"><p>- Only DevOps point tonight
+- ISV case: one line, move on</p></div><div class="bespoke-marp-note" data-index="16" tabindex="0"><p>- Only DevOps point today
 - Suffixes: Selector, Service, ServiceImpl, Controller, Test, RestAPI, Invocable
 - Reviewer sees owner at a glance</p></div><div class="bespoke-marp-note" data-index="17" tabindex="0"><p>- Highlight: Common
 - Lower package publishes the interface

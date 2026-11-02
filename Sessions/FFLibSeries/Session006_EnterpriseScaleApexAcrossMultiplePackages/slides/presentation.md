@@ -89,7 +89,7 @@ html: true
 - 1: SoC. 2: Service, UoW
 - 3 (mine): Domain vs Service
 - 4: Selectors. 5: mocking, newInstance()
-- Click: promises for tonight
+- Click: promises for today
 - Ticked as we go; recap at close
 -->
 
@@ -99,10 +99,10 @@ html: true
 
 # One package so far
 
-<p class="tagline">Tonight the same layers split across packages</p>
+<p class="tagline">Today the same layers split across packages</p>
 
 - **Sessions 1 to 5 lived in one package:** `force-app`. Every class could see every other class
-- **Service, Domain, Selector and Unit of Work** don't change tonight. Where they live does
+- **Service, Domain, Selector and Unit of Work** don't change today. Where they live does
 - **Session 5's seams** — `newInstance()`, constructors, mocks — are what make the split possible
 
 <p class="practice">Same patterns. Different boxes. The boxes are packages.</p>
@@ -116,10 +116,10 @@ html: true
 
 <!-- _class: detail-slide checklist-slide -->
 
-# Tonight
+# Today
 
 <ul class="checklist">
-<li>Tonight</li>
+<li>Today</li>
 <li>Meridian: one org, four divisions<span class="check"></span></li>
 <li>The package layers<span class="check"></span></li>
 <li>Cross-package architecture<span class="check"></span></li>
@@ -219,7 +219,7 @@ html: true
 How do the divisions work together without wiring themselves so tightly that every change ripples through all of them?
 </blockquote>
 
-<p class="quote-source">The question from tonight's abstract</p>
+<p class="quote-source">The question from today's abstract</p>
 
 <!--
 - Rest of the talk answers it
@@ -369,7 +369,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 
 # Dependencies only point down
 
-<p class="tagline">The rule that forces everything else tonight</p>
+<p class="tagline">The rule that forces everything else today</p>
 
 - **`common` can never name a class in `sales` or `fulfillment`.** It doesn't compile, because it can't see them
 - **`sales` can't name a class in `fulfillment` either.** Business packages never depend on each other
@@ -392,9 +392,9 @@ How do the divisions work together without wiring themselves so tightly that eve
 
 - **Each package gets a prefix:** 3 to 8 characters, an underscore, then the element's proper name
 - **`sales_OpportunitiesService`, `svc_SLATier__c`, `whse_Robot__c`:** the prefix says which package owns it
-- **Session 5's `WDGT_` prefix was a package prefix inside one package.** Tonight every package gets one
+- **Session 5's `WDGT_` prefix was a package prefix inside one package.** Today every package gets one
 
-<p class="practice">Namespaces and <code>@NamespaceAccessible</code> are for ISVs building managed packages. The AEP frameworks support that too; it's not tonight's case.</p>
+<p class="practice">Namespaces and <code>@NamespaceAccessible</code> are for ISVs building managed packages. The AEP frameworks support that too; it's not today's case.</p>
 
 <p class="promise-tag">✅ Session 5: the <code>WDGT_</code> prefix · ✅ Session 4: <code>@NamespaceAccessible</code></p>
 
@@ -426,7 +426,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 <p class="practice">Pays off in code review, in audits, and while code is still moving out of the Happy Soup.</p>
 
 <!--
-- Only DevOps point tonight
+- Only DevOps point today
 - Suffixes: Selector, Service, ServiceImpl, Controller, Test, RestAPI, Invocable
 - Reviewer sees owner at a glance
 -->
@@ -453,7 +453,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 
 # Interfaces return, on purpose
 
-<p class="tagline">Session 5 saved this case for tonight</p>
+<p class="tagline">Session 5 saved this case for today</p>
 
 - **Session 5:** use interfaces "only where implementations genuinely vary"
 - **Across packages, they always vary:** the caller can't see the implementation at all
@@ -540,7 +540,7 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 </div>
 </div>
 <div class="duo-col">
-<p class="dev-caption">ful_FulfillmentService.cls · tonight</p>
+<p class="dev-caption">ful_FulfillmentService.cls · today</p>
 <div class="vscode">
 
 ```apex
