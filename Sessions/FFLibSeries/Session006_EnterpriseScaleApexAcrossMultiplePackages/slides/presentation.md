@@ -312,7 +312,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <p class="tagline">Meridian is a single-org story. The pattern doesn't change with more orgs</p>
 
 - **Single org:** anything that would live in Universal Common goes into that org's Org-wide Common package
-- **Several orgs:** it moves down into a Universal Common package, prefix `ucmn_`, that every org installs
+- **Several orgs:** it moves down into a Universal Common package, prefix `UCMN_`, that every org installs
 - **Everything above it is the same:** business packages, Project Common, contracts and bindings
 
 <p class="practice">Start in one org. If a second org arrives, move shared pieces down a layer.</p>
@@ -390,8 +390,8 @@ How do the divisions work together without wiring themselves so tightly that eve
 
 <p class="tagline">Framed for an enterprise: 2GP unlocked packages, no namespace</p>
 
-- **Each package gets a prefix:** 3 to 8 characters, an underscore, then the element's proper name
-- **`sales_OpportunitiesService`, `svc_SLATier__c`, `whse_Robot__c`:** the prefix says which package owns it
+- **Each package gets a prefix:** 3 to 8 capital letters, an underscore, then the element's proper name
+- **`SALES_OpportunitiesService`, `SVC_SLATier__c`, `WHSE_Robot__c`:** the prefix says which package owns it
 - **Session 5's `WDGT_` prefix was a package prefix inside one package.** Today every package gets one
 
 <p class="practice">Namespaces and <code>@NamespaceAccessible</code> are for ISVs building managed packages. The AEP frameworks support that too; it's not today's case.</p>
@@ -400,6 +400,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 
 <!--
 - Enterprise default: no namespace
+- Prefix in caps: linters want Apex names to start with a capital
 - Prefix does the ownership job
 - ISV case: one line, move on
 -->
@@ -416,12 +417,12 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 
 | Name | Owner | Artifact |
 |---|---|---|
-| `sales_AccountsSelector` | sales | Selector |
-| `whse_IMaintenanceService` | warehouse-common | Service contract |
-| `mnt_MaintenanceServiceImpl` | maintenance | Service implementation |
-| `svc_CaseController` | service | Controller |
-| `ful_FulfillmentRestAPI` | fulfillment | REST API |
-| `mktg_EngagementScore__c` | marketing | Custom field on Account |
+| `SALES_AccountsSelector` | sales | Selector |
+| `WHSE_IMaintenanceService` | warehouse-common | Service contract |
+| `MNT_MaintenanceServiceImpl` | maintenance | Service implementation |
+| `SVC_CaseController` | service | Controller |
+| `FUL_FulfillmentRestAPI` | fulfillment | REST API |
+| `MKTG_EngagementScore__c` | marketing | Custom field on Account |
 
 <p class="practice">Pays off in code review, in audits, and while code is still moving out of the Happy Soup.</p>
 
@@ -481,7 +482,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 <div class="card common">
 <h3>Put in</h3>
 <ul>
-<li>A Service interface, such as <code>whse_IMaintenanceService</code></li>
+<li>A Service interface, such as <code>WHSE_IMaintenanceService</code></li>
 <li>The records or simple data classes it passes</li>
 <li>Any exceptions it throws</li>
 </ul>
@@ -540,18 +541,18 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 </div>
 </div>
 <div class="duo-col">
-<p class="dev-caption">ful_FulfillmentService.cls · today</p>
+<p class="dev-caption">FUL_FulfillmentService.cls · today</p>
 <div class="vscode">
 
 ```apex
 // Can't see maintenance: use the contract
-private final whse_IMaintenanceService maintenanceSvc;
+private final WHSE_IMaintenanceService maintenanceSvc;
 
-public static ful_FulfillmentService newInstance() {
-  return new ful_FulfillmentService(
+public static FUL_FulfillmentService newInstance() {
+  return new FUL_FulfillmentService(
     // ...selectors
-    (whse_IMaintenanceService) Application.Service
-      .newInstance(whse_IMaintenanceService.class)
+    (WHSE_IMaintenanceService) Application.Service
+      .newInstance(WHSE_IMaintenanceService.class)
   );
 }
 
@@ -566,7 +567,7 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 <!--
 - Left: S5 code, unchanged
 - Right: field type is the contract
-- Factory hands back mnt_ class
+- Factory hands back MNT_ class
 - Fulfillment no longer knows maintenance exists
 -->
 
@@ -596,7 +597,7 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 - **Session 5:** `newInstance()` plus constructors. Inside one package, that's enough
 - **Across packages, the caller can't write `new MaintenanceService()`:** it can't see that class
-- **So it asks the factory for `whse_IMaintenanceService`,** and the factory looks up the binding
+- **So it asks the factory for `WHSE_IMaintenanceService`,** and the factory looks up the binding
 - **There's no app-specific `Application` class to edit:** AT4DX's `Application` lives in the framework and reads bindings from every installed package
 
 <p class="practice">The caller asks for an interface. Custom metadata decides the class. Tests still <code>setMock()</code>.</p>
@@ -642,12 +643,12 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 <p class="tagline">Story: Service asks where an order is</p>
 
-**`common`** publishes `cmn_IOrderFulfillmentService`. A Case page in **`service`** calls it. **`fulfillment`** implements it and ships this record:
+**`common`** publishes `CMN_IOrderFulfillmentService`. A Case page in **`service`** calls it. **`fulfillment`** implements it and ships this record:
 
-| ApplicationFactory_ServiceBinding__mdt | ful_OrderFulfillmentService |
+| ApplicationFactory_ServiceBinding__mdt | FUL_OrderFulfillmentService |
 |---|---|
-| BindingInterface__c | `cmn_IOrderFulfillmentService` |
-| To__c | `ful_OrderFulfillmentServiceImpl` |
+| BindingInterface__c | `CMN_IOrderFulfillmentService` |
+| To__c | `FUL_OrderFulfillmentServiceImpl` |
 | Priority__c | 1 |
 
 <p class="practice">Service never learns that the fulfillment package exists. It only knows the contract in common.</p>
@@ -668,22 +669,22 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 <p class="tagline">The same Service triad as the AT4DX samples, with package prefixes</p>
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">cmn_OrderFulfillmentService.cls · common</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">CMN_OrderFulfillmentService.cls · common</span></div>
 
 ```apex
-public inherited sharing class cmn_OrderFulfillmentService {
-  private static cmn_IOrderFulfillmentService service() {
-    return (cmn_IOrderFulfillmentService)
-      Application.Service.newInstance(cmn_IOrderFulfillmentService.class);
+public inherited sharing class CMN_OrderFulfillmentService {
+  private static CMN_IOrderFulfillmentService service() {
+    return (CMN_IOrderFulfillmentService)
+      Application.Service.newInstance(CMN_IOrderFulfillmentService.class);
   }
 
-  public static List<cmn_OrderStatus> getStatusForAccounts(Set<Id> accountIds) {
+  public static List<CMN_OrderStatus> getStatusForAccounts(Set<Id> accountIds) {
     return service().getStatusForAccounts(accountIds);
   }
 }
 
 // In a test, the mock beats any binding (same as Session 5)
-Application.Service.setMock(cmn_IOrderFulfillmentService.class, mockService);
+Application.Service.setMock(CMN_IOrderFulfillmentService.class, mockService);
 ```
 
 </div>
@@ -776,14 +777,14 @@ Application.Service.setMock(cmn_IOrderFulfillmentService.class, mockService);
 <div class="cards cols-3">
 <div class="card common">
 <h3>common owns</h3>
-<p><code>Account</code> and <code>cmn_AccountsSelector</code>, which extends <code>ApplicationSObjectSelector</code> with <code>includeFieldSetFields</code> on</p>
+<p><code>Account</code> and <code>CMN_AccountsSelector</code>, which extends <code>ApplicationSObjectSelector</code> with <code>includeFieldSetFields</code> on</p>
 </div>
 <div class="card business">
 <h3>marketing ships</h3>
 <ul>
-<li><code>mktg_Slogan__c</code>, <code>mktg_EngagementScore__c</code></li>
-<li>A field set: <code>mktg_AccountFields</code></li>
-<li>A <code>SelectorConfig_FieldSetInclusion__mdt</code> record: <code>BindingSObject__c</code> = Account, <code>FieldsetName__c</code> = <code>mktg_AccountFields</code></li>
+<li><code>MKTG_Slogan__c</code>, <code>MKTG_EngagementScore__c</code></li>
+<li>A field set: <code>MKTG_AccountFields</code></li>
+<li>A <code>SelectorConfig_FieldSetInclusion__mdt</code> record: <code>BindingSObject__c</code> = Account, <code>FieldsetName__c</code> = <code>MKTG_AccountFields</code></li>
 </ul>
 </div>
 <div class="card gold">
@@ -814,10 +815,10 @@ Application.Service.setMock(cmn_IOrderFulfillmentService.class, mockService);
 <p class="tagline">Story: Service needs accounts with more than five open complaint Cases</p>
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">svc_AccountsWithOpenComplaintsSelectorMethod.cls · service</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-selector">SVC_AccountsWithOpenComplaintsSelectorMethod.cls · service</span></div>
 
 ```apex
-public inherited sharing class svc_AccountsWithOpenComplaintsSelectorMethod
+public inherited sharing class SVC_AccountsWithOpenComplaintsSelectorMethod
   extends AbstractSelectorMethodInjectable
   implements ISelectorMethodInjectable {
 
@@ -826,7 +827,7 @@ public inherited sharing class svc_AccountsWithOpenComplaintsSelectorMethod
     Integer minimum = params.minimumOpenComplaints;
     // newQueryFactory() is the shared Selector's: its fields, field sets and security
     return Database.query(newQueryFactory()
-      .setCondition('svc_OpenComplaintCount__c > :minimum').toSOQL());
+      .setCondition('SVC_OpenComplaintCount__c > :minimum').toSOQL());
   }
 
   public class Parameters implements ISelectorMethodParameterable {
@@ -835,8 +836,8 @@ public inherited sharing class svc_AccountsWithOpenComplaintsSelectorMethod
 }
 
 // The caller, in service
-List<Account> accounts = cmn_AccountsSelector.newInstance()
-  .selectInjection(svc_AccountsWithOpenComplaintsSelectorMethod.class, params);
+List<Account> accounts = CMN_AccountsSelector.newInstance()
+  .selectInjection(SVC_AccountsWithOpenComplaintsSelectorMethod.class, params);
 ```
 
 </div>
@@ -844,7 +845,7 @@ List<Account> accounts = cmn_AccountsSelector.newInstance()
 <!--
 - Query is service's, not common's
 - Uses the shared Selector's fields
-- cmn_AccountsSelector untouched
+- CMN_AccountsSelector untouched
 - Count field: a roll-up in service
 -->
 
@@ -864,8 +865,8 @@ List<Account> accounts = cmn_AccountsSelector.newInstance()
 <div class="card business">
 <h3>service ships</h3>
 <ul>
-<li><b>Criteria:</b> <code>svc_LateShipmentCriteria</code> (<code>IDomainProcessCriteria</code>) keeps complaint Cases about late orders</li>
-<li><b>Action:</b> <code>svc_FlagAccountAction</code> (<code>IDomainProcessAction</code>) flags their Accounts</li>
+<li><b>Criteria:</b> <code>SVC_LateShipmentCriteria</code> (<code>IDomainProcessCriteria</code>) keeps complaint Cases about late orders</li>
+<li><b>Action:</b> <code>SVC_FlagAccountAction</code> (<code>IDomainProcessAction</code>) flags their Accounts</li>
 </ul>
 </div>
 <div class="card gold">
@@ -914,11 +915,11 @@ EventBus.publish(evt);
 </div>
 </div>
 <div class="duo-col">
-<p class="dev-caption">ful_ClosedWonConsumer.cls · fulfillment</p>
+<p class="dev-caption">FUL_ClosedWonConsumer.cls · fulfillment</p>
 <div class="vscode">
 
 ```apex
-public class ful_ClosedWonConsumer
+public class FUL_ClosedWonConsumer
   extends PlatformEventAbstractConsumer {
   public override void runInProcess() {
     Set<Id> oppIds = new Set<Id>();
@@ -927,7 +928,7 @@ public class ful_ClosedWonConsumer
       oppIds.addAll((Set<Id>) JSON.deserialize(
         evt.Payload__c, Set<Id>.class));
     }
-    ful_FulfillmentOrdersService.createFor(oppIds);
+    FUL_FulfillmentOrdersService.createFor(oppIds);
   }
 }
 ```
@@ -941,7 +942,7 @@ public class ful_ClosedWonConsumer
 <!--
 - Sales publishes, knows no listener
 - Fulfillment subscribes with metadata
-- Creates ful_ FulfillmentOrder
+- Creates FUL_ FulfillmentOrder
 - Event name is the only contract
 -->
 

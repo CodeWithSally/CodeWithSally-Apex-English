@@ -32,11 +32,11 @@
     <rect x="1070" y="112" width="205" height="104" rx="8" fill="rgba(160,201,74,0.30)" stroke="#A0C94A"/>
   </g>
   <g class="t" text-anchor="middle">
-    <text class="name" x="312" y="132">sales</text><text class="pfx" x="312" y="162">sales_</text><text class="small" x="312" y="190">CRM · consultancy</text>
-    <text class="name" x="522" y="132">service</text><text class="pfx" x="522" y="162">svc_</text><text class="small" x="522" y="190">Cases · 2nd vendor</text>
-    <text class="name" x="732" y="132">marketing</text><text class="pfx" x="732" y="162">mktg_</text><text class="small" x="732" y="190">Campaigns · in-house</text>
-    <text class="name" x="952" y="154">fulfillment</text><text class="pfx" x="952" y="186">ful_</text>
-    <text class="name" x="1172" y="154">maintenance</text><text class="pfx" x="1172" y="186">mnt_</text>
+    <text class="name" x="312" y="132">sales</text><text class="pfx" x="312" y="162">SALES_</text><text class="small" x="312" y="190">CRM · consultancy</text>
+    <text class="name" x="522" y="132">service</text><text class="pfx" x="522" y="162">SVC_</text><text class="small" x="522" y="190">Cases · 2nd vendor</text>
+    <text class="name" x="732" y="132">marketing</text><text class="pfx" x="732" y="162">MKTG_</text><text class="small" x="732" y="190">Campaigns · in-house</text>
+    <text class="name" x="952" y="154">fulfillment</text><text class="pfx" x="952" y="186">FUL_</text>
+    <text class="name" x="1172" y="154">maintenance</text><text class="pfx" x="1172" y="186">MNT_</text>
   </g>
 
   <!-- Project Common -->
@@ -46,8 +46,8 @@
   <text class="t small" x="60" y="408">One project only</text>
   <rect x="902" y="336" width="320" height="94" rx="8" fill="rgba(90,152,224,0.22)" stroke="#5A98E0" stroke-width="2" filter="url(#mer-shadow)"/>
   <g class="t" text-anchor="middle">
-    <text class="name" x="1062" y="370">warehouse-common</text><text class="pfx" x="1062" y="398">whse_</text>
-    <text class="small" x="1062" y="420">Robots · whse_IMaintenanceService</text>
+    <text class="name" x="1062" y="370">warehouse-common</text><text class="pfx" x="1062" y="398">WHSE_</text>
+    <text class="small" x="1062" y="420">Robots · WHSE_IMaintenanceService</text>
   </g>
 
   <!-- Org-wide Common -->
@@ -56,9 +56,9 @@
   <text class="t band" x="60" y="592" style="fill:#8fb3ff">COMMON</text>
   <rect x="215" y="540" width="880" height="100" rx="8" fill="rgba(90,152,224,0.35)" stroke="#5A98E0" stroke-width="2" filter="url(#mer-shadow)"/>
   <g class="t" text-anchor="middle">
-    <text class="name" x="655" y="576">common <tspan class="pfx" dx="10">cmn_</tspan></text>
+    <text class="name" x="655" y="576">common <tspan class="pfx" dx="10">CMN_</tspan></text>
     <text class="small" x="655" y="604">Account · Contact · Case · Product2 · their one Selector and one Domain</text>
-    <text class="small" x="655" y="626">Shared contracts such as cmn_IOrderFulfillmentService</text>
+    <text class="small" x="655" y="626">Shared contracts such as CMN_IOrderFulfillmentService</text>
   </g>
 
   <!-- Framework -->
@@ -87,8 +87,8 @@
     <rect x="1360" y="500" width="190" height="104" rx="8"/>
   </g>
   <g class="t" text-anchor="middle">
-    <text class="name" x="1455" y="394" style="font-size:22px">erp-inbound</text><text class="pfx" x="1455" y="422">erp_</text><text class="small" x="1455" y="448">Products, stock in</text>
-    <text class="name" x="1455" y="534" style="font-size:20px">carrier-outbound</text><text class="pfx" x="1455" y="562">carr_</text><text class="small" x="1455" y="588">Shipments out</text>
+    <text class="name" x="1455" y="394" style="font-size:22px">erp-inbound</text><text class="pfx" x="1455" y="422">ERP_</text><text class="small" x="1455" y="448">Products, stock in</text>
+    <text class="name" x="1455" y="534" style="font-size:20px">carrier-outbound</text><text class="pfx" x="1455" y="562">CARR_</text><text class="small" x="1455" y="588">Shipments out</text>
   </g>
 
   <!-- Dependencies point down -->
