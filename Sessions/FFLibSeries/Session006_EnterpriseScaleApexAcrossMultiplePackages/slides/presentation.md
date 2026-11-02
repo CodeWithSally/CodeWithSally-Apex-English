@@ -312,7 +312,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <p class="tagline">Meridian is a single-org story. The pattern doesn't change with more orgs</p>
 
 - **Single org:** anything that would live in Universal Common goes into that org's Org-wide Common package
-- **Several orgs:** it moves down into a Universal Common package, prefix `UCMN_`, that every org installs
+- **Multi-org:** it moves down into a Universal Common package, prefix `UCMN_`, that every org installs
 - **Everything above it is the same:** business packages, Project Common, contracts and bindings
 
 <p class="practice">Start in one org. If a second org arrives, move shared pieces down a layer.</p>
