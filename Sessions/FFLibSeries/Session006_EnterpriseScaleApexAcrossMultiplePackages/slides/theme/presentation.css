@@ -4715,3 +4715,4 @@ section.stories-table-slide th:nth-child(2) { width: 22%; }
 section.takeaway-slide blockquote.takeaway { font-size: 1.3em; }
 section.tight-cards-slide .cards { font-size: 0.52em; min-width: 0; }
 section.tight-cards-slide .card { min-width: 0; overflow-wrap: anywhere; }
+section.factory-trio-slide .vscode { margin-top: 10px; }

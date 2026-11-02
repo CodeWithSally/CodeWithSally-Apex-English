@@ -668,14 +668,14 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 ---
 
-<!-- _class: detail-slide code-slide compact-code-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide factory-trio-slide -->
 
 # Asking the factory
 
 <p class="tagline">Only the facade talks to the factory. Every caller uses <code>newInstance()</code></p>
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">FUL_OrderFulfillmentService.cls · fulfillment</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">FUL_OrderFulfillmentService.cls · fulfillment · the facade</span></div>
 
 ```apex
 public inherited sharing class FUL_OrderFulfillmentService {
@@ -684,12 +684,24 @@ public inherited sharing class FUL_OrderFulfillmentService {
       Application.Service.newInstance(FUL_IOrderFulfillmentService.class);
   }
 }
+```
 
-// Any consumer, such as the Case page component's controller
+</div>
+
+<div class="vscode">
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">FUL_OrderStatusController.cls · a consumer</span></div>
+
+```apex
 List<FUL_OrderStatus> statuses = FUL_OrderFulfillmentService.newInstance()
   .getStatusForAccounts(accountIds);
+```
 
-// In a test, the mock beats any binding (same as Session 5)
+</div>
+<div class="vscode">
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-handler">FUL_OrderStatusControllerTest.cls · a test</span></div>
+
+```apex
+// The mock beats any binding (same as Session 5)
 Application.Service.setMock(FUL_IOrderFulfillmentService.class, mockService);
 ```
 
