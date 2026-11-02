@@ -245,7 +245,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <h3>Where FFLib lands</h3>
 <ul>
 <li><b>Framework:</b> fflib, force-di, AT4DX</li>
-<li><b>Common:</b> shared objects, their Selector and Domain, contracts</li>
+<li><b>Common:</b> shared objects with their Selector and Domain, and shared Services</li>
 <li><b>Business:</b> its own Domains, Selectors, Services, registered through custom metadata</li>
 </ul>
 </div>
@@ -293,11 +293,11 @@ How do the divisions work together without wiring themselves so tightly that eve
 <tr>
 <td><code>WHSE_IMaintenanceService</code></td>
 <td>warehouse-common</td>
-<td>Service contract</td>
+<td>Service interface</td>
 </tr>
 <tr>
-<td><code>MNT_MaintenanceServiceImpl</code></td>
-<td>maintenance</td>
+<td><code>WHSE_MaintenanceServiceImpl</code></td>
+<td>warehouse-common</td>
 <td>Service implementation</td>
 </tr>
 <tr>
@@ -321,7 +321,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-paginate="true" data-class="detail-slide diagram-slide map-slide map-tagline-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide diagram-slide map-slide map-tagline-slide" data-marpit-pagination="18" style="--paginate:true;--class:detail-slide diagram-slide map-slide map-tagline-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="2--shared-contracts-and-interfaces">2 · Shared contracts and interfaces</h1>
-<p class="tagline">Contracts live in a common layer, so business packages talk without depending on each other</p>
+<p class="tagline">Shared Services live in a lower layer, so business packages use them without depending on each other</p>
 <p><img src="images/package-dependency-map-common.svg" alt="Package dependency map with the Common layers highlighted" /></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-paginate="true" data-class="detail-slide promises-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide promises-slide" data-marpit-pagination="19" style="--paginate:true;--class:detail-slide promises-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
@@ -329,45 +329,49 @@ How do the divisions work together without wiring themselves so tightly that eve
 <p class="tagline">Session 5 saved this case for today</p>
 <ul>
 <li><strong>Session 5:</strong> use interfaces &quot;only where implementations genuinely vary&quot;</li>
-<li><strong>Across packages, they always vary:</strong> the caller can't see the implementation at all</li>
-<li><strong>The lower package publishes the interface.</strong> The higher package supplies the implementation</li>
-<li><strong>Each side compiles against the contract,</strong> never against the other side</li>
+<li><strong>Across packages, they can vary:</strong> a higher package can swap in its own implementation with a binding</li>
+<li><strong>Each Service ships as a triad in one package:</strong> the facade, the interface and the implementation</li>
+<li><strong>Callers use the facade's <code>newInstance()</code>,</strong> and only ever hold the interface. They never name the implementation</li>
 </ul>
 <p class="practice">Andy, Session 2: interfaces are how Services get resolved. Here's where it matters.</p>
 <p class="promise-tag">✅ Andy, Session 2: interfaces to resolve Services</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-paginate="true" data-class="detail-slide cards-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide cards-slide" data-marpit-pagination="20" style="--paginate:true;--class:detail-slide cards-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
-<h1 id="what-goes-in-a-contract">What goes in a contract</h1>
-<p class="tagline">Small and stable</p>
+<h1 id="one-service-three-classes-one-package">One Service, three classes, one package</h1>
+<p class="tagline">Selectors and Domains follow the same rule</p>
 <div class="cards cols-3">
 <div class="card common">
-<h3>Put in</h3>
+<h3>Ships together</h3>
 <ul>
-<li>A Service interface, such as <code>WHSE_IMaintenanceService</code></li>
-<li>The records or simple data classes it passes</li>
-<li>Any exceptions it throws</li>
+<li><code>WHSE_MaintenanceService</code>: the facade, with a static <code>newInstance()</code></li>
+<li><code>WHSE_IMaintenanceService</code>: the interface, with the records and simple data classes it passes</li>
+<li><code>WHSE_MaintenanceServiceImpl</code>, and its binding record</li>
 </ul>
 </div>
 <div class="card warn">
-<h3>Leave out</h3>
+<h3>Every consumer</h3>
 <ul>
-<li>Domains and Selectors, unless another package really needs them</li>
-<li>Anything only one package uses</li>
+<li>Calls <code>WHSE_MaintenanceService.newInstance()</code>, from any package</li>
+<li>Holds the interface type, never the implementation</li>
+<li>Never calls <code>Application.Service</code> itself: only <code>newInstance()</code> does</li>
 </ul>
 </div>
 <div class="card gold">
 <h3>Keep it stable</h3>
 <ul>
-<li>Every change moves every package that uses it</li>
+<li>Every change moves every package that calls it</li>
 <li>Add methods; avoid changing or removing old ones</li>
-<li>Put it in the lowest package both sides depend on, never in the implementing package</li>
+<li>Put the triad in the lowest package its callers depend on, and no lower</li>
 </ul>
 </div>
+</div>
+<div class="band-note">
+<p><b>Selectors and Domains too:</b> each has its own static <code>newInstance()</code>, such as <code>CMN_AccountsSelector.newInstance()</code>, and every consumer calls it.</p>
 </div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-paginate="true" data-class="detail-slide code-slide duo-slide s6-duo" data-theme="session" data-lang="en" lang="en" class="detail-slide code-slide duo-slide s6-duo" data-marpit-pagination="21" style="--paginate:true;--class:detail-slide code-slide duo-slide s6-duo;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="fulfillment-calls-maintenance">Fulfillment calls Maintenance</h1>
-<p class="tagline">Inside a package, call directly. Across packages, go through a contract in a lower layer</p>
+<p class="tagline">Both warehouse packages need maintenance scheduling, so it moves down to warehouse-common</p>
 <div class="duo">
 <div class="duo-col">
 <p class="dev-caption">FulfillmentService.cls · Sessions 2 to 5</p>
@@ -378,31 +382,31 @@ How do the divisions work together without wiring themselves so tightly that eve
 <div class="duo-col">
 <p class="dev-caption">FUL_FulfillmentService.cls · today</p>
 <div class="vscode">
-<pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-comment">// Can&#x27;t see maintenance: use the contract</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src"><span class="hljs-comment"></span><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> WHSE_IMaintenanceService maintenanceSvc<span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> FUL_FulfillmentService <span class="hljs-title function_">newInstance</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">FUL_FulfillmentService</span><span class="hljs-punctuation">(</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src">    <span class="hljs-comment">// ...selectors</span></span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src"><span class="hljs-comment"></span>    <span class="hljs-punctuation">(</span>WHSE_IMaintenanceService<span class="hljs-punctuation">)</span> Application<span class="hljs-punctuation">.</span>Service</span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src">      <span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">newInstance</span><span class="hljs-punctuation">(</span><span class="hljs-variable">WHSE_IMaintenanceService</span><span class="hljs-punctuation">.</span><span class="hljs-variable">class</span><span class="hljs-punctuation">)</span></span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src">  <span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src"><span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src"><span class="hljs-comment">// Same call, through the contract</span></span></span><span class="code-line"><span class="code-ln">13</span><span class="code-src"><span class="hljs-comment"></span>maintenanceSvc<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">scheduleService</span><span class="hljs-punctuation">(</span><span class="hljs-variable">dueRobots</span><span class="hljs-punctuation">,</span> <span class="hljs-variable">uow</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span></code></pre>
+<pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-comment">// Scheduling now lives in warehouse-common</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src"><span class="hljs-comment"></span><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> WHSE_IMaintenanceService maintenanceSvc<span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> FUL_FulfillmentService <span class="hljs-title function_">newInstance</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">FUL_FulfillmentService</span><span class="hljs-punctuation">(</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src">    <span class="hljs-comment">// ...selectors</span></span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src"><span class="hljs-comment"></span>    WHSE_MaintenanceService<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">newInstance</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src">  <span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src"><span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src"><span class="hljs-comment">// Same call, through the interface</span></span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src"><span class="hljs-comment"></span>maintenanceSvc<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">scheduleService</span><span class="hljs-punctuation">(</span><span class="hljs-variable">dueRobots</span><span class="hljs-punctuation">,</span> <span class="hljs-variable">uow</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span></code></pre>
 </div>
 </div>
 </div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-paginate="true" data-class="detail-slide diagram-slide map-slide map-tagline-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide diagram-slide map-slide map-tagline-slide" data-marpit-pagination="22" style="--paginate:true;--class:detail-slide diagram-slide map-slide map-tagline-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="3--configuration-driven-design">3 · Configuration-driven design</h1>
-<p class="tagline">How a lower layer hands out implementations that live in a higher layer</p>
+<p class="tagline">How the factory picks an implementation, and lets a higher package replace it</p>
 <p><img src="images/package-dependency-map-framework.svg" alt="Package dependency map with the Framework layer highlighted" /></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-paginate="true" data-class="detail-slide promises-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide promises-slide" data-marpit-pagination="23" style="--paginate:true;--class:detail-slide promises-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="why-a-factory-across-packages">Why a factory, across packages</h1>
 <p class="tagline">"AT4DX keeps a factory, on purpose"</p>
 <ul>
-<li><strong>Session 5:</strong> <code>newInstance()</code> plus constructors. Inside one package, that's enough</li>
-<li><strong>Across packages, the caller can't write <code>new MaintenanceService()</code>:</strong> it can't see that class</li>
-<li><strong>So it asks the factory for <code>WHSE_IMaintenanceService</code>,</strong> and the factory looks up the binding</li>
+<li><strong>Session 5's <code>newInstance()</code> stays:</strong> every Service, Selector and Domain has one, and every consumer calls it</li>
+<li><strong>Inside it, AT4DX asks the factory:</strong> <code>Application.Service.newInstance(WHSE_IMaintenanceService.class)</code></li>
+<li><strong>The factory reads the bindings,</strong> so a higher package can replace the implementation without touching any caller</li>
 <li><strong>There's no app-specific <code>Application</code> class to edit:</strong> AT4DX's <code>Application</code> lives in the framework and reads bindings from every installed package</li>
 </ul>
-<p class="practice">The caller asks for an interface. Custom metadata decides the class. Tests still <code>setMock()</code>.</p>
+<p class="practice">Callers call <code>newInstance()</code>. It asks the factory. Custom metadata decides the class. Tests still <code>setMock()</code>.</p>
 <p class="promise-tag">✅ Session 5: "AT4DX keeps a factory, on purpose"</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-paginate="true" data-class="detail-slide table-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide table-slide" data-marpit-pagination="24" style="--paginate:true;--class:detail-slide table-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="four-factories-four-bindings">Four factories, four bindings</h1>
-<p class="tagline">Bindings live in custom metadata, and deploy with the package that owns the implementation</p>
+<p class="tagline">Bindings live in custom metadata, and deploy with the package that owns the class</p>
 <table>
 <thead>
 <tr>
@@ -434,13 +438,13 @@ How do the divisions work together without wiring themselves so tightly that eve
 </tr>
 </tbody>
 </table>
-<p class="practice">Installing a package adds its bindings. Nobody edits common. Under the covers it's force-di: metadata-driven dependency injection.</p>
+<p class="practice">Installing a package adds its bindings, and a higher <code>Priority__c</code> replaces one. Under the covers it's force-di: metadata-driven dependency injection.</p>
 <p class="promise-tag">✅ Andy, Session 2: metadata-driven dependency injection</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-paginate="true" data-class="detail-slide table-slide binding-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide table-slide binding-slide" data-marpit-pagination="25" style="--paginate:true;--class:detail-slide table-slide binding-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="a-binding-record">A binding record</h1>
 <p class="tagline">Story: Service asks where an order is</p>
-<p><strong><code>common</code></strong> publishes <code>CMN_IOrderFulfillmentService</code>. A Case page in <strong><code>service</code></strong> calls it. <strong><code>fulfillment</code></strong> implements it and ships this record:</p>
+<p><strong><code>fulfillment</code></strong> owns order status: <code>FUL_OrderFulfillmentService</code>, <code>FUL_IOrderFulfillmentService</code> and <code>FUL_OrderFulfillmentServiceImpl</code>, plus this record:</p>
 <table>
 <thead>
 <tr>
@@ -451,7 +455,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <tbody>
 <tr>
 <td>BindingInterface__c</td>
-<td><code>CMN_IOrderFulfillmentService</code></td>
+<td><code>FUL_IOrderFulfillmentService</code></td>
 </tr>
 <tr>
 <td>To__c</td>
@@ -463,16 +467,16 @@ How do the divisions work together without wiring themselves so tightly that eve
 </tr>
 </tbody>
 </table>
-<p class="practice">Service never learns that the fulfillment package exists. It only knows the contract in common.</p>
+<p class="practice">service can't depend on fulfillment, so fulfillment ships the "Where's my order?" component for the Case page. service never names a <code>FUL_</code> class.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-paginate="true" data-class="detail-slide code-slide compact-code-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide code-slide compact-code-slide" data-marpit-pagination="26" style="--paginate:true;--class:detail-slide code-slide compact-code-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="asking-the-factory">Asking the factory</h1>
-<p class="tagline">The same Service triad as the AT4DX samples, with package prefixes</p>
+<p class="tagline">Only the facade talks to the factory. Every caller uses <code>newInstance()</code></p>
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">CMN_OrderFulfillmentService.cls · common</span></div>
-<pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">inherited sharing</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CMN_OrderFulfillmentService</span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src">  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> CMN_IOrderFulfillmentService <span class="hljs-title function_">service</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">    <span class="hljs-keyword">return</span> <span class="hljs-punctuation">(</span>CMN_IOrderFulfillmentService<span class="hljs-punctuation">)</span></span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src">      Application<span class="hljs-punctuation">.</span>Service<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">newInstance</span><span class="hljs-punctuation">(</span><span class="hljs-variable">CMN_IOrderFulfillmentService</span><span class="hljs-punctuation">.</span><span class="hljs-variable">class</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">  <span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src">  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">List</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">CMN_OrderStatus</span><span class="hljs-punctuation">&gt;</span> <span class="hljs-title function_">getStatusForAccounts</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span> <span class="hljs-variable">accountIds</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src">    <span class="hljs-keyword">return</span> service<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">getStatusForAccounts</span><span class="hljs-punctuation">(</span><span class="hljs-variable">accountIds</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src">  <span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src"><span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src"><span class="hljs-comment">// In a test, the mock beats any binding (same as Session 5)</span></span></span><span class="code-line"><span class="code-ln">13</span><span class="code-src"><span class="hljs-comment"></span>Application<span class="hljs-punctuation">.</span>Service<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">setMock</span><span class="hljs-punctuation">(</span><span class="hljs-variable">CMN_IOrderFulfillmentService</span><span class="hljs-punctuation">.</span><span class="hljs-variable">class</span><span class="hljs-punctuation">,</span> <span class="hljs-variable">mockService</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span></code></pre>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">FUL_OrderFulfillmentService.cls · fulfillment</span></div>
+<pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">inherited sharing</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FUL_OrderFulfillmentService</span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src">  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> FUL_IOrderFulfillmentService <span class="hljs-title function_">newInstance</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">    <span class="hljs-keyword">return</span> <span class="hljs-punctuation">(</span>FUL_IOrderFulfillmentService<span class="hljs-punctuation">)</span></span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src">      Application<span class="hljs-punctuation">.</span>Service<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">newInstance</span><span class="hljs-punctuation">(</span><span class="hljs-variable">FUL_IOrderFulfillmentService</span><span class="hljs-punctuation">.</span><span class="hljs-variable">class</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">  <span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src"><span class="hljs-punctuation">}</span></span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src"><span class="hljs-comment">// Any consumer, such as the Case page component&#x27;s controller</span></span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src"><span class="hljs-comment"></span><span class="hljs-type">List</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">FUL_OrderStatus</span><span class="hljs-punctuation">&gt;</span> <span class="hljs-variable">statuses</span> <span class="hljs-operator">=</span> FUL_OrderFulfillmentService<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">newInstance</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src">  <span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">getStatusForAccounts</span><span class="hljs-punctuation">(</span><span class="hljs-variable">accountIds</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src">&nbsp;</span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src"><span class="hljs-comment">// In a test, the mock beats any binding (same as Session 5)</span></span></span><span class="code-line"><span class="code-ln">13</span><span class="code-src"><span class="hljs-comment"></span>Application<span class="hljs-punctuation">.</span>Service<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">setMock</span><span class="hljs-punctuation">(</span><span class="hljs-variable">FUL_IOrderFulfillmentService</span><span class="hljs-punctuation">.</span><span class="hljs-variable">class</span><span class="hljs-punctuation">,</span> <span class="hljs-variable">mockService</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span></code></pre>
 </div>
-<p class="practice" data-marpit-fragment="1">Before fulfillment is installed, nothing answers. After install, its binding answers. No change to service or common.</p>
+<p class="practice" data-marpit-fragment="1">A regional package can ship a higher-priority binding with its own implementation. No caller changes.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="true" data-class="detail-slide cards-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide cards-slide" data-marpit-pagination="27" style="--paginate:true;--class:detail-slide cards-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
 <h1 id="overrides-and-a-caution">Overrides, and a caution</h1>
@@ -618,7 +622,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <div class="duo-col">
 <p class="dev-caption">FUL_ClosedWonConsumer.cls · fulfillment</p>
 <div class="vscode">
-<pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FUL_ClosedWonConsumer</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src">  <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">PlatformEventAbstractConsumer</span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">  <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-type">void</span> <span class="hljs-title function_">runInProcess</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src">    <span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span> <span class="hljs-variable">oppIds</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">    <span class="hljs-keyword">for</span> (<span class="hljs-type">SObject</span> <span class="hljs-variable">sobj</span> <span class="hljs-operator">:</span> events<span class="hljs-punctuation">)</span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src">      <span class="hljs-type">AT4DXMessage__e</span> <span class="hljs-variable">evt</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">(</span><span class="hljs-type">AT4DXMessage__e</span><span class="hljs-punctuation">)</span> sobj<span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src">      oppIds<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">addAll</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">(</span><span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span><span class="hljs-punctuation">)</span> <span class="hljs-built_in">JSON</span><span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">deserialize</span><span class="hljs-punctuation">(</span></span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src">        evt<span class="hljs-punctuation">.</span>Payload__c<span class="hljs-punctuation">,</span> <span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span><span class="hljs-punctuation">.</span><span class="hljs-keyword">class</span>));</span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src">    }</span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src">    FUL_FulfillmentOrdersService.createFor(oppIds);</span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src">  }</span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src">}</span></span></code></pre>
+<pre class="has-line-numbers"><code class="language-apex"><span class="code-line"><span class="code-ln">1</span><span class="code-src"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FUL_ClosedWonConsumer</span></span></span><span class="code-line"><span class="code-ln">2</span><span class="code-src">  <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">PlatformEventAbstractConsumer</span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">3</span><span class="code-src">  <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-type">void</span> <span class="hljs-title function_">runInProcess</span><span class="hljs-params"><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span></span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">4</span><span class="code-src">    <span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span> <span class="hljs-variable">oppIds</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">5</span><span class="code-src">    <span class="hljs-keyword">for</span> (<span class="hljs-type">SObject</span> <span class="hljs-variable">sobj</span> <span class="hljs-operator">:</span> events<span class="hljs-punctuation">)</span> <span class="hljs-punctuation">{</span></span></span><span class="code-line"><span class="code-ln">6</span><span class="code-src">      <span class="hljs-type">AT4DXMessage__e</span> <span class="hljs-variable">evt</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">(</span><span class="hljs-type">AT4DXMessage__e</span><span class="hljs-punctuation">)</span> sobj<span class="hljs-punctuation">;</span></span></span><span class="code-line"><span class="code-ln">7</span><span class="code-src">      oppIds<span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">addAll</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">(</span><span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span><span class="hljs-punctuation">)</span> <span class="hljs-built_in">JSON</span><span class="hljs-punctuation">.</span><span class="hljs-title function_ invoke__">deserialize</span><span class="hljs-punctuation">(</span></span></span><span class="code-line"><span class="code-ln">8</span><span class="code-src">        evt<span class="hljs-punctuation">.</span>Payload__c<span class="hljs-punctuation">,</span> <span class="hljs-type">Set</span><span class="hljs-punctuation">&lt;</span><span class="hljs-type">Id</span><span class="hljs-punctuation">&gt;</span><span class="hljs-punctuation">.</span><span class="hljs-keyword">class</span>));</span></span><span class="code-line"><span class="code-ln">9</span><span class="code-src">    }</span></span><span class="code-line"><span class="code-ln">10</span><span class="code-src">    FUL_FulfillmentOrdersService.newInstance()</span></span><span class="code-line"><span class="code-ln">11</span><span class="code-src">      .createFor(oppIds);</span></span><span class="code-line"><span class="code-ln">12</span><span class="code-src">  }</span></span><span class="code-line"><span class="code-ln">13</span><span class="code-src">}</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -646,7 +650,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </div>
 </div>
 <div class="band-note">
-<p>Need an answer now? Use a contract (topic 2). Telling others something happened? Publish an event.</p>
+<p>Need an answer now? Call the owning Service (topic 2). Telling others something happened? Publish an event.</p>
 </div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-paginate="true" data-class="detail-slide table-slide dense-table-slide stories-table-slide" data-theme="session" data-lang="en" lang="en" class="detail-slide table-slide dense-table-slide stories-table-slide" data-marpit-pagination="35" style="--paginate:true;--class:detail-slide table-slide dense-table-slide stories-table-slide;--theme:session;--lang:en;" data-marpit-pagination-total="39">
@@ -666,37 +670,37 @@ How do the divisions work together without wiring themselves so tightly that eve
 <td>Sales closes a deal, the warehouse ships it</td>
 <td>sales → fulfillment</td>
 <td>Platform event distribution</td>
-<td>Subscription in fulfillment</td>
+<td>fulfillment</td>
 </tr>
 <tr>
 <td>Service asks where an order is</td>
-<td>service → fulfillment</td>
-<td>Contract + Service binding</td>
-<td>Contract in common</td>
+<td>fulfillment → Case page</td>
+<td>Service triad + binding</td>
+<td>fulfillment</td>
 </tr>
 <tr>
 <td>Fulfillment schedules robot maintenance</td>
-<td>fulfillment → maintenance</td>
-<td>Contract + Service binding</td>
-<td>Contract in warehouse-common</td>
+<td>fulfillment → warehouse-common</td>
+<td>Service triad + binding</td>
+<td>warehouse-common</td>
 </tr>
 <tr>
 <td>Marketing adds fields to Account</td>
 <td>marketing → common</td>
 <td>Selector field injection</td>
-<td>Field set in marketing</td>
+<td>marketing</td>
 </tr>
 <tr>
 <td>Service reacts to a late shipment</td>
 <td>service → common</td>
 <td>Domain process injection</td>
-<td>Criteria, action in service</td>
+<td>service</td>
 </tr>
 <tr>
 <td>Service queries its own Accounts</td>
 <td>service → common</td>
 <td>Selector method injection</td>
-<td>Method class in service</td>
+<td>service</td>
 </tr>
 </tbody>
 </table>
@@ -733,7 +737,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </div>
 <div class="card common">
 <h3>Migrating an org?</h3>
-<p>Pull shared objects and contracts into common first. Then move one feature at a time, replacing direct calls with factory calls.</p>
+<p>Pull shared objects and Services into common first. Then move one feature at a time, with every call going through <code>newInstance()</code>.</p>
 </div>
 <div class="card common">
 <h3>Is <code>Application</code> required now?</h3>
@@ -811,24 +815,27 @@ How do the divisions work together without wiring themselves so tightly that eve
 - ISV case: one line, move on</p></div><div class="bespoke-marp-note" data-index="16" tabindex="0"><p>- Only DevOps point today
 - Suffixes: Selector, Service, ServiceImpl, Controller, Test, RestAPI, Invocable
 - Reviewer sees owner at a glance</p></div><div class="bespoke-marp-note" data-index="17" tabindex="0"><p>- Highlight: Common
-- Lower package publishes the interface
-- Higher package supplies the class</p></div><div class="bespoke-marp-note" data-index="18" tabindex="0"><p>- Not &quot;interfaces everywhere&quot;
-- Only at package boundaries</p></div><div class="bespoke-marp-note" data-index="19" tabindex="0"><p>- A contract is a promise
-- Lowest common layer wins
+- Service triad: one package
+- Callers use its newInstance()</p></div><div class="bespoke-marp-note" data-index="18" tabindex="0"><p>- Not &quot;interfaces everywhere&quot;
+- Triad stays together
+- Swap = binding, not a fork</p></div><div class="bespoke-marp-note" data-index="19" tabindex="0"><p>- Facade, interface, impl together
+- newInstance() is the only door
 - Tests: mock the interface, as in S5</p></div><div class="bespoke-marp-note" data-index="20" tabindex="0"><p>- Left: S5 code, unchanged
-- Right: field type is the contract
-- Factory hands back MNT_ class
-- Fulfillment no longer knows maintenance exists</p></div><div class="bespoke-marp-note" data-index="21" tabindex="0"><p>- Highlight: Framework
+- Right: still newInstance()
+- Field type is the interface
+- newInstance() asks the factory
+- Fulfillment never names maintenance</p></div><div class="bespoke-marp-note" data-index="21" tabindex="0"><p>- Highlight: Framework
 - AT4DX factories live here
 - Custom metadata does the wiring</p></div><div class="bespoke-marp-note" data-index="22" tabindex="0"><p>- S5's Application: optional in one package
 - Across packages: the factory is the point
+- Only newInstance() talks to it
 - No central list of every class</p></div><div class="bespoke-marp-note" data-index="23" tabindex="0"><p>- Same four factories as fflib
 - UoW order is now metadata too
-- Promise from Andy, S2</p></div><div class="bespoke-marp-note" data-index="24" tabindex="0"><p>- Contract in common
-- Caller in service
-- Implementation + binding in fulfillment
-- Record travels with the class</p></div><div class="bespoke-marp-note" data-index="25" tabindex="0"><p>- Interface, static entry, Impl
-- Click: install-time wiring
+- Promise from Andy, S2</p></div><div class="bespoke-marp-note" data-index="24" tabindex="0"><p>- Whole triad in fulfillment
+- Component added to Case page
+- Record travels with the class</p></div><div class="bespoke-marp-note" data-index="25" tabindex="0"><p>- Facade newInstance() asks factory
+- Callers never touch Application
+- Click: override by binding
 - setMock: S5 story unchanged</p></div><div class="bespoke-marp-note" data-index="26" tabindex="0"><p>- Override = new record, not a fork
 - Debugging: &quot;who answers this?&quot;
 - Binding test catches typos at deploy</p></div><div class="bespoke-marp-note" data-index="27" tabindex="0"><p>- Highlight: Business over Common
@@ -844,7 +851,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 - S3 tie-in</p></div><div class="bespoke-marp-note" data-index="32" tabindex="0"><p>- Sales publishes, knows no listener
 - Fulfillment subscribes with metadata
 - Creates FUL_ FulfillmentOrder
-- Event name is the only contract</p></div><div class="bespoke-marp-note" data-index="33" tabindex="0"><p>- Answer now: contract
+- Event name is the only contract</p></div><div class="bespoke-marp-note" data-index="33" tabindex="0"><p>- Answer now: call the Service
 - Something happened: event</p></div><div class="bespoke-marp-note" data-index="34" tabindex="0"><p>- Six arrows, none sideways
 - Each owner untouched</p></div><div class="bespoke-marp-note" data-index="35" tabindex="0"><p>- One line to remember
 - All promises paid

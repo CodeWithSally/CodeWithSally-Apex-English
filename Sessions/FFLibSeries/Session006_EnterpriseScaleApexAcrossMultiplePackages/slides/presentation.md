@@ -351,7 +351,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <h3>Where FFLib lands</h3>
 <ul>
 <li><b>Framework:</b> fflib, force-di, AT4DX</li>
-<li><b>Common:</b> shared objects, their Selector and Domain, contracts</li>
+<li><b>Common:</b> shared objects with their Selector and Domain, and shared Services</li>
 <li><b>Business:</b> its own Domains, Selectors, Services, registered through custom metadata</li>
 </ul>
 </div>
@@ -418,8 +418,8 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 | Name | Owner | Artifact |
 |---|---|---|
 | `SALES_AccountsSelector` | sales | Selector |
-| `WHSE_IMaintenanceService` | warehouse-common | Service contract |
-| `MNT_MaintenanceServiceImpl` | maintenance | Service implementation |
+| `WHSE_IMaintenanceService` | warehouse-common | Service interface |
+| `WHSE_MaintenanceServiceImpl` | warehouse-common | Service implementation |
 | `SVC_CaseController` | service | Controller |
 | `FUL_FulfillmentRestAPI` | fulfillment | REST API |
 | `MKTG_EngagementScore__c` | marketing | Custom field on Account |
@@ -438,14 +438,14 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 
 # 2 · Shared contracts and interfaces
 
-<p class="tagline">Contracts live in a common layer, so business packages talk without depending on each other</p>
+<p class="tagline">Shared Services live in a lower layer, so business packages use them without depending on each other</p>
 
 ![Package dependency map with the Common layers highlighted](images/package-dependency-map-common.svg)
 
 <!--
 - Highlight: Common
-- Lower package publishes the interface
-- Higher package supplies the class
+- Service triad: one package
+- Callers use its newInstance()
 -->
 
 ---
@@ -457,9 +457,9 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 <p class="tagline">Session 5 saved this case for today</p>
 
 - **Session 5:** use interfaces "only where implementations genuinely vary"
-- **Across packages, they always vary:** the caller can't see the implementation at all
-- **The lower package publishes the interface.** The higher package supplies the implementation
-- **Each side compiles against the contract,** never against the other side
+- **Across packages, they can vary:** a higher package can swap in its own implementation with a binding
+- **Each Service ships as a triad in one package:** the facade, the interface and the implementation
+- **Callers use the facade's `newInstance()`,** and only ever hold the interface. They never name the implementation
 
 <p class="practice">Andy, Session 2: interfaces are how Services get resolved. Here's where it matters.</p>
 
@@ -467,46 +467,52 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 
 <!--
 - Not "interfaces everywhere"
-- Only at package boundaries
+- Triad stays together
+- Swap = binding, not a fork
 -->
 
 ---
 
 <!-- _class: detail-slide cards-slide -->
 
-# What goes in a contract
+# One Service, three classes, one package
 
-<p class="tagline">Small and stable</p>
+<p class="tagline">Selectors and Domains follow the same rule</p>
 
 <div class="cards cols-3">
 <div class="card common">
-<h3>Put in</h3>
+<h3>Ships together</h3>
 <ul>
-<li>A Service interface, such as <code>WHSE_IMaintenanceService</code></li>
-<li>The records or simple data classes it passes</li>
-<li>Any exceptions it throws</li>
+<li><code>WHSE_MaintenanceService</code>: the facade, with a static <code>newInstance()</code></li>
+<li><code>WHSE_IMaintenanceService</code>: the interface, with the records and simple data classes it passes</li>
+<li><code>WHSE_MaintenanceServiceImpl</code>, and its binding record</li>
 </ul>
 </div>
 <div class="card warn">
-<h3>Leave out</h3>
+<h3>Every consumer</h3>
 <ul>
-<li>Domains and Selectors, unless another package really needs them</li>
-<li>Anything only one package uses</li>
+<li>Calls <code>WHSE_MaintenanceService.newInstance()</code>, from any package</li>
+<li>Holds the interface type, never the implementation</li>
+<li>Never calls <code>Application.Service</code> itself: only <code>newInstance()</code> does</li>
 </ul>
 </div>
 <div class="card gold">
 <h3>Keep it stable</h3>
 <ul>
-<li>Every change moves every package that uses it</li>
+<li>Every change moves every package that calls it</li>
 <li>Add methods; avoid changing or removing old ones</li>
-<li>Put it in the lowest package both sides depend on, never in the implementing package</li>
+<li>Put the triad in the lowest package its callers depend on, and no lower</li>
 </ul>
 </div>
 </div>
 
+<div class="band-note">
+<p><b>Selectors and Domains too:</b> each has its own static <code>newInstance()</code>, such as <code>CMN_AccountsSelector.newInstance()</code>, and every consumer calls it.</p>
+</div>
+
 <!--
-- A contract is a promise
-- Lowest common layer wins
+- Facade, interface, impl together
+- newInstance() is the only door
 - Tests: mock the interface, as in S5
 -->
 
@@ -516,7 +522,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 
 # Fulfillment calls Maintenance
 
-<p class="tagline">Inside a package, call directly. Across packages, go through a contract in a lower layer</p>
+<p class="tagline">Both warehouse packages need maintenance scheduling, so it moves down to warehouse-common</p>
 
 <div class="duo">
 <div class="duo-col">
@@ -545,18 +551,17 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 <div class="vscode">
 
 ```apex
-// Can't see maintenance: use the contract
+// Scheduling now lives in warehouse-common
 private final WHSE_IMaintenanceService maintenanceSvc;
 
 public static FUL_FulfillmentService newInstance() {
   return new FUL_FulfillmentService(
     // ...selectors
-    (WHSE_IMaintenanceService) Application.Service
-      .newInstance(WHSE_IMaintenanceService.class)
+    WHSE_MaintenanceService.newInstance()
   );
 }
 
-// Same call, through the contract
+// Same call, through the interface
 maintenanceSvc.scheduleService(dueRobots, uow);
 ```
 
@@ -566,9 +571,10 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 <!--
 - Left: S5 code, unchanged
-- Right: field type is the contract
-- Factory hands back MNT_ class
-- Fulfillment no longer knows maintenance exists
+- Right: still newInstance()
+- Field type is the interface
+- newInstance() asks the factory
+- Fulfillment never names maintenance
 -->
 
 ---
@@ -577,7 +583,7 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 # 3 · Configuration-driven design
 
-<p class="tagline">How a lower layer hands out implementations that live in a higher layer</p>
+<p class="tagline">How the factory picks an implementation, and lets a higher package replace it</p>
 
 ![Package dependency map with the Framework layer highlighted](images/package-dependency-map-framework.svg)
 
@@ -595,18 +601,19 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 <p class="tagline">"AT4DX keeps a factory, on purpose"</p>
 
-- **Session 5:** `newInstance()` plus constructors. Inside one package, that's enough
-- **Across packages, the caller can't write `new MaintenanceService()`:** it can't see that class
-- **So it asks the factory for `WHSE_IMaintenanceService`,** and the factory looks up the binding
+- **Session 5's `newInstance()` stays:** every Service, Selector and Domain has one, and every consumer calls it
+- **Inside it, AT4DX asks the factory:** `Application.Service.newInstance(WHSE_IMaintenanceService.class)`
+- **The factory reads the bindings,** so a higher package can replace the implementation without touching any caller
 - **There's no app-specific `Application` class to edit:** AT4DX's `Application` lives in the framework and reads bindings from every installed package
 
-<p class="practice">The caller asks for an interface. Custom metadata decides the class. Tests still <code>setMock()</code>.</p>
+<p class="practice">Callers call <code>newInstance()</code>. It asks the factory. Custom metadata decides the class. Tests still <code>setMock()</code>.</p>
 
 <p class="promise-tag">✅ Session 5: "AT4DX keeps a factory, on purpose"</p>
 
 <!--
 - S5's Application: optional in one package
 - Across packages: the factory is the point
+- Only newInstance() talks to it
 - No central list of every class
 -->
 
@@ -616,7 +623,7 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 # Four factories, four bindings
 
-<p class="tagline">Bindings live in custom metadata, and deploy with the package that owns the implementation</p>
+<p class="tagline">Bindings live in custom metadata, and deploy with the package that owns the class</p>
 
 | Factory | Custom metadata | Key fields |
 |---|---|---|
@@ -625,7 +632,7 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 | `Application.Service` | `ApplicationFactory_ServiceBinding__mdt` | `BindingInterface__c`, `To__c`, `Priority__c` |
 | `Application.UnitOfWork` | `ApplicationFactory_UnitOfWorkBinding__mdt` | `BindingSObject__c`, `BindingSequence__c` |
 
-<p class="practice">Installing a package adds its bindings. Nobody edits common. Under the covers it's force-di: metadata-driven dependency injection.</p>
+<p class="practice">Installing a package adds its bindings, and a higher <code>Priority__c</code> replaces one. Under the covers it's force-di: metadata-driven dependency injection.</p>
 
 <p class="promise-tag">✅ Andy, Session 2: metadata-driven dependency injection</p>
 
@@ -643,20 +650,19 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 <p class="tagline">Story: Service asks where an order is</p>
 
-**`common`** publishes `CMN_IOrderFulfillmentService`. A Case page in **`service`** calls it. **`fulfillment`** implements it and ships this record:
+**`fulfillment`** owns order status: `FUL_OrderFulfillmentService`, `FUL_IOrderFulfillmentService` and `FUL_OrderFulfillmentServiceImpl`, plus this record:
 
 | ApplicationFactory_ServiceBinding__mdt | FUL_OrderFulfillmentService |
 |---|---|
-| BindingInterface__c | `CMN_IOrderFulfillmentService` |
+| BindingInterface__c | `FUL_IOrderFulfillmentService` |
 | To__c | `FUL_OrderFulfillmentServiceImpl` |
 | Priority__c | 1 |
 
-<p class="practice">Service never learns that the fulfillment package exists. It only knows the contract in common.</p>
+<p class="practice">service can't depend on fulfillment, so fulfillment ships the "Where's my order?" component for the Case page. service never names a <code>FUL_</code> class.</p>
 
 <!--
-- Contract in common
-- Caller in service
-- Implementation + binding in fulfillment
+- Whole triad in fulfillment
+- Component added to Case page
 - Record travels with the class
 -->
 
@@ -666,34 +672,35 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 # Asking the factory
 
-<p class="tagline">The same Service triad as the AT4DX samples, with package prefixes</p>
+<p class="tagline">Only the facade talks to the factory. Every caller uses <code>newInstance()</code></p>
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">CMN_OrderFulfillmentService.cls · common</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">FUL_OrderFulfillmentService.cls · fulfillment</span></div>
 
 ```apex
-public inherited sharing class CMN_OrderFulfillmentService {
-  private static CMN_IOrderFulfillmentService service() {
-    return (CMN_IOrderFulfillmentService)
-      Application.Service.newInstance(CMN_IOrderFulfillmentService.class);
-  }
-
-  public static List<CMN_OrderStatus> getStatusForAccounts(Set<Id> accountIds) {
-    return service().getStatusForAccounts(accountIds);
+public inherited sharing class FUL_OrderFulfillmentService {
+  public static FUL_IOrderFulfillmentService newInstance() {
+    return (FUL_IOrderFulfillmentService)
+      Application.Service.newInstance(FUL_IOrderFulfillmentService.class);
   }
 }
 
+// Any consumer, such as the Case page component's controller
+List<FUL_OrderStatus> statuses = FUL_OrderFulfillmentService.newInstance()
+  .getStatusForAccounts(accountIds);
+
 // In a test, the mock beats any binding (same as Session 5)
-Application.Service.setMock(CMN_IOrderFulfillmentService.class, mockService);
+Application.Service.setMock(FUL_IOrderFulfillmentService.class, mockService);
 ```
 
 </div>
 
-<p class="practice" data-marpit-fragment="1">Before fulfillment is installed, nothing answers. After install, its binding answers. No change to service or common.</p>
+<p class="practice" data-marpit-fragment="1">A regional package can ship a higher-priority binding with its own implementation. No caller changes.</p>
 
 <!--
-- Interface, static entry, Impl
-- Click: install-time wiring
+- Facade newInstance() asks factory
+- Callers never touch Application
+- Click: override by binding
 - setMock: S5 story unchanged
 -->
 
@@ -928,7 +935,8 @@ public class FUL_ClosedWonConsumer
       oppIds.addAll((Set<Id>) JSON.deserialize(
         evt.Payload__c, Set<Id>.class));
     }
-    FUL_FulfillmentOrdersService.createFor(oppIds);
+    FUL_FulfillmentOrdersService.newInstance()
+      .createFor(oppIds);
   }
 }
 ```
@@ -974,11 +982,11 @@ public class FUL_ClosedWonConsumer
 </div>
 
 <div class="band-note">
-<p>Need an answer now? Use a contract (topic 2). Telling others something happened? Publish an event.</p>
+<p>Need an answer now? Call the owning Service (topic 2). Telling others something happened? Publish an event.</p>
 </div>
 
 <!--
-- Answer now: contract
+- Answer now: call the Service
 - Something happened: event
 -->
 
@@ -992,12 +1000,12 @@ public class FUL_ClosedWonConsumer
 
 | Story | From → to | Technique | Lives in |
 |---|---|---|---|
-| Sales closes a deal, the warehouse ships it | sales → fulfillment | Platform event distribution | Subscription in fulfillment |
-| Service asks where an order is | service → fulfillment | Contract + Service binding | Contract in common |
-| Fulfillment schedules robot maintenance | fulfillment → maintenance | Contract + Service binding | Contract in warehouse-common |
-| Marketing adds fields to Account | marketing → common | Selector field injection | Field set in marketing |
-| Service reacts to a late shipment | service → common | Domain process injection | Criteria, action in service |
-| Service queries its own Accounts | service → common | Selector method injection | Method class in service |
+| Sales closes a deal, the warehouse ships it | sales → fulfillment | Platform event distribution | fulfillment |
+| Service asks where an order is | fulfillment → Case page | Service triad + binding | fulfillment |
+| Fulfillment schedules robot maintenance | fulfillment → warehouse-common | Service triad + binding | warehouse-common |
+| Marketing adds fields to Account | marketing → common | Selector field injection | marketing |
+| Service reacts to a late shipment | service → common | Domain process injection | service |
+| Service queries its own Accounts | service → common | Selector method injection | service |
 
 <!--
 - Six arrows, none sideways
@@ -1052,7 +1060,7 @@ public class FUL_ClosedWonConsumer
 </div>
 <div class="card common">
 <h3>Migrating an org?</h3>
-<p>Pull shared objects and contracts into common first. Then move one feature at a time, replacing direct calls with factory calls.</p>
+<p>Pull shared objects and Services into common first. Then move one feature at a time, with every call going through <code>newInstance()</code>.</p>
 </div>
 <div class="card common">
 <h3>Is <code>Application</code> required now?</h3>

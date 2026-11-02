@@ -47,7 +47,7 @@
   <rect x="902" y="336" width="320" height="94" rx="8" fill="rgba(90,152,224,0.22)" stroke="#5A98E0" stroke-width="2" filter="url(#mer-shadow)"/>
   <g class="t" text-anchor="middle">
     <text class="name" x="1062" y="370">warehouse-common</text><text class="pfx" x="1062" y="398">WHSE_</text>
-    <text class="small" x="1062" y="420">Robots · WHSE_IMaintenanceService</text>
+    <text class="small" x="1062" y="420">Robots · WHSE_MaintenanceService</text>
   </g>
 
   <!-- Org-wide Common -->
@@ -58,7 +58,7 @@
   <g class="t" text-anchor="middle">
     <text class="name" x="655" y="576">common <tspan class="pfx" dx="10">CMN_</tspan></text>
     <text class="small" x="655" y="604">Account · Contact · Case · Product2 · their one Selector and one Domain</text>
-    <text class="small" x="655" y="626">Shared contracts such as CMN_IOrderFulfillmentService</text>
+    <text class="small" x="655" y="626">Shared Services, each with its own newInstance()</text>
   </g>
 
   <!-- Framework -->
