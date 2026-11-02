@@ -827,7 +827,7 @@ Application.Service.setMock(FUL_IOrderFulfillmentService.class, mockService);
 
 ---
 
-<!-- _class: detail-slide code-slide compact-code-slide -->
+<!-- _class: detail-slide code-slide compact-code-slide factory-trio-slide -->
 
 # Selector method injection
 
@@ -853,8 +853,18 @@ public inherited sharing class SVC_AccountsWithOpenComplaintsSelectorMethod
     public Integer minimumOpenComplaints;
   }
 }
+```
 
-// The caller, in service
+</div>
+
+<div class="vscode">
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-client">SVC_ComplaintsServiceImpl.cls · a caller in service</span></div>
+
+```apex
+SVC_AccountsWithOpenComplaintsSelectorMethod.Parameters params =
+  new SVC_AccountsWithOpenComplaintsSelectorMethod.Parameters();
+params.minimumOpenComplaints = 5;
+
 List<Account> accounts = CMN_AccountsSelector.newInstance()
   .selectInjection(SVC_AccountsWithOpenComplaintsSelectorMethod.class, params);
 ```
