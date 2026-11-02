@@ -312,7 +312,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <p class="tagline">Meridian is a single-org story. The pattern doesn't change with more orgs</p>
 
 - **Single org:** anything that would live in Universal Common goes into that org's Org-wide Common package
-- **Several orgs:** it moves down into a Universal Common package that every org installs
+- **Several orgs:** it moves down into a Universal Common package, prefix `ucmn_`, that every org installs
 - **Everything above it is the same:** business packages, Project Common, contracts and bindings
 
 <p class="practice">Start in one org. If a second org arrives, move shared pieces down a layer.</p>
@@ -642,11 +642,11 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 
 <p class="tagline">Story: Service asks where an order is</p>
 
-**`common`** publishes `common_IOrderFulfillmentService`. A Case page in **`service`** calls it. **`fulfillment`** implements it and ships this record:
+**`common`** publishes `cmn_IOrderFulfillmentService`. A Case page in **`service`** calls it. **`fulfillment`** implements it and ships this record:
 
 | ApplicationFactory_ServiceBinding__mdt | ful_OrderFulfillmentService |
 |---|---|
-| BindingInterface__c | `common_IOrderFulfillmentService` |
+| BindingInterface__c | `cmn_IOrderFulfillmentService` |
 | To__c | `ful_OrderFulfillmentServiceImpl` |
 | Priority__c | 1 |
 
@@ -668,22 +668,22 @@ maintenanceSvc.scheduleService(dueRobots, uow);
 <p class="tagline">The same Service triad as the AT4DX samples, with package prefixes</p>
 
 <div class="vscode">
-<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">common_OrderFulfillmentService.cls · common</span></div>
+<div class="vscode-tabs"><span class="vscode-tab vscode-tab-service">cmn_OrderFulfillmentService.cls · common</span></div>
 
 ```apex
-public inherited sharing class common_OrderFulfillmentService {
-  private static common_IOrderFulfillmentService service() {
-    return (common_IOrderFulfillmentService)
-      Application.Service.newInstance(common_IOrderFulfillmentService.class);
+public inherited sharing class cmn_OrderFulfillmentService {
+  private static cmn_IOrderFulfillmentService service() {
+    return (cmn_IOrderFulfillmentService)
+      Application.Service.newInstance(cmn_IOrderFulfillmentService.class);
   }
 
-  public static List<common_OrderStatus> getStatusForAccounts(Set<Id> accountIds) {
+  public static List<cmn_OrderStatus> getStatusForAccounts(Set<Id> accountIds) {
     return service().getStatusForAccounts(accountIds);
   }
 }
 
 // In a test, the mock beats any binding (same as Session 5)
-Application.Service.setMock(common_IOrderFulfillmentService.class, mockService);
+Application.Service.setMock(cmn_IOrderFulfillmentService.class, mockService);
 ```
 
 </div>
@@ -776,7 +776,7 @@ Application.Service.setMock(common_IOrderFulfillmentService.class, mockService);
 <div class="cards cols-3">
 <div class="card common">
 <h3>common owns</h3>
-<p><code>Account</code> and <code>common_AccountsSelector</code>, which extends <code>ApplicationSObjectSelector</code> with <code>includeFieldSetFields</code> on</p>
+<p><code>Account</code> and <code>cmn_AccountsSelector</code>, which extends <code>ApplicationSObjectSelector</code> with <code>includeFieldSetFields</code> on</p>
 </div>
 <div class="card business">
 <h3>marketing ships</h3>
@@ -835,7 +835,7 @@ public inherited sharing class svc_AccountsWithOpenComplaintsSelectorMethod
 }
 
 // The caller, in service
-List<Account> accounts = common_AccountsSelector.newInstance()
+List<Account> accounts = cmn_AccountsSelector.newInstance()
   .selectInjection(svc_AccountsWithOpenComplaintsSelectorMethod.class, params);
 ```
 
@@ -844,7 +844,7 @@ List<Account> accounts = common_AccountsSelector.newInstance()
 <!--
 - Query is service's, not common's
 - Uses the shared Selector's fields
-- common_AccountsSelector untouched
+- cmn_AccountsSelector untouched
 - Count field: a roll-up in service
 -->
 

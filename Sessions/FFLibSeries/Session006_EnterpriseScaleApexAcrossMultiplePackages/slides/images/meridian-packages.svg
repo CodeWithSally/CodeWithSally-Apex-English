@@ -56,9 +56,9 @@
   <text class="t band" x="60" y="592" style="fill:#8fb3ff">COMMON</text>
   <rect x="215" y="540" width="880" height="100" rx="8" fill="rgba(90,152,224,0.35)" stroke="#5A98E0" stroke-width="2" filter="url(#mer-shadow)"/>
   <g class="t" text-anchor="middle">
-    <text class="name" x="655" y="576">common <tspan class="pfx" dx="10">common_</tspan></text>
+    <text class="name" x="655" y="576">common <tspan class="pfx" dx="10">cmn_</tspan></text>
     <text class="small" x="655" y="604">Account · Contact · Case · Product2 · their one Selector and one Domain</text>
-    <text class="small" x="655" y="626">Shared contracts such as common_IOrderFulfillmentService</text>
+    <text class="small" x="655" y="626">Shared contracts such as cmn_IOrderFulfillmentService</text>
   </g>
 
   <!-- Framework -->
