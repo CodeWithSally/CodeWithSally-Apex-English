@@ -1036,6 +1036,40 @@ public class FUL_ClosedWonConsumer
 
 ---
 
+<!-- _class: detail-slide cards-slide stats-slide -->
+
+# Does it work at scale?
+
+<p class="tagline">One enterprise client, built on these patterns</p>
+
+<div class="cards cols-3">
+<div class="card business">
+<p class="stat">120</p>
+<p class="stat-label">deployments a month, on average</p>
+</div>
+<div class="card common">
+<p class="stat">60+</p>
+<p class="stat-label">applications</p>
+</div>
+<div class="card framework">
+<p class="stat">20+</p>
+<p class="stat-label">app teams</p>
+</div>
+</div>
+
+<div class="band-note">
+<p><b>What made it possible:</b> layered packages, one owner per object, Services called through <code>newInstance()</code>, and custom metadata deciding the wiring. Teams ship on their own schedule without waiting on each other.</p>
+</div>
+
+<!--
+- A real client; no name
+- 120 deploys/month, 60+ apps, 20+ teams
+- Same principles as today
+- Teams don't block each other
+-->
+
+---
+
 <!-- _class: detail-slide takeaway-slide -->
 
 <blockquote class="takeaway">Depend on contracts. Let configuration decide.</blockquote>

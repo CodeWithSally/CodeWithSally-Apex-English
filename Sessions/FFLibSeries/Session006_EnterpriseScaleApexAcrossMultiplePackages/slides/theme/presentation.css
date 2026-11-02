@@ -4716,3 +4716,6 @@ section.takeaway-slide blockquote.takeaway { font-size: 1.3em; }
 section.tight-cards-slide .cards { font-size: 0.52em; min-width: 0; }
 section.tight-cards-slide .card { min-width: 0; overflow-wrap: anywhere; }
 section.factory-trio-slide .vscode { margin-top: 10px; }
+section.stats-slide .card { text-align: center; padding: 22px 16px; }
+section.stats-slide .card p.stat { font-size: 3.2em; font-weight: 800; line-height: 1; margin: 0 0 8px; color: var(--card, #5A98E0); }
+section.stats-slide .card p.stat-label { font-size: 1.15em; margin: 0; }
