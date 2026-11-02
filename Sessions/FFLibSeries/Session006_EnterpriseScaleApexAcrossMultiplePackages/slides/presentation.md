@@ -1152,7 +1152,7 @@ public class FUL_ClosedWonConsumer
 - **force-di** — github.com/apex-enterprise-patterns/force-di
 - **fflib Apex Common** and **fflib Apex Mocks** — github.com/apex-enterprise-patterns/fflib-apex-common and fflib-apex-mocks
 - **Brewtiful Beans Learns AT4DX** — a blog series by **Jake Richter** that walks through the same ideas with a coffee roaster: syntax-syllogism.com/blog/tags/brewtiful-beans
-- **This series** — slides for all six sessions: github.com/CodeWithSally/CodeWithSally-Apex-English
+- **This series** — slides for all six sessions: github.com/CodeWithSally/CodeWithSally-Apex-English/Sessions/FFLibSeries
 
 <!--
 - Thank Jake for Brewtiful Beans
