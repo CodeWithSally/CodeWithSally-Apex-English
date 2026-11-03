@@ -1116,14 +1116,28 @@ public class FUL_ClosedWonConsumer
 <p><b>Dependencies only point down.</b></p>
 <p><b>Each object has one owner.</b></p>
 <p><b>Push shared things down only as far as needed.</b></p>
-<p class="next-why">Thank you, Sally, Andy and John Storey, for the series.</p>
 </div>
 </div>
 
 <!--
 - One line to remember
 - All promises paid
-- Thank presenters, then Q&A
+- Promises paid; next: thanks to Sally
+-->
+
+---
+
+<!-- _class: title-slide sally-slide -->
+
+# Thank you, Sally
+
+### And a huge THANKS to Sally from all of us at the Apex Enterprise Patterns team.
+
+![Code With Sally](images/codewithsally.png)
+
+<!--
+- Thank Sally for hosting the series
+- Then Q&A
 -->
 
 ---
