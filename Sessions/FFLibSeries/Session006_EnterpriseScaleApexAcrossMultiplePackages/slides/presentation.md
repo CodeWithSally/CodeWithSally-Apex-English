@@ -232,10 +232,21 @@ How do the divisions work together without wiring themselves so tightly that eve
 
 # The package layers
 
-![Package dependency map: Happy Soup, Business, Common and Framework layers, with integration and third-party packages beside them](images/package-dependency-map.svg)
+<div class="map-build">
+<img src="images/map-build/pdm-step0.svg" alt="Package dependency map: Happy Soup, Business, Common and Framework layers, with integration and third-party packages beside them">
+<img src="images/map-build/pdm-step1.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step2.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step3.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step4.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step5.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step6.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step7.svg" data-marpit-fragment alt="">
+<img src="images/map-build/pdm-step8.svg" data-marpit-fragment alt="">
+</div>
 
 <!--
 - Anchor slide; we come back here
+- Clicks: 1 Framework + fflib Apex Common, 2 Business, 3 managed pkgs, 4 Common + Project Commons, 5 Org-wide, 6 Universal, 7 rest of Framework, 8 everything else
 - Top: Happy Soup, shrinking
 - Business: one per division/project
 - Common: project, org-wide, universal

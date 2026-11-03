@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" aria-hidden="true">
+  <defs>
+    <marker id="pdm-arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="8" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#9fb3c8"/>
+    </marker>
+    <marker id="pdm-arrow-d" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="8" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#f3d36a"/>
+    </marker>
+    <filter id="pdm-shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <style>
+    .t { font-family: 'Segoe UI', system-ui, sans-serif; fill: #f4f6f9; }
+    .box { font-size: 17px; font-weight: 500; }
+    .small { font-size: 14px; fill: #9fb3c8; }
+    .band { font-size: 15px; font-weight: 700; letter-spacing: 1.5px; }
+    .solid { fill: none; stroke: #9fb3c8; stroke-width: 2.5; marker-end: url(#pdm-arrow); }
+    .dash { fill: none; stroke: #f3d36a; stroke-width: 2; stroke-dasharray: 7 6; marker-end: url(#pdm-arrow-d); }
+  </style>
+<g transform="translate(20,720)"><rect width="300" height="150" rx="10" fill="rgba(2,26,56,0.55)" stroke="#3a4d6e"/></g>
+<g transform="translate(20,720)"><text class="t band" x="16" y="26" style="fill:#9fb3c8;font-size:13px">LEGEND</text></g>
+<g transform="translate(20,720)"><rect x="16" y="42" width="44" height="26" rx="5" fill="#0b3a70" stroke="#9fb3c8" stroke-width="2"/></g>
+<g transform="translate(20,720)"><text class="t" x="74" y="61" style="font-size:15px">Package</text></g>
+<g transform="translate(20,720)"><path class="solid" d="M16 92 H58"/></g>
+<g transform="translate(20,720)"><text class="t" x="74" y="97" style="font-size:15px">Depends on</text></g>
+<g transform="translate(20,720)"><path class="dash" d="M16 126 H58"/></g>
+<g transform="translate(20,720)"><text class="t" x="74" y="122" style="font-size:15px">Specific dependency</text></g>
+<g transform="translate(20,720)"><text class="t" x="74" y="140" style="font-size:15px">between packages</text></g>
+</svg>
