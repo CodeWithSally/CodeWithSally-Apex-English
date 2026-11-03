@@ -2,7 +2,7 @@
 """Split images/package-dependency-map.svg into click-by-click layers for slide 9.
 
 Each layer keeps the full 1600x900 canvas, so the layers stack exactly.
-Layer N is shown on click N in the HTML deck. The PDF shows every layer.
+Layer N is shown on click N (8 is everything not listed) in the HTML deck. The PDF shows every layer.
 Line numbers refer to package-dependency-map.svg; re-run after editing it.
 """
 import os, re
@@ -24,6 +24,7 @@ STEPS = {
     5: [56, 62, 63, 148],                             # Org-wide Common
     6: [57, 64, 65, 149],                             # Universal Common
     7: [70, 71, 73, 74, 75, 76, 78, 79, 81, 82, 83, 84, 86, 87, 152, 153, 154],  # Rest of Framework
+    9: [24, 25, 131],                                 # Remaining Happy Soup, last
 }
 
 lines = open(SRC, encoding='utf-8').read().split('\n')

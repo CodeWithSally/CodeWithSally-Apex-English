@@ -18,8 +18,6 @@
     .solid { fill: none; stroke: #9fb3c8; stroke-width: 2.5; marker-end: url(#pdm-arrow); }
     .dash { fill: none; stroke: #f3d36a; stroke-width: 2; stroke-dasharray: 7 6; marker-end: url(#pdm-arrow-d); }
   </style>
-<rect x="610" y="14" width="380" height="56" rx="28" fill="rgba(159,179,200,0.10)" stroke="#9fb3c8" stroke-width="2" stroke-dasharray="4 5"/>
-<text class="t box" x="800" y="48" text-anchor="middle">Remaining “Happy Soup” (unpackaged)</text>
 <g filter="url(#pdm-shadow)" stroke-width="2"><rect x="960" y="368" width="220" height="52" rx="6" fill="rgba(255,138,122,0.28)" stroke="#ff8a7a"/></g>
 <text class="t box" x="1070" y="400" text-anchor="middle">BackOffice Common</text>
 <rect x="20" y="328" width="300" height="152" rx="12" fill="rgba(159,179,200,0.08)" stroke="#9fb3c8" stroke-width="2.5"/>
@@ -45,7 +43,6 @@
 <g class="t" style="font-size:15px" text-anchor="middle"><text x="1506" y="231">BackOffice</text><text x="1506" y="250">System B</text></g>
 <g class="t" style="font-size:15px" text-anchor="middle"><text x="1376" y="465">Outbound A</text><text x="1506" y="465">Outbound B</text></g>
 <g class="t" style="font-size:15px" text-anchor="middle"><text x="1376" y="527">Outbound C</text><text x="1506" y="527">Outbound D</text></g>
-<path class="solid" d="M800 70 V106"/>
 <path class="solid" d="M350 280 V305 H170 V326"/>
 <path class="solid" d="M1255 280 V365 H1440 V396"/>
 <path class="solid" d="M1330 280 V318 H1224"/>
