@@ -1142,45 +1142,6 @@ public class FUL_ClosedWonConsumer
 
 ---
 
-<!-- _class: detail-slide cards-slide -->
-
-# Likely questions
-
-<p class="tagline">Short answers to start from</p>
-
-<div class="cards cols-3">
-<div class="card common">
-<h3>Do I need AT4DX?</h3>
-<p>No. You can pass interfaces and use a small factory of your own. AT4DX pays off once several packages extend the same objects.</p>
-</div>
-<div class="card common">
-<h3>Migrating an org?</h3>
-<p>Pull shared objects and Services into common first. Then move one feature at a time, with every call going through <code>newInstance()</code>.</p>
-</div>
-<div class="card common">
-<h3>Is <code>Application</code> required now?</h3>
-<p>Session 5 said it's optional in one package. Across packages, the factory is the point.</p>
-</div>
-<div class="card warn">
-<h3>Harder to debug?</h3>
-<p>Somewhat. Clear binding names, a test that every binding resolves, and rare overrides.</p>
-</div>
-<div class="card warn">
-<h3>Performance?</h3>
-<p>Custom metadata reads don't count against the SOQL limit. Load bindings once per transaction anyway.</p>
-</div>
-<div class="card warn">
-<h3>Namespaces?</h3>
-<p>An ISV's concern with managed packages, and supported. Enterprises use unlocked packages and prefixes.</p>
-</div>
-</div>
-
-<!--
-- Backup; open with live Q&A first
--->
-
----
-
 <!-- _class: detail-slide promises-slide learn-more-slide -->
 
 # Learn more
@@ -1221,4 +1182,52 @@ public class FUL_ClosedWonConsumer
 <!--
 - Live Q&A
 - At 90 min: deeper on layers
+-->
+
+---
+
+<!-- _class: detail-slide blank-slide -->
+<!-- _paginate: false -->
+
+<!--
+- Blank: pause before the backup slide
+-->
+
+---
+
+<!-- _class: detail-slide cards-slide -->
+
+# Likely questions
+
+<p class="tagline">Short answers to start from</p>
+
+<div class="cards cols-3">
+<div class="card common">
+<h3>Do I need AT4DX?</h3>
+<p>No. You can pass interfaces and use a small factory of your own. AT4DX pays off once several packages extend the same objects.</p>
+</div>
+<div class="card common">
+<h3>Migrating an org?</h3>
+<p>Pull shared objects and Services into common first. Then move one feature at a time, with every call going through <code>newInstance()</code>.</p>
+</div>
+<div class="card common">
+<h3>Is <code>Application</code> required now?</h3>
+<p>Session 5 said it's optional in one package. Across packages, the factory is the point.</p>
+</div>
+<div class="card warn">
+<h3>Harder to debug?</h3>
+<p>Somewhat. Clear binding names, a test that every binding resolves, and rare overrides.</p>
+</div>
+<div class="card warn">
+<h3>Performance?</h3>
+<p>Custom metadata reads don't count against the SOQL limit. Load bindings once per transaction anyway.</p>
+</div>
+<div class="card warn">
+<h3>Namespaces?</h3>
+<p>An ISV's concern with managed packages, and supported. Enterprises use unlocked packages and prefixes.</p>
+</div>
+</div>
+
+<!--
+- Backup; open with live Q&A first
 -->
