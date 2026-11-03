@@ -352,7 +352,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <p class="tagline">FFLib's layers already give you the boundaries. Packages make the platform enforce them</p>
 
 <div class="cards cols-3">
-<div class="card business">
+<div class="card business" data-marpit-fragment>
 <h3>Why split at all</h3>
 <ul>
 <li>Teams ship on different schedules</li>
@@ -360,7 +360,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <li>Some features belong to one division or region</li>
 </ul>
 </div>
-<div class="card common">
+<div class="card common" data-marpit-fragment>
 <h3>What unlocked packages give you</h3>
 <ul>
 <li>Each team gets its own version, tests and release</li>
@@ -368,7 +368,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <li>Ownership is visible, not tribal knowledge</li>
 </ul>
 </div>
-<div class="card framework">
+<div class="card framework" data-marpit-fragment>
 <h3>Where FFLib lands</h3>
 <ul>
 <li><b>Framework:</b> fflib, force-di, AT4DX</li>
@@ -379,6 +379,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 </div>
 
 <!--
+- Clicks: 1 Why split, 2 What packages give you, 3 Where FFLib lands
 - Topic 1 is the map itself
 - Boundaries existed since S1
 - Packages make them real
