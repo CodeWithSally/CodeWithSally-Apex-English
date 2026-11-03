@@ -304,9 +304,18 @@ How do the divisions work together without wiring themselves so tightly that eve
 
 # Meridian on the map
 
-![Meridian's packages: sales, service, marketing, fulfillment and maintenance on warehouse-common and common, over the frameworks](images/meridian-packages.svg)
+<div class="map-build">
+<img src="images/map-build/mer-step0.svg" alt="Meridian's packages: sales, service, marketing, fulfillment and maintenance on warehouse-common and common, over the frameworks">
+<img src="images/map-build/mer-step1.svg" data-marpit-fragment alt="">
+<img src="images/map-build/mer-step2.svg" data-marpit-fragment alt="">
+<img src="images/map-build/mer-step3.svg" data-marpit-fragment alt="">
+<img src="images/map-build/mer-step4.svg" data-marpit-fragment alt="">
+<img src="images/map-build/mer-step5.svg" data-marpit-fragment alt="">
+<img src="images/map-build/mer-step6.svg" data-marpit-fragment alt="">
+</div>
 
 <!--
+- Clicks: 1 Business + warehouse project (fulfillment, maintenance), 2 Project Common (warehouse-common), 3 sales/service/marketing, 4 Org-wide Common, 5 Integration API, 6 Framework
 - Four divisions, five business packages
 - Warehouse is its own project
 - warehouse-common: robots, warehouses
