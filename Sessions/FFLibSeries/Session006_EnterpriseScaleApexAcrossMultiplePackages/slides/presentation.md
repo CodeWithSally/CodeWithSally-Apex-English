@@ -1142,17 +1142,22 @@ public class FUL_ClosedWonConsumer
 
 ---
 
-<!-- _class: detail-slide promises-slide -->
+<!-- _class: detail-slide promises-slide learn-more-slide -->
 
 # Learn more
 
 <p class="tagline">Where to go next</p>
 
-- **AT4DX** and **AT4DX sample code** — github.com/apex-enterprise-patterns/at4dx and at4dx-samplecode
-- **force-di** — github.com/apex-enterprise-patterns/force-di
-- **fflib Apex Common** and **fflib Apex Mocks** — github.com/apex-enterprise-patterns/fflib-apex-common and fflib-apex-mocks
-- **Brewtiful Beans Learns AT4DX** — a blog series by **Jake Richter** that walks through the same ideas with a coffee roaster: syntax-syllogism.com/blog/tags/brewtiful-beans
-- **This series** — slides for all six sessions: github.com/CodeWithSally/CodeWithSally-Apex-English/Sessions/FFLibSeries
+| Resource | Where |
+|---|---|
+| **Apex Enterprise Patterns** (all the framework repos) | github.com/apex-enterprise-patterns |
+| **fflib Apex Common** | github.com/apex-enterprise-patterns/fflib-apex-common |
+| **fflib Apex Mocks** | github.com/apex-enterprise-patterns/fflib-apex-mocks |
+| **force-di** | github.com/apex-enterprise-patterns/force-di |
+| **AT4DX** | github.com/apex-enterprise-patterns/at4dx |
+| **AT4DX sample code** | github.com/apex-enterprise-patterns/at4dx-samplecode |
+| **Brewtiful Beans Learns AT4DX**, a blog series by **Jake Richter** (the same ideas, with a coffee roaster) | syntax-syllogism.com/blog/tags/brewtiful-beans |
+| **This series**, slides for all six sessions | github.com/CodeWithSally/CodeWithSally-Apex-English/Sessions/FFLibSeries |
 
 <!--
 - Thank Jake for Brewtiful Beans

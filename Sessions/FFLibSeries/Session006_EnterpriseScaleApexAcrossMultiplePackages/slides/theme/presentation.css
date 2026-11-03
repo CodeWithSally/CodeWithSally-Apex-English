@@ -4719,3 +4719,7 @@ section.factory-trio-slide .vscode { margin-top: 10px; }
 section.stats-slide .card { text-align: center; padding: 22px 16px; }
 section.stats-slide .card p.stat { font-size: 3.2em; font-weight: 800; line-height: 1; margin: 0 0 8px; color: var(--card, #5A98E0); }
 section.stats-slide .card p.stat-label { font-size: 1.15em; margin: 0; }
+
+section.learn-more-slide table { font-size: 0.5em; }
+section.learn-more-slide th, section.learn-more-slide td { padding: 0.4em 0.7em; }
+section.learn-more-slide td, section.learn-more-slide th { text-align: left; }
