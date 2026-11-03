@@ -1,0 +1,8 @@
+# Shared Marp CLI defaults. The 12-factor deck was built with
+# `marp presentation.md`; these flags reconstruct that HTML output
+# and keep slides/images resolvable.
+html: true
+allowLocalFiles: true
+engine: ./engine.js
+# Path is relative to this file (slides/bin/build/).
+themeSet: ../../theme/presentation.css

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" aria-hidden="true">
+  <defs>
+    <marker id="mer-arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="8" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#9fb3c8"/>
+    </marker>
+    <filter id="mer-shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <style>
+    .t { font-family: 'Segoe UI', system-ui, sans-serif; fill: #f4f6f9; }
+    .name { font-size: 24px; font-weight: 600; }
+    .pfx { font-family: 'Cascadia Code', 'Consolas', ui-monospace, monospace; font-size: 21px; fill: #f3d36a; }
+    .small { font-size: 16px; fill: #9fb3c8; }
+    .band { font-size: 17px; font-weight: 700; letter-spacing: 1.5px; }
+    .solid { fill: none; stroke: #9fb3c8; stroke-width: 2.5; marker-end: url(#mer-arrow); }
+  </style>
+<rect x="40" y="500" width="1260" height="160" rx="12" fill="rgba(90,152,224,0.10)" stroke="#5A98E0" stroke-width="2.5"/>
+<text class="t band" x="60" y="570" style="fill:#8fb3ff">ORG-WIDE</text>
+<text class="t band" x="60" y="592" style="fill:#8fb3ff">COMMON</text>
+<rect x="215" y="540" width="880" height="100" rx="8" fill="rgba(90,152,224,0.35)" stroke="#5A98E0" stroke-width="2" filter="url(#mer-shadow)"/>
+<g class="t" text-anchor="middle"><text class="name" x="655" y="576">common <tspan class="pfx" dx="10">CMN_</tspan></text></g>
+<g class="t" text-anchor="middle"><text class="small" x="655" y="604">Account · Contact · Case · Product2 · their one Selector and one Domain</text></g>
+<g class="t" text-anchor="middle"><text class="small" x="655" y="626">Shared Services, each with its own newInstance()</text></g>
+<path class="solid" d="M312 210 V537"/>
+<path class="solid" d="M522 210 V537"/>
+<path class="solid" d="M732 210 V537"/>
+<path class="solid" d="M1062 430 V537"/>
+</svg>
