@@ -615,18 +615,18 @@ How do the divisions work together without wiring themselves so tightly that eve
 <h1 id="domain-process-injection">Domain process injection</h1>
 <p class="tagline">Story: Service reacts to a late shipment</p>
 <div class="cards cols-3">
-<div class="card common">
+<div class="card common" data-marpit-fragment>
 <h3>common owns</h3>
 <p>The <code>Case</code> Domain, extending <code>ApplicationSObjectDomain</code>. Its trigger runs any injected processes for each trigger event</p>
 </div>
-<div class="card business">
+<div class="card business" data-marpit-fragment>
 <h3>service ships</h3>
 <ul>
 <li><b>Criteria:</b> <code>SVC_LateShipmentCriteria</code> (<code>IDomainProcessCriteria</code>) keeps complaint Cases about late orders</li>
 <li><b>Action:</b> <code>SVC_FlagAccountAction</code> (<code>IDomainProcessAction</code>) flags their Accounts</li>
 </ul>
 </div>
-<div class="card gold">
+<div class="card gold" data-marpit-fragment>
 <h3>Two <code>DomainProcessBinding__mdt</code> records</h3>
 <ul>
 <li><code>RelatedDomainBindingSObject__c</code> = Case</li>
@@ -939,7 +939,8 @@ How do the divisions work together without wiring themselves so tightly that eve
 - Uninstall marketing: fields drop out</p></div><div class="bespoke-marp-note" data-index="30" tabindex="0"><p>- Query is service's, not common's
 - Uses the shared Selector's fields
 - CMN_AccountsSelector untouched
-- Count field: a roll-up in service</p></div><div class="bespoke-marp-note" data-index="31" tabindex="0"><p>- Criteria filters, action acts
+- Count field: a roll-up in service</p></div><div class="bespoke-marp-note" data-index="31" tabindex="0"><p>- Clicks: 1 common owns, 2 service ships, 3 binding records
+- Criteria filters, action acts
 - Order: 1.1 criteria, 1.2 action
 - Async, recursion flags exist
 - S3 tie-in</p></div><div class="bespoke-marp-note" data-index="32" tabindex="0"><p>- Sales publishes, knows no listener

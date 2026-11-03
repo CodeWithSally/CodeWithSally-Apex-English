@@ -911,18 +911,18 @@ List<Account> accounts = CMN_AccountsSelector.newInstance()
 <p class="tagline">Story: Service reacts to a late shipment</p>
 
 <div class="cards cols-3">
-<div class="card common">
+<div class="card common" data-marpit-fragment>
 <h3>common owns</h3>
 <p>The <code>Case</code> Domain, extending <code>ApplicationSObjectDomain</code>. Its trigger runs any injected processes for each trigger event</p>
 </div>
-<div class="card business">
+<div class="card business" data-marpit-fragment>
 <h3>service ships</h3>
 <ul>
 <li><b>Criteria:</b> <code>SVC_LateShipmentCriteria</code> (<code>IDomainProcessCriteria</code>) keeps complaint Cases about late orders</li>
 <li><b>Action:</b> <code>SVC_FlagAccountAction</code> (<code>IDomainProcessAction</code>) flags their Accounts</li>
 </ul>
 </div>
-<div class="card gold">
+<div class="card gold" data-marpit-fragment>
 <h3>Two <code>DomainProcessBinding__mdt</code> records</h3>
 <ul>
 <li><code>RelatedDomainBindingSObject__c</code> = Case</li>
@@ -938,6 +938,7 @@ List<Account> accounts = CMN_AccountsSelector.newInstance()
 </div>
 
 <!--
+- Clicks: 1 common owns, 2 service ships, 3 binding records
 - Criteria filters, action acts
 - Order: 1.1 criteria, 1.2 action
 - Async, recursion flags exist
