@@ -817,11 +817,11 @@ Application.Service.setMock(FUL_IOrderFulfillmentService.class, mockService);
 <p class="tagline">Story: Marketing adds fields to Account</p>
 
 <div class="cards cols-3">
-<div class="card common">
+<div class="card common" data-marpit-fragment>
 <h3>common owns</h3>
 <p><code>Account</code> and <code>CMN_AccountsSelector</code>, which extends <code>ApplicationSObjectSelector</code> with <code>includeFieldSetFields</code> on</p>
 </div>
-<div class="card business">
+<div class="card business" data-marpit-fragment>
 <h3>marketing ships</h3>
 <ul>
 <li><code>MKTG_Slogan__c</code>, <code>MKTG_EngagementScore__c</code></li>
@@ -829,7 +829,7 @@ Application.Service.setMock(FUL_IOrderFulfillmentService.class, mockService);
 <li>A <code>SelectorConfig_FieldSetInclusion__mdt</code> record: <code>BindingSObject__c</code> = Account, <code>FieldsetName__c</code> = <code>MKTG_AccountFields</code></li>
 </ul>
 </div>
-<div class="card gold">
+<div class="card gold" data-marpit-fragment>
 <h3>Result</h3>
 <p>Every Account query through the Selector comes back with marketing's fields</p>
 <p>common never changes</p>
@@ -843,6 +843,7 @@ Application.Service.setMock(FUL_IOrderFulfillmentService.class, mockService);
 <p class="promise-tag">✅ Session 4: AT4DX adds fields to a Selector from another package</p>
 
 <!--
+- Clicks: 1 common owns, 2 marketing ships, 3 Result
 - S4 promise: field sets, includeFieldSetFields
 - Field set + one record
 - Uninstall marketing: fields drop out
