@@ -359,7 +359,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <h1 id="one-service-three-classes-one-package">One Service, three classes, one package</h1>
 <p class="tagline">Selectors and Domains follow the same rule</p>
 <div class="cards cols-3">
-<div class="card common">
+<div class="card common" data-marpit-fragment>
 <h3>Ships together</h3>
 <ul>
 <li><code>WHSE_MaintenanceService</code>: the facade, with a static <code>newInstance()</code></li>
@@ -367,7 +367,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <li><code>WHSE_MaintenanceServiceImpl</code>, and its binding record</li>
 </ul>
 </div>
-<div class="card warn">
+<div class="card warn" data-marpit-fragment>
 <h3>Every consumer</h3>
 <ul>
 <li>Calls <code>WHSE_MaintenanceService.newInstance()</code>, from any package</li>
@@ -375,7 +375,7 @@ How do the divisions work together without wiring themselves so tightly that eve
 <li>Never calls <code>Application.Service</code> itself: only <code>newInstance()</code> does</li>
 </ul>
 </div>
-<div class="card gold">
+<div class="card gold" data-marpit-fragment>
 <h3>Keep it stable</h3>
 <ul>
 <li>Every change moves every package that calls it</li>
@@ -910,7 +910,8 @@ How do the divisions work together without wiring themselves so tightly that eve
 - Service triad: one package
 - Callers use its newInstance()</p></div><div class="bespoke-marp-note" data-index="18" tabindex="0"><p>- Not &quot;interfaces everywhere&quot;
 - Triad stays together
-- Swap = binding, not a fork</p></div><div class="bespoke-marp-note" data-index="19" tabindex="0"><p>- Facade, interface, impl together
+- Swap = binding, not a fork</p></div><div class="bespoke-marp-note" data-index="19" tabindex="0"><p>- Clicks: 1 Ships together, 2 Every consumer, 3 Keep it stable
+- Facade, interface, impl together
 - newInstance() is the only door
 - Tests: mock the interface, as in S5</p></div><div class="bespoke-marp-note" data-index="20" tabindex="0"><p>- Left: S5 code, unchanged
 - Right: still newInstance()

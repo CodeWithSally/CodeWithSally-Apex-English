@@ -502,7 +502,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 <p class="tagline">Selectors and Domains follow the same rule</p>
 
 <div class="cards cols-3">
-<div class="card common">
+<div class="card common" data-marpit-fragment>
 <h3>Ships together</h3>
 <ul>
 <li><code>WHSE_MaintenanceService</code>: the facade, with a static <code>newInstance()</code></li>
@@ -510,7 +510,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 <li><code>WHSE_MaintenanceServiceImpl</code>, and its binding record</li>
 </ul>
 </div>
-<div class="card warn">
+<div class="card warn" data-marpit-fragment>
 <h3>Every consumer</h3>
 <ul>
 <li>Calls <code>WHSE_MaintenanceService.newInstance()</code>, from any package</li>
@@ -518,7 +518,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 <li>Never calls <code>Application.Service</code> itself: only <code>newInstance()</code> does</li>
 </ul>
 </div>
-<div class="card gold">
+<div class="card gold" data-marpit-fragment>
 <h3>Keep it stable</h3>
 <ul>
 <li>Every change moves every package that calls it</li>
@@ -533,6 +533,7 @@ A name has two parts: the **prefix** says which package owns it, and the **suffi
 </div>
 
 <!--
+- Clicks: 1 Ships together, 2 Every consumer, 3 Keep it stable
 - Facade, interface, impl together
 - newInstance() is the only door
 - Tests: mock the interface, as in S5
