@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" aria-hidden="true">
+  <defs>
+    <marker id="mer-arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="8" orient="auto">
+      <path d="M 0,0 L 10,4 L 0,8 z" fill="#9fb3c8"/>
+    </marker>
+    <filter id="mer-shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <style>
+    .t { font-family: 'Segoe UI', system-ui, sans-serif; fill: #f4f6f9; }
+    .name { font-size: 24px; font-weight: 600; }
+    .pfx { font-family: 'Cascadia Code', 'Consolas', ui-monospace, monospace; font-size: 21px; fill: #f3d36a; }
+    .small { font-size: 16px; fill: #9fb3c8; }
+    .band { font-size: 17px; font-weight: 700; letter-spacing: 1.5px; }
+    .solid { fill: none; stroke: #9fb3c8; stroke-width: 2.5; marker-end: url(#mer-arrow); }
+  </style>
+<rect x="40" y="40" width="1260" height="210" rx="12" fill="rgba(160,201,74,0.08)" stroke="#A0C94A" stroke-width="2.5"/>
+<text class="t band" x="60" y="140" style="fill:#A0C94A">BUSINESS</text>
+<text class="t small" x="60" y="164">One per division</text>
+<text class="t small" x="60" y="184">or project</text>
+<rect x="838" y="72" width="450" height="164" rx="10" fill="none" stroke="#A0C94A" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text class="t small" x="1063" y="96" text-anchor="middle" style="fill:#A0C94A">Meridian Fulfillment · warehouse project</text>
+<g filter="url(#mer-shadow)" stroke-width="2"><rect x="850" y="112" width="205" height="104" rx="8" fill="rgba(160,201,74,0.30)" stroke="#A0C94A"/></g>
+<g filter="url(#mer-shadow)" stroke-width="2"><rect x="1070" y="112" width="205" height="104" rx="8" fill="rgba(160,201,74,0.30)" stroke="#A0C94A"/></g>
+<g class="t" text-anchor="middle"><text class="name" x="952" y="154">fulfillment</text><text class="pfx" x="952" y="186">FUL_</text></g>
+<g class="t" text-anchor="middle"><text class="name" x="1172" y="154">maintenance</text><text class="pfx" x="1172" y="186">MNT_</text></g>
+</svg>
