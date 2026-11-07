@@ -19,7 +19,7 @@ Since Winter '27, Developer Console is switched off by default and Web Console i
 
 ## In this folder
 
-Slides, cheat sheet and troubleshooting checklist coming soon.
+- [Slides (PDF)](Code%20with%20Sally%20-%20Goodbye%20Developer%20Console%20-%20English.pdf): the full deck, including the cheat sheet and troubleshooting checklist
 
 ## Watch the session
 
