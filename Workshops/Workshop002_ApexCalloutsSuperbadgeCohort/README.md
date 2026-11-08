@@ -33,6 +33,9 @@ Sign up here: **http://sfdc.co/ApexCalloutsDev**
 - Your username must look like an email address, but it doesn't have to be a real inbox (for example `yourname.apexcallouts@example.com`).
 - Write down your username and password. You'll log in to this org on both days.
 - Connect the org to your Trailhead account from the superbadge page, so your challenge checks are recorded.
+- In the org, open the **Balanced Living** app and click its **Setup** button to configure the credentials the callouts need. Don't edit the Named Credentials or External Credentials yourself.
+
+Superbadge page: **http://sfdc.co/ApexCallouts**
 
 ### 2. Fill in the pre-event survey
 
@@ -40,7 +43,7 @@ Sign up here: **http://sfdc.co/ApexCalloutsDev**
 
 ### 3. Get access to the cohort tracker
 
-After you fill in the pre-event survey, [contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/) to get access to the **[cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing)**. There, you'll add your details and track your progress through the challenges.
+After you fill in the pre-event survey, open the **[cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing)** and click **Request access**. There, you'll add your details and track your progress through the challenges. If Request access doesn't work, [contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/).
 
 ### 4. Have your tools ready
 
@@ -93,6 +96,18 @@ These are the two modules Trailhead recommends for this superbadge:
 
 More on the [Code With Sally YouTube channel](https://www.youtube.com/@CodeWithSally).
 
+### Superbadge help articles
+
+Check these first when a challenge check fails:
+
+- **[Apex Callouts Superbadge: Trailhead Challenge Help](https://sfdc.co/SBApexCallouts)**
+- **[Superbadge 101](https://sfdc.co/Superbadge101)**
+
+Two tips from the help article that save a lot of time:
+
+- Don't set the `Content-Length` header yourself in your HTTP request. Salesforce manages it, and setting it can cause a "Read timed out" error.
+- Configure credentials with the **Setup** button in the Balanced Living app, not by editing the Named Credentials or External Credentials.
+
 ---
 
 ## What to expect
@@ -119,6 +134,8 @@ If you don't finish everything during the sessions, that's fine. Keep going afte
 
 Fill in the **[post-event survey](https://www.surveymonkey.com/r/ApexCalloutsPostSurvey?cohort=ApexSally26)**.
 
+Want to help shape Trailhead content, certifications and superbadges? [Become a Salesforce Subject Matter Expert (SME)](https://sfdc.co/SMEgetInvolved).
+
 ---
 
 ## Win a free certification exam voucher
@@ -131,7 +148,7 @@ To qualify for the random draw:
 2. Fill in the [pre-event survey](https://www.surveymonkey.com/r/ApexCallouts?cohort=ApexSally26).
 3. Fill in the [post-event survey](https://www.surveymonkey.com/r/ApexCalloutsPostSurvey?cohort=ApexSally26).
 4. Finish the superbadge with the cohort.
-5. Share your Trailhead profile link and confirm steps 2 to 4 in the [cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing). [Contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/) for access after you fill in the pre-event survey.
+5. Share your Trailhead profile link and confirm steps 2 to 4 in the [cohort tracker sheet](https://docs.google.com/spreadsheets/d/1CZIh_dgCLpXVLtKrLy5dhgzMgA13v4MlnKekwWgwIm0/edit?usp=sharing). After you fill in the pre-event survey, open the sheet and click **Request access**, or [contact Sally on LinkedIn](https://www.linkedin.com/in/sallyelghoul/).
 
 **The draw is on Tuesday, November 17, 2026.** Sally will contact the winner directly.
 
