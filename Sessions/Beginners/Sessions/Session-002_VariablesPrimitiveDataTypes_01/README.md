@@ -20,6 +20,7 @@ Run each file in the Developer Console (Debug, Open Execute Anonymous Window), t
 | `03_DecimalVsDouble.apex` | The same 17-decimal value in a Decimal and a Double | Decimal keeps `...979396`, Double shows `3.141592653589794` |
 | `04_DecimalIntValue.apex` | `intValue()` keeps the whole-number part, no rounding | `3`, `1` |
 | `05_StringBasics.apex` | A String holding a sentence | `Hello, coding to our 1st session!` |
+| `06_Concatenation.apex` | Join Strings with `+` (first name, a space, last name) | `Welcome Note Value: Welcome to my Online Session : Sally Elghoul` |
 | `07_StringToLowerCase.apex` | `toLowerCase()` | `Lower:hello coding crew!` |
 | `08_StringMethods.apex` | `length()`, `substring(startIndex, endIndex)`, `toUpperCase()`, `toLowerCase()` | `16`, `Sale`, `HELLO SALESFORCE`, `hello salesforce` |
 | `09_StringContains.apex` | `contains()`. **Try it:** change `'Crew'` to a word that is not in the text | `Value:true` |
