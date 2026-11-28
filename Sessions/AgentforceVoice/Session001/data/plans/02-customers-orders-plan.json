@@ -1,0 +1,14 @@
+[
+  {
+    "sobject": "Account",
+    "files": ["../records/.generated/person-accounts.json"]
+  },
+  {
+    "sobject": "Order",
+    "files": [
+      "../records/.generated/orders-01.json",
+      "../records/.generated/orders-02.json",
+      "../records/.generated/orders-03.json"
+    ]
+  }
+]

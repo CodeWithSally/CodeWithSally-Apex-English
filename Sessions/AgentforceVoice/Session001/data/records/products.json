@@ -1,0 +1,68 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef1" },
+      "Name": "Alpine Peak 2 Tent",
+      "ProductCode": "TENT-AP2",
+      "Family": "Tents",
+      "Description": "A freestanding 2-person, 3-season backpacking tent with color-coded aluminum poles and a full-coverage rainfly.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef2" },
+      "Name": "Summit Trail 65 Backpack",
+      "ProductCode": "PACK-ST65",
+      "Family": "Packs",
+      "Description": "A 65-liter internal frame backpacking pack with an adjustable torso ladder system and a load-lifter suspension.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef3" },
+      "Name": "BlazeLight Camp Stove",
+      "ProductCode": "STOVE-BL1",
+      "Family": "Stoves",
+      "Description": "A compact canister camp stove with piezo ignition and a folding tripod base.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef4" },
+      "Name": "StreamPure Water Filter",
+      "ProductCode": "FILTER-SP3",
+      "Family": "Filters",
+      "Description": "A hand-pump water filter rated to 0.2 microns, with a backwashing cartridge for extended field life.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef5" },
+      "Name": "Frostguard 20 Sleeping Bag",
+      "ProductCode": "BAG-FG20",
+      "Family": "Sleeping Bags",
+      "Description": "A 20-degree Fahrenheit down mummy bag with a mesh storage sack for long-term loft retention.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef6" },
+      "Name": "TrailBeam 500 Headlamp",
+      "ProductCode": "LAMP-TB500",
+      "Family": "Headlamps",
+      "Description": "A rechargeable 500-lumen headlamp with red night-vision and strobe modes, charged via USB-C.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef7" },
+      "Name": "Ridgeline Hiking Boots",
+      "ProductCode": "BOOT-RL7",
+      "Family": "Boots",
+      "Description": "A mid-height waterproof hiking boot with a Vibram outsole, built for multi-day trail use.",
+      "IsActive": true
+    },
+    {
+      "attributes": { "type": "Product2", "referenceId": "ProductRef8" },
+      "Name": "BaseCamp Quad Chair",
+      "ProductCode": "CHAIR-BC4",
+      "Family": "Camp Furniture",
+      "Description": "A folding camp chair with a reinforced X-frame, armrests, and a 300 lb weight capacity.",
+      "IsActive": true
+    }
+  ]
+}
