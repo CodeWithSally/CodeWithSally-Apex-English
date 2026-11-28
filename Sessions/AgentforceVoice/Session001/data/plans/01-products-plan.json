@@ -1,0 +1,14 @@
+[
+  {
+    "sobject": "Product2",
+    "files": ["../records/products.json"]
+  },
+  {
+    "sobject": "ContentVersion",
+    "files": ["../records/product-content-versions.json"]
+  },
+  {
+    "sobject": "PricebookEntry",
+    "files": ["../records/.generated/pricebook-entries.json"]
+  }
+]

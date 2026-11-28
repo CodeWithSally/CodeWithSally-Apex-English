@@ -1,0 +1,164 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef1" },
+      "Title": "Return & Exchange Policy",
+      "UrlName": "return-exchange-policy-en",
+      "Language": "en_US",
+      "Summary": "How to return or exchange a Cairn Outdoor Co. order.",
+      "FAQ_Question__c": "What is your return policy?",
+      "Chat_Answer__c": "You can return most unused items within 60 days of delivery for a full refund, or exchange them for a different size or color.",
+      "FAQ_Answer__c": "You can return most unused items within 60 days of delivery for a full refund, or exchange them for a different size or color. Gear must be in its original condition with tags attached. Start a return from your order confirmation email, or ask a Cairn support agent to start one for you. Refunds are issued to the original payment method within 5-7 business days of us receiving the item."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef2" },
+      "Title": "Politica de Devoluciones y Cambios",
+      "UrlName": "return-exchange-policy-es",
+      "Language": "es",
+      "Summary": "Como devolver o cambiar un pedido de Cairn Outdoor Co.",
+      "FAQ_Question__c": "Cual es su politica de devoluciones?",
+      "Chat_Answer__c": "Puede devolver la mayoria de los articulos sin usar dentro de los 60 dias posteriores a la entrega para obtener un reembolso completo, o cambiarlos por otra talla o color.",
+      "FAQ_Answer__c": "Puede devolver la mayoria de los articulos sin usar dentro de los 60 dias posteriores a la entrega para obtener un reembolso completo, o cambiarlos por otra talla o color. El equipo debe estar en su condicion original con las etiquetas puestas. Inicie una devolucion desde el correo de confirmacion de su pedido, o pida a un agente de soporte de Cairn que la inicie por usted. Los reembolsos se emiten al metodo de pago original dentro de 5 a 7 dias habiles despues de recibir el articulo."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef3" },
+      "Title": "Shipping & Delivery Times",
+      "UrlName": "shipping-delivery-times-en",
+      "Language": "en_US",
+      "Summary": "Standard and expedited shipping timelines for Cairn Outdoor Co. orders.",
+      "FAQ_Question__c": "How long does shipping take?",
+      "Chat_Answer__c": "Standard shipping takes 5 to 8 business days, and expedited shipping takes 2 to 3 business days.",
+      "FAQ_Answer__c": "Standard shipping within the continental US takes 5-8 business days from the ship date. Expedited shipping takes 2-3 business days. Orders placed before 1pm Pacific ship the same business day. You'll receive a tracking link by email as soon as your order ships, and you can always ask a Cairn support agent for your order's current status and estimated delivery date."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef4" },
+      "Title": "Tiempos de Envio y Entrega",
+      "UrlName": "shipping-delivery-times-es",
+      "Language": "es",
+      "Summary": "Plazos de envio estandar y urgente para pedidos de Cairn Outdoor Co.",
+      "FAQ_Question__c": "Cuanto tiempo tarda el envio?",
+      "Chat_Answer__c": "El envio estandar tarda de 5 a 8 dias habiles, y el envio urgente tarda de 2 a 3 dias habiles.",
+      "FAQ_Answer__c": "El envio estandar dentro de los Estados Unidos continentales tarda de 5 a 8 dias habiles desde la fecha de envio. El envio urgente tarda de 2 a 3 dias habiles. Los pedidos realizados antes de la 1pm hora del Pacifico se envian el mismo dia habil. Recibira un enlace de seguimiento por correo electronico tan pronto como se envie su pedido, y siempre puede pedirle a un agente de soporte de Cairn el estado actual de su pedido y la fecha estimada de entrega."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef5" },
+      "Title": "Order Cancellation & Changes",
+      "UrlName": "order-cancellation-changes-en",
+      "Language": "en_US",
+      "Summary": "How to cancel or change an order before it ships.",
+      "FAQ_Question__c": "Can I cancel or change my order?",
+      "Chat_Answer__c": "You can cancel or change an order as long as it hasn't shipped yet, so contact us with your order number as soon as possible.",
+      "FAQ_Answer__c": "You can cancel or change an order (shipping address, size, or item) as long as it hasn't shipped yet. Contact Cairn support with your order number as soon as possible, since orders can move into fulfillment quickly. Once an order has shipped, it can no longer be changed or cancelled, but it can be returned or exchanged after delivery under our standard return policy."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef6" },
+      "Title": "Cancelacion y Cambios de Pedido",
+      "UrlName": "order-cancellation-changes-es",
+      "Language": "es",
+      "Summary": "Como cancelar o modificar un pedido antes de que se envie.",
+      "FAQ_Question__c": "Puedo cancelar o cambiar mi pedido?",
+      "Chat_Answer__c": "Puede cancelar o modificar un pedido siempre que aun no se haya enviado, asi que comuniquese con nosotros con su numero de pedido lo antes posible.",
+      "FAQ_Answer__c": "Puede cancelar o modificar un pedido (direccion de envio, talla o articulo) siempre que aun no se haya enviado. Comuniquese con el soporte de Cairn con su numero de pedido lo antes posible, ya que los pedidos pueden pasar a preparacion rapidamente. Una vez que un pedido ha sido enviado, ya no se puede cambiar ni cancelar, pero se puede devolver o cambiar despues de la entrega segun nuestra politica de devoluciones estandar."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef7" },
+      "Title": "Warranty Policy",
+      "UrlName": "warranty-policy-en",
+      "Language": "en_US",
+      "Summary": "Cairn Outdoor Co.'s warranty coverage for manufacturing defects.",
+      "FAQ_Question__c": "Is my gear covered by a warranty?",
+      "Chat_Answer__c": "All Cairn gear has a limited lifetime warranty against manufacturing defects in materials and workmanship.",
+      "FAQ_Answer__c": "All Cairn Outdoor Co. gear is covered by a limited lifetime warranty against manufacturing defects in materials and workmanship. This covers things like broken tent poles, failed stitching, or malfunctioning hardware under normal use. It does not cover normal wear and tear, misuse, or damage from accidents. To make a warranty claim, contact Cairn support with your order number and a description of the issue."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef8" },
+      "Title": "Politica de Garantia",
+      "UrlName": "warranty-policy-es",
+      "Language": "es",
+      "Summary": "Cobertura de garantia de Cairn Outdoor Co. por defectos de fabricacion.",
+      "FAQ_Question__c": "Mi equipo tiene garantia?",
+      "Chat_Answer__c": "Todo el equipo Cairn tiene una garantia limitada de por vida contra defectos de fabricacion en materiales y mano de obra.",
+      "FAQ_Answer__c": "Todo el equipo de Cairn Outdoor Co. esta cubierto por una garantia limitada de por vida contra defectos de fabricacion en materiales y mano de obra. Esto cubre cosas como varillas de tienda rotas, costuras fallidas o herrajes defectuosos bajo uso normal. No cubre el desgaste normal, el mal uso ni los danos por accidentes. Para presentar un reclamo de garantia, comuniquese con el soporte de Cairn con su numero de pedido y una descripcion del problema."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef9" },
+      "Title": "Price Match Guarantee",
+      "UrlName": "price-match-guarantee-en",
+      "Language": "en_US",
+      "Summary": "How Cairn Outdoor Co.'s price match guarantee works.",
+      "FAQ_Question__c": "Do you offer price matching?",
+      "Chat_Answer__c": "If you find the same item cheaper at another authorized retailer within 14 days of purchase, we'll match it and refund the difference.",
+      "FAQ_Answer__c": "If you find an identical, in-stock item at a lower price from another authorized retailer within 14 days of your purchase, Cairn Outdoor Co. will match it and refund the difference. The item must be the same brand, model, and color, and the competitor's price must be publicly advertised, not a members-only or clearance price. Contact Cairn support with a link or screenshot of the lower price to request a match."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef10" },
+      "Title": "Garantia de Igualacion de Precio",
+      "UrlName": "price-match-guarantee-es",
+      "Language": "es",
+      "Summary": "Como funciona la garantia de igualacion de precio de Cairn Outdoor Co.",
+      "FAQ_Question__c": "Ofrecen igualacion de precios?",
+      "Chat_Answer__c": "Si encuentra el mismo articulo mas barato en otro minorista autorizado dentro de los 14 dias posteriores a la compra, igualamos el precio y reembolsamos la diferencia.",
+      "FAQ_Answer__c": "Si encuentra un articulo identico, en existencia, a un precio mas bajo de otro minorista autorizado dentro de los 14 dias posteriores a su compra, Cairn Outdoor Co. igualara el precio y le reembolsara la diferencia. El articulo debe ser de la misma marca, modelo y color, y el precio de la competencia debe ser publico, no un precio exclusivo para miembros ni de liquidacion. Comuniquese con el soporte de Cairn con un enlace o captura de pantalla del precio mas bajo para solicitar la igualacion."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef11" },
+      "Title": "Cairn Rewards Loyalty Program",
+      "UrlName": "cairn-rewards-en",
+      "Language": "en_US",
+      "Summary": "How to earn and redeem points in the Cairn Rewards loyalty program.",
+      "FAQ_Question__c": "How does the Cairn Rewards program work?",
+      "Chat_Answer__c": "Cairn Rewards members earn 1 point per dollar spent, redeemable for discounts starting at 500 points, plus early access and a birthday reward.",
+      "FAQ_Answer__c": "Cairn Rewards members earn 1 point per dollar spent, redeemable for discounts on future orders starting at 500 points. Members also get early access to new product launches and a birthday reward each year. Enrollment is free and happens automatically with your first purchase using the email on your account. Ask a Cairn support agent to check your current point balance."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef12" },
+      "Title": "Programa de Lealtad Cairn Rewards",
+      "UrlName": "cairn-rewards-es",
+      "Language": "es",
+      "Summary": "Como ganar y canjear puntos en el programa de lealtad Cairn Rewards.",
+      "FAQ_Question__c": "Como funciona el programa Cairn Rewards?",
+      "Chat_Answer__c": "Los miembros de Cairn Rewards ganan 1 punto por cada dolar gastado, canjeable por descuentos a partir de 500 puntos, ademas de acceso anticipado y una recompensa de cumpleanos.",
+      "FAQ_Answer__c": "Los miembros de Cairn Rewards ganan 1 punto por cada dolar gastado, canjeable por descuentos en pedidos futuros a partir de 500 puntos. Los miembros tambien obtienen acceso anticipado a los lanzamientos de nuevos productos y una recompensa de cumpleanos cada ano. La inscripcion es gratuita y ocurre automaticamente con su primera compra usando el correo electronico de su cuenta. Pida a un agente de soporte de Cairn que verifique su saldo de puntos actual."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef13" },
+      "Title": "Store Locations & Hours",
+      "UrlName": "store-locations-hours-en",
+      "Language": "en_US",
+      "Summary": "Where to find the Cairn Outdoor Co. flagship store and its hours.",
+      "FAQ_Question__c": "What are your store hours?",
+      "Chat_Answer__c": "Our Bend, Oregon store is open Monday through Saturday 9am to 7pm, and Sunday 10am to 5pm, Pacific time.",
+      "FAQ_Answer__c": "Cairn Outdoor Co.'s flagship retail store is located at 145 NW Trailhead Ave, Bend, Oregon. Store hours are Monday through Saturday, 9am to 7pm, and Sunday 10am to 5pm, Pacific time. The store is closed on major US holidays. Most of Cairn's business is online, so a Cairn support agent can also help with anything you'd normally handle in-store."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef14" },
+      "Title": "Ubicaciones y Horarios de Tienda",
+      "UrlName": "store-locations-hours-es",
+      "Language": "es",
+      "Summary": "Donde encontrar la tienda insignia de Cairn Outdoor Co. y sus horarios.",
+      "FAQ_Question__c": "Cual es el horario de la tienda?",
+      "Chat_Answer__c": "Nuestra tienda en Bend, Oregon abre de lunes a sabado de 9am a 7pm, y domingo de 10am a 5pm, hora del Pacifico.",
+      "FAQ_Answer__c": "La tienda insignia de Cairn Outdoor Co. esta ubicada en 145 NW Trailhead Ave, Bend, Oregon. El horario de la tienda es de lunes a sabado de 9am a 7pm, y domingo de 10am a 5pm, hora del Pacifico. La tienda cierra en los principales dias festivos de EE. UU. La mayor parte del negocio de Cairn es en linea, por lo que un agente de soporte de Cairn tambien puede ayudarlo con cualquier cosa que normalmente manejaria en la tienda."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef15" },
+      "Title": "How to Reach a Human Agent",
+      "UrlName": "reach-a-human-agent-en",
+      "Language": "en_US",
+      "Summary": "How to get transferred to a live Cairn support agent.",
+      "FAQ_Question__c": "Can I talk to a person?",
+      "Chat_Answer__c": "Just ask to speak with a person and I'll transfer you to the next available Cairn support agent in your language.",
+      "FAQ_Answer__c": "If this assistant can't fully resolve your question, just ask to speak with a person and you'll be transferred to the next available Cairn support agent in the correct queue for your preferred language. If no agent is available right away, we'll create a case with the details of your issue so a support agent can follow up with you as soon as possible."
+    },
+    {
+      "attributes": { "type": "Knowledge__kav", "referenceId": "FaqRef16" },
+      "Title": "Como Comunicarse con un Agente Humano",
+      "UrlName": "reach-a-human-agent-es",
+      "Language": "es",
+      "Summary": "Como ser transferido a un agente de soporte de Cairn en vivo.",
+      "FAQ_Question__c": "Puedo hablar con una persona?",
+      "Chat_Answer__c": "Solo pida hablar con una persona y lo transferire al siguiente agente de soporte de Cairn disponible en su idioma.",
+      "FAQ_Answer__c": "Si este asistente no puede resolver completamente su pregunta, simplemente pida hablar con una persona y sera transferido al siguiente agente de soporte de Cairn disponible en la fila correcta para su idioma preferido. Si no hay ningun agente disponible de inmediato, crearemos un caso con los detalles de su problema para que un agente de soporte le de seguimiento lo antes posible."
+    }
+  ]
+}

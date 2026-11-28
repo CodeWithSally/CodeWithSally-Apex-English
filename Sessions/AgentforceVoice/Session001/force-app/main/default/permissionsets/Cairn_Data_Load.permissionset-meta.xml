@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Cairn Data Load</label>
+    <description
+  >Field-level security for the custom fields the sample data plan writes to
+        (data/scripts/load-data.sh). Assign to whichever user runs the data
+        load.</description>
+    <fieldPermissions>
+        <field>Account.Preferred_Language__c</field>
+        <editable>true</editable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Order.Estimated_Delivery_Date__c</field>
+        <editable>true</editable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Order.Fulfillment_Status__c</field>
+        <editable>true</editable>
+        <readable>true</readable>
+    </fieldPermissions>
+</PermissionSet>
